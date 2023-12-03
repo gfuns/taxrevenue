@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('arete_wallet_transactions', function (Blueprint $table) {
+            $table->id();
+            $table->integer('customer_id')->unsigned();
+            $table->enum('trx_type', ['credit', 'debit']);
+            $table->string('payment_method');
+            $table->double('amount', 12, 2);
+            $table->text('description');
+            $table->string('reference')->nullable();
+            $table->string('bank')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('account_name')->nullable();
+            $table->timestamps();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('arete_wallet_transactions');
+    }
+};
