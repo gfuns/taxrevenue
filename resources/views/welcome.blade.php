@@ -254,16 +254,16 @@
                                         @foreach ($topRecruiters as $biz)
                                             <div class="item-5 hover-up wow animate__animated animate__fadeIn">
                                                 <div class="item-logo">
-                                                    <a href="companies/linkedin.html">
+                                                    <a href="/business/details/{{ $biz->slug }}">
                                                         <div class="image-left">
                                                             <img alt="{{ $biz->business_name }}"
                                                                 src={{ $biz->business_logo }} style="height: 50px">
-                                                            </div>
+                                                        </div>
                                                         <div class="text-info-right">
                                                             <h4>{{ $biz->business_name }}</h4>
-                                                            @for ($i = 1; $i <=$biz->rating; $i++)
+                                                            @for ($i = 1; $i <= $biz->rating; $i++)
                                                                 <img alt="star" class="rating-star"
-                                                                    src=themes/jobbox/imgs/template/icons/star.svg>
+                                                                    src={{ asset('themes/jobbox/imgs/template/icons/star.svg') }}>
                                                             @endfor
                                                             <span class="font-xs color-text-mutted ml-10"><span>
                                                                     (</span><span>{{ $biz->reviews->count() }}</span><span>)
@@ -306,130 +306,44 @@
                             <div class="box-swiper style-nav-top">
                                 <div class="swiper-container swiper-group-3 swiper">
                                     <div class="swiper-wrapper pb-70 pt-5">
-                                        <div class="swiper-slide">
-                                            <div class="card-grid-3 hover-up wow animate__animated animate__fadeIn">
-                                                <div class="text-center card-grid-3-image"><a
-                                                        href="blog/21-job-interview-tips-how-to-make-a-great-impression.html">
-                                                        <figure><img
-                                                                alt="21 Job Interview Tips: How To Make a Great Impression"
-                                                                src=storage/news/img-news2-403x257.png></figure>
-                                                    </a></div>
-                                                <div class="card-block-info">
-                                                    <div class="tags mb-15"><a class="btn btn-tag"
-                                                            href="tag/new.html">New</a>&nbsp; <a class="btn btn-tag"
-                                                            href="tag/event.html">Event</a>&nbsp; </div>
-                                                    <h5><a
-                                                            href="blog/21-job-interview-tips-how-to-make-a-great-impression.html">21
-                                                            Job Interview Tips: How To Make a Great
-                                                            Impression</a></h5>
-                                                    <p class="mt-10 color-text-paragraph font-sm post-description">
-                                                        Dolores ex et dolor qui omnis corrupti. Consequatur et
-                                                        ut unde nam et facere quia natus. Consequatur omnis
-                                                        saepe amet nihil. Quo velit qui eaque accusamus earum.
-                                                    </p>
-                                                    <div class="card-2-bottom mt-20">
-                                                        <div class="row">
-                                                            <div class="col-lg-6 col-6">
-                                                                <div class="d-flex"><img class="img-rounded"
-                                                                        src=storage/avatars/2.png alt="Steven Jobs">
-                                                                    <div class="info-right-img"><span
-                                                                            class="font-sm font-bold color-brand-1 op-70">Steven
-                                                                            Jobs</span><br><span
-                                                                            class="font-xs color-text-paragraph-2">Nov
-                                                                            27, 2023</span></div>
-                                                                </div>
+                                        @foreach ($blogPosts as $bp)
+                                            <div class="swiper-slide">
+                                                <div
+                                                    class="card-grid-3 hover-up wow animate__animated animate__fadeIn">
+                                                    <div class="text-center card-grid-3-image"><a
+                                                            href="/blog/details/{{ $bp->slug }}">
+                                                            <figure><img alt="#" src="{{ $bp->cover_photo }}"></figure>
+                                                        </a></div>
+                                                    <div class="card-block-info">
+                                                        <div class="tags mb-15">
+                                                            <a class="btn btn-tag" href="#">New</a>&nbsp;
+                                                            <a class="btn btn-tag" href="#">Event</a>&nbsp;
                                                             </div>
-                                                            <div class="col-lg-6 text-md-end col-6 pt-15">
-                                                                <span class="color-text-paragraph-2 font-xs">
-                                                                    12 mins to read </span>
+                                                        <h5><a href="/blog/details/{{ $bp->slug }}">{{ $bp->post_title }}</a></h5>
+                                                        <p class="mt-10 color-text-paragraph font-sm post-description">
+                                                            {{ strip_tags($bp->blog_post) }}
+                                                        </p>
+                                                        <div class="card-2-bottom mt-20">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-6">
+                                                                    <div class="d-flex"><img class="img-rounded"
+                                                                            src="{{ $bp->user->profile_photo}}"
+                                                                            alt="#">
+                                                                        <div class="info-right-img"><span
+                                                                                class="font-sm font-bold color-brand-1 op-70">{{ $bp->user->first_name." ".$bp->user->last_name}}</span><br><span
+                                                                                class="font-xs color-text-paragraph-2">{{ date_format($bp->created_at, 'M d, Y') }}</span></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 text-md-end col-6 pt-15">
+                                                                    <span class="color-text-paragraph-2 font-xs">
+                                                                        12 mins to read </span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="card-grid-3 hover-up wow animate__animated animate__fadeIn">
-                                                <div class="text-center card-grid-3-image"><a
-                                                        href="blog/39-strengths-and-weaknesses-to-discuss-in-a-job-interview.html">
-                                                        <figure><img
-                                                                alt="39 Strengths and Weaknesses To Discuss in a Job Interview"
-                                                                src=storage/news/img-news3-403x257.png></figure>
-                                                    </a></div>
-                                                <div class="card-block-info">
-                                                    <div class="tags mb-15"><a class="btn btn-tag"
-                                                            href="tag/new.html">New</a>&nbsp; <a class="btn btn-tag"
-                                                            href="tag/event.html">Event</a>&nbsp; </div>
-                                                    <h5><a
-                                                            href="blog/39-strengths-and-weaknesses-to-discuss-in-a-job-interview.html">39
-                                                            Strengths and Weaknesses To Discuss in a Job
-                                                            Interview</a></h5>
-                                                    <p class="mt-10 color-text-paragraph font-sm post-description">
-                                                        Rerum dicta fugiat impedit reiciendis. Ut architecto
-                                                        omnis sint quo nam et minima. Iure architecto alias
-                                                        omnis aut. Iure dolores molestiae enim molestias.</p>
-                                                    <div class="card-2-bottom mt-20">
-                                                        <div class="row">
-                                                            <div class="col-lg-6 col-6">
-                                                                <div class="d-flex"><img class="img-rounded"
-                                                                        src=storage/avatars/3.png alt="William Kent">
-                                                                    <div class="info-right-img"><span
-                                                                            class="font-sm font-bold color-brand-1 op-70">William
-                                                                            Kent</span><br><span
-                                                                            class="font-xs color-text-paragraph-2">Nov
-                                                                            24, 2023</span></div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6 text-md-end col-6 pt-15">
-                                                                <span class="color-text-paragraph-2 font-xs">
-                                                                    12 mins to read </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="card-grid-3 hover-up wow animate__animated animate__fadeIn">
-                                                <div class="text-center card-grid-3-image"><a
-                                                        href="blog/interview-question-why-dont-you-have-a-degree.html">
-                                                        <figure><img
-                                                                alt="Interview Question: Why Dont You Have a Degree?"
-                                                                src=storage/news/img-news1-403x257.png></figure>
-                                                    </a></div>
-                                                <div class="card-block-info">
-                                                    <div class="tags mb-15"><a class="btn btn-tag"
-                                                            href="tag/new.html">New</a>&nbsp; <a class="btn btn-tag"
-                                                            href="tag/event.html">Event</a>&nbsp; </div>
-                                                    <h5><a
-                                                            href="blog/interview-question-why-dont-you-have-a-degree.html">Interview
-                                                            Question: Why Dont You Have a Degree?</a></h5>
-                                                    <p class="mt-10 color-text-paragraph font-sm post-description">
-                                                        Ea fuga architecto eius est nesciunt totam odio sint.
-                                                        Nostrum illum reprehenderit repudiandae enim et.
-                                                        Accusamus blanditiis vero quas aut quis amet ratione.
-                                                        Consectetur unde ut voluptate iusto tenetur a alias.</p>
-                                                    <div class="card-2-bottom mt-20">
-                                                        <div class="row">
-                                                            <div class="col-lg-6 col-6">
-                                                                <div class="d-flex"><img class="img-rounded"
-                                                                        src=storage/avatars/1.png alt="Sarah Harding">
-                                                                    <div class="info-right-img"><span
-                                                                            class="font-sm font-bold color-brand-1 op-70">Sarah
-                                                                            Harding</span><br><span
-                                                                            class="font-xs color-text-paragraph-2">Nov
-                                                                            10, 2023</span></div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6 text-md-end col-6 pt-15">
-                                                                <span class="color-text-paragraph-2 font-xs">
-                                                                    12 mins to read </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                                 <div class="swiper-button-next"></div>
@@ -445,4 +359,7 @@
     </div>
 </main>
 
+<script type="text/javascript">
+    document.getElementById("home").classList.add('active');
+</script>
 @endsection

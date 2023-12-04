@@ -16,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontEndController::class, 'index']);
 
-Route::get('/find-jobs', function () {
-    return view("find_jobs");
-});
+Route::get('/find-jobs', [FrontEndController::class, 'findJobs']);
 
 Route::get('/businesses', function () {
     return view("businesses");

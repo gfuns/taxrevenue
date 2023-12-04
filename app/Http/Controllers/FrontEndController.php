@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogPost;
 use App\Models\Business;
 use App\Models\JobListing;
 use App\Models\PlatformCategories;
@@ -13,6 +14,14 @@ class FrontEndController extends Controller
         $categories = PlatformCategories::all();
         $todayJobs = JobListing::orderBy("id", "desc")->where("visibility", "open")->limit(8)->get();
         $topRecruiters = Business::where("visibility", 1)->limit(20)->get();
-        return view("welcome", compact("categories", "todayJobs", "topRecruiters"));
+        $blogPosts = BlogPost::orderBy("id", "desc")->where("visibility", "public")->where("status", "published")->limit(6)->get();
+        return view("welcome", compact("categories", "todayJobs", "topRecruiters", "blogPosts"));
+    }
+
+    public function findJobs()
+    {
+        $categories = PlatformCategories::all();
+        $jobs = JobListing::where("visibility", "open")->get();
+        return view("find_jobs", compact("categories", "jobs"));
     }
 }

@@ -13,6 +13,11 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
+    public function getProfilePhotoAttribute($value)
+    {
+        return $value == null ? 'https://res.cloudinary.com/soha/image/upload/v1698927551/l6edizafzfculb2mftwl.webp' : $value;
+    }
+
     /**
      * The attributes that are mass assignable.
      *

@@ -8,11 +8,11 @@
             <div class="header-nav">
                 <nav class="nav-main-menu">
                     <ul class="main-menu">
-                        <li><a href="/" class="active"> Home </a></li>
-                        <li><a href="/find-jobs" class=" "> Find Jobs </a></li>
-                        <li><a href="/businesses" class=" "> Businesses </a></li>
-                        <li><a href="/artisans" class=" "> Artisans </a></li>
-                        <li class="has-children "><a href="#" class=" "> Resources <div class="arrow-down"></div>
+                        <li><a id="home" href="/"> Home </a></li>
+                        <li><a id="findjobs" href="/find-jobs" class=" "> Find Jobs </a></li>
+                        <li><a id="businesses" href="/businesses" class=" "> Businesses </a></li>
+                        <li><a id="artisans" href="/artisans" class=" "> Artisans </a></li>
+                        <li class="has-children "><a id="resources" href="#" class=" "> Resources <div class="arrow-down"></div>
                             </a>
                             <ul class="sub-menu">
                                 <li class=" ">
