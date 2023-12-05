@@ -8,13 +8,13 @@
                 </div>
                 <div class="footer-social">
                     <a class="icon-socials" title="Facebook" href="https://facebook.com/" target="_blank"><img
-                            src=storage/socials/facebook.png alt="Facebook"></a>
+                            src="{{ asset("storage/socials/facebook.png") }}"  alt="Facebook"></a>
                     <a class="icon-socials" title="Linkedin" href="https://linkedin.com/" target="_blank"><img
-                            src=storage/socials/linkedin.png alt="Linkedin"></a>
+                            src="{{ asset("storage/socials/twitter.png") }}" alt="Linkedin"></a>
                     <a class="icon-socials" title="Twitter" href="https://twitter.com/" target="_blank"><img
-                            src=storage/socials/twitter.png alt="Twitter"></a>
+                            src="{{ asset("storage/socials/twitter.png") }}" alt="Twitter"></a>
                     <a class="icon-socials" title="Twitter" href="https://twitter.com/" target="_blank"><img
-                            src=storage/socials/twitter.png alt="Twitter"></a>
+                            src="{{ asset("storage/socials/twitter.png") }}" alt="Twitter"></a>
                 </div>
             </div>
             <div class="footer-col-2 col-md-2 col-xs-6 text-white">
@@ -88,6 +88,21 @@
         </div>
     </div>
 </footer>
+
+<script>
+    window.currencies = {
+        "display_big_money": null,
+        "billion": "billion",
+        "million": "million",
+        "is_prefix_symbol": 1,
+        "symbol": "₦",
+        "title": "NGN",
+        "decimal_separator": ".",
+        "thousands_separator": ",",
+        "number_after_dot": 0,
+        "show_symbol_or_title": true
+    };
+</script>
 <script src={{ asset('themes/jobbox/plugins/wow.js') }}></script>
 <script src={{ asset('themes/jobbox/plugins/modernizr-3.6.0.min.js') }}></script>
 <script src={{ asset('themes/jobbox/plugins/jquery-3.6.3.min.js') }}></script>
@@ -101,11 +116,15 @@
 <script src={{ asset('themes/jobbox/plugins/scrollup.js') }}></script>
 <script src={{ asset('themes/jobbox/plugins/swiper-bundle.min.js') }}></script>
 <script src={{ asset('themes/jobbox/plugins/counterup.js') }}></script>
-<script src={{ asset('themes/jobbox/js/main9d7d.js?v=1.10.0') }}></script>
+<script src={{ asset('themes/jobbox/js/main9d7d.js')}}?v=1.10.0></script>
 <script src={{ asset('themes/jobbox/js/script9d7d.js') }}?v=1.10.0></script>
 <script src={{ asset('themes/jobbox/js/backend9d7d.js') }}?v=1.10.0></script>
 <script src={{ asset('vendor/core/plugins/cookie-consent/js/cookie-consentf700.js') }}?v=1.0.1></script>
 <script src={{ asset('vendor/core/plugins/language/js/language-publicd1f1.js') }}?v=2.2.0></script>
+<script src={{ asset("themes/jobbox/js/noUISlider.js") }}></script>
+<script src={{ asset("themes/jobbox/plugins/leaflet/leaflet.js") }}></script>
+<script src={{ asset("themes/jobbox/plugins/leaflet/leaflet.markercluster-src.js") }}></script>
+
 
 {{-- <div class="js-cookie-consent cookie-consent cookie-consent-full-width page_speed_287683390">
     <div class="cookie-consent-body page_speed_2125851095"><span class="cookie-consent__message"> Your

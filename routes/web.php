@@ -18,6 +18,10 @@ Route::get('/', [FrontEndController::class, 'index']);
 
 Route::get('/find-jobs', [FrontEndController::class, 'findJobs']);
 
+Route::get('/job-categories/{slug}', [FrontEndController::class, 'jobsByCategory']);
+
+Route::get('/job-categories', [FrontEndController::class, 'jobsCategories']);
+
 Route::get('/businesses', function () {
     return view("businesses");
 });

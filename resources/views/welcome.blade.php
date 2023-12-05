@@ -76,9 +76,9 @@
                                                     <div class="swiper-slide hover-up">
                                                 @endif
 
-                                                <a href="job-categories/{{ $cat->slug }}">
+                                                <a href="/job-categories/{{ $cat->slug }}">
                                                     <div class="item-logo">
-                                                        <div class="image-left"><img src={{ $cat->category_icon }}
+                                                        <div class="image-left"><img src="{{ $cat->category_icon }}"
                                                                 alt="Content Writer"></div>
                                                         <div class="text-info-right">
                                                             <div class="h6">{{ $cat->category_name }}</div>
@@ -126,8 +126,8 @@
                 <section class="section-box mt-50 job-of-the-day">
                     <div class="container">
                         <div class="text-center">
-                            <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp"> Jobs of
-                                the day</h2>
+                            <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp"> Jobs Of
+                                The Day</h2>
                             <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">
                                 Search and connect with the right jobs faster. </p>
 
@@ -203,15 +203,15 @@
                 </section>
             </div>
             <div>
-                <section class="section-box overflow-visible mt-100 mb-100">
+                <section class="section-box overflow-visible mt-100 mb-50">
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-6 col-sm-12">
-                                <div class="box-image-job"><img class="img-job-1" alt="pages/img-chart.png"
-                                        src=storage/pages/img-chart.png><img class="img-job-2"
-                                        alt="pages/controlcard.png" src=storage/pages/controlcard.png>
-                                    <figure class="wow animate__animated animate__fadeIn"><img alt="pages/img1.png"
-                                            src=storage/pages/img1.png></figure>
+                                <div class="box-image-job">
+                                    <figure class="wow animate__animated animate__fadeIn">
+                                        <img alt="#"
+                                            src="{{ asset("storage/pages/frame359.png") }}">
+                                        </figure>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12">
@@ -241,9 +241,9 @@
                     <div class="container">
                         <div class="text-center">
                             <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp">Top
-                                Recruiters</h2>
+                                <span class="color-brand-2" style="color:#690068">Recruiters</span></h2>
                             <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">
-                                Discover your next career move, freelance gig, or internship</p>
+                                Discover your next career move, freelance gig, or internship from your dream recruiters and businesses all over the World.</p>
                         </div>
                     </div>
                     <div class="container">
@@ -298,7 +298,7 @@
                             <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp">News and
                                 Blog</h2>
                             <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">
-                                Get the latest news, updates and tips</p>
+                                Get the latest news, updates and tips from Arete to help your business growth process.</p>
                         </div>
                     </div>
                     <div class="container">
