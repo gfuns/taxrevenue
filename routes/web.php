@@ -26,4 +26,10 @@ Route::get('/artisans', [FrontEndController::class, 'artisans']);
 
 Route::get('/businesses', [FrontEndController::class, 'businesses']);
 
+Route::get('/blog', [FrontEndController::class, 'blogPosts']);
+
+Route::get('/tutorial-videos', [FrontEndController::class, 'tutorialVideos']);
+
+Route::get('/mini-store', [FrontEndController::class, 'miniStore']);
+
 Auth::routes();

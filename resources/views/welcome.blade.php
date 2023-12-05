@@ -142,11 +142,11 @@
                                                 <div class="card-grid-2 hover-up items ">
                                                     <div class="card-grid-2-image-left job-item"><span
                                                             class="flash"></span>
-                                                        <div class="image-box"><img src="{{ $job->business_logo }}"
+                                                        <div class="image-box"><img src="{{ $job->business->business_logo }}"
                                                                 alt="{{ $job->business_name }}"></div>
                                                         <div class="right-info"><a class="name-job"
                                                                 title="{{ $job->business_name }}"
-                                                                href="/business/details/{{ $job->slug }}">{{ $job->business_name }}</a><span
+                                                                href="/business/details/{{ $job->business->slug }}" title="{{ $job->business->business_name }}">{{ $job->business->business_name }}</a><span
                                                                 class="location-small">{{ $job->country }},
                                                                 {{ $job->city }}</span></div>
                                                     </div>

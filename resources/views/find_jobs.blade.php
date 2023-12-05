@@ -400,10 +400,10 @@
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 jobs-item job-grid">
                                             <div class="card-grid-2 hover-up  ">
                                                 <div class="card-grid-2-image-left job-item"><span class="flash"></span>
-                                                    <div class="image-box"><img src="{{ $job->business_logo }}"
+                                                    <div class="image-box"><img src="{{ $job->business->business_logo }}"
                                                             alt="#"></div>
                                                     <div class="right-info"><a class="name-job" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 200px;"
-                                                            href="/business/details/{{ $job->slug }}" title="{{ $job->business_name }}"> {{ $job->business_name }} </a><span
+                                                            href="/business/details/{{ $job->business->slug }}" title="{{ $job->business->business_name }}"> {{ $job->business->business_name }} </a><span
                                                             class="location-small"> {{ $job->country }},
                                                             {{ $job->city }} </span></div>
                                                 </div>
