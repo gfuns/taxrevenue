@@ -209,9 +209,8 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="box-image-job">
                                     <figure class="wow animate__animated animate__fadeIn">
-                                        <img alt="#"
-                                            src="{{ asset("storage/pages/frame359.png") }}">
-                                        </figure>
+                                        <img alt="#" src="{{ asset('storage/pages/frame359.png') }}">
+                                    </figure>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12">
@@ -241,9 +240,11 @@
                     <div class="container">
                         <div class="text-center">
                             <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp">Top
-                                <span class="color-brand-2" style="color:#690068">Recruiters</span></h2>
+                                <span class="color-brand-2" style="color:#690068">Recruiters</span>
+                            </h2>
                             <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">
-                                Discover your next career move, freelance gig, or internship from your dream recruiters and businesses all over the World.</p>
+                                Discover your next career move, freelance gig, or internship from your dream recruiters
+                                and businesses all over the World.</p>
                         </div>
                     </div>
                     <div class="container">
@@ -261,9 +262,16 @@
                                                         </div>
                                                         <div class="text-info-right">
                                                             <h4>{{ $biz->business_name }}</h4>
+                                                            @php
+                                                                $unrated = 5 - $biz->rating;
+                                                            @endphp
                                                             @for ($i = 1; $i <= $biz->rating; $i++)
                                                                 <img alt="star" class="rating-star"
                                                                     src={{ asset('themes/jobbox/imgs/template/icons/star.svg') }}>
+                                                            @endfor
+                                                            @for ($i = 1; $i <= $unrated; $i++)
+                                                                <img alt="star" class="rating-star"
+                                                                    src="{{ asset('themes/jobbox/imgs/template/icons/gray-star.svg') }}">
                                                             @endfor
                                                             <span class="font-xs color-text-mutted ml-10"><span>
                                                                     (</span><span>{{ $biz->reviews->count() }}</span><span>)
@@ -298,7 +306,8 @@
                             <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp">News and
                                 Blog</h2>
                             <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">
-                                Get the latest news, updates and tips from Arete to help your business growth process.</p>
+                                Get the latest news, updates and tips from Arete to help your business growth process.
+                            </p>
                         </div>
                     </div>
                     <div class="container">
@@ -312,14 +321,17 @@
                                                     class="card-grid-3 hover-up wow animate__animated animate__fadeIn">
                                                     <div class="text-center card-grid-3-image"><a
                                                             href="/blog/details/{{ $bp->slug }}">
-                                                            <figure><img alt="#" src="{{ $bp->cover_photo }}"></figure>
+                                                            <figure><img alt="#" src="{{ $bp->cover_photo }}">
+                                                            </figure>
                                                         </a></div>
                                                     <div class="card-block-info">
                                                         <div class="tags mb-15">
                                                             <a class="btn btn-tag" href="#">New</a>&nbsp;
                                                             <a class="btn btn-tag" href="#">Event</a>&nbsp;
-                                                            </div>
-                                                        <h5><a href="/blog/details/{{ $bp->slug }}">{{ $bp->post_title }}</a></h5>
+                                                        </div>
+                                                        <h5><a
+                                                                href="/blog/details/{{ $bp->slug }}">{{ $bp->post_title }}</a>
+                                                        </h5>
                                                         <p class="mt-10 color-text-paragraph font-sm post-description">
                                                             {{ strip_tags($bp->blog_post) }}
                                                         </p>
@@ -327,11 +339,12 @@
                                                             <div class="row">
                                                                 <div class="col-lg-6 col-6">
                                                                     <div class="d-flex"><img class="img-rounded"
-                                                                            src="{{ $bp->user->profile_photo}}"
+                                                                            src="{{ $bp->user->profile_photo }}"
                                                                             alt="#">
                                                                         <div class="info-right-img"><span
-                                                                                class="font-sm font-bold color-brand-1 op-70">{{ $bp->user->first_name." ".$bp->user->last_name}}</span><br><span
-                                                                                class="font-xs color-text-paragraph-2">{{ date_format($bp->created_at, 'M d, Y') }}</span></div>
+                                                                                class="font-sm font-bold color-brand-1 op-70">{{ $bp->user->first_name . ' ' . $bp->user->last_name }}</span><br><span
+                                                                                class="font-xs color-text-paragraph-2">{{ date_format($bp->created_at, 'M d, Y') }}</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-6 text-md-end col-6 pt-15">

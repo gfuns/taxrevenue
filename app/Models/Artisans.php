@@ -34,6 +34,11 @@ class Artisans extends Model
         return $this->belongsTo('App\Models\Customer');
     }
 
+    public function artsanReviews()
+    {
+        return $this->hasMany('App\Models\ArtisanReviews', 'artisan_id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

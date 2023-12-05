@@ -22,12 +22,8 @@ Route::get('/job-categories/{slug}', [FrontEndController::class, 'jobsByCategory
 
 Route::get('/job-categories', [FrontEndController::class, 'jobsCategories']);
 
-Route::get('/businesses', function () {
-    return view("businesses");
-});
+Route::get('/artisans', [FrontEndController::class, 'artisans']);
 
-Route::get('/artisans', function () {
-    return view("artisans");
-});
+Route::get('/businesses', [FrontEndController::class, 'businesses']);
 
 Auth::routes();

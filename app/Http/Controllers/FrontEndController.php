@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Artisans;
 use App\Models\BlogPost;
 use App\Models\Business;
 use App\Models\JobListing;
@@ -36,5 +37,11 @@ class FrontEndController extends Controller
     {
         $categories = PlatformCategories::all();
         return view("job_categories", compact("categories"));
+    }
+
+    public function artisans()
+    {
+        $candidates = Artisans::all();
+        return view("artisans", compact("candidates"));
     }
 }
