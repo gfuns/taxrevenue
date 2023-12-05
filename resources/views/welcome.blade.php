@@ -258,7 +258,7 @@
                                                     <a href="/business/details/{{ $biz->slug }}">
                                                         <div class="image-left">
                                                             <img alt="{{ $biz->business_name }}"
-                                                                src={{ $biz->business_logo }} style="height: 50px">
+                                                                src="{{ $biz->business_logo }}" style="height: 50px">
                                                         </div>
                                                         <div class="text-info-right">
                                                             <h4>{{ $biz->business_name }}</h4>

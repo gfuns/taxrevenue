@@ -67,4 +67,16 @@ class FrontEndController extends Controller
         }
         return view("artisans", compact("candidates"));
     }
+
+    public function businesses(Request $request)
+    {
+        if (isset($request->filter)) {
+
+            $businesses = Business::where("visibility", 1)->where("business_name", 'LIKE', $request->filter . '%')->get();
+
+        } else {
+            $businesses = Business::where("visibility", 1)->get();
+        }
+        return view("businesses", compact("businesses"));
+    }
 }
