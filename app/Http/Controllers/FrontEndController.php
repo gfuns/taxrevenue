@@ -7,6 +7,7 @@ use App\Models\BlogPost;
 use App\Models\Business;
 use App\Models\JobListing;
 use App\Models\PlatformCategories;
+use Illuminate\Http\Request;
 
 class FrontEndController extends Controller
 {
@@ -39,9 +40,31 @@ class FrontEndController extends Controller
         return view("job_categories", compact("categories"));
     }
 
-    public function artisans()
+    public function artisans(Request $request)
     {
-        $candidates = Artisans::all();
+        if (isset($request->filter)) {
+
+            $records = Artisans::with(['customer']);
+
+            /**
+             * Searching the names key inside
+             * the user relationship
+             */
+            $records->whereNotNull("biography")->whereNotNull("profession")->where(fn($query) =>
+                $query->whereHas('customer', fn($query2) =>
+                    $query2->where('first_name', 'LIKE', $request->filter . '%')->orWhere('last_name', 'LIKE', $request->filter . '%'))
+            );
+
+            /**
+             * Returning the response
+             */
+
+            $candidates = collect($records->get());
+
+        } else {
+
+            $candidates = Artisans::whereNotNull("biography")->whereNotNull("profession")->get();
+        }
         return view("artisans", compact("candidates"));
     }
 }

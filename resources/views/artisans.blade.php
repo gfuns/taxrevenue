@@ -27,7 +27,7 @@
                                     Jobs in their specialized Niches.</div>
                                 <div class="box-list-character">
                                     <ul>
-                                        <li><a href="/artisans?filter=A" class="keyword">a</a>
+                                       <li><a href="/artisans?filter=A" class="keyword">a</a>
                                         </li>
                                         <li><a href="/artisans?filter=B" class="keyword ">b</a>
                                         </li>
