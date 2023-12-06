@@ -211,6 +211,7 @@
     <link media="all" type=text/css rel="stylesheet" href="{{ asset('themes/jobbox/css/style9d7d.css') }}?v=1.10.0">
     <link media="all" type=text/css rel="stylesheet"
         href="{{ asset('themes/jobbox/plugins/animate.min9d7d.css') }}?v=1.10.0">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
     <style>
         .page_speed_515102175 {

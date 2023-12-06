@@ -198,36 +198,44 @@
                             </div>
                         </div>
                         <div class="sidebar-list-job">
-                            <ul style="list-style: none; padding:0px; margin:0px">
-                                <li style="padding:0px; margin:0px">{{ $job->business->business_address }}</li>
-                                <li style="padding:0px; margin:0px"><strong>Website:</strong> <a href="{{ $job->business->website_url }}"
-                                        target="_blank">{{ $job->business->website_url }}</a></li>
-                                <li><strong>Phone:</strong> {{ $job->business->business_phone }}</li>
+                            <ul>
+                                <li>
+                                    <div class="sidebar-icon-item">
+                                        <i class="fi-rr-envelope"></i>
+                                    </div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Email Address</span>
+                                        <strong class="small-heading">{{ $job->business->business_email }}</strong>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sidebar-icon-item">
+                                        <i class="fi-rr-phone-call"></i>
+                                    </div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Phone Number</span>
+                                        <strong class="small-heading">{{ $job->business->business_phone }}</strong>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sidebar-icon-item">
+                                        <i class="fi-rr-map-marker-home"></i>
+                                    </div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Contact Address</span>
+                                        <strong class="small-heading">{{ $job->business->business_address }}</strong>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sidebar-icon-item"><i class="fi-rr-globe"></i></div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Website</span>
+                                        <a href="{{ $job->business->website_url }}" target="_blank">
+                                            <strong class="small-heading">{{ $job->business->website_url }}</strong>
+                                        </a>
+                                    </div>
+                                </li>
                             </ul>
-                        </div>
-                        <div class="business-socials mt-20 mr-140">
-                            <div class="row">
-                                <div class="col-3">
-                                    <a href="{{ $job->business->facebook_url }}" target="_blank"><img
-                                            src={{ asset('themes/jobbox/imgs/page/about/facebook.svg') }}
-                                            alt="Facebook" /></a>
-                                </div>
-                                <div class="col-3">
-                                    <a class="bs-icon" href="{{ $job->business->twitter_url }}" target="_blank"><img
-                                            src={{ asset('themes/jobbox/imgs/page/about/twitter.svg') }}
-                                            alt="Twitter" /></a>
-                                </div>
-                                <div class="col-3">
-                                    <a href="{{ $job->business->linkedin_url }}" target="_blank"><img
-                                            src={{ asset('themes/jobbox/imgs/page/about/linkedin.svg') }}
-                                            alt="LinkedIn" /></a>
-                                </div>
-                                <div class="col-3">
-                                    <a href="{{ $job->business->instagram_url }}" target="_blank"><img
-                                            src={{ asset('themes/jobbox/imgs/page/about/instagram.svg') }}
-                                            alt="Instagram" /></a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="sidebar-border">

@@ -43,7 +43,7 @@
                         <h5 class="mb-30">Latest Jobs</h5>
                         <div class="display-grid row">
                             @foreach ($latestJobs as $ljob)
-                                <div class="col-6 jobs-listing">
+                                <div class="col-12 col-lg-6 jobs-listing">
                                     <div class="card-grid-2 hover-up"><span class="flash"></span>
                                         <div class="row">
                                             <div class=" col-lg-12 col-md-12 col-sm-12">
@@ -178,57 +178,74 @@
                             <div class="box-map job-board-street-map-container">
                                 MAP comes here
                             </div>
-                            <div class="d-none" id="street-map-popup-template">
-                                <div>
-                                    <table width=100%>
-                                        <tr>
-                                            <td width=40 class="image-company-sidebar">
-                                                <div><img src="{{ asset('storage/companies/1.png') }}" width=40
-                                                        alt="LinkedIn">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="infomarker">
-                                                    <h5><a href="linkedin.html" target="_blank">LinkedIn</a></h5>
-                                                    <div class="text-info"><i class="mdi mdi-account"></i><span>3
-                                                            Employees</span></div>
-                                                    <div class="text-muted"><i class="uil uil-map"></i><span>42083
-                                                            Wunsch Mountains Suite 670East Darricktown, AR 30086,
-                                                            New York, New York, USA</span></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
                         </div>
                         <div class="sidebar-list-job">
                             <ul>
                                 <li>
-                                    <div class="sidebar-icon-item"><i class="fi-rr-clock"></i></div>
-                                    <div class="sidebar-text-info"><span class="text-description">Year
-                                            founded</span><strong class="small-heading">1992</strong></div>
+                                    <div class="sidebar-icon-item">
+                                        <i class="fi-rr-envelope"></i>
+                                    </div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Email Address</span>
+                                        <strong class="small-heading">{{ $business->business_email }}</strong>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sidebar-icon-item">
+                                        <i class="fi-rr-phone-call"></i>
+                                    </div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Phone Number</span>
+                                        <strong class="small-heading">{{ $business->business_phone }}</strong>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sidebar-icon-item">
+                                        <i class="fi-rr-map-marker-home"></i>
+                                    </div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Contact Address</span>
+                                        <strong class="small-heading">{{ $business->business_address }}</strong>
+                                    </div>
                                 </li>
                                 <li>
                                     <div class="sidebar-icon-item"><i class="fi-rr-globe"></i></div>
-                                    <div class="sidebar-text-info"><span class="text-description">Website
-                                        </span><a href="https://www.linkedin.com/"><strong
-                                                class="small-heading">https://www.linkedin.com</strong></a></div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Website</span>
+                                        <a href="{{ $business->website_url }}" target="_blank">
+                                            <strong class="small-heading">{{ $business->website_url }}</strong>
+                                        </a>
+                                    </div>
                                 </li>
                                 <li>
-                                    <div class="sidebar-icon-item"><i class="fi-rr-time-fast"></i></div>
-                                    <div class="sidebar-text-info"><span class="text-description">Last Jobs
-                                            Posted</span><strong class="small-heading">2 days ago</strong></div>
+                                    <div class="sidebar-icon-item"><i class="fab fa-facebook"></i></div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Facebook</span>
+                                        <strong class="small-heading">{{ $business->facebook_url }}</strong>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sidebar-icon-item"><i class="fab fa-linkedin-in"></i></div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">LinkedIn</span>
+                                        <strong class="small-heading">{{ $business->linkedin_url }}</strong>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sidebar-icon-item"><i class="fab fa-twitter"></i></div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Twitter</span>
+                                        <strong class="small-heading">{{ $business->twitter_url }}</strong>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sidebar-icon-item"><i class="fab fa-instagram"></i></div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Instagram</span>
+                                        <strong class="small-heading">{{ $business->instagram_url }}</strong>
+                                    </div>
                                 </li>
                             </ul>
-                        </div>
-                        <div class="sidebar-list-job">
-                            <ul class="ul-disc">
-                                <li>42083 Wunsch Mountains Suite 670East Darricktown, AR 30086</li>
-                                <li>Phone: +16319375345</li>
-                            </ul>
-                            <div class="text-center mt-30"></div>
-                            <div class="mt-30"></div>
                         </div>
                     </div>
                     <div class="ads_banner_widget"><a href="../index.html"><img
