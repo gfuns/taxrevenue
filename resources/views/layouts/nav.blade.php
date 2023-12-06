@@ -15,14 +15,15 @@
                         <li class="has-children "><a id="resources" href="#" class=" "> Resources <div class="arrow-down"></div>
                             </a>
                             <ul class="sub-menu">
+
                                 <li class=" ">
-                                    <a href="/resources/blog"><i class="fi fi-rr-briefcase"></i> Blog </a>
+                                    <a href="/resources/blog"><i class="fas fa-globe" style="color: #690068"></i> Blog </a>
                                 </li>
                                 <li class=" ">
-                                    <a href="/mini-store"><i class="fi fi-rr-briefcase"></i> Mini Store </a>
+                                    <a href="/mini-store"><i class="fas fa-store" style="color: #690068"></i> Mini Store </a>
                                 </li>
                                 <li class=" ">
-                                    <a href="/resources/tutorial-videos"><i class="fi fi-rr-briefcase"></i> Tutorial
+                                    <a href="/resources/tutorial-videos"><i class="far fa-play-circle" style="color: #690068"></i> Tutorial
                                         Videos </a>
                                 </li>
                             </ul>
