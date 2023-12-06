@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Artisans;
 use App\Models\BlogPost;
 use App\Models\Business;
+use App\Models\BusinessReviews;
 use App\Models\JobListing;
 use App\Models\PlatformCategories;
 use App\Models\TutorialVideos;
@@ -31,7 +32,7 @@ class FrontEndController extends Controller
     public function jobsByCategory($slug)
     {
         $category = PlatformCategories::where("slug", $slug)->first();
-        $jobs = JobListing::where("job_categories", $category->id)->where("visibility", "open")->get();
+        $jobs = JobListing::where("job_categories", "LIKE", "%" . $category->id . "%")->where("visibility", "open")->get();
         return view("category_jobs", compact("category", "jobs"));
     }
 
@@ -90,14 +91,23 @@ class FrontEndController extends Controller
     public function jobDetails($slug)
     {
         $job = JobListing::where("slug", $slug)->first();
-        $similarJobs = JobListing::where("job_categories", 1)->where("id", "!=", $job->id)->limit(5)->get();
-        return view("job_details", compact("job", "similarJobs"));
+        $categories = explode(', ', $job->getOriginalCategories());
+        $categoryNames = PlatformCategories::whereIn('id', $categories)->pluck('category_name');
+        $industry = $categoryNames->implode(' / ');
+        $similarJobs = JobListing::where("id", "!=", $job->id)->where("visibility", "open")->where(function ($query) use ($categories) {
+            foreach ($categories as $categoryId) {
+                $query->orWhereRaw("FIND_IN_SET(?, job_categories)", [$categoryId]);
+            }
+        })->limit(5)->get();
+        return view("job_details", compact("job", "similarJobs", "industry"));
     }
 
     public function businessDetails($slug)
     {
         $business = Business::where("slug", $slug)->first();
-        return view("business_details", compact("business"));
+        $latestJobs = JobListing::where("business_id", $business->id)->where("visibility", "open")->limit(4)->get();
+        $reviews = BusinessReviews::orderBy("rating", "desc")->limit(5)->get();
+        return view("business_details", compact("business", "latestJobs", "reviews"));
     }
 
     public function artisanDetails($slug)

@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="sidebar-text-info ml-10"><span
                                         class="text-description industry-icon mb-10">Industry</span><span
-                                        class="small-heading"> Content Writer / Market Research / Security Analyst
+                                        class="small-heading"> {{ $industry }}
                                     </span></div>
                             </div>
                             <div class="col-md-6 d-flex mt-15">
@@ -171,12 +171,30 @@
                             <div class="avatar-sidebar">
                                 <figure><a href="/business/details/{{ $job->business->slug }}"><img alt="#"
                                             src="{{ $job->business->business_logo }}" /></a></figure>
-                                <div class="sidebar-info"><a
+                                <div class="sidebar-info">
+                                    <a
                                         href="/business/details/{{ $job->business->slug }}"><span
-                                            class="sidebar-company">{{ $job->business->business_name }}</span></a><a
-                                        class="link-underline mt-15"
+                                            class="sidebar-company">{{ $job->business->business_name }}</span></a>
+                                            <a
+                                        class="link-underline mt-10 mb-2"
                                         href="/business/details/{{ $job->business->slug }}">{{ $job->business->jobListing->count() == 0 ? 'No' : $job->business->jobListing->count() }}
-                                        Open Jobs</a></div>
+                                        Open Jobs</a>
+
+                                        @php
+                                        $unrated = 5 - $job->business->rating;
+                                    @endphp
+                                    @for ($i = 1; $i <= $job->business->rating; $i++)
+                                        <img alt="star" class="rating-star"
+                                            src={{ asset('themes/jobbox/imgs/template/icons/star.svg') }}>
+                                    @endfor
+                                    @for ($i = 1; $i <= $unrated; $i++)
+                                        <img alt="star" class="rating-star"
+                                            src="{{ asset('themes/jobbox/imgs/template/icons/gray-star.svg') }}">
+                                    @endfor
+
+                                    <span
+                                        class="font-xs color-text-mutted ml-10"><span>(</span><span>{{ $job->business->reviews->count() }}</span><span>)</span></span>
+                                    </div>
                             </div>
                         </div>
                         <div class="sidebar-list-job">

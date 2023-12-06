@@ -23,6 +23,11 @@ class BusinessReviews extends Model
         return $reviewer->photo == null ? "https://res.cloudinary.com/soha/image/upload/v1698927551/l6edizafzfculb2mftwl.webp" : $reviewer->photo;
     }
 
+    public function customer()
+    {
+        return $this->belongsTo('App\Models\Customer');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
