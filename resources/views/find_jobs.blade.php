@@ -414,7 +414,7 @@
                                                     <div class="mt-5"><span class="card-briefcase"> {{ $job->engagement_type }}
                                                         </span><span class="card-time">{{ $job->created_at->diffForHumans() }}</span></div>
                                                     <p class="font-sm color-text-paragraph mt-15 job-description">
-                                                        {{ $job->job_description }}</p>
+                                                        {{ strip_tags($job->job_description) }}</p>
                                                     <div class="mt-30">
                                                         <a class="btn btn-grey-small mr-5 mb-2" href="#">Sketch</a>
                                                             <a class="btn btn-grey-small mr-5 mb-2"

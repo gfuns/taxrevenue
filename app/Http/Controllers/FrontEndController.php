@@ -7,6 +7,7 @@ use App\Models\BlogPost;
 use App\Models\Business;
 use App\Models\JobListing;
 use App\Models\PlatformCategories;
+use App\Models\TutorialVideos;
 use Illuminate\Http\Request;
 
 class FrontEndController extends Controller
@@ -78,5 +79,30 @@ class FrontEndController extends Controller
             $businesses = Business::where("visibility", 1)->get();
         }
         return view("businesses", compact("businesses"));
+    }
+
+    public function tutorialVideos()
+    {
+        $tutorialVideos = TutorialVideos::all();
+        return view("tutorials", compact("tutorialVideos"));
+    }
+
+    public function jobDetails($slug)
+    {
+        $job = JobListing::where("slug", $slug)->first();
+        $similarJobs = JobListing::where("job_categories", 1)->where("id", "!=", $job->id)->limit(5)->get();
+        return view("job_details", compact("job", "similarJobs"));
+    }
+
+    public function businessDetails($slug)
+    {
+        $business = Business::where("slug", $slug)->first();
+        return view("business_details", compact("business"));
+    }
+
+    public function artisanDetails($slug)
+    {
+        $artisan = Artisans::where("slug", $slug)->first();
+        return view("artisan_details", compact("artisan"));
     }
 }
