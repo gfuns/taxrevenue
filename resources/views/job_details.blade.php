@@ -2,7 +2,14 @@
 
 @section('content')
 @section('title', env('APP_NAME') . ' | ' . $job->job_title)
-
+<style>
+    .bs-icon{
+        color: #690068;
+    }
+    .bs-icon:hover {
+        color: #FEBA00
+    }
+</style>
 <main class="main">
     <section class="section-box">
         <div class="breadcrumb-cover page_speed_160581955" style="background:url({{ asset('storage/pages/Search.png') }}">
@@ -173,12 +180,36 @@
                             </div>
                         </div>
                         <div class="sidebar-list-job">
-                            <ul class="ul-disc">
-                                <li>{{ $job->business->business_address }}</li>
-                                <li>Website: <a href="{{ $job->business->website_url }}"
+                            <ul style="list-style: none; padding:0px; margin:0px">
+                                <li style="padding:0px; margin:0px">{{ $job->business->business_address }}</li>
+                                <li style="padding:0px; margin:0px"><strong>Website:</strong> <a href="{{ $job->business->website_url }}"
                                         target="_blank">{{ $job->business->website_url }}</a></li>
-                                <li>Phone: {{ $job->business->business_phone }}</li>
+                                <li><strong>Phone:</strong> {{ $job->business->business_phone }}</li>
                             </ul>
+                        </div>
+                        <div class="business-socials mt-20 mr-140">
+                            <div class="row">
+                                <div class="col-3">
+                                    <a href="{{ $job->business->facebook_url }}" target="_blank"><img
+                                            src={{ asset('themes/jobbox/imgs/page/about/facebook.svg') }}
+                                            alt="Facebook" /></a>
+                                </div>
+                                <div class="col-3">
+                                    <a class="bs-icon" href="{{ $job->business->twitter_url }}" target="_blank"><img
+                                            src={{ asset('themes/jobbox/imgs/page/about/twitter.svg') }}
+                                            alt="Twitter" /></a>
+                                </div>
+                                <div class="col-3">
+                                    <a href="{{ $job->business->linkedin_url }}" target="_blank"><img
+                                            src={{ asset('themes/jobbox/imgs/page/about/linkedin.svg') }}
+                                            alt="LinkedIn" /></a>
+                                </div>
+                                <div class="col-3">
+                                    <a href="{{ $job->business->instagram_url }}" target="_blank"><img
+                                            src={{ asset('themes/jobbox/imgs/page/about/instagram.svg') }}
+                                            alt="Instagram" /></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="sidebar-border">
