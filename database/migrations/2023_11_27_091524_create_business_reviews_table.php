@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('business_reviews', function (Blueprint $table) {
             $table->id();
             $table->integer('business_id')->unsigned();
-            $table->integer('customer_id')->unsigned();
+            $table->integer('artisan_id')->unsigned();
             $table->integer('rating');
             $table->longText('review');
             $table->timestamps();
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');
+            $table->foreign('artisan_id')->references('id')->on('artisans')->onDelete('cascade');
         });
     }
 

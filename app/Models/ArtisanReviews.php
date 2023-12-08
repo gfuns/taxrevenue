@@ -23,9 +23,9 @@ class ArtisanReviews extends Model
         return $reviewer->photo == null ? "https://res.cloudinary.com/soha/image/upload/v1698927551/l6edizafzfculb2mftwl.webp" : $reviewer->photo;
     }
 
-    public function artisan()
+    public function business()
     {
-        return $this->belongsTo('App\Models\Artisans');
+        return $this->belongsTo('App\Models\Business');
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ArtisanReviews;
 use App\Models\Artisans;
 use App\Models\BlogPost;
 use App\Models\Business;
@@ -114,7 +115,8 @@ class FrontEndController extends Controller
     public function artisanDetails($slug)
     {
         $artisan = Artisans::where("slug", $slug)->first();
-        return view("artisan_details", compact("artisan"));
+        $reviews = ArtisanReviews::orderBy("rating", "desc")->limit(5)->get();
+        return view("artisan_details", compact("artisan", "reviews"));
     }
 
     public function miniStore()

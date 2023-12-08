@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('customer_id')->unsigned();
             $table->integer('business_id')->unsigned();
             $table->text('job_title');
+            $table->text('slug');
             $table->text('tags');
             $table->string('skill_level');
             $table->longText('job_description');

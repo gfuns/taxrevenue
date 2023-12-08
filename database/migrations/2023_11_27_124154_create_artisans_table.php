@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('artisans', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('customer_id')->unsigned();
+            $table->text('slug');
             $table->longText('biography')->nullable();
             $table->text('profession')->nullable();
             $table->text('skills')->nullable();

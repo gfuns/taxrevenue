@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('category_id')->unsigned()->nullable();
             $table->text('business_logo')->nullable();
             $table->string('business_name')->nullable();
+            $table->text('slug');
             $table->string('business_category')->nullable();
             $table->string('country')->nullable();
             $table->string('state')->nullable();

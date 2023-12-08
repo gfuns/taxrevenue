@@ -113,13 +113,13 @@
                                 <div class="d-sm-flex align-items-top review-item">
                                     <div class="flex-shrink-0"><img
                                             class="rounded-circle avatar-md img-thumbnail review-user-avatar"
-                                            src="{{ $review->customer->photo }}" alt=""></div>
+                                            src="{{ $review->artisan->customer->photo }}" alt=""></div>
                                     <div class="flex-grow-1 ms-sm-3">
                                         <div>
                                             <p class="text-muted float-end fs-14 mb-2">
                                                 {{ date_format($review->created_at, 'M d, Y') }}</p>
                                             <h6 class="mt-sm-0 mt-3 mb-1">
-                                                {{ $review->customer->first_name . ' ' . $review->customer->last_name }}
+                                                {{ $review->artisan->customer->first_name . ' ' . $review->artisan->customer->last_name }}
                                             </h6>
                                             <div class="text-warning review-rating mb-2">
                                                 @php
