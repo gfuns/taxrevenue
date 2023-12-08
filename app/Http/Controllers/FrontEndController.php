@@ -8,6 +8,7 @@ use App\Models\Business;
 use App\Models\BusinessReviews;
 use App\Models\JobListing;
 use App\Models\PlatformCategories;
+use App\Models\Products;
 use App\Models\TutorialVideos;
 use Illuminate\Http\Request;
 
@@ -114,6 +115,12 @@ class FrontEndController extends Controller
     {
         $artisan = Artisans::where("slug", $slug)->first();
         return view("artisan_details", compact("artisan"));
+    }
+
+    public function miniStore()
+    {
+        $products = Products::orderBy("product_name", "asc")->get();
+        return view("mini_store", compact("products"));
     }
 
     public function blogPosts()
