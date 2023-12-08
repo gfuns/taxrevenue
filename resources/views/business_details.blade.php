@@ -11,7 +11,7 @@
                     <div class="col-lg-9">
                         <h2 class="mb-10" style="color:#fff">{{ $business->business_name }}</h2>
                         <span class="card-location font-regular text-white">{{ $business->country }},
-                            {{ $business->city }}</span></h5>
+                            {{ $business->city }}</span>
                     </div>
                     <div class="col-lg-3 text-md-end">
                         <ul class="breadcrumbs ">

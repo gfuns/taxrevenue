@@ -142,11 +142,13 @@
                                                 <div class="card-grid-2 hover-up items ">
                                                     <div class="card-grid-2-image-left job-item"><span
                                                             class="flash"></span>
-                                                        <div class="image-box"><img src="{{ $job->business->business_logo }}"
+                                                        <div class="image-box"><img
+                                                                src="{{ $job->business->business_logo }}"
                                                                 alt="{{ $job->business_name }}"></div>
                                                         <div class="right-info"><a class="name-job"
                                                                 title="{{ $job->business_name }}"
-                                                                href="/business/details/{{ $job->business->slug }}" title="{{ $job->business->business_name }}">{{ $job->business->business_name }}</a><span
+                                                                href="/business/details/{{ $job->business->slug }}"
+                                                                title="{{ $job->business->business_name }}">{{ $job->business->business_name }}</a><span
                                                                 class="location-small">{{ $job->country }},
                                                                 {{ $job->city }}</span></div>
                                                     </div>
@@ -316,6 +318,11 @@
                                 <div class="swiper-container swiper-group-3 swiper">
                                     <div class="swiper-wrapper pb-70 pt-5">
                                         @foreach ($blogPosts as $bp)
+                                            @php
+                                                $wordCount = str_word_count($bp->blog_post);
+                                                $readingSpeed = 50; // Adjust as needed
+                                                $readingTime = ceil($wordCount / $readingSpeed);
+                                            @endphp
                                             <div class="swiper-slide">
                                                 <div
                                                     class="card-grid-3 hover-up wow animate__animated animate__fadeIn">
@@ -349,7 +356,7 @@
                                                                 </div>
                                                                 <div class="col-lg-6 text-md-end col-6 pt-15">
                                                                     <span class="color-text-paragraph-2 font-xs">
-                                                                        12 mins to read </span>
+                                                                        {{ $readingTime }} mins to read </span>
                                                                 </div>
                                                             </div>
                                                         </div>

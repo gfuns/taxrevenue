@@ -115,4 +115,50 @@ class FrontEndController extends Controller
         $artisan = Artisans::where("slug", $slug)->first();
         return view("artisan_details", compact("artisan"));
     }
+
+    public function blogPosts()
+    {
+        $lastRecord = BlogPost::count();
+        $marker = $this->blogMarkers($lastRecord, request()->page);
+        $blogPosts = BlogPost::orderBy("id", "desc")->paginate(6);
+        return view("blog", compact("blogPosts", "lastRecord", "marker"));
+    }
+
+    public function blogDetails($slug)
+    {
+        $blogPost = BlogPost::where("slug", $slug)->first();
+        return view("blog_details", compact("blogPost"));
+    }
+
+    /**
+     * blogMarkers Helper Function
+     *
+     * @param mixed lastRecord
+     * @param mixed pageNum
+     *
+     * @return void
+     */
+    public function blogMarkers($lastRecord, $pageNum)
+    {
+        if ($pageNum == null) {
+            $pageNum = 1;
+        }
+        $end = (6 * ((int) $pageNum));
+        $marker = array();
+        if ((int) $pageNum == 1) {
+            $marker["begin"] = (int) $pageNum;
+            $marker["index"] = (int) $pageNum;
+        } else {
+            $marker["begin"] = number_format(((6 * ((int) $pageNum)) - 5), 0);
+            $marker["index"] = number_format(((6 * ((int) $pageNum)) - 5), 0);
+        }
+
+        if ($end > $lastRecord) {
+            $marker["end"] = number_format($lastRecord, 0);
+        } else {
+            $marker["end"] = number_format($end, 0);
+        }
+
+        return $marker;
+    }
 }

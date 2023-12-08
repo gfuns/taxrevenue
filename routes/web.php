@@ -32,7 +32,9 @@ Route::get('/businesses', [FrontEndController::class, 'businesses']);
 
 Route::get('/business/details/{slug}', [FrontEndController::class, 'businessDetails']);
 
-Route::get('/blog', [FrontEndController::class, 'blogPosts']);
+Route::get('/resources/blog', [FrontEndController::class, 'blogPosts']);
+
+Route::get('/resources/blog/{slug}', [FrontEndController::class, 'blogDetails']);
 
 Route::get('/resources/tutorial-videos', [FrontEndController::class, 'tutorialVideos']);
 
