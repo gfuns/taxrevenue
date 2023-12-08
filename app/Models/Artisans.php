@@ -34,7 +34,7 @@ class Artisans extends Model
         return $this->belongsTo('App\Models\Customer');
     }
 
-    public function artsanReviews()
+    public function reviews()
     {
         return $this->hasMany('App\Models\ArtisanReviews', 'artisan_id');
     }

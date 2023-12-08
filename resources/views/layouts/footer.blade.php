@@ -1,23 +1,35 @@
+<style>
+    @media (max-width: 767px) {
+
+        .footer .footer-col-2,
+        .footer .footer-col-3,
+        .footer .footer-col-4,
+        .footer .footer-col-5 {
+            width: 50% !important
+        }
+    }
+</style>
 <footer class="footer mt-50 pt-70" style="background: #101828">
     <div class="container">
         <div class="row">
             <div class="footer-col-1 col-md-3 col-sm-12"><a href="/" aria-label="{{ env('APP_NAME') }}"><img
                         alt="" src="{{ asset('storage/general/logo.png') }}"></a>
-                <div class="mt-20 mb-20 font-xs text-white"> Arete is the heart of the design
-                    community and the best resource to discover and connect with designers and jobs worldwide.
+                <div class="mt-20 mb-20 font-sm text-white"> Arete is the world class cutting-edge job portal designed
+                    for professionals like you to elevate your job search experience!
                 </div>
                 <div class="footer-social">
                     <a class="icon-socials" title="Facebook" href="https://facebook.com/" target="_blank"><img
-                            src="{{ asset("storage/socials/facebook.png") }}"  alt="Facebook"></a>
+                            src="{{ asset('storage/socials/facebook.png') }}" alt="Facebook"></a>
                     <a class="icon-socials" title="Linkedin" href="https://linkedin.com/" target="_blank"><img
-                            src="{{ asset("storage/socials/twitter.png") }}" alt="Linkedin"></a>
+                            src="{{ asset('storage/socials/twitter.png') }}" alt="Linkedin"></a>
                     <a class="icon-socials" title="Twitter" href="https://twitter.com/" target="_blank"><img
-                            src="{{ asset("storage/socials/twitter.png") }}" alt="Twitter"></a>
+                            src="{{ asset('storage/socials/twitter.png') }}" alt="Twitter"></a>
                     <a class="icon-socials" title="Twitter" href="https://twitter.com/" target="_blank"><img
-                            src="{{ asset("storage/socials/twitter.png") }}" alt="Twitter"></a>
+                            src="{{ asset('storage/socials/twitter.png') }}" alt="Twitter"></a>
                 </div>
             </div>
-            <div class="footer-col-2 col-md-2 col-xs-6 text-white">
+
+            <div class="footer-col-2 col-md-2 col-sm-6 col-xs-6 text-white">
                 <div class="h6 mb-20">Resources</div>
                 <ul class="menu-footer text-white">
                     <li><a href="about-us.html" class="text-white">About Us</a></li>
@@ -26,7 +38,7 @@
                     <li><a href="contact.html" class="text-white">Contact</a></li>
                 </ul>
             </div>
-            <div class="footer-col-2 col-md-2 col-xs-6 text-white">
+            <div class="footer-col-2 col-md-2 col-sm-6 col-xs-6 text-white">
                 <div class="h6 mb-20">Community</div>
                 <ul class="menu-footer text-white">
                     <li><a href="about-us.html" class="text-white">Feature</a></li>
@@ -35,6 +47,7 @@
                     <li><a href="faqs.html" class="text-white">FAQ</a></li>
                 </ul>
             </div>
+
             <div class="footer-col-2 col-md-2 col-xs-6 text-white">
                 <div class="h6 mb-20">Quick links</div>
                 <ul class="menu-footer text-white">
@@ -65,7 +78,7 @@
         </div>
         <div class="footer-bottom mt-50">
             <div class="row">
-                <div class="col-md-6"><span class="font-xs text-white"> © {{ date('Y') }}
+                <div class="col-md-6"><span class="font-sm text-white"> © {{ date('Y') }}
                         {{ env('APP_NAME') }}. All
                         right reserved. </span></div>
                 <div class="col-md-6 text-md-end text-start">
@@ -116,14 +129,14 @@
 <script src={{ asset('themes/jobbox/plugins/scrollup.js') }}></script>
 <script src={{ asset('themes/jobbox/plugins/swiper-bundle.min.js') }}></script>
 <script src={{ asset('themes/jobbox/plugins/counterup.js') }}></script>
-<script src={{ asset('themes/jobbox/js/main9d7d.js')}}?v=1.10.0></script>
+<script src={{ asset('themes/jobbox/js/main9d7d.js') }}?v=1.10.0></script>
 <script src={{ asset('themes/jobbox/js/script9d7d.js') }}?v=1.10.0></script>
 <script src={{ asset('themes/jobbox/js/backend9d7d.js') }}?v=1.10.0></script>
 <script src={{ asset('vendor/core/plugins/cookie-consent/js/cookie-consentf700.js') }}?v=1.0.1></script>
 <script src={{ asset('vendor/core/plugins/language/js/language-publicd1f1.js') }}?v=2.2.0></script>
-<script src={{ asset("themes/jobbox/js/noUISlider.js") }}></script>
-<script src={{ asset("themes/jobbox/plugins/leaflet/leaflet.js") }}></script>
-<script src={{ asset("themes/jobbox/plugins/leaflet/leaflet.markercluster-src.js") }}></script>
+<script src={{ asset('themes/jobbox/js/noUISlider.js') }}></script>
+<script src={{ asset('themes/jobbox/plugins/leaflet/leaflet.js') }}></script>
+<script src={{ asset('themes/jobbox/plugins/leaflet/leaflet.markercluster-src.js') }}></script>
 
 
 {{-- <div class="js-cookie-consent cookie-consent cookie-consent-full-width page_speed_287683390">

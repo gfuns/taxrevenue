@@ -116,47 +116,67 @@
                 </div>
                 <div class="col-lg-4 col-md-12 col-sm-12 col-12 pl-40 pl-lg-15 mt-lg-30">
                     <div class="sidebar-border">
-                        <div class="d-flex justify-content-between">
-                            <h5 class="f-18">Overview</h5>
-                            <div><img alt="star" class="rating-star"
-                                    src=https://jobbox.archielite.com/themes/jobbox/imgs/template/icons/star.svg><img
-                                    alt="star" class="rating-star"
-                                    src=https://jobbox.archielite.com/themes/jobbox/imgs/template/icons/star.svg><img
-                                    alt="star" class="rating-star"
-                                    src=https://jobbox.archielite.com/themes/jobbox/imgs/template/icons/star.svg><img
-                                    alt="star" class="rating-star"
-                                    src=https://jobbox.archielite.com/themes/jobbox/imgs/template/icons/star.svg><img
-                                    alt="star" class="rating-star"
-                                    src=https://jobbox.archielite.com/themes/jobbox/imgs/template/icons/gray-star.svg><span
-                                    class="font-xs color-text-mutted ml-10"><span>(</span><span>1</span><span>)</span></span>
+                        <div class="sidebar-heading">
+                            <div class="avatar-sidebar">
+                                <figure><a><img alt="#" src="{{ $artisan->customer->photo }}" /></a></figure>
+                                <div class="sidebar-info ">
+                                    <span class="sidebar-company mb-2">{{ $artisan->customer->first_name . ' ' . $artisan->customer->last_name }}</span>
+
+                                    <a class="link-underline mt-5 mb-2">No
+                                        Completed Jobs</a>
+
+                                    @php
+                                        $unrated = 5 - $artisan->rating;
+                                    @endphp
+                                    @for ($i = 1; $i <= $artisan->rating; $i++)
+                                        <img alt="star" class="rating-star"
+                                            src={{ asset('themes/jobbox/imgs/template/icons/star.svg') }}>
+                                    @endfor
+                                    @for ($i = 1; $i <= $unrated; $i++)
+                                        <img alt="star" class="rating-star"
+                                            src="{{ asset('themes/jobbox/imgs/template/icons/gray-star.svg') }}">
+                                    @endfor
+
+                                    <span
+                                        class="font-xs color-text-mutted ml-10"><span>(</span><span>{{ $artisan->reviews->count() }}</span><span>)</span></span>
+                                </div>
                             </div>
                         </div>
                         <div class="sidebar-list-job">
                             <ul>
                                 <li>
-                                    <div class="sidebar-icon-item"><i class="fi-rr-time-fast"></i></div>
-                                    <div class="sidebar-text-info"><span class="text-description">View</span><strong
-                                            class="small-heading">882</strong></div>
+                                    <div class="sidebar-icon-item">
+                                        <i class="fi-rr-envelope"></i>
+                                    </div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Email Address</span>
+                                        <strong class="small-heading">{{ $artisan->customer->email }}</strong>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sidebar-icon-item">
+                                        <i class="fi-rr-phone-call"></i>
+                                    </div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Phone Number</span>
+                                        <strong class="small-heading">{{ $artisan->customer->phone }}</strong>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="sidebar-icon-item">
+                                        <i class="fi-rr-map-marker-home"></i>
+                                    </div>
+                                    <div class="sidebar-text-info">
+                                        <span class="text-description">Contact Address</span>
+                                        <strong class="small-heading">{{ $artisan->address }}</strong>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
-                        <div class="sidebar-list-job">
-                            <ul class="ul-disc">
-                                <li>9827 Percival Fall Suite 063Champlinborough, VA 40080</li>
-                                <li>Phone: +14807714272</li>
-                                <li>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                                        data-cfemail="b2dad7d3c6dad1ddc6d79cded7dddcd3c0d6ddf2d5dfd3dbde9cd1dddf">[email&#160;protected]</a>
-                                </li>
-                            </ul>
-                            <div class="mt-30"><a class="btn btn-send-message" href="tel:+14807714272"><span>Contact
-                                        Me</span></a></div>
-                        </div>
                     </div>
-                    <div>
-                        <div class="ads_banner_widget"><a href="/"><img
-                                    src=https://jobbox.archielite.com/storage/widgets/widget-banner.png
-                                    alt="Banner image" class="align-middle"></a></div>
-                    </div>
+                    <div class="ads_banner_widget"><a href="../index.html"><img
+                                src="{{ asset('storage/widgets/widget-banner.png') }}" alt="Banner image"
+                                class="align-middle"></a></div>
                 </div>
             </div>
         </div>
