@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SendEmailVerificationCode;
 use App\Jobs\SendPasswordResetMail;
+use App\Models\Artisans;
+use App\Models\Business;
 use App\Models\Customer;
 use App\Models\CustomerOtp;
+use App\Models\CustomerWallet;
+use App\Models\NotificationSetting;
+use App\Models\Referral;
+use App\Models\ReferralTransaction;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -243,31 +250,16 @@ class OnboardingController extends Controller
      *
      * @return JsonResponse
      */
-    public function selectAccountType(Request $request)
+    public function selectAccountType($accountType)
     {
-        $validator = $this->validate($request, [
-            'account_type' => 'required',
-        ]);
-
-        if ($request->account_type != 'business' && $request->account_type != 'artisan') {
-            return new JsonResponse([
-                'response' => [
-                    'status_code' => (int) 400,
-                    'status' => "Failed",
-                    'message' => "Account Type must be 'business' or 'artisan'",
-                ],
-            ], 400);
+        if ($accountType != 'business' && $accountType != 'artisan') {
+            toast("Account Type must be 'business' or 'artisan'", 'error');
+            return back();
         }
 
-        if (!Auth::user()->update(['account_type' => $request->account_type])) {
-
-            return new JsonResponse([
-                'response' => [
-                    'status_code' => (int) 400,
-                    'status' => "Failed",
-                    'message' => 'Something Went Wrong',
-                ],
-            ], 400);
+        if (!Auth::user()->update(['account_type' => $accountType])) {
+            toast("Something Went Wrong", 'error');
+            return back();
         }
 
         $notSet = NotificationSetting::updateOrCreate(
@@ -345,15 +337,7 @@ class OnboardingController extends Controller
             }
         }
 
-        return new JsonResponse([
-            'response' => [
-                'status_code' => (int) 200,
-                'status' => "Successful",
-                'data' => [
-                    'account_details' => Auth::user(),
-                ],
-            ],
-        ], 200);
+        return redirect()->route("home");
 
     }
 
@@ -374,5 +358,21 @@ class OnboardingController extends Controller
         }
 
         return $otp;
+    }
+
+    /**
+     * getReferralBonus
+     *
+     * @param mixed accountType
+     *
+     * @return void
+     */
+    public function getReferralBonus($accountType)
+    {
+        if ($accountType == "business") {
+            return (double) 40.00;
+        } else {
+            return (double) 20.00;
+        }
     }
 }

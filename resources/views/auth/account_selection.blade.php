@@ -7,11 +7,29 @@
     <title>Account Selection</title>
     <style>
         body {
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+
             margin: 0;
+        }
+
+        .company-logo {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .account-options {
+            display: block;
+            margin-top: 150px;
+            height: 10vh;
         }
 
         .account-grid {
@@ -37,11 +55,18 @@
         }
 
         @media (max-width: 600px) {
+
+            .account-options {
+                display: block;
+                margin-top: 100px;
+                height: 5vh;
+            }
+
             .account-grid {
                 grid-template-columns: 1fr;
                 width: 100%;
                 padding: 25px;
-                gap: 50px;
+                gap: 30px;
             }
 
             .account-type {
@@ -58,23 +83,47 @@
                 max-height: 70px;
                 margin-bottom: 5px;
                 padding-right: 30px
-                /* Adjust spacing between image and text */
+                    /* Adjust spacing between image and text */
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="account-grid">
-        <div class="account-type">
-            <img src="{{ asset('auth/images/business.png') }}" alt="Business Icon">
-            <p style="font-size: 22px; color: #403E3E; font-weight:bolder; font-family:Arial, Helvetica, sans-serif">
-                <strong>Business</strong></p>
-        </div>
-        <div class="account-type">
-            <img src="{{ asset('auth/images/artisan.png') }}" alt="Artisan Icon">
-            <p style="font-size: 22px; color: #403E3E; font-weight:bolder; font-family:Arial, Helvetica, sans-serif">
-                <strong>Artisan</strong></p>
+    <div class="company-logo">
+        <img src="{{ asset('storage/general/logo.png') }}" alt="Company Logo">
+    </div>
+    <div>
+        <p style="font-size: 22px; color: #403E3E; font-weight:bolder; font-family:Arial, Helvetica, sans-serif">Welcome
+            {{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</p>
+    </div>
+    <div class="account-options">
+        <p style="font-size: 18px; color: #403E3E; font-family:Arial, Helvetica, sans-serif">What are you signing up
+            as?</p>
+    </div>
+
+    <div class="container">
+
+        <div class="account-grid">
+            <a href="{{ route("selectAccount", ["business"]) }}" style="text-decoration: none">
+                <div class="account-type">
+                    <img src="{{ asset('auth/images/business.png') }}" alt="Business Icon">
+                    <p
+                        style="font-size: 22px; color: #403E3E; font-weight:bolder; font-family:Arial, Helvetica, sans-serif">
+                        <strong>Business</strong>
+                    </p>
+                </div>
+            </a>
+
+            <a href="{{ route("selectAccount", ["artisan"]) }}" style="text-decoration: none">
+                <div class="account-type">
+                    <img src="{{ asset('auth/images/artisan.png') }}" alt="Artisan Icon">
+                    <p
+                        style="font-size: 22px; color: #403E3E; font-weight:bolder; font-family:Arial, Helvetica, sans-serif">
+                        <strong>Artisan</strong>
+                    </p>
+                </div>
+            </a>
         </div>
     </div>
 </body>
