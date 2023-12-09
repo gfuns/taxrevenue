@@ -29,7 +29,7 @@ class HomeController extends Controller
         } else if (Auth::user()->account_type == "artisan") {
             return redirect()->route("artisan.dashboard");
         } else {
-            return redirect("/");
+            return redirect()->route("accountSelection");
         }
     }
 

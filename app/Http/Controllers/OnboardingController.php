@@ -231,6 +231,11 @@ class OnboardingController extends Controller
 
     }
 
+    public function accountSelection()
+    {
+        return view("auth.account_selection");
+    }
+
     /**
      * selectAccountType
      *

@@ -58,6 +58,8 @@ Route::get('/new-password', [App\Http\Controllers\OnboardingController::class, '
 
 Route::post('/create-new-password', [App\Http\Controllers\OnboardingController::class, 'createNewPassword'])->name("createNewPassword");
 
+Route::get('/account-selection', [App\Http\Controllers\OnboardingController::class, 'accountSelection'])->name("accountSelection");
+
 Route::group([
     'middleware' => ['emailverified'],
 ], function ($router) {

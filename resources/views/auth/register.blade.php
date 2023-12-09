@@ -28,21 +28,33 @@
                 <h2 class="page-ath-heading">Sign Up
                     <small>Create Your {{ env('APP_NAME') }} Account</small>
                 </h2>
+                @if($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @endif
                 <form class="validate validate-modern" method="POST" action="{{ route('register') }}" id="register">
                     @csrf
                     <div class="input-item">
                         <input type="text" placeholder="First Name" class="input-bordered" name="first_name"
-                            value="" minlength="3" data-msg-required="Required."
+                            value="{{ old("first_name") }}" minlength="3" data-msg-required="Required."
                             data-msg-minlength="At least 3 chars." required>
                     </div>
                     <div class="input-item">
                         <input type="text" placeholder="Last Name" class="input-bordered" name="last_name"
-                            value="" minlength="3" data-msg-required="Required."
+                            value="{{ old("last_name") }}" minlength="3" data-msg-required="Required."
                             data-msg-minlength="At least 3 chars." required>
                     </div>
                     <div class="input-item">
                         <input type="email" placeholder="Your Email" class="input-bordered" name="email"
-                            value=""data-msg-required="Required." data-msg-email="Enter valid email." required>
+                            value="{{ old("email") }}" data-msg-required="Required." data-msg-email="Enter valid email." required>
                     </div>
                     <div class="input-item">
                         <input type="password" placeholder="Password" class="input-bordered" name="password"
@@ -110,7 +122,7 @@
                                     to Home</strong></span></a>
                     </div>
 
-                    <div style="margin-top: 420px; margin-bottom: 150px">
+                    <div style="margin-top: 400px; margin-bottom: 150px">
                         <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
                         <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
 
@@ -126,6 +138,7 @@
 
     <script src="{{ asset('auth/assets/js/jquery.bundle.js') }}"></script>
     <script src="{{ asset('auth/assets/js/script.js') }}"></script>
+    @include('sweetalert::alert')
     <script type="text/javascript">
         jQuery(function() {
             var $frv = jQuery('.validate');
