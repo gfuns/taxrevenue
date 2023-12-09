@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Auth;
 use Closure;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,22 +20,10 @@ class EmailVerified
             if (isset(Auth::user()->email_verified_at)) {
                 return $next($request);
             } else {
-                return new JsonResponse([
-                    'response' => [
-                        'status_code' => (int) 400,
-                        'status' => "Failed",
-                        'message' => 'User email is not verified',
-                    ],
-                ], 400);
+                return response()->view("auth.verify");
             }
         } else {
-            return new JsonResponse([
-                'response' => [
-                    'status_code' => (int) 401,
-                    'status' => "Failed",
-                    'message' => 'User is not authenticated',
-                ],
-            ], 401);
+            return response()->view("auth.login");
         }
     }
 }
