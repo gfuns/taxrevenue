@@ -48,6 +48,16 @@ Route::post('/verify-email', [App\Http\Controllers\OnboardingController::class, 
 
 Route::get('/send-verification-mail', [App\Http\Controllers\OnboardingController::class, 'sendVerificationMail'])->name("sendVerificationMail");
 
+Route::post('/initiate-password-reset', [App\Http\Controllers\OnboardingController::class, 'initiatePasswordReset'])->name("initiatePasswordReset");
+
+Route::get('/password-reset-confirmation', [App\Http\Controllers\OnboardingController::class, 'pwdResetConfirmation'])->name("pwdResetConfirmation");
+
+Route::post('/password-reset-verification', [App\Http\Controllers\OnboardingController::class, 'passwordResetVerification'])->name("passwordResetVerification");
+
+Route::get('/new-password', [App\Http\Controllers\OnboardingController::class, 'newPassword'])->name("newPassword");
+
+Route::post('/create-new-password', [App\Http\Controllers\OnboardingController::class, 'createNewPassword'])->name("createNewPassword");
+
 Route::group([
     'middleware' => ['emailverified'],
 ], function ($router) {

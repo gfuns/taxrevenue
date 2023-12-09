@@ -25,19 +25,18 @@
             <div class="page-ath-form">
 
                 <h2 class="page-ath-heading">Reset Password
-                    <span style="font-size: 14px">If you forgot your password, well, then we'll
+                    <span style="font-size: 14px">If you have forgotten your password, no worries. We'll
                         email you instructions to reset your password.</span>
                 </h2>
-                <form method="POST" action="#" class="validate validate-modern">
+                <form method="POST" action="{{ route("initiatePasswordReset") }}" class="validate validate-modern">
                     @csrf
                     <div class="input-item">
-                        <input type="email" placeholder="Your Email Address" name="email" value=""
+                        <input type="email" placeholder="Your Email Address" name="email" value="{{ old('email') }}"
                             class="input-bordered" required>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <input type="hidden" name="recaptcha" id="recaptcha">
-                            <button type="submit" class="btn btn-primary btn-block">Send Reset Link</button>
+                            <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
                         </div>
                         <div>
                             <a href="/login">Return to login</a>
@@ -99,6 +98,7 @@
 
     <script src="{{ asset('auth/assets/js/jquery.bundle.js') }}"></script>
     <script src="{{ asset('auth/assets/js/script.js') }}"></script>
+    @include('sweetalert::alert')
     <script type="text/javascript">
         jQuery(function() {
             var $frv = jQuery('.validate');

@@ -18,7 +18,7 @@
             <div class="page-ath-header">
                 <a href="/" class="page-ath-logo">
                     <img class="page-ath-logo-img" src="{{ asset('storage/general/logo.png') }}"
-                         alt="{{ env('APP_NAME') }}">
+                        alt="{{ env('APP_NAME') }}">
                 </a>
             </div>
 
@@ -28,6 +28,15 @@
                     <small>with your {{ env('APP_NAME') }}
                         account credentials</small>
                 </h2>
+
+                @if($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Invalid Login Credentials</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @endif
                 <form class="validate validate-modern" action="{{ route('login') }}" method="POST">
                     @csrf
                     <div class="input-item">
@@ -90,16 +99,20 @@
         </div>
         <div class="page-ath-gfx" style="background-image: url({{ asset('auth/images/ath-gfx.png') }});">
             <div class="w-100 d-flex justify-content-center">
-                <div class="col-md-11 col-xl-11" >
+                <div class="col-md-11 col-xl-11">
                     <div style="padding-bottom: 30px">
-                        <a href="/"><span style="background-color: white; color: #690068; padding:10px; border-radius: 20px"><strong>Back to Home</strong></span></a>
+                        <a href="/"><span
+                                style="background-color: white; color: #690068; padding:10px; border-radius: 20px"><strong>Back
+                                    to Home</strong></span></a>
                     </div>
 
                     <div style="margin-top: 450px; margin-bottom: 50px">
-                    <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
-                    <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
+                        <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
+                        <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
 
-                    <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper nisl erat, vel convallis elit fermentum pellentesque. Sed mollis velit facilisis facilisis viverra.</p>
+                        <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+                            ullamcorper nisl erat, vel convallis elit fermentum pellentesque. Sed mollis velit facilisis
+                            facilisis viverra.</p>
                     </div>
                 </div>
             </div>
@@ -108,6 +121,7 @@
 
     <script src="{{ asset('auth/assets/js/jquery.bundle.js') }}"></script>
     <script src="{{ asset('auth/assets/js/script.js') }}"></script>
+    @include('sweetalert::alert')
     <script type="text/javascript">
         jQuery(function() {
             var $frv = jQuery('.validate');

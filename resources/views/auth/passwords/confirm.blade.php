@@ -1,49 +1,175 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en" class="js">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Confirm Password') }}</div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
+    <title>Email Verification | {{ env('APP_NAME') }}</title>
+    <link rel="stylesheet" href="{{ asset('auth/assets/css/vendor.bundle.css') }}">
+    <link rel="stylesheet" href="{{ asset('auth/assets/css/style.css') }}">
+    <style>
+        /* Style to make each box look like a digit */
+        .verification-box {
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            font-size: 20px;
+            margin: 0 15px;
+            color: black;
+            border: 1px solid #ccc;
+        }
 
-                <div class="card-body">
-                    {{ __('Please confirm your password before continuing.') }}
+        @media (max-width: 767px) {
+            .verification-box {
+                width: 55px;
+                height: 55px;
+                text-align: center;
+                font-size: 18px;
+                margin: 0 12px;
+                color: black;
+                border: 1px solid #ccc;
+            }
+        }
 
-                    <form method="POST" action="{{ route('password.confirm') }}">
-                        @csrf
+        @media (max-width: 560px) {
+            .verification-box {
+                width: 50px;
+                height: 50px;
+                text-align: center;
+                font-size: 18px;
+                margin: 0 10px;
+                color: black;
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
 
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+<body class="page-ath theme-modern page-ath-modern">
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+    <div class="page-ath-wrap flex-row-reverse">
+        <div class="page-ath-content">
+            <div class="page-ath-header text-center">
+                <a href="/" class="page-ath-logo">
+                    <img class="page-ath-logo-img" src="{{ asset('storage/general/logo.png') }}"
+                        alt="{{ env('APP_NAME') }}">
+                </a>
+            </div>
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+
+            <div class="page-ath-form">
+                <h2 class="page-ath-heading text-center">Reset Your Password
+                    <small style="font-size: 16px; line-height: 25px">A confirmation code was sent to your email
+                        <strong>{{ $email }}</strong>. Please input the code to confirm your password reset request</small>
+                </h2>
+                <form class="validate" action="{{ route('passwordResetVerification') }}" method="POST">
+                    @csrf
+                    <div class="input-item">
+                        <input type="text" name="digit_1" class="verification-box input-bordered" maxlength="1"
+                            id="digit1" oninput="moveToNext(this)">
+                        <input type="text" name="digit_2" class="verification-box input-bordered" maxlength="1"
+                            id="digit2" oninput="moveToNext(this)">
+                        <input type="text" name="digit_3" class="verification-box input-bordered" maxlength="1"
+                            id="digit3" oninput="moveToNext(this)">
+                        <input type="text" name="digit_4" class="verification-box input-bordered" maxlength="1"
+                            id="digit4">
+                    </div>
+
+                    <input type="hidden" name="email" value="{{ $email }}">
+                    <button type="submit" class="btn btn-primary btn-block">Confirm Password Reset</button>
+                </form>
+
+                <div class="gaps-4x"></div>
+                <div class="form-note">
+                    <a href="/login">
+                        <em class="fas fa-arrow-alt-circle-left"></em> <strong>Go Back To Login</strong>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="page-ath-footer">
+                <ul class="socials mb-3">
+                    <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
+                    <li><a href="#"><em class="fab fa-twitter"></em></a></li>
+                    <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
+                    <li><a href="#"><em class="fab fa-github-alt"></em></a></li>
+                    <li><a href="#"><em class="fab fa-youtube"></em></a></li>
+                    <li><a href="#"><em class="fab fa-medium-m"></em></a></li>
+                    <li><a href="#"><em class="fab fa-telegram-plane"></em></a></li>
+                </ul>
+                <ul class="footer-links guttar-20px align-items-center">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms and Condition</a></li>
+                    <li>
+                        <div class="lang-switch relative"><a href="javascript:void(0)"
+                                class="lang-switch-btn toggle-tigger">EN<em class="ti ti-angle-up"></em></a>
+                            <div class="toggle-class dropdown-content dropdown-content-up">
+                                <ul class="lang-list">
+                                    <li><a href="?lang=en">English</a></li>
+                                </ul>
                             </div>
                         </div>
+                    </li>
+                </ul>
+                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Right Reserved.
+                </div>
+            </div>
+        </div>
+        <div class="page-ath-gfx" style="background-image: url({{ asset('auth/images/ath-gfx.png') }});">
+            <div class="w-100 d-flex justify-content-center">
+                <div class="col-md-11 col-xl-11">
+                    <div style="padding-bottom: 30px">
+                        <a href="/"><span
+                                style="background-color: white; color: #690068; padding:10px; border-radius: 20px"><strong>Back
+                                    to Home</strong></span></a>
+                    </div>
 
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Confirm Password') }}
-                                </button>
+                    <div style="margin-top: 450px; margin-bottom: 50px">
+                        <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
+                        <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
+                        <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+                            ullamcorper nisl erat, vel convallis elit fermentum pellentesque. Sed mollis velit facilisis
+                            facilisis viverra.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@endsection
+
+    <script src="{{ asset('auth/assets/js/jquery.bundle.js') }}"></script>
+    <script src="{{ asset('auth/assets/js/script.js') }}"></script>
+    @include('sweetalert::alert')
+
+    <script type="text/javascript">
+        jQuery(function() {
+            var $frv = jQuery('.validate');
+            if ($frv.length > 0) {
+                $frv.validate({
+                    errorClass: "input-bordered-error error"
+                });
+            }
+        });
+    </script>
+
+    <script>
+        function moveToNext(currentInput) {
+            // Automatically move to the next input box when a digit is entered
+            const maxLength = parseInt(currentInput.getAttribute('maxlength'), 10);
+            const currentLength = currentInput.value.length;
+
+            if (currentLength >= maxLength) {
+                const nextSibling = currentInput.nextElementSibling;
+
+                if (nextSibling && nextSibling.tagName.toLowerCase() === 'input') {
+                    nextSibling.focus();
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>

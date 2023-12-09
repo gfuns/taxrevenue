@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendEmailVerificationCode;
+use App\Jobs\SendPasswordResetMail;
+use App\Models\Customer;
 use App\Models\CustomerOtp;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class OnboardingController extends Controller
@@ -84,6 +88,146 @@ class OnboardingController extends Controller
         SendEmailVerificationCode::dispatch($otp);
 
         return redirect()->route("home");
+
+    }
+
+    /**
+     * Initiate Customer Password Reset
+     *
+     * @param Request request
+     *
+     * @return JsonResponse
+     */
+    public function initiatePasswordReset(Request $request)
+    {
+        $validator = $this->validate($request, [
+            'email' => 'required|',
+        ]);
+
+        $accountExist = Customer::where("email", $request->email)->where("status", "!=", "deleted")->first();
+
+        if (!$accountExist) {
+            toast("We could not find an account for the provided email", 'error');
+            return back();
+        }
+
+        if (!$otp = CustomerOtp::updateOrCreate(
+            [
+                'customer_id' => $accountExist->id,
+                'otp_type' => 'reset',
+            ], [
+                'otp' => $this->generateOtp(),
+                'otp_expiration' => Carbon::now()->addMinutes(5),
+            ])) {
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+
+        SendPasswordResetMail::dispatch($otp);
+        Session::put("email", $request->email);
+        return redirect()->route("pwdResetConfirmation");
+
+    }
+
+    public function pwdResetConfirmation()
+    {
+        $email = Session::get("email");
+        return view("auth.passwords.confirm", compact("email"));
+    }
+
+    /**
+     * Verify the One-Time Code sent to Customer for Password Reset
+     *
+     * @param Request request
+     *
+     * @return JsonResponse
+     */
+    public function passwordResetVerification(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required',
+            'digit_1' => 'required',
+            'digit_2' => 'required',
+            'digit_3' => 'required',
+            'digit_4' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            toast("Please enter the complete confirmation code", 'error');
+            return back();
+        }
+
+        $confirmationCode = $request->digit_1 . "" . $request->digit_2 . "" . $request->digit_3 . "" . $request->digit_4;
+
+        $customer = Customer::where("email", $request->email)->where("status", "!=", "deleted")->first();
+
+        if (!$customer) {
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+
+        $codeIsValid = CustomerOtp::where("otp_type", "reset")->where("customer_id", $customer->id)->where("otp", $confirmationCode)->first();
+
+        if (!$codeIsValid) {
+            toast("The provided password reset code is invalid", 'error');
+            return back();
+        }
+
+        if (now() > $codeIsValid->otp_expiration) {
+            toast("The provided password reset code has expired", 'error');
+            return back();
+        }
+
+        if (!$codeIsValid->delete()) {
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+
+        Session::put("email", $request->email);
+        return redirect()->route("newPassword");
+    }
+
+    public function newPassword()
+    {
+        $email = Session::get("email");
+        return view("auth.passwords.reset", compact("email"));
+    }
+
+    /**
+     * Verify the One-Time Code sent to Customer for Password Reset
+     *
+     * @param Request request
+     *
+     * @return JsonResponse
+     */
+    public function createNewPassword(Request $request)
+    {
+        $validator = $this->validate($request, [
+            'email' => 'required',
+            'password' => 'required',
+            'password_confirmation' => 'required',
+        ]);
+
+        $customer = Customer::where("email", $request->email)->where("status", "!=", "deleted")->first();
+
+        if (!$customer) {
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+
+        if ($request->password != $request->password_confirmation) {
+            toast("Your newly seleted passwords do not match.", 'error');
+            return back();
+        } else {
+            $customer->password = Hash::make($request->password);
+            if (!$customer->save()) {
+                toast("Something Went Wrong", 'error');
+                return back();
+            }
+        }
+
+        toast("Password Changed Successfully", 'success');
+        return redirect("/login");
 
     }
 

@@ -1,114 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="js">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ env('APP_NAME') }}">
-    <meta name="keywords" content="">
-    <meta name="author" content="Gabriel Nwankwo">
-
-
-    <!-- Favicon icon-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
+    <title>Create New Password | {{ env('APP_NAME') }}</title>
+    <link rel="stylesheet" href="{{ asset('auth/assets/css/vendor.bundle.css') }}">
+    <link rel="stylesheet" href="{{ asset('auth/assets/css/style.css') }}">
 
-    <!-- Libs CSS -->
-    <link href="{{ asset('assets/fonts/feather/feather.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/libs/bootstrap-icons/font/bootstrap-icons.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/libs/mdi/font/css/materialdesignicons.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/libs/simplebar/dist/simplebar.min.css') }}" rel="stylesheet">
-    <!-- Theme CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}">
-    <title>{{ env('APP_NAME') }} | Login</title>
+    <style>
+        @media (min-width: 767px) {
+            .page-ath-form {
+                padding: 0 25px !important
+            }
+        }
+    </style>
 </head>
 
-<body>
-    <!-- Page content -->
-    <main>
-        <section class="container d-flex flex-column">
-            <div class="row align-items-center justify-content-center g-0 min-vh-100">
+<body class="page-ath theme-modern page-ath-modern">
 
-                <div class="col-lg-5 col-md-8 py-8 py-xl-0">
-                    <!-- Card -->
-                    <div class="card shadow ">
-                        <!-- Card body -->
-                        <div class="card-body p-6">
-                            <div class="mb-4 row">
-                                <div class="col-md-8 col-12">
-                                    <a href="/admin"><img src="{{ asset('assets/images/brand/logo/logo.png') }}"
-                                            class="mb-4" alt="" style="max-width: 250px"></a>
-                                </div>
-                                <div class="col-md-8 col-12">
-                                    <h3 class="mb-1 fw-bold">Choose a new password</h3>
-                                    <span>Type your new password below</span>
-                                </div>
-                            </div>
-                            <!-- Form -->
-                            <form class="needs-validation" novalidate method="post"
-                                action="{{ route('passwordReset') }}">
-                                @csrf
+    <div class="page-ath-wrap flex-row-reverse">
+        <div class="page-ath-content">
+            <div class="page-ath-header">
+                <a href="/" class="page-ath-logo">
+                    <img class="page-ath-logo-img" src="{{ asset('storage/general/logo.png') }}"
+                        alt="{{ env('APP_NAME') }}">
+                </a>
+            </div>
 
-                                <input class="form-control mb-2" id="token" type="hidden" name="token"
-                                    value={{ $token }} readonly />
 
-                                <!-- Username -->
-                                <div class="mb-3">
-                                    <label for="login" class="form-label">New Password</label>
-                                    <input type="password" class="form-control" name="password"
-                                        placeholder="**************" required>
-                                    <div class="invalid-feedback">Please enter your new password.</div>
-                                    @error('password')
-                                        <span class="" role="alert" style="color:red; font-size: 12px">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <!-- Password -->
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Confirm Password</label>
-                                    <input type="password" id="password" class="form-control"
-                                        name="password_confirmation" placeholder="**************" required>
-                                    <div class="invalid-feedback">Please re-enter your new password.</div>
-                                    @error('password')
-                                        <span class="" role="alert" style="color:red; font-size: 12px">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <!-- Checkbox -->
-                                <div class="d-lg-flex justify-content-between align-items-center mb-4">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="rememberme">
-                                        <label class="form-check-label " for="rememberme">Remember me</label>
-                                    </div>
-                                    <div>
-                                        <a href="{{ route('password.request') }}">Forgot your password?</a>
-                                    </div>
-                                </div>
-                                <div>
-                                    <!-- Button -->
-                                    <div class="d-grid">
-                                        <button type="submit" class="btn btn-primary ">Sign in</button>
-                                    </div>
-                                </div>
+            <div class="page-ath-form">
+                <h2 class="page-ath-heading">Create New Password
+                    <small style="font-size: 14px">Select a new password for your {{ env('APP_NAME') }}
+                        account</small>
+                </h2>
 
-                            </form>
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Password and Password Confirmation do not match</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+                <form class="validate validate-modern" action="{{ route('createNewPassword') }}" method="POST">
+                    @csrf
+                    <div class="input-item">
+                        <input type="password" placeholder="Select New Password" data-msg-required="Required."
+                            class="input-bordered" name="password" value="" required autofocus>
+                    </div>
+                    <div class="input-item">
+                        <input type="password" placeholder="Password Confirmation" minlength="6"
+                            data-msg-required="Required." data-msg-minlength="At least 6 chars." class="input-bordered"
+                            name="password_confirmation" value="" required>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="input-item text-left">
+                            <input class="input-checkbox input-checkbox-md" type="checkbox" name="remember"
+                                id="remember-me">
+                            <label for="remember-me">Remember Me</label>
                         </div>
+                    </div>
+                    <input type="hidden" name="email" value="{{ $email }}">
+                    <button type="submit" class="btn btn-primary btn-block">Create New Password</button>
+                </form>
+            </div>
+
+
+            <div class="page-ath-footer">
+                <ul class="socials mb-3">
+                    <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
+                    <li><a href="#"><em class="fab fa-twitter"></em></a></li>
+                    <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
+                    <li><a href="#"><em class="fab fa-github-alt"></em></a></li>
+                    <li><a href="#"><em class="fab fa-youtube"></em></a></li>
+                    <li><a href="#"><em class="fab fa-medium-m"></em></a></li>
+                    <li><a href="#"><em class="fab fa-telegram-plane"></em></a></li>
+                </ul>
+                <ul class="footer-links guttar-20px align-items-center">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms and Condition</a></li>
+                    <li>
+                        <div class="lang-switch relative"><a href="javascript:void(0)"
+                                class="lang-switch-btn toggle-tigger">EN<em class="ti ti-angle-up"></em></a>
+                            <div class="toggle-class dropdown-content dropdown-content-up">
+                                <ul class="lang-list">
+                                    <li><a href="?lang=en">English</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Right Reserved.</div>
+            </div>
+        </div>
+        <div class="page-ath-gfx" style="background-image: url({{ asset('auth/images/ath-gfx.png') }});">
+            <div class="w-100 d-flex justify-content-center">
+                <div class="col-md-11 col-xl-11">
+                    <div style="padding-bottom: 30px">
+                        <a href="/"><span
+                                style="background-color: white; color: #690068; padding:10px; border-radius: 20px"><strong>Back
+                                    to Home</strong></span></a>
+                    </div>
+
+                    <div style="margin-top: 450px; margin-bottom: 50px">
+                        <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
+                        <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
+
+                        <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+                            ullamcorper nisl erat, vel convallis elit fermentum pellentesque. Sed mollis velit facilisis
+                            facilisis viverra.</p>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
-    <!-- Scripts -->
-    <!-- Libs JS -->
-    <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
+        </div>
+    </div>
 
-    <!-- Theme JS -->
-    <script src="{{ asset('assets/js/theme.min.js') }}"></script>
+    <script src="{{ asset('auth/assets/js/jquery.bundle.js') }}"></script>
+    <script src="{{ asset('auth/assets/js/script.js') }}"></script>
     @include('sweetalert::alert')
+    <script type="text/javascript">
+        jQuery(function() {
+            var $frv = jQuery('.validate');
+            if ($frv.length > 0) {
+                $frv.validate({
+                    errorClass: "input-bordered-error error"
+                });
+            }
+        });
+    </script>
 
 </body>
 
