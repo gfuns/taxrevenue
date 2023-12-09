@@ -1,77 +1,142 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en" class="js">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
+    <title>Sign-Up | {{ env('APP_NAME') }}</title>
+    <link rel="stylesheet" href="{{ asset('auth/assets/css/vendor.bundle.css') }}">
+    <link rel="stylesheet" href="{{ asset('auth/assets/css/style.css') }}">
 
-                <div class="card-body">
-                    <form method="POST" action="#">
-                        @csrf
+</head>
 
-                        <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
+<body class="page-ath theme-modern page-ath-modern">
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+    <div class="page-ath-wrap flex-row-reverse">
+        <div class="page-ath-content" style="pading:0px; margin:0px">
+            <div class="page-ath-header">
+                <a href="/" class="page-ath-logo">
+                    <img class="page-ath-logo-img" src="{{ asset('storage/general/logo.png') }}"
+                        alt="{{ env('APP_NAME') }}">
+                </a>
+            </div>
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+
+            <div class="page-ath-form">
+
+                <h2 class="page-ath-heading">Sign Up
+                    <small>Create Your {{ env('APP_NAME') }} Account</small>
+                </h2>
+                <form class="validate validate-modern" method="POST" action="{{ route('register') }}" id="register">
+                    @csrf
+                    <div class="input-item">
+                        <input type="text" placeholder="First Name" class="input-bordered" name="first_name"
+                            value="" minlength="3" data-msg-required="Required."
+                            data-msg-minlength="At least 3 chars." required>
+                    </div>
+                    <div class="input-item">
+                        <input type="text" placeholder="Last Name" class="input-bordered" name="last_name"
+                            value="" minlength="3" data-msg-required="Required."
+                            data-msg-minlength="At least 3 chars." required>
+                    </div>
+                    <div class="input-item">
+                        <input type="email" placeholder="Your Email" class="input-bordered" name="email"
+                            value=""data-msg-required="Required." data-msg-email="Enter valid email." required>
+                    </div>
+                    <div class="input-item">
+                        <input type="password" placeholder="Password" class="input-bordered" name="password"
+                            id="password" minlength="6" data-msg-required="Required."
+                            data-msg-minlength="At least 6 chars." required>
+                    </div>
+                    <div class="input-item">
+                        <input type="password" placeholder="Repeat Password" class="input-bordered"
+                            name="password_confirmation" data-rule-equalTo="#password" minlength="6"
+                            data-msg-required="Required." data-msg-equalTo="Enter the same value."
+                            data-msg-minlength="At least 6 chars." required>
+                    </div>
+
+                    <div class="input-item text-left">
+                        <input name="terms" class="input-checkbox input-checkbox-md" id="agree" type="checkbox"
+                            required="required" data-msg-required="You should accept our terms and policy.">
+                        <label for="agree">I agree to the <a target="_blank" href="#">Terms and Condition</a>
+                            and <a target="_blank" href="#">Privacy
+                                Policy</a>.</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                </form>
+
+
+                <div class="gaps-2x"></div>
+                <div class="form-note">
+                    Already have an account ? <a href="/login"> <strong>Sign in
+                            instead</strong></a>
+                </div>
+            </div>
+
+            <div class="page-ath-footer">
+                <ul class="socials mb-3">
+                    <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
+                    <li><a href="#"><em class="fab fa-twitter"></em></a></li>
+                    <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
+                    <li><a href="#"><em class="fab fa-github-alt"></em></a></li>
+                    <li><a href="#"><em class="fab fa-youtube"></em></a></li>
+                    <li><a href="#"><em class="fab fa-medium-m"></em></a></li>
+                    <li><a href="#"><em class="fab fa-telegram-plane"></em></a></li>
+                </ul>
+                <ul class="footer-links guttar-20px align-items-center">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms and Condition</a></li>
+                    <li>
+                        <div class="lang-switch relative"><a href="javascript:void(0)"
+                                class="lang-switch-btn toggle-tigger">EN<em class="ti ti-angle-up"></em></a>
+                            <div class="toggle-class dropdown-content dropdown-content-up">
+                                <ul class="lang-list">
+                                    <li><a href="?lang=en">English</a></li>
+                                </ul>
                             </div>
                         </div>
+                    </li>
+                </ul>
+                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Right Reserved.</div>
+            </div>
+        </div>
+        <div class="page-ath-gfx" style="background-image: url({{ asset('auth/images/ath-gfx.png') }});">
+            <div class="w-100 d-flex justify-content-center">
+                <div class="col-md-11 col-xl-11">
+                    <div style="padding-bottom: 50px">
+                        <a href="/"><span
+                                style="background-color: white; color: #690068; padding:10px; border-radius: 20px"><strong>Back
+                                    to Home</strong></span></a>
+                    </div>
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                    <div style="margin-top: 420px; margin-bottom: 150px">
+                        <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
+                        <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                        <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+                            ullamcorper nisl erat, vel convallis elit fermentum pellentesque. Sed mollis velit facilisis
+                            facilisis viverra.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@endsection
+
+
+    <script src="{{ asset('auth/assets/js/jquery.bundle.js') }}"></script>
+    <script src="{{ asset('auth/assets/js/script.js') }}"></script>
+    <script type="text/javascript">
+        jQuery(function() {
+            var $frv = jQuery('.validate');
+            if ($frv.length > 0) {
+                $frv.validate({
+                    errorClass: "input-bordered-error error"
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

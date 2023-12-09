@@ -3,7 +3,7 @@
         <div class="main-header">
             <div class="header-left">
                 <div class="header-logo"><a class="d-flex" href="/"><img alt="{{ env('APP_NAME') }} Logo"
-                            src={{ asset('storage/general/logo.png') }}></a></div>
+                            src="{{ asset('storage/general/logo.png') }}"></a></div>
             </div>
             <div class="header-nav">
                 <nav class="nav-main-menu">
