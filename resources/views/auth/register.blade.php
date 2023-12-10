@@ -17,7 +17,7 @@
         <div class="page-ath-content" style="pading:0px; margin:0px">
             <div class="page-ath-header">
                 <a href="/" class="page-ath-logo">
-                    <img class="page-ath-logo-img" src="{{ asset('storage/general/logo.png') }}"
+                    <img class="page-ath-logo-img" src="{{ asset('files/general/logo.png') }}"
                         alt="{{ env('APP_NAME') }}">
                 </a>
             </div>

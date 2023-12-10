@@ -91,7 +91,7 @@
 
 <body>
     <div class="company-logo">
-        <img src="{{ asset('storage/general/logo.png') }}" alt="Company Logo">
+        <img src="{{ asset('files/general/logo.png') }}" alt="Company Logo">
     </div>
     <div>
         <p style="font-size: 22px; color: #403E3E; font-weight:bolder; font-family:Arial, Helvetica, sans-serif">Welcome
