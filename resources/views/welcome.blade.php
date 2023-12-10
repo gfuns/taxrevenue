@@ -24,19 +24,23 @@
                                                 applications every single day </div>
                                             <div class="form-find position-relative mt-40 wow animate__animated animate__fadeIn"
                                                 data-wow-delay=".2s">
-                                                <form method="GET" action="#" accept-charset="UTF-8">
+                                                <form method="GET" action="/find-jobs" accept-charset="UTF-8">
                                                     <div class="box-industry">
-                                                        <select
-                                                            class="form-input mr-10 select-active input-industry job-category"
-                                                            name=job_categories>
+                                                        <select class="form-input mr-10 select-active input-industry "
+                                                            name="job_categories">
                                                             <option value="">Select Job Type</option>
+                                                            @foreach ($categories as $cat)
+                                                                <option value="{{ $cat->id }}">
+                                                                    {{ $cat->category_name }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
-                                                    <select class="form-input mr-10 select-location" name=location
+                                                    <select class="form-input mr-10 select-active input-industry" name="location"
                                                         data-location-type="state">
                                                         <option value="">Location</option>
+                                                        <option value="Nigeria">Nigeria</option>
                                                     </select>
-                                                    <input class="form-input input-keysearch mr-10" name=keyword
+                                                    <input class="form-input input-keysearch mr-10" name="keyword"
                                                         value="" type=text placeholder="Your keyword...">
                                                     <div class="search-btn-group">
                                                         <button class="btn btn-default btn-find font-sm">Search</button>
@@ -338,7 +342,8 @@
                                                                     $blogTags = explode(', ', $bp->tags);
                                                                 @endphp
                                                                 @foreach ($blogTags as $tag)
-                                                                    <a class="btn btn-tag" style="cursor: pointer">{{ $tag }}</a>&nbsp;
+                                                                    <a class="btn btn-tag"
+                                                                        style="cursor: pointer">{{ $tag }}</a>&nbsp;
                                                                 @endforeach
                                                             </div>
                                                         @endif
