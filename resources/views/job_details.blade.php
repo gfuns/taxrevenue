@@ -12,7 +12,7 @@
 </style>
 <main class="main">
     <section class="section-box">
-        <div class="breadcrumb-cover page_speed_160581955" style="background:url({{ asset('storage/pages/Search.png') }}">
+        <div class="breadcrumb-cover page_speed_160581955" style="background:url({{ asset('files/pages/Search.png') }}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-9">

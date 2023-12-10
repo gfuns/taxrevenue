@@ -7,7 +7,7 @@
     <div class="ck-content">
         <div>
             <section class="section-box">
-                <div class="banner-hero hero-2 hero-3" style="background:url({{ asset('storage/pages/Search.png') }}">
+                <div class="banner-hero hero-2 hero-3" style="background:url({{ asset('files/pages/Search.png') }}">
                     <div class="banner-inner">
                         <div class="block-banner">
                             <h1 class="text-42 color-white wow animate__animated animate__fadeInUp"> The Official

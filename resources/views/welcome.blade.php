@@ -49,12 +49,12 @@
                                                 </form>
                                             </div>
                                             <img class="img-responsive mt-50" alt=""
-                                                src="{{ asset('storage/pages/arrow.png') }}">
+                                                src="{{ asset('files/pages/arrow.png') }}">
                                         </div>
                                     </div>
                                     <div class="col-xl-5 col-lg-12 d-none d-xl-block col-md-6">
                                         <img class="img-responsive" alt=""
-                                            src="{{ asset('storage/pages/hero_image.png') }}">
+                                            src="{{ asset('files/pages/hero_image.png') }}">
                                     </div>
                                 </div>
                             </div>
@@ -215,7 +215,7 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="box-image-job">
                                     <figure class="wow animate__animated animate__fadeIn">
-                                        <img alt="#" src="{{ asset('storage/pages/frame359.png') }}">
+                                        <img alt="#" src="{{ asset('files/pages/frame359.png') }}">
                                     </figure>
                                 </div>
                             </div>

@@ -5,7 +5,7 @@
 
 <main class="main">
     <section class="section-box">
-        <div class="breadcrumb-cover page_speed_160581955" style="background:url({{ asset('storage/pages/Search.png') }}">
+        <div class="breadcrumb-cover page_speed_160581955" style="background:url({{ asset('files/pages/Search.png') }}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-9">
@@ -249,7 +249,7 @@
                         </div>
                     </div>
                     <div class="ads_banner_widget"><a href="../index.html"><img
-                                src="{{ asset('storage/widgets/widget-banner.png') }}" alt="Banner image"
+                                src="{{ asset('files/widgets/widget-banner.png') }}" alt="Banner image"
                                 class="align-middle"></a></div>
                 </div>
             </div>

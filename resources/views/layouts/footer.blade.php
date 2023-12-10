@@ -13,19 +13,19 @@
     <div class="container">
         <div class="row">
             <div class="footer-col-1 col-md-3 col-sm-12"><a href="/" aria-label="{{ env('APP_NAME') }}"><img
-                        alt="" src="{{ asset('storage/general/logo.png') }}"></a>
+                        alt="" src="{{ asset('files/general/logo.png') }}"></a>
                 <div class="mt-20 mb-20 font-sm text-white"> Arete is the world class cutting-edge job portal designed
                     for professionals like you to elevate your job search experience!
                 </div>
                 <div class="footer-social">
                     <a class="icon-socials" title="Facebook" href="https://facebook.com/" target="_blank"><img
-                            src="{{ asset('storage/socials/facebook.png') }}" alt="Facebook"></a>
+                            src="{{ asset('files/socials/facebook.png') }}" alt="Facebook"></a>
                     <a class="icon-socials" title="Linkedin" href="https://linkedin.com/" target="_blank"><img
-                            src="{{ asset('storage/socials/twitter.png') }}" alt="Linkedin"></a>
+                            src="{{ asset('files/socials/twitter.png') }}" alt="Linkedin"></a>
                     <a class="icon-socials" title="Twitter" href="https://twitter.com/" target="_blank"><img
-                            src="{{ asset('storage/socials/twitter.png') }}" alt="Twitter"></a>
+                            src="{{ asset('files/socials/twitter.png') }}" alt="Twitter"></a>
                     <a class="icon-socials" title="Twitter" href="https://twitter.com/" target="_blank"><img
-                            src="{{ asset('storage/socials/twitter.png') }}" alt="Twitter"></a>
+                            src="{{ asset('files/socials/twitter.png') }}" alt="Twitter"></a>
                 </div>
             </div>
 
@@ -69,9 +69,9 @@
                 <div class="h6 mb-20">Download App</div>
                 <p class="color-text-paragraph-2 font-xs"></p>
                 <div class="mt-15">
-                    <a class="mr-5" href="#"><img src={{ asset('storage/general/app-store.png') }}
+                    <a class="mr-5" href="#"><img src={{ asset('files/general/app-store.png') }}
                             alt="App Store" style="max-width: 100px"></a>
-                    <a class="mr-5" href="#"><img src={{ asset('storage/general/android.png') }}
+                    <a class="mr-5" href="#"><img src={{ asset('files/general/android.png') }}
                             alt="Google Play" style="max-width: 100px"></a>
                 </div>
             </div>
