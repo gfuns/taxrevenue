@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id')->unsigned();
             $table->text('post_title');
+            $table->text('tags');
             $table->text('slug');
             $table->text('cover_photo');
             $table->longText('blog_post');

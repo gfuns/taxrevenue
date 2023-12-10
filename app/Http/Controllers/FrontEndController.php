@@ -54,7 +54,7 @@ class FrontEndController extends Controller
              * Searching the names key inside
              * the user relationship
              */
-            $records->whereNotNull("biography")->whereNotNull("profession")->where(fn($query) =>
+            $records->where("visibility", 1)->where(fn($query) =>
                 $query->whereHas('customer', fn($query2) =>
                     $query2->where('first_name', 'LIKE', $request->filter . '%')->orWhere('last_name', 'LIKE', $request->filter . '%'))
             );
@@ -67,7 +67,7 @@ class FrontEndController extends Controller
 
         } else {
 
-            $candidates = Artisans::whereNotNull("biography")->whereNotNull("profession")->get();
+            $candidates = Artisans::where("visibility", 1)->get();
         }
         return view("artisans", compact("candidates"));
     }

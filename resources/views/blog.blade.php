@@ -68,9 +68,16 @@
                                                 </figure>
                                             </a></div>
                                         <div class="card-block-info">
-                                            <div class="tags mb-15"><a class="btn btn-tag" href="#">Travel
-                                                    Tips</a>&nbsp; <a class="btn btn-tag" href="#">Hotel</a>&nbsp;
-                                            </div>
+                                            @if (isset($blog->tags))
+                                                <div class="tags mb-15">
+                                                    @php
+                                                        $blogTags = explode(', ', $blog->tags);
+                                                    @endphp
+                                                    @foreach ($blogTags as $tag)
+                                                        <a class="btn btn-tag" style="cursor: pointer">{{ $tag }}</a>&nbsp;
+                                                    @endforeach
+                                                </div>
+                                            @endif
                                             <h5><a
                                                     href="/resources/blog/{{ $blog->slug }}">{{ $blog->post_title }}</a>
                                             </h5>

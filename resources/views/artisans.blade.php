@@ -162,7 +162,7 @@
                                                                         src="{{ asset('themes/jobbox/imgs/template/icons/gray-star.svg') }}">
                                                                 @endfor
                                                                 <span class="font-xs color-text-mutted ml-5">
-                                                                    <span>(</span><span>{{ $art->artsanReviews->count() }}</span><span>)</span>
+                                                                    <span>(</span><span>{{ $art->reviews->count() }}</span><span>)</span>
                                                                 </span>
                                                             </div>
                                                         </div>

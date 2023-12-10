@@ -332,10 +332,17 @@
                                                             </figure>
                                                         </a></div>
                                                     <div class="card-block-info">
-                                                        <div class="tags mb-15">
-                                                            <a class="btn btn-tag" href="#">New</a>&nbsp;
-                                                            <a class="btn btn-tag" href="#">Event</a>&nbsp;
-                                                        </div>
+                                                        @if (isset($bp->tags))
+                                                            <div class="tags mb-15">
+                                                                @php
+                                                                    $blogTags = explode(', ', $bp->tags);
+                                                                @endphp
+                                                                @foreach ($blogTags as $tag)
+                                                                    <a class="btn btn-tag" style="cursor: pointer">{{ $tag }}</a>&nbsp;
+                                                                @endforeach
+                                                            </div>
+                                                        @endif
+
                                                         <h5><a
                                                                 href="/blog/details/{{ $bp->slug }}">{{ $bp->post_title }}</a>
                                                         </h5>

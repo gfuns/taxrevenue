@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('profession')->nullable();
             $table->text('skills')->nullable();
             $table->double('rating', 12, 1)->default(5.0);
+            $table->integer('visibility')->default(0);
             $table->timestamps();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
