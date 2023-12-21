@@ -82,11 +82,34 @@ Route::group([
         'middleware' => 'validatebusiness',
 
     ], function ($router) {
+
+        Route::get('/view-profile', [App\Http\Controllers\Business\HomeController::class, 'viewProfile'])->name("business.viewProfile");
+
+        Route::get('/change-password', [App\Http\Controllers\Business\HomeController::class, 'changePassword'])->name("business.changePassword");
+
+        Route::post('/update-profile', [App\Http\Controllers\Business\HomeController::class, 'updateProfile'])->name("business.updateProfile");
+
+        Route::post('/update-password', [App\Http\Controllers\Business\HomeController::class, 'updatePassword'])->name("business.updatePassword");
+
+        Route::get('/business-profile', [App\Http\Controllers\Business\HomeController::class, 'businessProfile'])->name("business.businessProfile");
+
+        Route::post('/update-business-profile', [App\Http\Controllers\Business\HomeController::class, 'updateBusinessProfile'])->name("business.updateBusinessProfile");
+
+        Route::get('/buy-airtime', [App\Http\Controllers\Business\UtilityController::class, 'buyAirtime'])->name("business.buyAirtime");
+
+        Route::get('/referrals', [App\Http\Controllers\Business\ReferralController::class, 'referrals'])->name("business.referrals");
+
+        Route::get('/utility-transactions', [App\Http\Controllers\Business\UtilityController::class, 'utilityTransactions'])->name("business.utilityTransactions");
+
+        Route::get('/job-listing', [App\Http\Controllers\Business\JobListingController::class, 'jobListings'])->name("business.jobListing");
+
+        Route::get('/job/details/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobDetails'])->name("business.jobDetails");
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         Route::post('/account-pin-setup', [BusinessAccountController::class, 'setupAccountPin']);
         Route::post('/update-photo', [BusinessAccountController::class, 'updateProfilePhoto']);
         Route::get('/view-profile', [BusinessAccountController::class, 'viewProfile']);
-        Route::post('/update-profile', [BusinessAccountController::class, 'updateProfile']);
-        Route::post('/update-password', [BusinessAccountController::class, 'updatePassword']);
         Route::get('/view-notification-settings', [BusinessAccountController::class, 'viewNotificationSettings']);
         Route::post('/update-notification-settings', [BusinessAccountController::class, 'updateNotificationSettings']);
         Route::get('/view-business-details', [BusinessAccountController::class, 'viewBusinessDetails']);
@@ -136,7 +159,6 @@ Route::group([
         Route::get('/cable-plans', [UtilityController::class, 'cablePlans']);
         Route::post('/initiate-cable-purchase', [UtilityController::class, 'initiateCablePurchase']);
         Route::post('/buy-cable-subscription', [UtilityController::class, 'buyCable']);
-        Route::get('/utility-transactions', [UtilityController::class, 'utilityTransactions']);
         Route::get('/subscription-plans', [SubscriptionController::class, 'subscriptionPlans']);
         Route::get('/active-subscription', [SubscriptionController::class, 'activeSubscription']);
         Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
