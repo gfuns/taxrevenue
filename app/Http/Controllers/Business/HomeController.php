@@ -204,6 +204,46 @@ class HomeController extends Controller
         return view("business.notification_settings", compact("notifications"));
     }
 
+    /**
+     * toggleAllNotificationSettings
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function toggleAllNotificationSettings(Request $request)
+    {
+
+        NotificationSetting::where('customer_id', Auth::user()->id)->update([
+            'unusual_activity' => $request->status,
+            'new_browser_signin' => $request->status,
+            'latest_news' => $request->status,
+            'features_updates' => $request->status,
+            'account_tips' => $request->status,
+            'all_not' => $request->status,
+        ]);
+
+        return response()->json(['status' => 'Notification status changed successfully.']);
+    }
+
+    /**
+     * toggleSpecificNotificationSettings
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function toggleSpecificNotificationSettings(Request $request)
+    {
+
+        NotificationSetting::where('customer_id', Auth::user()->id)->update([
+            $request->param => $request->status,
+        ]);
+
+        return response()->json(['status' => 'Notification status changed successfully.']);
+
+    }
+
     public function unsubscribeAllNotifications()
     {
         $notifications = NotificationSetting::where("customer_id", Auth::user()->id)->first();

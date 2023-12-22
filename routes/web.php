@@ -99,6 +99,10 @@ Route::group([
 
         Route::get('/notification/unsubscribe-all', [App\Http\Controllers\Business\HomeController::class, 'unsubscribeAllNotifications'])->name("business.unsubscribeAllNotifications");
 
+        Route::get('/toggleAllNotificationSettings', [App\Http\Controllers\Business\HomeController::class, 'toggleAllNotificationSettings'])->name('business.toggleAllNotificationSettings');
+
+        Route::get('/toggleSpecificNotificationSettings', [App\Http\Controllers\Business\HomeController::class, 'toggleSpecificNotificationSettings'])->name('business.toggleSpecificNotificationSettings');
+
         Route::get('/referrals', [App\Http\Controllers\Business\ReferralController::class, 'referrals'])->name("business.referrals");
 
         Route::get('/utility-transactions', [App\Http\Controllers\Business\UtilityController::class, 'utilityTransactions'])->name("business.utilityTransactions");

@@ -28,6 +28,12 @@ class NotificationSetting extends Model
         'customer_id',
         'push_notification',
         'email_notification',
+        'unusual_activity',
+        'new_browser_signin',
+        'latest_news',
+        'features_updates',
+        'account_tips',
+        'all_not',
 
     ];
 

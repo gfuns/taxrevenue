@@ -30,6 +30,8 @@
     @include('sweetalert::alert')
 
 
+    <script src="{{ asset('assets/js/vendors/sweetalert2.all.min.js') }}"></script>
+
     <script type="text/javascript">
         $('#editCategory').on('show.bs.offcanvas', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal

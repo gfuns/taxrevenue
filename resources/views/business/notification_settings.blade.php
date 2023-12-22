@@ -41,7 +41,7 @@
                     </div>
                     <div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="checkAll" checked="">
+                            <input data-id="togAll" class="form-check-input togAll" type="checkbox" id="checkAll" @if($notifications->all_not == 1) checked @endif>
                             <label class="form-check-label" for="checkAll"></label>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                                 <div>Email me whenever an unusual activity is encountered</div>
                                 <div>
                                     <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" id="switchOne" checked="">
+                                        <input data-id="unusual_activity" type="checkbox" class="form-check-input togSingle" id="switchOne"  @if($notifications->unusual_activity == 1) checked @endif>
                                         <label class="form-check-label" for="switchOne"></label>
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
                                 <div>Email me if new browser is used to sign in</div>
                                 <div>
                                     <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" id="switchTwo">
+                                        <input data-id="new_browser_signin" type="checkbox" class="form-check-input togSingle" id="switchTwo" @if($notifications->new_browser_signin == 1) checked @endif>
                                         <label class="form-check-label" for="switchTwo"></label>
                                     </div>
                                 </div>
@@ -84,7 +84,7 @@
                                 <div>Notify me by email about sales and latest news</div>
                                 <div>
                                     <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" id="switchThree" checked="">
+                                        <input data-id="latest_news" type="checkbox" class="form-check-input togSingle" id="switchThree" @if($notifications->latest_news == 1) checked @endif>
                                         <label class="form-check-label" for="switchThree"></label>
                                     </div>
                                 </div>
@@ -94,7 +94,7 @@
                                 <div>Email me about new features and updates</div>
                                 <div>
                                     <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" id="switchFour">
+                                        <input data-id="features_updates" type="checkbox" class="form-check-input togSingle" id="switchFour" @if($notifications->features_updates == 1) checked @endif>
                                         <label class="form-check-label" for="switchFour"></label>
                                     </div>
                                 </div>
@@ -104,7 +104,7 @@
                                 <div>Email me about tips on using my account</div>
                                 <div>
                                     <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" id="switchFive" checked="">
+                                        <input data-id="account_tips" type="checkbox" class="form-check-input togSingle" id="switchFive" @if($notifications->account_tips == 1) checked @endif>
                                         <label class="form-check-label" for="switchFive"></label>
                                     </div>
                                 </div>
@@ -128,4 +128,67 @@
     document.getElementById("navSettings").classList.add('show');
     document.getElementById("notification").classList.add('active');
 </script>
+@endsection
+
+
+@section('customjs')
+
+<script type="text/javascript">
+$(function() {
+    $('.togAll').change(function() {
+        var status = $(this).prop('checked') == true ? 1 : 0;
+        var param = $(this).data('id');
+
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "{{ route('business.toggleAllNotificationSettings') }}",
+            data: {'status': status, 'param': param},
+            success: function(data){
+
+                Swal.fire({
+                text: 'Notification status changed successfully.',
+                icon: 'success',
+                showConfirmButton: false,
+                toast: true,
+                width: 450,
+                timer: 4000,
+                position: 'top-right'
+                })
+
+            }
+        });
+    })
+  })
+
+
+  $(function() {
+    $('.togSingle').change(function() {
+        var status = $(this).prop('checked') == true ? 1 : 0;
+        var param = $(this).data('id');
+
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "{{ route('business.toggleSpecificNotificationSettings') }}",
+            data: {'status': status, 'param': param},
+            success: function(data){
+
+              Swal.fire({
+                text: 'Notification status changed successfully.',
+                icon: 'success',
+                showConfirmButton: false,
+                toast: true,
+                width: 450,
+                timer: 4000,
+                position: 'top-right'
+                })
+
+            }
+        });
+    })
+  })
+
+</script>
+
 @endsection
