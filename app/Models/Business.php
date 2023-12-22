@@ -34,6 +34,11 @@ class Business extends Model
         return $this->hasMany('App\Models\JobListing');
     }
 
+    public function businessLogo()
+    {
+        return $this->attributes['business_logo'];
+    }
+
     /**
      * The attributes that are mass assignable.
      *

@@ -31,24 +31,46 @@
     <!-- row -->
     <div class="row justify-content-center">
         <div class="col-lg-11 col-12">
-            <form method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+            <form method="POST" action="{{ route('business.updateBusinessProfile') }}" class="needs-validation"
+                novalidate enctype="multipart/form-data">
                 @csrf
                 <!-- card -->
                 <div class="card mb-4">
                     <!-- card body -->
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-md-12 col-12">
+                                <div>
+                                    <!-- logo -->
+                                    <div class="icon-shape icon-xxl border rounded position-relative">
+                                        <span class="position-absolute">
+                                            <img alt="avatar"
+                                                src="{{ $business->business_logo == null ? asset('assets/images/avatar/avatar.webp') : $business->business_logo }}"
+                                                style="max-height:140px; max-width: 150px">
+                                        </span>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-12 mb-5">
+                                <div class="col-md-6 col-12">
+                                    <h5 class="mb-3">&nbsp; </h5>
+                                    <input type="file" name="business_logo" class="form-control" @if($business->businessLogo() == null) required @endif>
+                                </div>
+                            </div>
                             <!-- input -->
                             <div class="mb-3 col-md-6 col-12">
-                                <label class="form-label">Business Name</label>
+                                <label class="form-label">Business Name </label>
                                 <input type="text" name="business_name" value="{{ $business->business_name }}"
                                     class="form-control" placeholder="Enter Business Name" required>
                                 <div class="invalid-feedback">Please enter business name</div>
                             </div>
                             <div class="mb-3 col-md-6 col-12">
                                 <label class="form-label">Business Category</label>
-                                <select id="category" name="category" class="@error('category') is-invalid @enderror"
-                                    data-width="100%" required>
+                                <select id="category" name="business_category"
+                                    class="@error('category') is-invalid @enderror" data-width="100%" required>
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}"
@@ -690,26 +712,25 @@
                             </div>
                             <div class="mb-3 col-md-6 col-12">
                                 <label class="form-label">Facebook Profile</label>
-                                <input type="text" name="facebook_profile" value="{{ $business->facebook_url }}"
+                                <input type="text" name="facebook_url" value="{{ $business->facebook_url }}"
                                     class="form-control" placeholder="Enter Facebook Profile">
                                 <div class="invalid-feedback">Please enter facebook profile</div>
                             </div>
                             <div class="mb-3 col-md-6 col-12">
                                 <label class="form-label">Instagram Profile</label>
-                                <input type="text" name="instagram_profile"
-                                    value="{{ $business->instagram_url }}" class="form-control"
-                                    placeholder="Enter Instagram Profile">
+                                <input type="text" name="instagram_url" value="{{ $business->instagram_url }}"
+                                    class="form-control" placeholder="Enter Instagram Profile">
                                 <div class="invalid-feedback">Please enter instagram profile</div>
                             </div>
                             <div class="mb-3 col-md-6 col-12">
                                 <label class="form-label">Twitter Profile</label>
-                                <input type="text" name="twitter_profile" value="{{ $business->twitter_url }}"
+                                <input type="text" name="twitter_url" value="{{ $business->twitter_url }}"
                                     class="form-control" placeholder="Enter Twitter Profile">
                                 <div class="invalid-feedback">Please enter twitter profile</div>
                             </div>
                             <div class="mb-3 col-md-6 col-12">
                                 <label class="form-label">LinkedIn Profile</label>
-                                <input type="text" name="linkedin_profile" value="{{ $business->linkedin_url }}"
+                                <input type="text" name="linkedin_url" value="{{ $business->linkedin_url }}"
                                     class="form-control" placeholder="Enter LinkedIn Profile">
                                 <div class="invalid-feedback">Please enter linkedin profile</div>
                             </div>

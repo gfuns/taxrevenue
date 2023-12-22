@@ -150,4 +150,50 @@ class HomeController extends Controller
         $categories = PlatformCategories::orderBy("category_name", "asc")->get();
         return view("business.business_information", compact("business", "categories"));
     }
+
+    public function updateBusinessProfile(Request $request)
+    {
+        $validatedData = $request->validate([
+            'business_name' => 'required',
+            'business_category' => 'required',
+            'business_description' => 'required',
+            'business_phone' => 'required',
+            'business_email' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'business_address' => 'required',
+        ]);
+
+        $business = Business::where("customer_id", Auth::user()->id)->first();
+        $business->business_name = $request->business_name;
+        $business->slug = preg_replace("/ /", "-", strtolower($request->business_name));
+        $business->category_id = $request->business_category;
+        $business->business_category = PlatformCategories::find($request->business_category)->category_name;
+        $business->country = $request->country;
+        $business->state = $request->state;
+        $business->city = $request->city;
+        $business->street = $request->business_address;
+        $business->business_address = $request->business_address;
+        $business->business_description = $request->business_description;
+        $business->business_phone = $request->business_phone;
+        $business->business_email = $request->business_email;
+        $business->website_url = $request->website_url;
+        $business->facebook_url = $request->facebook_url;
+        $business->twitter_url = $request->twitter_url;
+        $business->instagram_url = $request->instagram_url;
+        $business->linkedin_url = $request->linkedin_url;
+        $business->visibility = 1;
+        if ($request->has('business_logo')) {
+            $uploadedFileUrl = Cloudinary::upload($request->file('business_logo')->getRealPath())->getSecurePath();
+            $business->business_logo = $uploadedFileUrl;
+        }
+        if ($business->save()) {
+            toast('Business Information Successfully Updated.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
 }
