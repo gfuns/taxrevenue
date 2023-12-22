@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Business;
 use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\Customer;
+use App\Models\NotificationSetting;
 use App\Models\PlatformCategories;
 use Auth;
 use Cloudinary;
@@ -190,6 +191,29 @@ class HomeController extends Controller
         }
         if ($business->save()) {
             toast('Business Information Successfully Updated.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    public function notificationSettings()
+    {
+        $notifications = NotificationSetting::where("customer_id", Auth::user()->id)->first();
+        return view("business.notification_settings", compact("notifications"));
+    }
+
+    public function unsubscribeAllNotifications()
+    {
+        $notifications = NotificationSetting::where("customer_id", Auth::user()->id)->first();
+        $notifications->unusual_activity = 0;
+        $notifications->new_browser_signin = 0;
+        $notifications->latest_news = 0;
+        $notifications->features_updates = 0;
+        $notifications->account_tips = 0;
+        if ($notifications->save()) {
+            toast('You have unsubscribed from all notifications.', 'success');
             return back();
         } else {
             toast('Something went wrong. Please try again', 'error');

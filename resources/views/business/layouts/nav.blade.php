@@ -147,7 +147,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " id="newtut" href="">
+                            <a class="nav-link " id="notification" href="{{ route("business.notificationSettings") }}">
                                 Notifications
                             </a>
                         </li>

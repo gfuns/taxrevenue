@@ -95,7 +95,9 @@ Route::group([
 
         Route::post('/update-business-profile', [App\Http\Controllers\Business\HomeController::class, 'updateBusinessProfile'])->name("business.updateBusinessProfile");
 
-        Route::get('/buy-airtime', [App\Http\Controllers\Business\UtilityController::class, 'buyAirtime'])->name("business.buyAirtime");
+        Route::get('/notification-settings', [App\Http\Controllers\Business\HomeController::class, 'notificationSettings'])->name("business.notificationSettings");
+
+        Route::get('/notification/unsubscribe-all', [App\Http\Controllers\Business\HomeController::class, 'unsubscribeAllNotifications'])->name("business.unsubscribeAllNotifications");
 
         Route::get('/referrals', [App\Http\Controllers\Business\ReferralController::class, 'referrals'])->name("business.referrals");
 
@@ -108,6 +110,8 @@ Route::group([
         Route::get('/job/assets/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobAssets'])->name("business.jobAssets");
 
         Route::get('/job/applications/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobApplications'])->name("business.jobApplications");
+
+        Route::get('/buy-airtime', [App\Http\Controllers\Business\UtilityController::class, 'buyAirtime'])->name("business.buyAirtime");
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
