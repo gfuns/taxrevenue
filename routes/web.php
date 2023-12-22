@@ -105,11 +105,14 @@ Route::group([
 
         Route::get('/job/details/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobDetails'])->name("business.jobDetails");
 
+        Route::get('/job/assets/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobAssets'])->name("business.jobAssets");
+
+        Route::get('/job/applications/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobApplications'])->name("business.jobApplications");
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Route::post('/account-pin-setup', [BusinessAccountController::class, 'setupAccountPin']);
         Route::post('/update-photo', [BusinessAccountController::class, 'updateProfilePhoto']);
-        Route::get('/view-profile', [BusinessAccountController::class, 'viewProfile']);
         Route::get('/view-notification-settings', [BusinessAccountController::class, 'viewNotificationSettings']);
         Route::post('/update-notification-settings', [BusinessAccountController::class, 'updateNotificationSettings']);
         Route::get('/view-business-details', [BusinessAccountController::class, 'viewBusinessDetails']);

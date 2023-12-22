@@ -16,11 +16,17 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="/admin">Dashboard</a>
+                                <a href="{{ route('business.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Job Listing</li>
                         </ol>
                     </nav>
+                </div>
+
+                 <!-- button -->
+                 <div>
+                    <a href="#" class="btn btn-primary me-2">New Job Listing</a>
+
                 </div>
             </div>
         </div>

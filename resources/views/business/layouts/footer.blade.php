@@ -7,8 +7,8 @@
     <!-- Theme JS -->
     <script src="{{ asset('assets/js/theme.min.js') }}"></script>
 
-    <script src="{{ asset('assets/libs/jsvectormap/dist/js/jsvectormap.min.js')}}"></script>
-    <script src="{{ asset('assets/libs/jsvectormap/dist/maps/world.js')}}"></script>
+    <script src="{{ asset('assets/libs/jsvectormap/dist/js/jsvectormap.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/jsvectormap/dist/maps/world.js') }}"></script>
     <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/js/vendors/chart.js') }}"></script>
     <script src="{{ asset('assets/libs/flatpickr/dist/flatpickr.min.js') }}"></script>
@@ -24,14 +24,13 @@
     <script src="{{ asset('assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset("assets/libs/yaireo/tagify/dist/tagify.min.js") }}"></script>
+    <script src="{{ asset('assets/libs/yaireo/tagify/dist/tagify.min.js') }}"></script>
 
 
     @include('sweetalert::alert')
 
 
     <script type="text/javascript">
-
         $('#editCategory').on('show.bs.offcanvas', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var myid = button.data('myid') // Extract info from data-* attributes
@@ -298,4 +297,14 @@
                 dropdownParent: $('#editCourseCategory'),
             }).val(parentcat).trigger('change');
         })
+
+
+        // In your Javascript (external .js resource or <script> tag)
+        $(document).ready(function() {
+            $('#country').select2();
+        });
+
+        $(document).ready(function() {
+            $('#category').select2();
+        });
     </script>

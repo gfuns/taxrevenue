@@ -132,17 +132,17 @@
                     <ul class="nav flex-column">
 
                         <li class="nav-item">
-                            <a class="nav-link " id="newtut" href="">
+                            <a class="nav-link " id="profile" href="{{ route("business.viewProfile") }}">
                                 Profile
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " id="newtut" href="">
+                            <a class="nav-link " id="changepwd" href="{{ route("business.changePassword") }}">
                                 Change Password
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " id="newtut" href="">
+                            <a class="nav-link " id="busDet" href="{{ route('business.businessProfile') }}">
                                 Business Information
                             </a>
                         </li>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
 use App\Models\Business;
+use App\Models\JobAssets;
 use App\Models\JobListing;
 use Auth;
 use Illuminate\Http\Request;
@@ -53,6 +54,33 @@ class JobListingController extends Controller
             $jobs = JobListing::orderBy("id", "desc")->where("business_id", $business->id)->paginate(50);
         }
         return view("business.jobs", compact("jobs", "lastRecord", "marker", "search", "status"));
+    }
+
+    /**
+     * jobDetails
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function jobDetails($id)
+    {
+        $job = JobListing::find($id);
+        return view("business.job_details", compact("job"));
+    }
+
+    /**
+     * jobAssets
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function jobAssets($id)
+    {
+        $job = JobListing::find($id);
+        $jobAssets = JobAssets::where("job_listing_id", $id)->get();
+        return view("business.job_assets", compact("jobAssets", "job"));
     }
 
     /**
