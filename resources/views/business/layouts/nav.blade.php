@@ -136,11 +136,11 @@
                                 Profile
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link " id="changepwd" href="{{ route("business.changePassword") }}">
                                 Change Password
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a class="nav-link " id="busDet" href="{{ route('business.businessProfile') }}">
                                 Business Information
@@ -152,7 +152,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " id="viewtut" href="">
+                            <a class="nav-link " id="security" href="{{ route("business.security") }}">
                                 Security
                             </a>
                         </li>

@@ -31,6 +31,8 @@ return new class extends Migration
             $table->string('device_token')->nullable();
             $table->enum('status', ["active", "suspended", "banned", "deleted"])->default('active');
             $table->rememberToken();
+            $table->string('auth_2fa')->nullable();
+            $table->string('withdrawal_confirmation')->nullable();
             $table->timestamps();
         });
     }

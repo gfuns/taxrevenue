@@ -260,4 +260,89 @@ class HomeController extends Controller
             return back();
         }
     }
+
+    public function security()
+    {
+        return view("business.security");
+    }
+
+    public function select2FA(Request $request)
+    {
+
+        $user = Auth::user();
+
+        if ($request->param == "google_auth2fa") {
+            if (isset($user->google2fa_secret) && $request->status == 1) {
+                $user->auth_2fa = "GoogleAuth";
+            } else if (isset($user->google2fa_secret) && $request->status == 0) {
+                $user->auth_2fa = null;
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Please Setup Google Authenticator to be able to enable this option.',
+                ]);
+            }
+        }
+
+        if ($request->param == "email_auth2fa") {
+            if ($request->status == 1) {
+                $user->auth_2fa = "Email";
+            } else {
+                $user->auth_2fa = null;
+            }
+        }
+
+        if ($user->save()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Authentication 2FA Method Updated Successfully',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong! Please try again',
+            ]);
+        }
+
+    }
+
+    public function selectWithdrawalConfirmation(Request $request)
+    {
+
+        $user = Auth::user();
+
+        if ($request->param == "google_withdrawal") {
+            if (isset($user->google2fa_secret) && $request->status == 1) {
+                $user->withdrawal_confirmation = "GoogleAuth";
+            } else if (isset($user->google2fa_secret) && $request->status == 0) {
+                $user->withdrawal_confirmation = null;
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Please Setup Google Authenticator to be able to enable this option.',
+                ]);
+            }
+        }
+
+        if ($request->param == "email_withdrawal") {
+            if ($request->status == 1) {
+                $user->withdrawal_confirmation = "Email";
+            } else {
+                $user->withdrawal_confirmation = null;
+            }
+        }
+
+        if ($user->save()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Withdrawal Confirmation Method Updated Successfully',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong! Please try again',
+            ]);
+        }
+
+    }
 }

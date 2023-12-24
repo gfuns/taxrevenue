@@ -39,8 +39,8 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ route("business.changePassword") }}">
-                            <i class="fe fe-lock me-2"></i> Change Password
+                        <a class="dropdown-item" href="{{ route("business.security") }}">
+                            <i class="fe fe-lock me-2"></i> Security
                         </a>
                     </li>
                 </ul>

@@ -103,6 +103,12 @@ Route::group([
 
         Route::get('/toggleSpecificNotificationSettings', [App\Http\Controllers\Business\HomeController::class, 'toggleSpecificNotificationSettings'])->name('business.toggleSpecificNotificationSettings');
 
+        Route::get('/security', [App\Http\Controllers\Business\HomeController::class, 'security'])->name("business.security");
+
+        Route::post('/select2FA', [App\Http\Controllers\Business\HomeController::class, 'select2FA'])->name("business.select2FA");
+
+        Route::post('/selectWithdrawalConfirmation', [App\Http\Controllers\Business\HomeController::class, 'selectWithdrawalConfirmation'])->name("business.selectWithdrawalConfirmation");
+
         Route::get('/referrals', [App\Http\Controllers\Business\ReferralController::class, 'referrals'])->name("business.referrals");
 
         Route::get('/utility-transactions', [App\Http\Controllers\Business\UtilityController::class, 'utilityTransactions'])->name("business.utilityTransactions");
