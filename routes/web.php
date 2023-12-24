@@ -107,6 +107,8 @@ Route::group([
 
         Route::post('/select2FA', [App\Http\Controllers\Business\HomeController::class, 'select2FA'])->name("business.select2FA");
 
+        Route::post('/enableGA', [App\Http\Controllers\Business\HomeController::class, 'enableGA'])->name("business.enableGA");
+
         Route::post('/selectWithdrawalConfirmation', [App\Http\Controllers\Business\HomeController::class, 'selectWithdrawalConfirmation'])->name("business.selectWithdrawalConfirmation");
 
         Route::get('/referrals', [App\Http\Controllers\Business\ReferralController::class, 'referrals'])->name("business.referrals");

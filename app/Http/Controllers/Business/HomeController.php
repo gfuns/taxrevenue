@@ -263,7 +263,46 @@ class HomeController extends Controller
 
     public function security()
     {
-        return view("business.security");
+        $google2fa = app('pragmarx.google2fa');
+        $google2faSecret = $google2fa->generateSecretKey();
+        $QRImage = $google2fa->getQRCodeInline(
+            env('APP_NAME'),
+            Auth::user()->email,
+            $google2faSecret
+        );
+        return view("business.security", compact("google2faSecret", "QRImage"));
+    }
+
+    public function enableGA(Request $request)
+    {
+        $gaCode = $request->google2fa_code;
+        $gaSecret = $request->google2fa_secret;
+
+        if ($gaCode == null || $gaSecret == null) {
+            toast('Please enter a valid Google 2FA Code.', 'error');
+            return back();
+        }
+
+        $user = Auth::user();
+        $google2fa = app('pragmarx.google2fa');
+        $valid = $google2fa->verifyKey($gaSecret, $gaCode);
+
+        if ($valid) {
+            $user->google2fa_secret = $gaSecret;
+            if ($user->save()) {
+                toast('Successfully Enabled Google Authenticator on your account', 'success');
+                return back();
+            } else {
+                toast('Something went wrong.', 'error');
+                return back();
+            }
+
+        } else {
+            toast('Invalid Google 2FA Code.', 'error');
+            return back();
+
+        }
+
     }
 
     public function select2FA(Request $request)

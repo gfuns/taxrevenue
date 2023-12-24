@@ -3,6 +3,16 @@
 @section('content')
 @section('title', env('APP_NAME') . ' | Account Security')
 <meta name="csrf-token" content="{{ csrf_token() }}" />
+<style type="text/css">
+    .col-md-4 svg {
+        max-width: 90%;
+        /* Ensure the SVG doesn't exceed the width of the container */
+        max-height: 90%;
+        /* Ensure the SVG doesn't exceed the height of the container */
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+</style>
 <!-- Container fluid -->
 <section class="container-fluid p-4">
     <div class="row ">
@@ -115,7 +125,8 @@
                                     <div>
                                         <div class="form-check form-switch">
                                             <input data-id="email_auth2fa" type="checkbox"
-                                                class="form-check-input emailAuth2FA" id="email2fa" @if (Auth::user()->auth_2fa == 'Email') checked @endif>
+                                                class="form-check-input emailAuth2FA" id="email2fa"
+                                                @if (Auth::user()->auth_2fa == 'Email') checked @endif>
                                             <label class="form-check-label" for="email2fa"></label>
                                         </div>
                                     </div>
@@ -135,7 +146,8 @@
                                             new sign-in attempt.</div>
                                         @if (!isset(Auth::user()->google2fa_secret))
                                             <div class="mt-2">
-                                                <button class="btn btn-primary btn-sm">Setup Google
+                                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#g2fa-enable">Setup Google
                                                     Authenticator</button>
                                             </div>
                                         @endif
@@ -171,7 +183,8 @@
                             <!-- List group -->
                             <ul class="list-group list-group-flush">
                                 <!-- List group item -->
-                                <li class="list-group-item d-flex align-items-center justify-content-between px-0 py-2">
+                                <li
+                                    class="list-group-item d-flex align-items-center justify-content-between px-0 py-2">
                                     <div>Receive a confirmation code via your registered email address for every
                                         withdrawal request initiated.</div>
                                     <div>
@@ -198,7 +211,8 @@
                                             withdrawal request initiated.</div>
                                         @if (!isset(Auth::user()->google2fa_secret))
                                             <div class="mt-2">
-                                                <button class="btn btn-primary btn-sm">Setup Google
+                                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#g2fa-enable">Setup Google
                                                     Authenticator</button>
                                             </div>
                                         @endif
@@ -222,6 +236,62 @@
         </div>
     </div>
 </section>
+
+
+<!-- Modal -->
+<div class="modal fade" id="g2fa-enable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Enable Google Authenticator</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('business.enableGA') }}" method="POST" autocomplete="off">
+                    @csrf
+                    <div class="pdb-1-5x">
+                        <p><strong>Step 1:</strong> Install this app from <a target="_blank"
+                                href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Google
+                                Play </a> store or <a target="_blank"
+                                href="https://itunes.apple.com/us/app/google-authenticator/id388497605">App
+                                Store</a>.</p>
+                        <p><strong>Step 2:</strong> Scan the below QR code by your Google Authenticator app, or
+                            you
+                            can add account manually.</p>
+                        <p><strong>Manually add Account:</strong><br>Account Name: <strong
+                                class="text-head">{{ env('APP_NAME') }}</strong> <br> Secret Key: <strong
+                                class="text-head">{{ $google2faSecret }}</strong></p>
+
+                        <div class="row" style="padding: 0px; margin:0px">
+                            <!-- form group -->
+                            <div class="col-md-4 col-12" style="padding: 0px; margin:0px">
+                                {!! $QRImage !!}
+                            </div>
+                            <div class="mb-3 col-md-8 col-12">
+                                <div class="input-item mb-2">
+                                    <label for="google2fa_code">Enter Google Authenticator Code</label>
+                                    <input id="google2fa_code" type="text" class="form-control"
+                                        name="google2fa_code" required maxlength="6" data-msg-required="Required."
+                                        data-msg-maxlength="Maximum 6 chars."
+                                        placeholder="Enter the Google Authenticator Code">
+                                </div>
+                                <input type="hidden" name="google2fa_secret" value="{{ $google2faSecret }}">
+                                <button type="submit" class="btn btn-primary btn-sm enable-2fa">Enable Google
+                                    Authenticator</button>
+                            </div>
+                        </div>
+                        <div class="gaps-2x"></div>
+                        <p class="text-danger"><strong>Note:</strong> After activating this option, if you loose your
+                            phone or uninstall the Google Authenticator app, then you will loose access of your account.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script type="text/javascript">
     document.getElementById("navSettings").classList.add('show');
