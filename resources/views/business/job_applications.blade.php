@@ -73,33 +73,46 @@
                                         <tr>
                                             <th>#</th>
                                             <th class="text-nowrap">Job Title</th>
-                                            <th class="text-nowrap">Artisan Name</th>
-                                            <th class="text-nowrap">Status</th>
+                                            <th class="text-nowrap">Applicant's Name</th>
+                                            <th class="text-nowrap">Application Status</th>
+                                            <th class="text-nowrap">Job Status</th>
                                             <th class="text-nowrap">Application Date</th>
                                             <th class="text-nowrap"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <!-- Table body -->
-                                        @foreach ($applications as $job)
+                                        @foreach ($applications as $application)
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
-                                                 <td>{{ $job->jobListing->job_title }}</td>
-                                                <td>{{ $job->artisan->customer->first_name." ".$job->artisan->customer->last_name }}</td>
+                                                <td>{{ $application->jobListing->job_title }}</td>
+                                                <td>{{ $application->artisan->customer->first_name . ' ' . $application->artisan->customer->last_name }}
+                                                </td>
                                                 <td class="text-nowrap">
-                                                    @if ($job->hiring_status == 'Hired')
+                                                    @if ($application->hiring_status == 'Hired')
                                                         <span class="badge text-success bg-light-success">
-                                                            {{ ucwords($job->hiring_status) }}</span>
-                                                    @elseif($job->hiring_status == 'Pending')
+                                                            {{ ucwords($application->hiring_status) }}</span>
+                                                    @elseif($application->hiring_status == 'Pending')
                                                         <span class="badge text-primary bg-light-primary">
-                                                            {{ ucwords($job->hiring_status) }}</span>
+                                                            {{ ucwords($application->hiring_status) }}</span>
                                                     @else
                                                         <span class="badge text-danger bg-light-danger">
-                                                            {{ ucwords($job->hiring_status) }}</span>
+                                                            {{ ucwords($application->hiring_status) }}</span>
                                                     @endif
                                                 </td>
 
-                                                <td class="text-nowrap">{{ date_format($job->created_at, 'd M, Y') }}
+                                                <td class="text-nowrap">
+                                                    @if ($application->completion_status == 'Completed')
+                                                        <span class="badge text-success bg-light-success">
+                                                            {{ ucwords($application->completion_status) }}</span>
+                                                    @else
+                                                        <span class="badge text-primary bg-light-primary">
+                                                            {{ ucwords($application->completion_status) }}</span>
+                                                    @endif
+                                                </td>
+
+                                                <td class="text-nowrap">
+                                                    {{ date_format($application->created_at, 'd M, Y') }}
                                                 </td>
 
 
@@ -114,12 +127,12 @@
                                                         <div class="dropdown-menu" aria-labelledby="Dropdown1">
                                                             <span class="dropdown-header">Settings</span>
                                                             <a class="dropdown-item"
-                                                                href="{{ route('business.jobDetails', [$job->id]) }}">
+                                                                href="{{ route('business.applicationDetails', [$application->id]) }}">
                                                                 <i class="fe fe-eye dropdown-item-icon"></i>
                                                                 View Details
                                                             </a>
                                                             <a class="dropdown-item"
-                                                                href="{{ route('business.jobDetails', [$job->id]) }}">
+                                                                href="{{ route('business.archiveJobApplications', [$application->id]) }}" onclick="return confirm('Are you sure you want to archive this application?');">
                                                                 <i class="fe fe-eye dropdown-item-icon"></i>
                                                                 Archive Application
                                                             </a>

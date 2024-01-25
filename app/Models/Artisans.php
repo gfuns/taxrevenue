@@ -9,7 +9,7 @@ class Artisans extends Model
 {
     use HasFactory;
 
-    protected $appends = array('artisan', 'artisan_photo', 'country');
+    protected $appends = array('artisan', 'artisan_photo', 'country', 'review', 'jobs_done', 'earned_funds');
 
     public function getArtisanAttribute()
     {
@@ -37,6 +37,18 @@ class Artisans extends Model
     public function reviews()
     {
         return $this->hasMany('App\Models\ArtisanReviews', 'artisan_id');
+    }
+
+    public function getReviewAttribute()
+    {
+        $reviews = ArtisanReviews::where("artisan_id", $this->attributes['id'])->count();
+        return $reviews;
+    }
+
+    public function getJobsDoneAttribute()
+    {
+        $jobsDone = JobApplication::where("artisan_id", $this->attributes['id'])->where("completion_status", "Completed")->count();
+        return $jobsDone;
     }
 
     /**

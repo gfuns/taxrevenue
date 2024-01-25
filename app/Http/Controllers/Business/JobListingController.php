@@ -97,6 +97,36 @@ class JobListingController extends Controller
         return view("business.job_applications", compact("applications", "lastRecord", "marker", "search", "status"));
     }
 
+    public function archiveJobApplications($id)
+    {
+        $application = JobApplication::find($id);
+        if (isset($application)) {
+            $application->hiring_status = "Archived";
+            if ($application->save()) {
+                toast("Application Archived Successfully", 'success');
+                return back();
+            } else {
+                toast("Something Went Wrong", 'error');
+                return back();
+            }
+        } else {
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+    }
+
+    public function applicationDetails($id)
+    {
+        $application = JobApplication::with("artisan")->with("jobListing")->find($id);
+        // dd($application);
+        if (isset($application)) {
+            return view("business.application_details", compact("application"));
+        } else {
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+    }
+
     /**
      * getMarkers Helper Function
      *

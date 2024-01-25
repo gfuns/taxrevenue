@@ -125,6 +125,10 @@ Route::group([
 
         Route::get('/job/applications/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobApplications'])->name("business.jobApplications");
 
+        Route::get('/application/details/{id}', [App\Http\Controllers\Business\JobListingController::class, 'applicationDetails'])->name("business.applicationDetails");
+
+        Route::get('/application/archive/{id}', [App\Http\Controllers\Business\JobListingController::class, 'archiveJobApplications'])->name("business.archiveJobApplications");
+
         Route::get('/buy-airtime', [App\Http\Controllers\Business\UtilityController::class, 'buyAirtime'])->name("business.buyAirtime");
 
         Route::get('/buy-airtime/preview/{id}', [App\Http\Controllers\Business\UtilityController::class, 'airtimePreview'])->name("business.airtimePreview");
