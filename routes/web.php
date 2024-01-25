@@ -125,6 +125,16 @@ Route::group([
 
         Route::get('/buy-airtime', [App\Http\Controllers\Business\UtilityController::class, 'buyAirtime'])->name("business.buyAirtime");
 
+        Route::get('/buy-airtime/preview/{id}', [App\Http\Controllers\Business\UtilityController::class, 'airtimePreview'])->name("business.airtimePreview");
+
+        Route::get('/airtime-purchase/wallet/{id}', [App\Http\Controllers\Business\UtilityController::class, 'walletAirtimePurchase'])->name("business.walletAirtimePurchase");
+
+        Route::post('airtimePurchasePreview', [App\Http\Controllers\Business\UtilityController::class, 'airtimePurchasePreview'])->name("business.airtimePurchasePreview");
+
+        Route::get('/buy-data', [App\Http\Controllers\Business\UtilityController::class, 'buyData'])->name("business.buyData");
+        Route::get('/buy-cable', [App\Http\Controllers\Business\UtilityController::class, 'buyCable'])->name("business.buyCable");
+        Route::get('/buy-electricity', [App\Http\Controllers\Business\UtilityController::class, 'buyElectricity'])->name("business.buyElectricity");
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Route::post('/account-pin-setup', [BusinessAccountController::class, 'setupAccountPin']);

@@ -75,22 +75,22 @@
                     <ul class="nav flex-column">
 
                         <li class="nav-item">
-                            <a class="nav-link " id="airtime" href="">
+                            <a class="nav-link " id="airtime" href="{{ route("business.buyAirtime") }}">
                                 Airtime Purchase
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " id="data" href="">
+                            <a class="nav-link " id="data" href="{{ route("business.buyData") }}">
                                 Data Purchase
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " id="cable" href="">
+                            <a class="nav-link " id="cable" href="{{ route("business.buyCable") }}">
                                 Cable Subscription
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " id="electricity" href="">
+                            <a class="nav-link " id="electricity" href="{{ route("business.buyElectricity") }}">
                                 Electricity Purchase
                             </a>
                         </li>
