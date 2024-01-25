@@ -1,7 +1,7 @@
 @extends('business.layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Buy Airtime')
+@section('title', env('APP_NAME') . ' | Buy Data')
 <style>
     /* Style your cards as needed */
     .selected-card {
@@ -16,7 +16,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-3 mb-3">
                 <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-1 h2 fw-bold">Buy Airtime</h1>
+                    <h1 class="mb-1 h2 fw-bold">Buy Data</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -26,7 +26,7 @@
                             <li class="breadcrumb-item">
                                 <a href="#">Utilities</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Buy Airtime</li>
+                            <li class="breadcrumb-item active" aria-current="page">Buy Data</li>
                         </ol>
                     </nav>
                 </div>
@@ -51,15 +51,19 @@
                             </tr>
                             <tr>
                                 <th>Provider</th>
-                                <th>{{ $trx->biller }}</th>
+                                <th>{{ $trx->biller }} Nigeria</th>
                             </tr>
                             <tr>
                                 <th>Trans. Type</th>
-                                <th>{{ $trx->trx_type }} Purchase</th>
+                                <th>{{ $trx->trx_type }} Subscription Purchase</th>
                             </tr>
                             <tr>
                                 <th>Phone Number</th>
                                 <th>{{ $trx->recipient }}</th>
+                            </tr>
+                            <tr>
+                                <th>Data Plan</th>
+                                <th>{{ $trx->plan_details }}</th>
                             </tr>
                             <tr>
                                 <th>Topup Amount</th>
@@ -95,7 +99,7 @@
                 <div class="row">
                     <div class="col-md-4 col-6" style="margin-left: 0px; padding-left:0px">
                         <!-- First button -->
-                        <a href="{{ route('business.walletAirtimePurchase', [$trx->transaction_id]) }}"><button class="btn btn-primary pr-12" type="button"
+                        <a href="{{ route('business.walletDataPurchase', [$trx->transaction_id]) }}"><button class="btn btn-primary pr-12" type="button"
                             onClick="this.disabled=true; this.innerHTML='Submiting request, please wait...';">Pay
                             With Referral Points
                             &nbsp;<i class="bi bi-p-circle"></i></button></a>
@@ -118,7 +122,7 @@
 
 <script type="text/javascript">
     document.getElementById("navBillPayments").classList.add('show');
-    document.getElementById("airtime").classList.add('active');
+    document.getElementById("data").classList.add('active');
 </script>
 @endsection
 

@@ -132,6 +132,15 @@ Route::group([
         Route::post('airtimePurchasePreview', [App\Http\Controllers\Business\UtilityController::class, 'airtimePurchasePreview'])->name("business.airtimePurchasePreview");
 
         Route::get('/buy-data', [App\Http\Controllers\Business\UtilityController::class, 'buyData'])->name("business.buyData");
+
+        Route::get('/buy-data/preview/{id}', [App\Http\Controllers\Business\UtilityController::class, 'dataPreview'])->name("business.dataPreview");
+
+        Route::get('/data/plans/{provider}', [App\Http\Controllers\Business\UtilityController::class, 'retrieveDataPlans'])->name('business.data.plans');
+
+        Route::post('dataPurchasePreview', [App\Http\Controllers\Business\UtilityController::class, 'dataPurchasePreview'])->name("business.dataPurchasePreview");
+
+        Route::get('/data-purchase/wallet/{id}', [App\Http\Controllers\Business\UtilityController::class, 'walletDataPurchase'])->name("business.walletDataPurchase");
+
         Route::get('/buy-cable', [App\Http\Controllers\Business\UtilityController::class, 'buyCable'])->name("business.buyCable");
         Route::get('/buy-electricity', [App\Http\Controllers\Business\UtilityController::class, 'buyElectricity'])->name("business.buyElectricity");
 
