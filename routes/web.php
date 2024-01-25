@@ -121,6 +121,8 @@ Route::group([
 
         Route::get('/job/assets/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobAssets'])->name("business.jobAssets");
 
+        Route::get('/job/applications', [App\Http\Controllers\Business\JobListingController::class, 'allJobApplications'])->name("business.allJobApplications");
+
         Route::get('/job/applications/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobApplications'])->name("business.jobApplications");
 
         Route::get('/buy-airtime', [App\Http\Controllers\Business\UtilityController::class, 'buyAirtime'])->name("business.buyAirtime");
@@ -142,7 +144,22 @@ Route::group([
         Route::get('/data-purchase/wallet/{id}', [App\Http\Controllers\Business\UtilityController::class, 'walletDataPurchase'])->name("business.walletDataPurchase");
 
         Route::get('/buy-cable', [App\Http\Controllers\Business\UtilityController::class, 'buyCable'])->name("business.buyCable");
+
+        Route::get('/cable/plans/{provider}', [App\Http\Controllers\Business\UtilityController::class, 'retrieveCablePlans'])->name('business.cable.plans');
+
+        Route::post('cablePurchasePreview', [App\Http\Controllers\Business\UtilityController::class, 'cablePurchasePreview'])->name("business.cablePurchasePreview");
+
+        Route::get('/buy-cable/preview/{id}', [App\Http\Controllers\Business\UtilityController::class, 'cablePreview'])->name("business.cablePreview");
+
+        Route::get('/cable-purchase/wallet/{id}', [App\Http\Controllers\Business\UtilityController::class, 'walletCablePurchase'])->name("business.walletCablePurchase");
+
         Route::get('/buy-electricity', [App\Http\Controllers\Business\UtilityController::class, 'buyElectricity'])->name("business.buyElectricity");
+
+        Route::post('electricityPurchasePreview', [App\Http\Controllers\Business\UtilityController::class, 'electricityPurchasePreview'])->name("business.electricityPurchasePreview");
+
+        Route::get('/buy-electricity/preview/{id}', [App\Http\Controllers\Business\UtilityController::class, 'electricityPreview'])->name("business.electricityPreview");
+
+        Route::get('/electricity-purchase/wallet/{id}', [App\Http\Controllers\Business\UtilityController::class, 'walletElectricityPurchase'])->name("business.walletElectricityPurchase");
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

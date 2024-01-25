@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
 use App\Models\Business;
+use App\Models\JobApplication;
 use App\Models\JobAssets;
 use App\Models\JobListing;
 use Auth;
@@ -81,6 +82,19 @@ class JobListingController extends Controller
         $job = JobListing::find($id);
         $jobAssets = JobAssets::where("job_listing_id", $id)->get();
         return view("business.job_assets", compact("jobAssets", "job"));
+    }
+
+    public function allJobApplications()
+    {
+        $search = null;
+        $status = null;
+        $business = Business::where("customer_id", Auth::user()->id)->first();
+        $jobs = JobListing::where("business_id", $business->id)->pluck("id");
+        $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->count();
+        $marker = $this->getMarkers($lastRecord, request()->page);
+        $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->paginate(50);
+
+        return view("business.job_applications", compact("applications", "lastRecord", "marker", "search", "status"));
     }
 
     /**

@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AirtimeSuccessful as AirtimeSuccessful;
+use App\Mail\CableSuccessful as CableSuccessful;
 use App\Mail\DataSuccessful as DataSuccessful;
+use App\Mail\ElectricitySuccessful as ElectricitySuccessful;
 use App\Models\AirtimeProviders;
+use App\Models\CableProvider;
 use App\Models\CustomerWallet;
 use App\Models\DataProvider;
+use App\Models\ElectricityProviders;
 use App\Models\ReferralTransaction;
 use App\Models\UtilityTransactions;
 use Auth;
@@ -170,6 +174,17 @@ class UtilityController extends Controller
         $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
         $trx->payment_method = "Account Balance";
         $trx->save();
+
+        $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+
+        if ($customerWallet->referral_points < $trx->total_amount) {
+            $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+            $trx->status = "Failed";
+            $trx->save();
+
+            toast("Your referral points balance is insufficient", 'error');
+            return back();
+        }
 
         $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
         $wallet->referral_points = (double) ($wallet->referral_points - $trx->total_amount);
@@ -405,6 +420,388 @@ class UtilityController extends Controller
             return back();
         }
 
+    }
+
+    public function buyCable()
+    {
+        if (Session::get("dataStatus") == "successful") {
+            toast("Cable Subscription Purchased Successful", 'success');
+
+        } else if (Session::get("dataStatus") == "pending") {
+            toast("Transaction is currently being processed", 'info');
+        } else {
+            toast("Cable Subscription Purchase Failed", 'error');
+        }
+        return redirect()->route('business.cable.plans', ["dstv"]);
+    }
+
+    public function retrieveCablePlans($serviceId)
+    {
+
+        $cableProviders = CableProvider::where("status", "Active")->get();
+        $provida = CableProvider::where("service_id", $serviceId)->first();
+
+        return view("business.buy_cable", compact("cableProviders", "provida"));
+    }
+
+    public function cablePurchasePreview(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'biller' => 'required',
+            'iuc_number' => 'required',
+            'bouquet' => 'required',
+            'variation' => 'required',
+            'subscription_fee' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $provider = CableProvider::where("biller", $request->biller)->first();
+        $topupAmount = abs(preg_replace("/,/", "", $request->subscription_fee));
+
+        try {
+            $data = array(
+                'serviceID' => $provider->service_id,
+                'billersCode' => $request->iuc_number, //"1212121212",
+            );
+
+            $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/merchant-verify");
+            curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_USERPWD, env('VTPASS_PK') . ":" . env('VTPASS_SK'));
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+
+            $result = json_decode($response);
+
+            if ($result->code == "000" && isset($result->content->Customer_Name)) {
+                $transaction = new UtilityTransactions;
+                $transaction->customer_id = Auth::user()->id;
+                $transaction->transaction_id = $this->genTrxId();
+                $transaction->reference = $this->generateVTPassReference();
+                $transaction->trx_type = "Cable";
+                $transaction->biller = $provider->biller;
+                $transaction->service_id = $provider->service_id;
+                $transaction->recipient = $request->iuc_number;
+                $transaction->recipient_name = $result->content->Customer_Name;
+                $transaction->variation_code = $request->variation;
+                $transaction->plan_details = $request->bouquet;
+                $transaction->amount = $topupAmount;
+                $transaction->fee = $provider->fee;
+                $transaction->total_amount = (double) ($topupAmount + $provider->fee);
+                $transaction->status = "Initiated";
+                if ($transaction->save()) {
+                    return redirect()->route("business.cablePreview", [$transaction->transaction_id]);
+                } else {
+                    toast("Unable To Initiate Data Subscription Purchase", 'error');
+                    return back();
+                }
+            } else {
+                toast("Unable To Initiate Data Subscription Purchase", 'error');
+                return back();
+            }
+        } catch (\Exception $e) {
+            report($e);
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+
+    }
+
+    public function cablePreview($trxId)
+    {
+        $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+        return view("business.cable_preview", compact("trx"));
+    }
+
+    public function walletCablePurchase($trxId)
+    {
+        try {
+            $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+            $trx->payment_method = "Referral Points";
+            $trx->save();
+
+            $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+
+            if ($customerWallet->referral_points < $trx->total_amount) {
+                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx->status = "Failed";
+                $trx->save();
+
+                toast("Your referral points balance is insufficient", 'error');
+                return back();
+            }
+
+            $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+            $wallet->referral_points = (double) ($wallet->referral_points - $trx->total_amount);
+            $wallet->save();
+
+            $data = array(
+                'serviceID' => $trx->service_id,
+                'amount' => (int) $trx->amount,
+                'phone' => Auth::user()->phone == null ? '08188664322' : Auth::user()->phone,
+                'billersCode' => $trx->recipient, //"1212121212",
+                'variation_code' => $trx->variation_code,
+                'request_id' => $trx->reference,
+            );
+
+            $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/pay");
+            curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_USERPWD, env('VTPASS_PK') . ":" . env('VTPASS_SK'));
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+
+            $result = json_decode($response);
+
+            if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL") {
+                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx->status = "Successful";
+                $trx->save();
+
+                $referralTrx = new ReferralTransaction;
+                $referralTrx->customer_id = Auth::user()->id;
+                $referralTrx->trx_type = "debit";
+                $referralTrx->amount = $trx->total_amount;
+                $referralTrx->details = "Cable Subscription Purchase For " . $trx->plan_details;
+                $referralTrx->save();
+
+                try {
+                    $user = Auth::user();
+                    Mail::to($user)->send(new CableSuccessful($user, $trx));
+                } catch (\Exception $e) {
+                    report($e);
+                } finally {
+                    Session::flash("dataStatus", "successful");
+                    return redirect()->route("business.buyCable");
+                }
+
+            } else if ($result->code == "016" && $result->response_description == "TRANSACTION FAILED") {
+                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+
+                $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+                $wallet->referral_points = (double) ($wallet->referral_points + $trx->total_amount);
+                $wallet->save();
+
+                $trx->status = "Failed";
+                $trx->save();
+
+                Session::flash("dataStatus", "failed");
+                return redirect()->route("business.buyCable");
+            } else {
+                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx->status = "Pending";
+                $trx->save();
+
+                Session::flash("dataStatus", "pending");
+                return redirect()->route("business.buyCable");
+            }
+        } catch (\Exception $e) {
+            report($e);
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+    }
+
+    public function buyElectricity()
+    {
+        $electricityProviders = ElectricityProviders::where("status", "Active")->get();
+        $provida = ElectricityProviders::where("status", "Active")->first();
+        return view("business.buy_electricity", compact("electricityProviders", "provida"));
+    }
+
+    public function electricityPurchasePreview(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'service_id' => 'required',
+            'meter_number' => 'required',
+            'recharge_amount' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $provider = ElectricityProviders::where("service_id", $request->service_id)->first();
+        $topupAmount = abs(preg_replace("/,/", "", $request->recharge_amount));
+
+        if ($topupAmount < 1000) {
+            return new JsonResponse([
+                'response' => [
+                    'message' => 'Unable To Initiate Electricity Purchase',
+                    'details' => 'Minumim recharge amount for electricity is NGN1,000',
+                ],
+            ], 400);
+        }
+
+        try {
+            $data = array(
+                'serviceID' => $provider->service_id,
+                'billersCode' => $request->meter_number, //"1111111111111",
+                'type' => "prepaid",
+            );
+
+            $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/merchant-verify");
+            curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_USERPWD, env('VTPASS_PK') . ":" . env('VTPASS_SK'));
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+
+            $result = json_decode($response);
+
+            if ($result->code == "000" && isset($result->content->Customer_Name)) {
+                $transaction = new UtilityTransactions;
+                $transaction->customer_id = Auth::user()->id;
+                $transaction->transaction_id = $this->genTrxId();
+                $transaction->reference = $this->generateVTPassReference();
+                $transaction->trx_type = "Electricity";
+                $transaction->biller = $provider->biller . " (" . $provider->acronym . ")";
+                $transaction->service_id = $provider->service_id;
+                $transaction->recipient = $request->meter_number;
+                $transaction->recipient_name = $result->content->Customer_Name;
+                $transaction->recipient_address = isset($result->content->Address) ? $result->content->Address : null;
+                $transaction->amount = $topupAmount;
+                $transaction->fee = $provider->fee;
+                $transaction->total_amount = (double) ($topupAmount + $provider->fee);
+                $transaction->status = "Initiated";
+                if ($transaction->save()) {
+                    return redirect()->route("business.electricityPreview", [$transaction->transaction_id]);
+                } else {
+                    toast("Unable to verify Meter Number", 'error');
+                    return back();
+                }
+            } else {
+                toast("Unable to verify Meter Number", 'error');
+                return back();
+            }
+        } catch (\Exception $e) {
+            report($e);
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+    }
+
+    public function electricityPreview($trxId)
+    {
+        $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+        return view("business.electricity_preview", compact("trx"));
+    }
+
+    public function walletElectricityPurchase($trxId)
+    {
+        try {
+
+            $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+            $trx->payment_method = "Referral Points";
+            $trx->save();
+
+            $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+
+            if ($customerWallet->referral_points < $trx->total_amount) {
+                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx->status = "Failed";
+                $trx->save();
+
+                toast("Your referral points balance is insufficient", 'error');
+                return back();
+            }
+
+            $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+            $wallet->referral_points = (double) ($wallet->referral_points - $trx->total_amount);
+            $wallet->save();
+
+            $data = array(
+                'serviceID' => $trx->service_id,
+                'amount' => (int) $trx->amount,
+                'billersCode' => $trx->recipient, //"1111111111111",
+                'variation_code' => "prepaid",
+                'phone' => Auth::user()->phone == null ? '08188664322' : Auth::user()->phone,
+                'request_id' => $trx->reference,
+            );
+
+            $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/pay");
+            curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_USERPWD, env('VTPASS_PK') . ":" . env('VTPASS_SK'));
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+
+            $result = json_decode($response);
+
+            if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL" && isset($result->token)) {
+                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx->token = $result->token;
+                $trx->units = isset($result->units) ? $result->units : null;
+                $trx->status = "Successful";
+                $trx->save();
+
+                $referralTrx = new ReferralTransaction;
+                $referralTrx->customer_id = Auth::user()->id;
+                $referralTrx->trx_type = "debit";
+                $referralTrx->amount = $trx->total_amount;
+                $referralTrx->details = "Electricity Units Purchase From " . $trx->biller;
+                $referralTrx->save();
+
+                try {
+                    $user = Auth::user();
+                    Mail::to($user)->send(new ElectricitySuccessful($user, $trx));
+                } catch (\Exception $e) {
+                    report($e);
+                } finally {
+                    toast("Electricity Purchase Successful", 'success');
+                    return redirect()->route("business.buyElectricity");
+                }
+
+            } else if ($result->code == "016" && $result->response_description == "TRANSACTION FAILED") {
+                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+
+                $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+                $wallet->referral_points = (double) ($wallet->referral_points + $trx->total_amount);
+                $wallet->save();
+
+                $trx->status = "Failed";
+                $trx->save();
+
+                toast("Electricity Purchase Failed", 'error');
+                return redirect()->route("business.buyElectricity");
+            } else {
+                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx->status = "Pending";
+                $trx->save();
+
+                toast("Transaction is currently being processed", 'info');
+                return redirect()->route("business.buyElectricity");
+            }
+        } catch (\Exception $e) {
+            report($e);
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
     }
 
     public function genTrxId()

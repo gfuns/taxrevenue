@@ -32,7 +32,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="applications" href="#">
+                <a class="nav-link " id="applications" href="{{ route("business.allJobApplications") }}">
                     <i class="nav-icon bi bi-people-fill me-2"></i>
                     Job Applications
                 </a>
