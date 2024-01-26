@@ -88,13 +88,77 @@ class JobListingController extends Controller
 
     public function allJobApplications()
     {
-        $search = null;
-        $status = null;
+        $search = request()->search;
+        $status = request()->status;
         $business = Business::where("customer_id", Auth::user()->id)->first();
-        $jobs = JobListing::where("business_id", $business->id)->pluck("id");
-        $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->count();
-        $marker = $this->getMarkers($lastRecord, request()->page);
-        $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->paginate(50);
+        if (isset(request()->status) && !isset(request()->search)) {
+            $jobs = JobListing::where("business_id", $business->id)->pluck("id");
+            if (request()->status == "Completed") {
+                $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->where("completion_status", "Completed")->count();
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->where("completion_status", "Completed")->paginate(50);
+            } else if (request()->status == "Hired") {
+                $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->where("hiring_status", "Hired")->count();
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->where("hiring_status", "Hired")->paginate(50);
+            } else if (request()->status == "Pending") {
+                $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->where("status", "Pending")->count();
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->where("status", "Pending")->paginate(50);
+            } else if (request()->status == "Rejected") {
+                $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->where("status", "Rejected")->count();
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->where("status", "Rejected")->paginate(50);
+            } else if (request()->status == "Archived") {
+                $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->where("status", "Archived")->count();
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->where("status", "Archived")->paginate(50);
+            } else {
+                $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->where("completion_status", "In Progress")->count();
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->where("completion_status", "In Progress")->paginate(50);
+            }
+
+        } else if (isset(request()->search) && !isset(request()->status)) {
+            $jobs = JobListing::where("business_id", $business->id)->where('job_title', 'like', '%' . request()->search . '%')->pluck("id");
+
+            $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->count();
+            $marker = $this->getMarkers($lastRecord, request()->page);
+            $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->paginate(50);
+        } else if(isset(request()->search) && isset(request()->status)){
+            $jobs = JobListing::where("business_id", $business->id)->where('job_title', 'like', '%' . request()->search . '%')->pluck("id");
+
+            if (request()->status == "Completed") {
+                $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->where("completion_status", "Completed")->count();
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->where("completion_status", "Completed")->paginate(50);
+            } else if (request()->status == "Hired") {
+                $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->where("hiring_status", "Hired")->count();
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->where("hiring_status", "Hired")->paginate(50);
+            } else if (request()->status == "Pending") {
+                $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->where("status", "Pending")->count();
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->where("status", "Pending")->paginate(50);
+            } else if (request()->status == "Rejected") {
+                $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->where("status", "Rejected")->count();
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->where("status", "Rejected")->paginate(50);
+            } else if (request()->status == "Archived") {
+                $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->where("status", "Archived")->count();
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->where("status", "Archived")->paginate(50);
+            } else {
+                $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->where("completion_status", "In Progress")->count();
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->where("completion_status", "In Progress")->paginate(50);
+            }
+        }else {
+            $jobs = JobListing::where("business_id", $business->id)->pluck("id");
+            $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->count();
+            $marker = $this->getMarkers($lastRecord, request()->page);
+            $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->paginate(50);
+        }
 
         return view("business.all_applications", compact("applications", "lastRecord", "marker", "search", "status"));
     }
@@ -102,29 +166,36 @@ class JobListingController extends Controller
     public function jobApplications($jobId)
     {
         $status = request()->status;
-        $lastRecord = JobApplication::where("job_listing_id", $jobId)->count();
+
         if (isset(request()->status)) {
-            if(request()->status == "Completed"){
+            if (request()->status == "Completed") {
+                $lastRecord = JobApplication::where("job_listing_id", $jobId)->where("completion_status", "Completed")->count();
                 $marker = $this->getMarkers($lastRecord, request()->page);
                 $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->where("completion_status", "Completed")->paginate(50);
-            }else if(request()->status == "Hired"){
+            } else if (request()->status == "Hired") {
+                $lastRecord = JobApplication::where("job_listing_id", $jobId)->where("hiring_status", "Hired")->count();
                 $marker = $this->getMarkers($lastRecord, request()->page);
                 $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->where("hiring_status", "Hired")->paginate(50);
-            }else if(request()->status == "Pending"){
+            } else if (request()->status == "Pending") {
+                $lastRecord = JobApplication::where("job_listing_id", $jobId)->where("status", "Pending")->count();
                 $marker = $this->getMarkers($lastRecord, request()->page);
                 $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->where("status", "Pending")->paginate(50);
-            }else if(request()->status == "Rejected"){
+            } else if (request()->status == "Rejected") {
+                $lastRecord = JobApplication::where("job_listing_id", $jobId)->where("status", "Rejected")->count();
                 $marker = $this->getMarkers($lastRecord, request()->page);
                 $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->where("status", "Rejected")->paginate(50);
-            }else if(request()->status == "Archived"){
+            } else if (request()->status == "Archived") {
+                $lastRecord = JobApplication::where("job_listing_id", $jobId)->where("status", "Archived")->count();
                 $marker = $this->getMarkers($lastRecord, request()->page);
                 $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->where("status", "Archived")->paginate(50);
-            }else{
+            } else {
+                $lastRecord = JobApplication::where("job_listing_id", $jobId)->where("completion_status", "In Progress")->count();
                 $marker = $this->getMarkers($lastRecord, request()->page);
                 $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->where("completion_status", "In Progress")->paginate(50);
             }
 
         } else {
+            $lastRecord = JobApplication::where("job_listing_id", $jobId)->count();
             $marker = $this->getMarkers($lastRecord, request()->page);
             $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->paginate(50);
         }
