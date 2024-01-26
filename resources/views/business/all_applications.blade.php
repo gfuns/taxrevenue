@@ -75,6 +75,7 @@
                                             <th class="text-nowrap">Job Title</th>
                                             <th class="text-nowrap">Applicant's Name</th>
                                             <th class="text-nowrap">Application Status</th>
+                                            <th class="text-nowrap">Hiring Status</th>
                                             <th class="text-nowrap">Job Status</th>
                                             <th class="text-nowrap">Application Date</th>
                                             <th class="text-nowrap"></th>
@@ -87,6 +88,18 @@
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $application->jobListing->job_title }}</td>
                                                 <td>{{ $application->artisan->customer->first_name . ' ' . $application->artisan->customer->last_name }}
+                                                </td>
+                                                <td class="text-nowrap">
+                                                    @if ($application->status == 'Approved')
+                                                        <span class="badge text-success bg-light-success">
+                                                            {{ ucwords($application->status) }}</span>
+                                                    @elseif($application->status == 'Pending')
+                                                        <span class="badge text-primary bg-light-primary">
+                                                            {{ ucwords($application->status) }}</span>
+                                                    @else
+                                                        <span class="badge text-danger bg-light-danger">
+                                                            {{ ucwords($application->status) }}</span>
+                                                    @endif
                                                 </td>
                                                 <td class="text-nowrap">
                                                     @if ($application->hiring_status == 'Hired')
@@ -105,8 +118,11 @@
                                                     @if ($application->completion_status == 'Completed')
                                                         <span class="badge text-success bg-light-success">
                                                             {{ ucwords($application->completion_status) }}</span>
-                                                    @else
+                                                    @elseif($application->completion_status == 'Pending' || $application->completion_status == 'In Progress')
                                                         <span class="badge text-primary bg-light-primary">
+                                                            {{ ucwords($application->completion_status) }}</span>
+                                                    @else
+                                                        <span class="badge text-danger bg-light-danger">
                                                             {{ ucwords($application->completion_status) }}</span>
                                                     @endif
                                                 </td>
@@ -131,11 +147,11 @@
                                                                 <i class="fe fe-eye dropdown-item-icon"></i>
                                                                 View Details
                                                             </a>
-                                                            @if (!$application->hiring_status == 'Archived')
+                                                            @if ($application->status != 'Archived')
                                                                 <a class="dropdown-item"
                                                                     href="{{ route('business.archiveJobApplications', [$application->id]) }}"
                                                                     onclick="return confirm('Are you sure you want to archive this application?');">
-                                                                    <i class="fe fe-eye dropdown-item-icon"></i>
+                                                                    <i class="fe fe-archive dropdown-item-icon"></i>
                                                                     Archive Application
                                                                 </a>
                                                             @endif

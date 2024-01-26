@@ -112,9 +112,49 @@ class JobListingController extends Controller
     {
         $application = JobApplication::find($id);
         if (isset($application)) {
-            $application->hiring_status = "Archived";
+            $application->status = "Archived";
             if ($application->save()) {
                 toast("Application Archived Successfully", 'success');
+                return back();
+            } else {
+                toast("Something Went Wrong", 'error');
+                return back();
+            }
+        } else {
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+    }
+
+    public function approveApplication($id)
+    {
+        $application = JobApplication::find($id);
+        if (isset($application)) {
+            $application->status = "Approved";
+            $application->hiring_status = "Hired";
+            $application->completion_status = "In Progress";
+            if ($application->save()) {
+                toast("Application Approved Successfully", 'success');
+                return back();
+            } else {
+                toast("Something Went Wrong", 'error');
+                return back();
+            }
+        } else {
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+    }
+
+    public function rejectApplication($id)
+    {
+        $application = JobApplication::find($id);
+        if (isset($application)) {
+            $application->status = "Rejected";
+            $application->hiring_status = "Rejected";
+            $application->completion_status = "N/A";
+            if ($application->save()) {
+                toast("Application Rejected Successfully", 'success');
                 return back();
             } else {
                 toast("Something Went Wrong", 'error');

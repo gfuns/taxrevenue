@@ -164,6 +164,32 @@
                             {{ $application->cover_letter }}
                         </p>
 
+                        @if ($application->hiring_status == 'Pending')
+                            <p>&nbsp;</p>
+
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6 col-6" style="margin-left: 0px; padding-left:0px">
+                                        <!-- First button -->
+                                        <a href="{{ route('business.approveApplication', [$application->id]) }}"
+                                            onclick="return confirm('Are you sure you want to approve this application?');"><button
+                                                class="btn btn-success pr-12" type="button"
+                                                onClick="this.disabled=true; this.innerHTML='Submiting request, please wait...';">
+                                                Approve Application
+                                                &nbsp;<i class="bi bi-check2-circle"></i></button></a>
+                                    </div>
+                                    <div class="col-md-6 col-6">
+                                        <!-- Second button floated to the right -->
+                                        <a href="{{ route('business.rejectApplication', [$application->id]) }}"
+                                            onclick="return confirm('Are you sure you want to reject this application?');"><button
+                                                class="btn btn-danger" type="button"
+                                                onClick="this.disabled=true; this.innerHTML='Submiting request, please wait...';">
+                                                Reject Application
+                                                &nbsp;<i class="bi bi-x-circle-fill"></i></button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
 
                     </div>
                 </div>
@@ -250,10 +276,10 @@
                                             </div>
                                             <!-- card body -->
 
-                                                <h5 class="mt-2 ms-2 fw-semibold">
-                                                    <a href="{{ $portfolio->portfolio_url }}" target="_blank"
-                                                        class="text-inherit">{{ $portfolio->title }}</a>
-                                                </h5>
+                                            <h5 class="mt-2 ms-2 fw-semibold">
+                                                <a href="{{ $portfolio->portfolio_url }}" target="_blank"
+                                                    class="text-inherit">{{ $portfolio->title }}</a>
+                                            </h5>
 
                                         </div>
                                     </div>
