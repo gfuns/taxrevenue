@@ -173,6 +173,10 @@ Route::group([
 
         Route::post('/update-milestone', [App\Http\Controllers\Business\JobListingController::class, 'updateProjectMilestone'])->name("business.updateProjectMilestone");
 
+        Route::get('/jobs/initialize', [App\Http\Controllers\Business\JobListingController::class, 'initializeNewJob'])->name("business.initializeNewJob");
+
+        Route::get('/jobs/new', [App\Http\Controllers\Business\JobListingController::class, 'newJobListing'])->name("business.newJobListing");
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Route::post('/account-pin-setup', [BusinessAccountController::class, 'setupAccountPin']);

@@ -25,7 +25,7 @@
 
                  <!-- button -->
                  <div>
-                    <a href="#" class="btn btn-primary me-2">New Job Listing</a>
+                    <a href="{{ route('business.initializeNewJob') }}" class="btn btn-primary me-2">New Job Listing</a>
 
                 </div>
             </div>

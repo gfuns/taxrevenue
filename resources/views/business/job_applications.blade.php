@@ -19,7 +19,7 @@
                                 <a href="{{ route('business.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item" aria-current="page">
-                                <a href="{{ route('business.dashboard') }}">Jobs</a>
+                                <a href="{{ route('business.dashboard') }}">Job Listing</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Job Applications</li>
                         </ol>

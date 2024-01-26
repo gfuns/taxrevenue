@@ -8,9 +8,11 @@ use App\Models\JobApplication;
 use App\Models\JobAssets;
 use App\Models\JobListing;
 use App\Models\JobMilestone;
+use App\Models\PlatformCategories;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Session;
 
 class JobListingController extends Controller
 {
@@ -125,7 +127,7 @@ class JobListingController extends Controller
             $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->count();
             $marker = $this->getMarkers($lastRecord, request()->page);
             $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->paginate(50);
-        } else if(isset(request()->search) && isset(request()->status)){
+        } else if (isset(request()->search) && isset(request()->status)) {
             $jobs = JobListing::where("business_id", $business->id)->where('job_title', 'like', '%' . request()->search . '%')->pluck("id");
 
             if (request()->status == "Completed") {
@@ -153,7 +155,7 @@ class JobListingController extends Controller
                 $marker = $this->getMarkers($lastRecord, request()->page);
                 $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->where("completion_status", "In Progress")->paginate(50);
             }
-        }else {
+        } else {
             $jobs = JobListing::where("business_id", $business->id)->pluck("id");
             $lastRecord = JobApplication::whereIn("job_listing_id", $jobs)->count();
             $marker = $this->getMarkers($lastRecord, request()->page);
@@ -334,6 +336,22 @@ class JobListingController extends Controller
         }
     }
 
+    public function initializeNewJob()
+    {
+        Session::forget("JTC");
+        $trackingCode = $this->genTrackingCode();
+        Session::put("JTC", $trackingCode);
+
+        return redirect()->route("business.newJobListing");
+    }
+
+    public function newJobListing()
+    {
+        $files = JobAssets::where("tracking_code", Session::get('JTC'))->get();
+        $jobCategories = PlatformCategories::all();
+        return view("business.new_job_listing", compact("jobCategories", "files"));
+    }
+
     /**
      * getMarkers Helper Function
      *
@@ -364,5 +382,17 @@ class JobListingController extends Controller
         }
 
         return $marker;
+    }
+
+    public function genTrackingCode()
+    {
+        $pin = range(0, 12);
+        $set = shuffle($pin);
+        $code = "";
+        for ($i = 0; $i < 6; $i++) {
+            $code = $code . "" . $pin[$i];
+        }
+
+        return "ART-JB-" . $code;
     }
 }

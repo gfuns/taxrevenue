@@ -325,4 +325,16 @@
         $(document).ready(function() {
             $('#category').select2();
         });
+
+        $(document).ready(function() {
+            $('#paymentSchedule').select2();
+        });
+
+        $(document).ready(function() {
+            $('#workMode').select2();
+        });
+
+        $(document).ready(function() {
+            $('#jobStatus').select2();
+        });
     </script>

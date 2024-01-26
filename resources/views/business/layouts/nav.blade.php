@@ -22,7 +22,7 @@
             <li class="nav-item">
                 <a class="nav-link " id="jobs" href="{{ route("business.jobListing") }}">
                     <i class="nav-icon bi bi-briefcase-fill me-2"></i>
-                    Jobs
+                    Job Listing
                 </a>
             </li>
 
