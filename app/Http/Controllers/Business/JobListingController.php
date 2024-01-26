@@ -8,9 +8,9 @@ use App\Models\JobApplication;
 use App\Models\JobAssets;
 use App\Models\JobListing;
 use App\Models\JobMilestone;
-use Illuminate\Support\Facades\Validator;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class JobListingController extends Controller
 {
@@ -101,13 +101,36 @@ class JobListingController extends Controller
 
     public function jobApplications($jobId)
     {
-        $search = null;
-        $status = null;
+        $status = request()->status;
         $lastRecord = JobApplication::where("job_listing_id", $jobId)->count();
-        $marker = $this->getMarkers($lastRecord, request()->page);
-        $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->paginate(50);
+        if (isset(request()->status)) {
+            if(request()->status == "Completed"){
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->where("completion_status", "Completed")->paginate(50);
+            }else if(request()->status == "Hired"){
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->where("hiring_status", "Hired")->paginate(50);
+            }else if(request()->status == "Pending"){
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->where("status", "Pending")->paginate(50);
+            }else if(request()->status == "Rejected"){
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->where("status", "Rejected")->paginate(50);
+            }else if(request()->status == "Archived"){
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->where("status", "Archived")->paginate(50);
+            }else{
+                $marker = $this->getMarkers($lastRecord, request()->page);
+                $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->where("completion_status", "In Progress")->paginate(50);
+            }
 
-        return view("business.job_applications", compact("applications", "lastRecord", "marker", "search", "status"));
+        } else {
+            $marker = $this->getMarkers($lastRecord, request()->page);
+            $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->paginate(50);
+        }
+        $job = JobListing::find($jobId);
+
+        return view("business.job_applications", compact("applications", "lastRecord", "marker", "status", "job"));
     }
 
     public function archiveJobApplications($id)
@@ -179,8 +202,8 @@ class JobListingController extends Controller
         }
     }
 
-
-    public function addProjectMilestone(Request $request){
+    public function addProjectMilestone(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'job_id' => 'required',
             'milestone' => 'required',
@@ -201,16 +224,17 @@ class JobListingController extends Controller
         $milestone->currency = "NGN";
         $milestone->milestone_fee = abs(preg_replace("/,/", "", $request->milestone_fee));
         $milestone->deadline = $request->deadline;
-        if($milestone->save()){
+        if ($milestone->save()) {
             toast("Job Milestone Added Successfully", 'success');
             return back();
-        }else{
+        } else {
             toast("Something Went Wrong", 'error');
             return back();
         }
     }
 
-    public function updateProjectMilestone(Request $request){
+    public function updateProjectMilestone(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'milestone_id' => 'required',
             'milestone' => 'required',
@@ -230,10 +254,10 @@ class JobListingController extends Controller
         $milestone->currency = "NGN";
         $milestone->milestone_fee = abs(preg_replace("/,/", "", $request->milestone_fee));
         $milestone->deadline = $request->deadline;
-        if($milestone->save()){
+        if ($milestone->save()) {
             toast("Milestone Updated Successfully", 'success');
             return back();
-        }else{
+        } else {
             toast("Something Went Wrong", 'error');
             return back();
         }

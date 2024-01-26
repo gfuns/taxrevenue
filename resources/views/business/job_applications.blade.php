@@ -40,12 +40,7 @@
                             <!-- search -->
 
                             <div class="d-flex align-items-center">
-                                <span class="position-absolute ps-3 search-icon">
-                                    <i class="fe fe-search"></i>
-                                </span>
-                                <!-- input -->
-                                <input name="search" type="search" class="form-control ps-6"
-                                    placeholder="Search for Applications......" value="{{ $search }}">
+                                <h4>Applications For Job Listing: {{ $job->job_title }} </h4>
                             </div>
 
                         </div>
@@ -53,11 +48,14 @@
                             <!-- form select -->
                             <select id="status" name="status" class="form-select" onChange="this.form.submit()">
                                 <option value="">All Statuses</option>
-                                <option value="Pending" @if ($status == 'draft') selected @endif>Pending
+                                <option value="Pending" @if ($status == 'Pending') selected @endif>Pending
                                 </option>
-                                <option value="Hired" @if ($status == 'published') selected @endif>Hired
+                                <option value="Hired" @if ($status == 'Hired') selected @endif>Hired
+                                <option value="Rejected" @if ($status == 'Rejected') selected @endif>Rejected
                                 </option>
-                                <option value="Archived" @if ($status == 'open') selected @endif>Archived
+                                <option value="Archived" @if ($status == 'Archived') selected @endif>Archived
+                                <option value="In Progress" @if ($status == 'In Progress') selected @endif>In Progress
+                                <option value="Completed" @if ($status == 'Completed') selected @endif>Completed
                                 </option>
                             </select>
                         </div>
