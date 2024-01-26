@@ -33,6 +33,22 @@
     <script src="{{ asset('assets/js/vendors/sweetalert2.all.min.js') }}"></script>
 
     <script type="text/javascript">
+        $('#updateMilestone').on('show.bs.offcanvas', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var myid = button.data('myid') // Extract info from data-* attributes
+            var milestone = button.data('milestone') // Extract info from data-* attributes
+            var milestonefee = button.data('milestonefee') // Extract info from data-* attributes
+            var deadline = button.data('deadline') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+            var offcanvas = $(this)
+            offcanvas.find('.offcanvas-body #myid').val(myid)
+            offcanvas.find('.offcanvas-body #milestone').val(milestone)
+            offcanvas.find('.offcanvas-body #milestonefee').val(milestonefee)
+            offcanvas.find('.offcanvas-body #deadline').val(deadline)
+        })
+
         $('#editCategory').on('show.bs.offcanvas', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var myid = button.data('myid') // Extract info from data-* attributes

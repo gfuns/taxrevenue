@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('artisan_id')->unsigned();
             $table->integer('job_listing_id')->unsigned();
             $table->longText('cover_letter');
+            $table->string('status')->default("Pending");
             $table->string('hiring_status')->default("Pending");
             $table->string('completion_status')->default("Pending");
             $table->timestamps();

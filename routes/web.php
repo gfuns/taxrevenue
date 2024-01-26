@@ -169,6 +169,10 @@ Route::group([
 
         Route::get('/electricity-purchase/wallet/{id}', [App\Http\Controllers\Business\UtilityController::class, 'walletElectricityPurchase'])->name("business.walletElectricityPurchase");
 
+        Route::post('/add-milestone', [App\Http\Controllers\Business\JobListingController::class, 'addProjectMilestone'])->name("business.addProjectMilestone");
+
+        Route::post('/update-milestone', [App\Http\Controllers\Business\JobListingController::class, 'updateProjectMilestone'])->name("business.updateProjectMilestone");
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Route::post('/account-pin-setup', [BusinessAccountController::class, 'setupAccountPin']);

@@ -7,6 +7,8 @@ use App\Models\Business;
 use App\Models\JobApplication;
 use App\Models\JobAssets;
 use App\Models\JobListing;
+use App\Models\JobMilestone;
+use Illuminate\Support\Facades\Validator;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -169,10 +171,69 @@ class JobListingController extends Controller
     public function applicationDetails($id)
     {
         $application = JobApplication::with("artisan")->with("jobListing")->find($id);
-        // dd($application);
         if (isset($application)) {
             return view("business.application_details", compact("application"));
         } else {
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+    }
+
+
+    public function addProjectMilestone(Request $request){
+        $validator = Validator::make($request->all(), [
+            'job_id' => 'required',
+            'milestone' => 'required',
+            'milestone_fee' => 'required|numeric',
+            'deadline' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $milestone = new JobMilestone;
+        $milestone->job_listing_id = $request->job_id;
+        $milestone->milestone = $request->milestone;
+        $milestone->currency = "NGN";
+        $milestone->milestone_fee = abs(preg_replace("/,/", "", $request->milestone_fee));
+        $milestone->deadline = $request->deadline;
+        if($milestone->save()){
+            toast("Job Milestone Added Successfully", 'success');
+            return back();
+        }else{
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+    }
+
+    public function updateProjectMilestone(Request $request){
+        $validator = Validator::make($request->all(), [
+            'milestone_id' => 'required',
+            'milestone' => 'required',
+            'milestone_fee' => 'required|numeric',
+            'deadline' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $milestone = JobMilestone::find($request->milestone_id);
+        $milestone->milestone = $request->milestone;
+        $milestone->currency = "NGN";
+        $milestone->milestone_fee = abs(preg_replace("/,/", "", $request->milestone_fee));
+        $milestone->deadline = $request->deadline;
+        if($milestone->save()){
+            toast("Milestone Updated Successfully", 'success');
+            return back();
+        }else{
             toast("Something Went Wrong", 'error');
             return back();
         }
