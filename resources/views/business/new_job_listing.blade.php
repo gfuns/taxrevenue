@@ -186,14 +186,14 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label for="selectDate" class="form-label">Application Opening Date</label>
-                                <input type="text" id="selectDate" class="form-control text-dark flatpickr"
+                                <input type="text" name="application_opens" id="selectDate" class="form-control text-dark flatpickr"
                                     placeholder="Select Application Opening Date" required>
                                 <div class="invalid-feedback">Please select valid date.</div>
                             </div>
 
                             <div class="mb-3 col-md-6">
                                 <label for="selectDate" class="form-label">Application Closing Date</label>
-                                <input type="text" id="selectDate" class="form-control text-dark flatpickr"
+                                <input type="text" name="application_closes" id="selectDate" class="form-control text-dark flatpickr"
                                     placeholder="Select Application Closing Date" required>
                                 <div class="invalid-feedback">Please select valid date.</div>
                             </div>
@@ -305,7 +305,7 @@
                     </div>
                     <!-- List Group -->
                     <div class="p-3 col-md-12">
-                        <select name="jobStatus" class="form-select text-dark" id="jobStatus" required>
+                        <select name="job_status" class="form-select text-dark" id="jobStatus" required>
                             <option value="">Status</option>
                             <option value="Hourly">Draft</option>
                             <option value="Weekly">Publish</option>

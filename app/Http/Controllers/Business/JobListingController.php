@@ -352,6 +352,43 @@ class JobListingController extends Controller
         return view("business.new_job_listing", compact("jobCategories", "files"));
     }
 
+
+    public function storeJobListing(Request $request){
+        $validator = Validator::make($request->all(), [
+            'tracking_code' => 'required',
+            'job_title' => 'required',
+            'tags' => 'required|numeric',
+            'skill_level' => 'required',
+            'job_description' => 'required',
+            'job_requirements' => 'required',
+            'open_positions' => 'required',
+            'duration' => 'required',
+            'work_mode' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'office_address' => 'required',
+            'minimum_renumeration' => 'required',
+            'maximum_renumeration' => 'required',
+            'payment_schedule' => 'required',
+            'application_opens' => 'required',
+            'application_closes' => 'required',
+            'job_categories' => 'required',
+            'engagement_type' => 'required',
+            'job_status' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $jobListing = new JobListing;
+        $jobListing->tracking_code = $request->tracking_code;
+    }
+
     /**
      * getMarkers Helper Function
      *
