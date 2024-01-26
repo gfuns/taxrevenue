@@ -94,6 +94,17 @@ class JobListingController extends Controller
         $marker = $this->getMarkers($lastRecord, request()->page);
         $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->paginate(50);
 
+        return view("business.all_applications", compact("applications", "lastRecord", "marker", "search", "status"));
+    }
+
+    public function jobApplications($jobId)
+    {
+        $search = null;
+        $status = null;
+        $lastRecord = JobApplication::where("job_listing_id", $jobId)->count();
+        $marker = $this->getMarkers($lastRecord, request()->page);
+        $applications = JobApplication::with("artisan")->with("jobListing")->orderBy("id", "desc")->where("job_listing_id", $jobId)->paginate(50);
+
         return view("business.job_applications", compact("applications", "lastRecord", "marker", "search", "status"));
     }
 

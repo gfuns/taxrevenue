@@ -11,15 +11,12 @@
             <!-- Page header -->
             <div class="border-bottom pb-3 mb-3 d-lg-flex align-items-center justify-content-between">
                 <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-0 h2 fw-bold">Jobs</h1>
+                    <h1 class="mb-0 h2 fw-bold">Job Applications</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="{{ route('business.dashboard') }}">Dashboard</a>
-                            </li>
-                            <li class="breadcrumb-item" aria-current="page">
-                                <a href="{{ route('business.dashboard') }}">Jobs</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Job Applications</li>
                         </ol>
@@ -184,7 +181,7 @@
     </div>
 </section>
 <script type="text/javascript">
-    document.getElementById("jobs").classList.add('active');
+    document.getElementById("applications").classList.add('active');
 </script>
 
 @endsection

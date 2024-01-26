@@ -130,7 +130,17 @@
                                                             <a class="dropdown-item"
                                                                 href="{{ route('business.jobDetails', [$job->id]) }}">
                                                                 <i class="fe fe-eye dropdown-item-icon"></i>
-                                                                View Details
+                                                                View Job Details
+                                                            </a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('business.jobDetails', [$job->id]) }}">
+                                                                <i class="fe fe-edit dropdown-item-icon"></i>
+                                                                Update Job Details
+                                                            </a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('business.jobApplications', [$job->id]) }}">
+                                                                <i class="fe fe-folder-plus dropdown-item-icon"></i>
+                                                                View Job Applications
                                                             </a>
                                                         </div>
                                                     </div>
