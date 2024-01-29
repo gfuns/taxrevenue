@@ -273,48 +273,21 @@
                     <!-- Card Header -->
                     <div class="card-header d-lg-flex" style="margin-right:0px; padding-right:0px">
 
-                        <div class="container" style="margin-left: 0px; padding-left:0px; margin-right:0px; padding-right:0px">
+                        <div class="container"
+                            style="margin-left: 0px; padding-left:0px; margin-right:0px; padding-right:0px">
                             <div class="row">
                                 <div class="col-md-7 col-7">
                                     <h4 class="mb-0">Featured Files & Images</h4>
                                 </div>
                                 <div class="col-md-5 col-5">
-                                    <a href="#" class="btn btn-primary btn-xs text-end" data-bs-toggle="offcanvas"
-                                        data-bs-target="#offcanvasRight">Upload File</a>
+                                    <a href="#" class="btn btn-primary btn-xs text-end" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModalCenter">Upload File</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- List group -->
-                    <div class="p-4">
-
-                        @foreach ($files as $file)
-                            <div class="row justify-content-between align-items-center mb-1">
-                                <!-- col -->
-                                <div class="col-10">
-                                    <div class="d-md-flex">
-                                        <div>
-                                            <!-- img -->
-                                            <img src="{{ $file->asset_url }}" alt=""
-                                                class="icon-shape icon-lg rounded">
-                                        </div>
-
-                                        <div class="ms-md-4 mt-lg-0">
-                                            <!-- heading -->
-                                            <p class="mb-1">{{ $file->asset_name }}</p>
-                                            <!-- text -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- button -->
-                                <div class="col-2 d-grid">
-                                    <a href="" class="mb-2" style="color:red"><i
-                                            class="fe fe-trash"></i></a>
-                                </div>
-                            </div>
-                            <hr />
-                        @endforeach
-
+                    <div id="imagesContainer" class="p-4">
 
                     </div>
                 </div>
@@ -344,6 +317,28 @@
         </div>
     </form>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Upload Job Assets</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('business.uploadJobAsset') }}" class="dropzone" id="job-assets"
+                    enctype="multipart/form-data">
+                    @csrf
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="loadImagesBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save and Proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     document.getElementById("jobs").classList.add('active');
@@ -378,6 +373,115 @@
         input.value = value;
     }
 </script>
+
+
+<script type="text/javascript">
+    Dropzone.autoDiscover = false;
+
+    var dropzone = new Dropzone('#job-assets', {
+        thumbnailWidth: 200,
+    });
+
+    dropzone.on("totaluploadprogress", function(progress) {
+        var elProgress = document.getElementById("progress-bar"); // my progress bar
+
+        elProgress.style.display = "block";
+
+        if (elProgress === undefined || elProgress === null) return;
+
+        elProgress.style.width = progress + "%"; // changing progress bar's length based on progress value
+    });
+
+
+    dropzone.on("success", function(file) {
+        Swal.fire({
+            text: 'File uploaded successfully.',
+            icon: 'success',
+            showConfirmButton: false,
+            toast: true,
+            width: 450,
+            timer: 4000,
+            position: 'top-right'
+        })
+    });
+
+    dropzone.on("error", function(file, message) {
+        Swal.fire({
+            text: 'Something went wrong. File not uploaded.',
+            icon: 'error',
+            showConfirmButton: false,
+            toast: true,
+            width: 450,
+            timer: 4000,
+            position: 'top-right'
+        })
+
+        // dropzone.removeFile(file);
+
+    });
+</script>
+
+
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+
+    $(document).ready(function() {
+        $('#loadImagesBtn').on('click', function() {
+
+            // Make an AJAX request to fetch images from the server
+            $.ajax({
+                url: "/business/fetch-job-asset", // Replace with the actual route that handles image fetching
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    // Handle the response and display images
+                    displayImages(response);
+                },
+                error: function(error) {
+                    alert('Error');
+                    console.error('Error fetching images:', error);
+                }
+            });
+        });
+
+
+        // Function to display images in the imagesContainer
+        function displayImages(images) {
+            var container = $('#imagesContainer');
+            container.empty(); // Clear previous images
+
+            // Loop through the images and append them to the container
+            $.each(images.files, function(index, image) {
+                var imageHtml ='<div class="row justify-content-between align-items-center mb-1">'+
+                                '<div class="col-10">'+
+                                    '<div class="d-md-flex">'+
+                                        '<div>'+
+                                            '<img src="'+ image.asset_url +'" alt="" class="icon-shape icon-lg rounded">'+
+                                        '</div>'+
+
+                                        '<div class="ms-md-4 mt-lg-0">'+
+                                            '<p class="mb-1">'+ image.asset_name +'</p>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+
+                                '<div class="col-2 d-grid">'+
+                                    '<a href="" class="mb-2" style="color:red"><i class="fe fe-trash"></i></a>'+
+                                '</div>'+
+                            '</div>'+
+                            '<hr />'
+
+                container.append(imageHtml);
+            });
+        }
+    });
+</script>
+
 
 <script type="text/javascript">
     CKEDITOR.replace('editor1');

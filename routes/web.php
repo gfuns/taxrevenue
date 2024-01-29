@@ -183,6 +183,8 @@ Route::group([
 
         Route::post('/jobs/asset-upload', [App\Http\Controllers\Business\JobListingController::class, 'uploadJobAsset'])->name("business.uploadJobAsset");
 
+        Route::get('/fetch-job-asset', [App\Http\Controllers\Business\JobListingController::class, 'fetchJobAssets'])->name("business.fetchJobAssets");
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Route::post('/account-pin-setup', [BusinessAccountController::class, 'setupAccountPin']);

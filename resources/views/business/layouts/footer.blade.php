@@ -29,6 +29,8 @@
 
     @include('sweetalert::alert')
 
+    {{-- @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"]) --}}
+
 
     <script src="{{ asset('assets/js/vendors/sweetalert2.all.min.js') }}"></script>
 

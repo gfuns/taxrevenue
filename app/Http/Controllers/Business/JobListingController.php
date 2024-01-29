@@ -9,12 +9,14 @@ use App\Models\JobAssets;
 use App\Models\JobListing;
 use App\Models\JobMilestone;
 use App\Models\PlatformCategories;
+use App\Models\TempMedia;
 use Auth;
+use Carbon\Carbon;
+use Cloudinary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Session;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class JobListingController extends Controller
 {
@@ -443,16 +445,70 @@ class JobListingController extends Controller
         }
     }
 
-
     public function uploadJobAsset(Request $request)
     {
-        \Log::info("Something happened here");
+        try {
+
+            ini_set('max_execution_time', 300); //300 seconds = 5 minutes
+
+            $assetType = null;
+            $assetName = $request->file->getClientOriginalName();
+            $byteSize = $request->file->getSize();
+            $fileSize = $this->formatFileSize($byteSize);
+            $fileType = $request->file->getClientOriginalExtension();
+            $extension = $request->file->getClientOriginalExtension();
+            if ($extension == "png" || $extension == "jpg" || $extension == "jpeg" || $extension == "svg" || $extension == "webp") {
+                $assetType = "image";
+            } else {
+                $assetType = "file";
+            }
+
+            $jobAsset = new TempMedia;
+            $jobAsset->tracking_code = Session::get("JTC");
+            $jobAsset->asset_type = $assetType;
+            $jobAsset->asset_name = $assetName;
+            $jobAsset->asset_url = Cloudinary::uploadFile($request->file->getRealPath())->getSecurePath();
+            $jobAsset->file_size = $fileSize;
+            $jobAsset->file_type = $fileType;
+            $jobAsset->save();
+
+            if ($jobAsset->save()) {
+                return response()->json(['success' => "File Uploaded"], 200);
+            } else {
+                return response()->json(['error' => "File Not Uploaded"], 400);
+            }
+        } catch (\Exception $e) {
+            report($e);
+            return response()->json(['error' => "File Not Uploaded"], 400);
+        }
     }
 
+    public function fetchJobAssets()
+    {
+        \Log::info("I got here");
+        \Log::info("What happend");
+        $images = TempMedia::where("tracking_code", Session::get("JTC"))->get();
 
-    public function editJobDetails($id){
+        return response()->json(["files" => $images]);
+    }
+
+    public function editJobDetails($id)
+    {
         $jobDetails = JobListing::find($id);
         return view("business.update_job", compact("jobDetails"));
+    }
+
+    public function formatFileSize($size)
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $i = 0;
+
+        while ($size > 1024) {
+            $size /= 1024;
+            $i++;
+        }
+
+        return round($size, 2) . ' ' . $units[$i];
     }
 
     /**
