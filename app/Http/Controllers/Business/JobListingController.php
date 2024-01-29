@@ -577,7 +577,7 @@ class JobListingController extends Controller
             $job->job_description = $request->job_description;
             $job->job_requirements = $request->job_requirements;
             $job->open_positions = $request->open_positions;
-            $job->duration = $request->project_duration . " Months";
+            $job->duration = $request->project_duration;
             $job->location_type = $request->work_mode;
             $job->country = $request->country;
             $job->state = $request->state;
@@ -604,8 +604,8 @@ class JobListingController extends Controller
 
             DB::commit();
 
-            toast("Job Created Successfully", 'success');
-            return redirect()->route("business.jobListing");
+            toast("Job Details Updated Successfully", 'success');
+            return back();
 
         } catch (\Exception $e) {
             DB::rollback();

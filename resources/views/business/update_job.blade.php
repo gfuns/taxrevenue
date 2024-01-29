@@ -169,15 +169,15 @@
                                 <select name="payment_schedule" class="form-select text-dark" id="paymentSchedule"
                                     required>
                                     <option value="">Payment Schedule</option>
-                                    <option value="Hourly" @if ($jobDetails->salary_rate == 'on-site') selected @endif>Hourly
+                                    <option value="Hourly" @if ($jobDetails->salary_rate == 'Hourly') selected @endif>Hourly
                                     </option>
-                                    <option value="Weekly" @if ($jobDetails->salary_rate == 'on-site') selected @endif>Weekly
+                                    <option value="Weekly" @if ($jobDetails->salary_rate == 'Weekly') selected @endif>Weekly
                                     </option>
-                                    <option value="Monthly" @if ($jobDetails->salary_rate == 'on-site') selected @endif>Monthly
+                                    <option value="Monthly" @if ($jobDetails->salary_rate == 'Monthly') selected @endif>Monthly
                                     </option>
                                     <option value="Milestone Dependent"
-                                        @if ($jobDetails->salary_rate == 'on-site') selected @endif>Milestone Dependent</option>
-                                    <option value="End of Project" @if ($jobDetails->salary_rate == 'on-site') selected @endif>
+                                        @if ($jobDetails->salary_rate == 'Milestone Dependent') selected @endif>Milestone Dependent</option>
+                                    <option value="End of Project" @if ($jobDetails->salary_rate == 'End of Project') selected @endif>
                                         End of Project</option>
                                 </select>
                                 <div class="invalid-feedback">Please select payment schedule.</div>
