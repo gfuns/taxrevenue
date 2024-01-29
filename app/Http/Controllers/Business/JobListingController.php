@@ -352,8 +352,8 @@ class JobListingController extends Controller
         return view("business.new_job_listing", compact("jobCategories", "files"));
     }
 
-
-    public function storeJobListing(Request $request){
+    public function storeJobListing(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'tracking_code' => 'required',
             'job_title' => 'required',
@@ -385,8 +385,57 @@ class JobListingController extends Controller
             return back();
         }
 
-        $jobListing = new JobListing;
-        $jobListing->tracking_code = $request->tracking_code;
+        try {
+            $business = Business::where("customer_id", Auth::user()->id)->first();
+            if (!isset($business)) {
+                toast("No active business found for this account", 'error');
+                return back();
+            }
+
+            DB::beginTransaction();
+            $job = new JobListing;
+            $job->customer_id = Auth::user()->id;
+            $job->business_id = $business->id;
+            $job->job_title = $request->job_title;
+            $job->tags = $request->tags;
+            $job->skill_level = $request->skill_level;
+            $job->job_description = $request->job_description;
+            $job->job_requirements = $request->job_requirements;
+            $job->open_positions = $request->open_positions;
+            $job->duration = $request->duration;
+            $job->location_type = $request->location_type;
+            $job->country = $request->country;
+            $job->state = $request->state;
+            $job->city = $request->city;
+            $job->street = $request->office_address;
+            $job->minimum_salary = $request->minimum_renumeration;
+            $job->maximum_salary = $request->maximum_renumeration;
+            $job->salary_rate = $request->payment_schedule;
+            $job->currency = "NGN";
+            $job->application_commencement = Carbon::parse($request->application_opens);
+            $job->application_deadline = Carbon::parse($request->application_closes);
+            $job->languages = $request->languages;
+            $job->job_categories = $request->job_categories;
+            $job->engagement_type = $request->engagement_type;
+            $job->visibility = $request->job_status == "draft" ? 'draft' : 'open';
+            $job->status = $request->job_status;
+            $job->tracking_code = $request->tracking_code;
+            $job->tracking_code = $request->tracking_code;
+            $job->save();
+
+
+            DB::commit();
+
+            toast("Job Created Successfully", 'success');
+            return redirect()->route("business.jobListing");
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            report($e);
+
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
     }
 
     /**

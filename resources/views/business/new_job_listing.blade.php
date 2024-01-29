@@ -307,8 +307,8 @@
                     <div class="p-3 col-md-12">
                         <select name="job_status" class="form-select text-dark" id="jobStatus" required>
                             <option value="">Status</option>
-                            <option value="Hourly">Draft</option>
-                            <option value="Weekly">Publish</option>
+                            <option value="draft">Draft</option>
+                            <option value="open">Publish</option>
                         </select>
                     </div>
 
