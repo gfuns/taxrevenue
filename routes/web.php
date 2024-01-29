@@ -185,6 +185,8 @@ Route::group([
 
         Route::get('/fetch-job-asset', [App\Http\Controllers\Business\JobListingController::class, 'fetchJobAssets'])->name("business.fetchJobAssets");
 
+        Route::get('/delete-job-asset/{id}', [App\Http\Controllers\Business\JobListingController::class, 'deleteJobAsset'])->name("business.deleteJobAsset");
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Route::post('/account-pin-setup', [BusinessAccountController::class, 'setupAccountPin']);

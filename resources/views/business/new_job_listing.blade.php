@@ -334,7 +334,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="loadImagesBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save and Proceed</button>
+                <button id="loadImagesBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save and
+                    Proceed</button>
             </div>
         </div>
     </div>
@@ -443,11 +444,47 @@
                     displayImages(response);
                 },
                 error: function(error) {
-                    alert('Error');
-                    console.error('Error fetching images:', error);
+                    Swal.fire({
+                        text: 'Error fetching job files and images.',
+                        icon: 'error',
+                        showConfirmButton: false,
+                        toast: true,
+                        width: 450,
+                        timer: 4000,
+                        position: 'top-right'
+                    })
                 }
             });
         });
+
+
+        $(document).on('click', '.delete_asset', function(e) {
+        e.preventDefault();
+        var fileId = $(this).attr('id');
+
+        $.ajax({
+            url: "/business/delete-job-asset/"+fileId, // Replace with the actual route that handles image fetching
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // Handle the response and display images
+                displayImages(response);
+
+            },
+            error: function(error) {
+                Swal.fire({
+                        text: 'Error deleting file.',
+                        icon: 'error',
+                        showConfirmButton: false,
+                        toast: true,
+                        width: 450,
+                        timer: 4000,
+                        position: 'top-right'
+                    })
+            }
+        });
+    });
+
 
 
         // Function to display images in the imagesContainer
@@ -457,24 +494,25 @@
 
             // Loop through the images and append them to the container
             $.each(images.files, function(index, image) {
-                var imageHtml ='<div class="row justify-content-between align-items-center mb-1">'+
-                                '<div class="col-10">'+
-                                    '<div class="d-md-flex">'+
-                                        '<div>'+
-                                            '<img src="'+ image.asset_url +'" alt="" class="icon-shape icon-lg rounded">'+
-                                        '</div>'+
+                var imageHtml = '<div class="row justify-content-between align-items-center mb-1">' +
+                    '<div class="col-10">' +
+                    '<div class="d-md-flex">' +
+                    '<div>' +
+                    '<img src="' + image.asset_url + '" alt="" class="icon-shape icon-lg rounded">' +
+                    '</div>' +
 
-                                        '<div class="ms-md-4 mt-lg-0">'+
-                                            '<p class="mb-1">'+ image.asset_name +'</p>'+
-                                        '</div>'+
-                                    '</div>'+
-                                '</div>'+
+                    '<div class="ms-md-4 mt-lg-0">' +
+                    '<p class="mb-1">' + image.asset_name + '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
 
-                                '<div class="col-2 d-grid">'+
-                                    '<a href="" class="mb-2" style="color:red"><i class="fe fe-trash"></i></a>'+
-                                '</div>'+
-                            '</div>'+
-                            '<hr />'
+                    '<div class="col-2 d-grid">' +
+                    '<span id="' + image.id +
+                    '" class="mb-2 delete_asset" style="color:red; cursor:pointer"><i class="fe fe-trash"></i></span>' +
+                    '</div>' +
+                    '</div>' +
+                    '<hr />'
 
                 container.append(imageHtml);
             });

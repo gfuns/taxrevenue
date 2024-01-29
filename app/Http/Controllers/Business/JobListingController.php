@@ -351,9 +351,8 @@ class JobListingController extends Controller
 
     public function newJobListing()
     {
-        $files = JobAssets::where("tracking_code", Session::get('JTC'))->get();
-        $jobCategories = PlatformCategories::all();
-        return view("business.new_job_listing", compact("jobCategories", "files"));
+         $jobCategories = PlatformCategories::all();
+        return view("business.new_job_listing", compact("jobCategories"));
     }
 
     public function storeJobListing(Request $request)
@@ -431,6 +430,12 @@ class JobListingController extends Controller
             $job->tracking_code = $request->tracking_code;
             $job->save();
 
+            $jobAssets = JobAssets::where("tracking_code", $request->tracking_code)->get();
+            foreach ($jobAssets as $jobAsset) {
+                $jobAsset->job_listing_id = $job->id;
+                $jobAsset->save();
+            }
+
             DB::commit();
 
             toast("Job Created Successfully", 'success');
@@ -463,7 +468,7 @@ class JobListingController extends Controller
                 $assetType = "file";
             }
 
-            $jobAsset = new TempMedia;
+            $jobAsset = new JobAssets;
             $jobAsset->tracking_code = Session::get("JTC");
             $jobAsset->asset_type = $assetType;
             $jobAsset->asset_name = $assetName;
@@ -485,17 +490,34 @@ class JobListingController extends Controller
 
     public function fetchJobAssets()
     {
-        \Log::info("I got here");
-        \Log::info("What happend");
-        $images = TempMedia::where("tracking_code", Session::get("JTC"))->get();
+        $images = JobAssets::where("tracking_code", Session::get("JTC"))->get();
 
         return response()->json(["files" => $images]);
+    }
+
+    public function deleteJobAsset($id)
+    {
+        $image = JobAssets::find($id);
+        if (isset($image)) {
+            if ($image->delete()) {
+                $images = JobAssets::where("tracking_code", Session::get("JTC"))->get();
+
+                return response()->json(["files" => $images]);
+            } else {
+                return response()->json(['status' => 400, 'message' => "File Not Deleted"]);
+            }
+
+        } else {
+            return response()->json(['status' => 404, 'message' => "File Not Found"]);
+        }
+
     }
 
     public function editJobDetails($id)
     {
         $jobDetails = JobListing::find($id);
-        return view("business.update_job", compact("jobDetails"));
+        $jobCategories = PlatformCategories::all();
+        return view("business.update_job", compact("jobDetails", "jobCategories"));
     }
 
     public function formatFileSize($size)
