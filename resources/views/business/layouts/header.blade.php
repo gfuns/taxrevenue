@@ -26,6 +26,10 @@
     <link href="{{ asset("assets/libs/yaireo/tagify/dist/tagify.css") }}" rel="stylesheet" >
 
 
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('assets/js/countries.js') }}"></script>
 
     <title>@yield('title')</title>
     @yield('style')

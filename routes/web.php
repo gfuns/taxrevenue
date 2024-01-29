@@ -177,6 +177,8 @@ Route::group([
 
         Route::get('/jobs/new', [App\Http\Controllers\Business\JobListingController::class, 'newJobListing'])->name("business.newJobListing");
 
+        Route::post('/jobs/save', [App\Http\Controllers\Business\JobListingController::class, 'storeJobListing'])->name("business.storeJobListing");
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Route::post('/account-pin-setup', [BusinessAccountController::class, 'setupAccountPin']);

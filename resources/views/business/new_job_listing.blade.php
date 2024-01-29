@@ -3,10 +3,6 @@
 @section('content')
 @section('title', env('APP_NAME') . ' | New Job Listing')
 
-<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
-
 <section class="container-fluid p-4">
     <div class="row">
         <!-- Page header -->
@@ -33,7 +29,8 @@
             </div>
         </div>
     </div>
-    <form method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+    <form method="POST" action="{{ route('business.storeJobListing') }}" lass="needs-validation" novalidate
+        enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-xl-8 col-lg-8 col-md-12 col-12">
@@ -69,7 +66,7 @@
 
                         <div class="mb-3 col-md-12">
                             <label class="form-label" for="category">Skill Level</label>
-                            <select class="form-select text-dark" id="category" required>
+                            <select name="skill_level" class="form-select text-dark" id="category" required>
                                 <option value="">Skill Level</option>
                                 <option value="Beginner">Beginner</option>
                                 <option value="Intermediate">Intermediate</option>
@@ -80,13 +77,13 @@
 
                         <div class="mb-4 col-md-12">
                             <label class="form-label" for="category">Job Description</label>
-                            <textarea id="editor1" name="description" class="form-control" placeholder="Job Description" required></textarea>
+                            <textarea id="editor1" name="job_description" class="form-control" placeholder="Job Description" required></textarea>
                             <div class="invalid-feedback">Please enter job description.</div>
                         </div>
 
                         <div class="mb-4 col-md-12">
                             <label class="form-label" for="category">Job Requirements</label>
-                            <textarea id="editor2" name="requirements" class="form-control" placeholder="Job Requirements" required></textarea>
+                            <textarea id="editor2" name="job_requirements" class="form-control" placeholder="Job Requirements" required></textarea>
                             <div class="invalid-feedback">Please enter job requirements.</div>
                         </div>
 
@@ -94,14 +91,16 @@
                             <div class="mb-3 col-md-6">
                                 <label for="openPositions" class="form-label">Open Positions</label>
                                 <input type="text" name="open_positions" id="openPositions"
-                                    class="form-control text-dark " placeholder="Open Positions" required>
+                                    class="form-control text-dark " placeholder="Open Positions"
+                                    oninput="validateInput(event)" required>
                                 <div class="invalid-feedback">Please enter open positions.</div>
                             </div>
 
                             <div class="mb-3 col-md-6">
                                 <label for="duration" class="form-label">Project Duration (In Months)</label>
                                 <input type="text" name="project_duration" id="duration"
-                                    class="form-control text-dark " placeholder="Project Duration (In Months)" required>
+                                    class="form-control text-dark " placeholder="Project Duration (In Months)"
+                                    oninput="validateInput(event)" required>
                                 <div class="invalid-feedback">Please enter project duration.</div>
                             </div>
                         </div>
@@ -109,15 +108,23 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label for="selectDate" class="form-label">Country</label>
-                                <input type="text" id="selectDate" class="form-control text-dark "
-                                    placeholder="Select Application Opening Date" required>
+                                <select class="form-control text-dark" required="required" name="country"
+                                    onChange="print_state('state',this.selectedIndex);" id="country"
+                                    style="width:100%" required>
+                                </select>
                                 <div class="invalid-feedback">Please select valid date.</div>
                             </div>
 
                             <div class="mb-3 col-md-6">
                                 <label for="selectDate" class="form-label">State</label>
-                                <input type="text" id="selectDate" class="form-control text-dark "
-                                    placeholder="Select Application Closing Date" required>
+                                <select class="form-control text-dark" required name="state" id="state"
+                                    style="width:100%"></select>
+                                <script language="javascript">
+                                    print_country("country");
+                                </script>
+                                <script language="javascript">
+                                    print_country("country");
+                                </script>
                                 <div class="invalid-feedback">Please select valid date.</div>
                             </div>
                         </div>
@@ -170,7 +177,7 @@
                                 <label for="minimumSalary" class="form-label">Minimum Expected Renumeration</label>
                                 <input type="text" name="minimum_renumeration" id="minimumSalary"
                                     class="form-control text-dark" placeholder="Minimum Expected Renumeration"
-                                    required>
+                                    oninput="validateInput(event)" required>
                                 <div class="invalid-feedback">Please enter minimum expected renumeration.</div>
                             </div>
 
@@ -178,7 +185,7 @@
                                 <label for="maximumSalary" class="form-label">Maximum Expected Renumeration</label>
                                 <input type="text" name="maximum_renumeration" id="maximumSalary"
                                     class="form-control text-dark" placeholder="Maximum Expected Renumeration"
-                                    required>
+                                    oninput="validateInput(event)" required>
                                 <div class="invalid-feedback">Please enter maximum expected renumeration.</div>
                             </div>
                         </div>
@@ -186,14 +193,16 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label for="selectDate" class="form-label">Application Opening Date</label>
-                                <input type="text" name="application_opens" id="selectDate" class="form-control text-dark flatpickr"
+                                <input type="text" name="application_opens" id="selectDate"
+                                    class="form-control text-dark flatpickr"
                                     placeholder="Select Application Opening Date" required>
                                 <div class="invalid-feedback">Please select valid date.</div>
                             </div>
 
                             <div class="mb-3 col-md-6">
                                 <label for="selectDate" class="form-label">Application Closing Date</label>
-                                <input type="text" name="application_closes" id="selectDate" class="form-control text-dark flatpickr"
+                                <input type="text" name="application_closes" id="selectDate"
+                                    class="form-control text-dark flatpickr"
                                     placeholder="Select Application Closing Date" required>
                                 <div class="invalid-feedback">Please select valid date.</div>
                             </div>
@@ -216,8 +225,8 @@
                         @foreach ($jobCategories as $jc)
                             <!-- form check -->
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" value="{{ $jc->id }}"
-                                    id="{{ $jc->id }}">
+                                <input class="form-check-input" name="categories[]" type="checkbox"
+                                    value="{{ $jc->id }}" id="{{ $jc->id }}">
                                 <label class="form-check-label"
                                     for="{{ $jc->id }}">{{ $jc->category_name }}</label>
                             </div>
@@ -330,6 +339,33 @@
 @endsection
 
 @section('customjs')
+<script type="text/javascript">
+    function validateInput(event) {
+        const input = event.target;
+        let value = input.value;
+
+        // Remove commas from the input value
+        value = value.replace(/,/g, '');
+
+        // Regular expression to match non-numeric and non-decimal characters
+        const nonNumericDecimalRegex = /[^0-9.]/g;
+
+        if (nonNumericDecimalRegex.test(value)) {
+            // If non-numeric or non-decimal characters are found, remove them from the input value
+            value = value.replace(nonNumericDecimalRegex, '');
+        }
+
+        // Ensure there is only one decimal point in the value
+        const decimalCount = value.split('.').length - 1;
+        if (decimalCount > 1) {
+            value = value.replace(/\./g, '');
+        }
+
+        // Assign the cleaned value back to the input field
+        input.value = value;
+    }
+</script>
+
 <script type="text/javascript">
     CKEDITOR.replace('editor1');
     CKEDITOR.replace('editor2');

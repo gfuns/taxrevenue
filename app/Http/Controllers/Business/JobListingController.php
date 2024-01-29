@@ -392,18 +392,24 @@ class JobListingController extends Controller
                 return back();
             }
 
+            $tag = implode(', ', $request->input('tags', []));
+            $jobCategories = implode(', ', $request->input('categories', []));
+
+            dd($jobCategories);
+
             DB::beginTransaction();
             $job = new JobListing;
             $job->customer_id = Auth::user()->id;
             $job->business_id = $business->id;
             $job->job_title = $request->job_title;
-            $job->tags = $request->tags;
+            $job->slug = preg_replace("/ /", "-", strtolower($request->job_title));
+            $job->tags = $tags;
             $job->skill_level = $request->skill_level;
             $job->job_description = $request->job_description;
             $job->job_requirements = $request->job_requirements;
             $job->open_positions = $request->open_positions;
-            $job->duration = $request->duration;
-            $job->location_type = $request->location_type;
+            $job->duration = $request->project_duration." Months";
+            $job->location_type = $request->work_mode;
             $job->country = $request->country;
             $job->state = $request->state;
             $job->city = $request->city;
@@ -414,12 +420,11 @@ class JobListingController extends Controller
             $job->currency = "NGN";
             $job->application_commencement = Carbon::parse($request->application_opens);
             $job->application_deadline = Carbon::parse($request->application_closes);
-            $job->languages = $request->languages;
-            $job->job_categories = $request->job_categories;
+            $job->languages = "English";
+            $job->job_categories = $jobCategories;
             $job->engagement_type = $request->engagement_type;
             $job->visibility = $request->job_status == "draft" ? 'draft' : 'open';
             $job->status = $request->job_status;
-            $job->tracking_code = $request->tracking_code;
             $job->tracking_code = $request->tracking_code;
             $job->save();
 
