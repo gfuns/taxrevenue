@@ -1,7 +1,7 @@
 @extends('business.layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | New Job Listing')
+@section('title', env('APP_NAME') . ' | Update Job Details')
 
 <section class="container-fluid p-4">
     <div class="row">
@@ -9,7 +9,7 @@
         <div class="col-lg-12 col-md-12 col-12">
             <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-md-0">
-                    <h1 class="mb-1 h2 fw-bold">Add New Job</h1>
+                    <h1 class="mb-1 h2 fw-bold">Update Job Details</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -18,7 +18,7 @@
                             </li>
                             <li class="breadcrumb-item"><a href="{{ route('business.jobListing') }}">Job Listing</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">New Job Listing</li>
+                            <li class="breadcrumb-item active" aria-current="page">Update Job Details</li>
                         </ol>
                     </nav>
                 </div>
@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-    <form method="POST" action="{{ route('business.storeJobListing') }}" lass="needs-validation"
+    <form method="POST" action="{{ route('business.updateJobListing') }}" lass="needs-validation"
         enctype="multipart/form-data">
         @csrf
         <div class="row">
@@ -47,8 +47,8 @@
                         <div class="mb-3 col-md-12">
                             <!-- Title -->
                             <label for="postTitle" class="form-label">Job Title</label>
-                            <input type="text" name="job_title" id="jobTitle" class="form-control text-dark"
-                                placeholder="Job Title" required>
+                            <input type="text" name="job_title" id="jobTitle" value="{{ $jobDetails->job_title }}"
+                                class="form-control text-dark" placeholder="Job Title" required>
                             {{-- <small>Keep your post titles under 60 characters. Write heading that describe the
                                 job. Contextualize for Your Audience.</small> --}}
                             <div class="invalid-feedback">Please enter job title.</div>
@@ -57,8 +57,8 @@
                         <div class="mb-3 col-md-12">
                             <!-- Title -->
                             <label for="postTitle" class="form-label">Job Tags</label>
-                            <input name="tags" id="tags" value="" class="w-100" required
-                                placeholder="Job Tags">
+                            <input name="tags" id="tags" value="{{ implode(', ', $jobDetails->tags) }}"
+                                class="w-100" required placeholder="Job Tags">
                             {{-- <small>Keep your post titles under 60 characters. Write heading that describe the
                                 job. Contextualize for Your Audience.</small> --}}
                             <div class="invalid-feedback">Please enter job tags.</div>
@@ -69,22 +69,24 @@
                             <select name="skill_level" class="form-control form-select text-dark" id="category"
                                 required>
                                 <option value="">Skill Level</option>
-                                <option value="Beginner">Beginner</option>
-                                <option value="Intermediate">Intermediate</option>
-                                <option value="Expert">Expert</option>
+                                <option value="Beginner" @if ($jobDetails->skill_level == 'Beginner') selected @endif>Beginner
+                                </option>
+                                <option value="Intermediate" @if ($jobDetails->skill_level == 'Intermediate') selected @endif>
+                                    Intermediate</option>
+                                <option value="Expert" @if ($jobDetails->skill_level == 'Expert') selected @endif>Expert</option>
                             </select>
                             <div class="invalid-feedback">Please choose skill level.</div>
                         </div>
 
                         <div class="mb-4 col-md-12">
                             <label class="form-label" for="category">Job Description</label>
-                            <textarea id="editor1" name="job_description" class="form-control" placeholder="Job Description" required></textarea>
+                            <textarea id="editor1" name="job_description" class="form-control" placeholder="Job Description" required>@php echo $jobDetails->job_description @endphp</textarea>
                             <div class="invalid-feedback">Please enter job description.</div>
                         </div>
 
                         <div class="mb-4 col-md-12">
                             <label class="form-label" for="category">Job Requirements</label>
-                            <textarea id="editor2" name="job_requirements" class="form-control" placeholder="Job Requirements" required></textarea>
+                            <textarea id="editor2" name="job_requirements" class="form-control" placeholder="Job Requirements" required>@php echo $jobDetails->job_requirements @endphp</textarea>
                             <div class="invalid-feedback">Please enter job requirements.</div>
                         </div>
 
@@ -92,16 +94,16 @@
                             <div class="mb-3 col-md-6">
                                 <label for="openPositions" class="form-label">Open Positions</label>
                                 <input type="text" name="open_positions" id="openPositions"
-                                    class="form-control text-dark " placeholder="Open Positions"
-                                    oninput="validateInput(event)" required>
+                                    class="form-control text-dark " value="{{ $jobDetails->open_positions }}"
+                                    placeholder="Open Positions" oninput="validateInput(event)" required>
                                 <div class="invalid-feedback">Please enter open positions.</div>
                             </div>
 
                             <div class="mb-3 col-md-6">
                                 <label for="duration" class="form-label">Project Duration (In Months)</label>
                                 <input type="text" name="project_duration" id="duration"
-                                    class="form-control text-dark " placeholder="Project Duration (In Months)"
-                                    oninput="validateInput(event)" required>
+                                    class="form-control text-dark " value="{{ $jobDetails->duration }}"
+                                    placeholder="Project Duration (In Months)" oninput="validateInput(event)" required>
                                 <div class="invalid-feedback">Please enter project duration.</div>
                             </div>
                         </div>
@@ -133,15 +135,16 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label for="city" class="form-label">City</label>
-                                <input type="text" name="city" id="city" class="form-control text-dark"
-                                    placeholder="City" required>
+                                <input type="text" name="city" id="city" value="{{ $jobDetails->city }}"
+                                    class="form-control text-dark" placeholder="City" required>
                                 <div class="invalid-feedback">Please enter city.</div>
                             </div>
 
                             <div class="mb-3 col-md-6">
                                 <label for="officeAddress" class="form-label">Office Address</label>
-                                <input type="text" name="office_address" id="officeAddress"
-                                    class="form-control text-dark" placeholder="Office Address" required>
+                                <input type="text" name="office_address" value="{{ $jobDetails->street }}"
+                                    id="officeAddress" class="form-control text-dark" placeholder="Office Address"
+                                    required>
                                 <div class="invalid-feedback">Please enter office address.</div>
                             </div>
                         </div>
@@ -151,9 +154,12 @@
                                 <label for="workMode" class="form-label">Work Mode</label>
                                 <select name="work_mode" class="form-select text-dark" id="workMode" required>
                                     <option value="">Work Mode</option>
-                                    <option value="on-site">On-Site</option>
-                                    <option value="remote">Remote</option>
-                                    <option value="hybrid">Hybrid</option>
+                                    <option value="on-site" @if ($jobDetails->location_type == 'on-site') selected @endif>On-Site
+                                    </option>
+                                    <option value="remote" @if ($jobDetails->location_type == 'remote') selected @endif>Remote
+                                    </option>
+                                    <option value="hybrid" @if ($jobDetails->location_type == 'hybrid') selected @endif>Hybrid
+                                    </option>
                                 </select>
                                 <div class="invalid-feedback">Please select work mode.</div>
                             </div>
@@ -163,11 +169,16 @@
                                 <select name="payment_schedule" class="form-select text-dark" id="paymentSchedule"
                                     required>
                                     <option value="">Payment Schedule</option>
-                                    <option value="Hourly">Hourly</option>
-                                    <option value="Weekly">Weekly</option>
-                                    <option value="Monthly">Monthly</option>
-                                    <option value="Milestone Dependent">Milestone Dependent</option>
-                                    <option value="End of Project">End of Project</option>
+                                    <option value="Hourly" @if ($jobDetails->salary_rate == 'on-site') selected @endif>Hourly
+                                    </option>
+                                    <option value="Weekly" @if ($jobDetails->salary_rate == 'on-site') selected @endif>Weekly
+                                    </option>
+                                    <option value="Monthly" @if ($jobDetails->salary_rate == 'on-site') selected @endif>Monthly
+                                    </option>
+                                    <option value="Milestone Dependent"
+                                        @if ($jobDetails->salary_rate == 'on-site') selected @endif>Milestone Dependent</option>
+                                    <option value="End of Project" @if ($jobDetails->salary_rate == 'on-site') selected @endif>
+                                        End of Project</option>
                                 </select>
                                 <div class="invalid-feedback">Please select payment schedule.</div>
                             </div>
@@ -178,7 +189,7 @@
                                 <label for="minimumSalary" class="form-label">Minimum Expected Renumeration</label>
                                 <input type="text" name="minimum_renumeration" id="minimumSalary"
                                     class="form-control text-dark" placeholder="Minimum Expected Renumeration"
-                                    oninput="validateInput(event)" required>
+                                    oninput="validateInput(event)" value="{{ $jobDetails->minimum_salary }}" required>
                                 <div class="invalid-feedback">Please enter minimum expected renumeration.</div>
                             </div>
 
@@ -186,7 +197,8 @@
                                 <label for="maximumSalary" class="form-label">Maximum Expected Renumeration</label>
                                 <input type="text" name="maximum_renumeration" id="maximumSalary"
                                     class="form-control text-dark" placeholder="Maximum Expected Renumeration"
-                                    oninput="validateInput(event)" required>
+                                    oninput="validateInput(event)" value="{{ $jobDetails->maximum_salary }}"
+                                    required>
                                 <div class="invalid-feedback">Please enter maximum expected renumeration.</div>
                             </div>
                         </div>
@@ -196,7 +208,8 @@
                                 <label for="selectDate" class="form-label">Application Opening Date</label>
                                 <input type="text" name="application_opens" id="selectDate"
                                     class="form-control text-dark flatpickr"
-                                    placeholder="Select Application Opening Date" required>
+                                    placeholder="Select Application Opening Date"
+                                    value="{{ $jobDetails->application_commencement }}" required>
                                 <div class="invalid-feedback">Please select valid date.</div>
                             </div>
 
@@ -204,7 +217,8 @@
                                 <label for="selectDate" class="form-label">Application Closing Date</label>
                                 <input type="text" name="application_closes" id="selectDate"
                                     class="form-control text-dark flatpickr"
-                                    placeholder="Select Application Closing Date" required>
+                                    placeholder="Select Application Closing Date"
+                                    value="{{ $jobDetails->application_deadline }}" required>
                                 <div class="invalid-feedback">Please select valid date.</div>
                             </div>
                         </div>
@@ -227,7 +241,8 @@
                             <!-- form check -->
                             <div class="form-check mb-2">
                                 <input class="form-check-input" name="categories[]" type="checkbox"
-                                    value="{{ $jc->id }}" id="{{ $jc->id }}">
+                                    value="{{ $jc->id }}" id="{{ $jc->id }}"
+                                    {{ in_array($jc->id, explode(', ', $jobDetails->getOriginalCategories())) ? 'checked' : '' }}>
                                 <label class="form-check-label"
                                     for="{{ $jc->id }}">{{ $jc->category_name }}</label>
                             </div>
@@ -245,22 +260,22 @@
 
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="engagement_type" value="Full Time"
-                                id="Full Time">
+                                id="Full Time" @if ($jobDetails->engagement_type == 'Full Time') checked @endif>
                             <label class="form-check-label" for="all">Full Time</label>
                         </div>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="engagement_type" value="Part Time"
-                                id="Part Time">
+                                id="Part Time" @if ($jobDetails->engagement_type == 'Part Time') checked @endif>
                             <label class="form-check-label" for="all">Part Time</label>
                         </div>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="engagement_type" value="Internship"
-                                id="Internship">
+                                id="Internship" @if ($jobDetails->engagement_type == 'Internship') checked @endif>
                             <label class="form-check-label" for="all">Internship</label>
                         </div>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="engagement_type" value="Contract"
-                                id="Contract">
+                                id="Contract" @if ($jobDetails->engagement_type == 'Contract') checked @endif>
                             <label class="form-check-label" for="all">Contract</label>
                         </div>
 
@@ -288,7 +303,28 @@
                     </div>
                     <!-- List group -->
                     <div id="imagesContainer" class="p-4">
+                        @foreach ($jobAssets as $asset)
+                            <div class="row justify-content-between align-items-center mb-1">
+                                <div class="col-10">
+                                    <div class="d-md-flex">
+                                        <div>
+                                            <img src="{{ $asset->asset_url }}" alt=""
+                                                class="icon-shape icon-lg rounded">
+                                        </div>
 
+                                        <div class="ms-md-4 mt-lg-0">
+                                            <p class="mb-1">{{ $asset->asset_name }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-2 d-grid">
+                                    <span id="{{ $asset->id }}" class="mb-2 delete_asset"
+                                        style="color:red; cursor:pointer"><i class="fe fe-trash"></i></span>
+                                </div>
+                            </div>
+                            <hr />
+                        @endforeach
                     </div>
                 </div>
 
@@ -300,12 +336,13 @@
                     <!-- List Group -->
                     <div class="p-3 col-md-12">
                         <select name="job_status" class="form-select text-dark" id="jobStatus" required>
-                            <option value="draft">Draft</option>
-                            <option value="published" selected>Publish</option>
+                            <option value="draft" @if ($jobDetails->status == 'draft') selected @endif>Draft</option>
+                            <option value="published" @if ($jobDetails->status == 'published') selected @endif>Publish
+                            </option>
                         </select>
                     </div>
 
-                    <input type="hidden" name="tracking_code" value="{{ Session::get('JTC') }}" required>
+                    <input type="hidden" name="job_id" value="{{ $jobDetails->id }}" required>
 
                     <button type="submit" class="m-3 btn btn-primary"
                         style="background: #690068; border: #690068"><i class="fe fe-save"></i>&nbsp; Save</button>
@@ -459,20 +496,21 @@
 
 
         $(document).on('click', '.delete_asset', function(e) {
-        e.preventDefault();
-        var fileId = $(this).attr('id');
+            e.preventDefault();
+            var fileId = $(this).attr('id');
 
-        $.ajax({
-            url: "/business/delete-job-asset/"+fileId, // Replace with the actual route that handles image fetching
-            type: 'GET',
-            dataType: 'json',
-            success: function(response) {
-                // Handle the response and display images
-                displayImages(response);
+            $.ajax({
+                url: "/business/delete-job-asset/" +
+                fileId, // Replace with the actual route that handles image fetching
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    // Handle the response and display images
+                    displayImages(response);
 
-            },
-            error: function(error) {
-                Swal.fire({
+                },
+                error: function(error) {
+                    Swal.fire({
                         text: 'Error deleting file.',
                         icon: 'error',
                         showConfirmButton: false,
@@ -481,9 +519,9 @@
                         timer: 4000,
                         position: 'top-right'
                     })
-            }
+                }
+            });
         });
-    });
 
 
 

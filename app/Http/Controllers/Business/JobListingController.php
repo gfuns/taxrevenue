@@ -517,7 +517,103 @@ class JobListingController extends Controller
     {
         $jobDetails = JobListing::find($id);
         $jobCategories = PlatformCategories::all();
-        return view("business.update_job", compact("jobDetails", "jobCategories"));
+        $jobAssets = JobAssets::where("tracking_code", $jobDetails->tracking_code)->get();
+        return view("business.update_job", compact("jobDetails", "jobCategories", "jobAssets"));
+    }
+
+
+    public function updateJobListing(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'job_id' => 'required',
+            'job_title' => 'required',
+            'tags' => 'required',
+            'skill_level' => 'required',
+            'job_description' => 'required',
+            'job_requirements' => 'required',
+            'open_positions' => 'required|numeric',
+            'project_duration' => 'required|numeric',
+            'work_mode' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'office_address' => 'required',
+            'minimum_renumeration' => 'required|numeric',
+            'maximum_renumeration' => 'required|numeric',
+            'payment_schedule' => 'required',
+            'application_opens' => 'required',
+            'application_closes' => 'required',
+            'categories' => 'required',
+            'engagement_type' => 'required',
+            'job_status' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        try {
+            $business = Business::where("customer_id", Auth::user()->id)->first();
+            if (!isset($business)) {
+                toast("No active business found for this account", 'error');
+                return back();
+            }
+
+            $tagsArray = json_decode($request->tags, true);
+            $tags = implode(', ', array_column($tagsArray, 'value'));
+            $jobCategories = implode(', ', $request->input('categories', []));
+
+            DB::beginTransaction();
+            $job = JobListing::find($request->job_id);
+            $job->customer_id = Auth::user()->id;
+            $job->business_id = $business->id;
+            $job->job_title = $request->job_title;
+            $job->slug = preg_replace("/ /", "-", strtolower($request->job_title));
+            $job->tags = $tags;
+            $job->skill_level = $request->skill_level;
+            $job->job_description = $request->job_description;
+            $job->job_requirements = $request->job_requirements;
+            $job->open_positions = $request->open_positions;
+            $job->duration = $request->project_duration . " Months";
+            $job->location_type = $request->work_mode;
+            $job->country = $request->country;
+            $job->state = $request->state;
+            $job->city = $request->city;
+            $job->street = $request->office_address;
+            $job->minimum_salary = $request->minimum_renumeration;
+            $job->maximum_salary = $request->maximum_renumeration;
+            $job->salary_rate = $request->payment_schedule;
+            $job->currency = "NGN";
+            $job->application_commencement = Carbon::parse($request->application_opens);
+            $job->application_deadline = Carbon::parse($request->application_closes);
+            $job->languages = "English";
+            $job->job_categories = $jobCategories;
+            $job->engagement_type = $request->engagement_type;
+            $job->visibility = $request->job_status == "draft" ? 'draft' : 'open';
+            $job->status = $request->job_status;
+            $job->save();
+
+            $jobAssets = JobAssets::where("tracking_code", $job->tracking_code)->get();
+            foreach ($jobAssets as $jobAsset) {
+                $jobAsset->job_listing_id = $job->id;
+                $jobAsset->save();
+            }
+
+            DB::commit();
+
+            toast("Job Created Successfully", 'success');
+            return redirect()->route("business.jobListing");
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            report($e);
+
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
     }
 
     public function formatFileSize($size)
