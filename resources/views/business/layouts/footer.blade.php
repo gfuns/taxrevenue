@@ -320,13 +320,7 @@
 
 
         // In your Javascript (external .js resource or <script> tag)
-        $(document).ready(function() {
-            $('#country').select2();
-        });
 
-        $(document).ready(function() {
-            $('#state').select2();
-        });
 
         $(document).ready(function() {
             $('#category').select2();

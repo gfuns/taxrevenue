@@ -562,5 +562,16 @@
 <script type="text/javascript">
     CKEDITOR.replace('editor1');
     CKEDITOR.replace('editor2');
+
+
+    $(document).ready(function() {
+            var country = {{ Js::from($jobDetails->country) }};
+            $('#country').select2().val(country).trigger('change');
+        });
+
+        $(document).ready(function() {
+            var state = {{ Js::from($jobDetails->state) }};
+            $('#state').select2().val(state).trigger('change');
+        });
 </script>
 @endsection

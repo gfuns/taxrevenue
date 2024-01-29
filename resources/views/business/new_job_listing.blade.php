@@ -524,5 +524,13 @@
 <script type="text/javascript">
     CKEDITOR.replace('editor1');
     CKEDITOR.replace('editor2');
+
+    $(document).ready(function() {
+            $('#country').select2();
+        });
+
+        $(document).ready(function() {
+            $('#state').select2();
+        });
 </script>
 @endsection
