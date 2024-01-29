@@ -177,7 +177,11 @@ Route::group([
 
         Route::get('/jobs/new', [App\Http\Controllers\Business\JobListingController::class, 'newJobListing'])->name("business.newJobListing");
 
+        Route::get('/job/update/{id}', [App\Http\Controllers\Business\JobListingController::class, 'editJobDetails'])->name("business.updateJobDetails");
+
         Route::post('/jobs/save', [App\Http\Controllers\Business\JobListingController::class, 'storeJobListing'])->name("business.storeJobListing");
+
+        Route::post('/jobs/asset-upload', [App\Http\Controllers\Business\JobListingController::class, 'uploadJobAsset'])->name("business.uploadJobAsset");
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

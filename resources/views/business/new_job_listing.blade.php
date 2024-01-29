@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-    <form method="POST" action="{{ route('business.storeJobListing') }}" lass="needs-validation" novalidate
+    <form method="POST" action="{{ route('business.storeJobListing') }}" lass="needs-validation"
         enctype="multipart/form-data">
         @csrf
         <div class="row">
@@ -66,7 +66,8 @@
 
                         <div class="mb-3 col-md-12">
                             <label class="form-label" for="category">Skill Level</label>
-                            <select name="skill_level" class="form-select text-dark" id="category" required>
+                            <select name="skill_level" class="form-control form-select text-dark" id="category"
+                                required>
                                 <option value="">Skill Level</option>
                                 <option value="Beginner">Beginner</option>
                                 <option value="Intermediate">Intermediate</option>
@@ -150,16 +151,16 @@
                                 <label for="workMode" class="form-label">Work Mode</label>
                                 <select name="work_mode" class="form-select text-dark" id="workMode" required>
                                     <option value="">Work Mode</option>
-                                    <option value="n-Office">In-Office</option>
-                                    <option value="Remote">Remote</option>
-                                    <option value="Hybrid">Hybrid</option>
+                                    <option value="on-site">On-Site</option>
+                                    <option value="remote">Remote</option>
+                                    <option value="hybrid">Hybrid</option>
                                 </select>
                                 <div class="invalid-feedback">Please select work mode.</div>
                             </div>
 
                             <div class="mb-3 col-md-6">
                                 <label for="paymentSchedule" class="form-label">Payment Schedule</label>
-                                <select name="paymen_schedule" class="form-select text-dark" id="paymentSchedule"
+                                <select name="payment_schedule" class="form-select text-dark" id="paymentSchedule"
                                     required>
                                     <option value="">Payment Schedule</option>
                                     <option value="Hourly">Hourly</option>
@@ -270,8 +271,19 @@
 
                 <div class="card mb-4">
                     <!-- Card Header -->
-                    <div class="card-header d-lg-flex">
-                        <h4 class="mb-0">Featured Files and Images</h4>
+                    <div class="card-header d-lg-flex" style="margin-right:0px; padding-right:0px">
+
+                        <div class="container" style="margin-left: 0px; padding-left:0px; margin-right:0px; padding-right:0px">
+                            <div class="row">
+                                <div class="col-md-7 col-7">
+                                    <h4 class="mb-0">Featured Files & Images</h4>
+                                </div>
+                                <div class="col-md-5 col-5">
+                                    <a href="#" class="btn btn-primary btn-xs text-end" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasRight">Upload File</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- List group -->
                     <div class="p-4">
@@ -315,11 +327,12 @@
                     <!-- List Group -->
                     <div class="p-3 col-md-12">
                         <select name="job_status" class="form-select text-dark" id="jobStatus" required>
-                            <option value="">Status</option>
                             <option value="draft">Draft</option>
-                            <option value="open">Publish</option>
+                            <option value="published" selected>Publish</option>
                         </select>
                     </div>
+
+                    <input type="hidden" name="tracking_code" value="{{ Session::get('JTC') }}" required>
 
                     <button type="submit" class="m-3 btn btn-primary"
                         style="background: #690068; border: #690068"><i class="fe fe-save"></i>&nbsp; Save</button>

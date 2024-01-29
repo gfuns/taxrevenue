@@ -13,6 +13,8 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Session;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class JobListingController extends Controller
 {
@@ -357,23 +359,23 @@ class JobListingController extends Controller
         $validator = Validator::make($request->all(), [
             'tracking_code' => 'required',
             'job_title' => 'required',
-            'tags' => 'required|numeric',
+            'tags' => 'required',
             'skill_level' => 'required',
             'job_description' => 'required',
             'job_requirements' => 'required',
-            'open_positions' => 'required',
-            'duration' => 'required',
+            'open_positions' => 'required|numeric',
+            'project_duration' => 'required|numeric',
             'work_mode' => 'required',
             'country' => 'required',
             'state' => 'required',
             'city' => 'required',
             'office_address' => 'required',
-            'minimum_renumeration' => 'required',
-            'maximum_renumeration' => 'required',
+            'minimum_renumeration' => 'required|numeric',
+            'maximum_renumeration' => 'required|numeric',
             'payment_schedule' => 'required',
             'application_opens' => 'required',
             'application_closes' => 'required',
-            'job_categories' => 'required',
+            'categories' => 'required',
             'engagement_type' => 'required',
             'job_status' => 'required',
         ]);
@@ -392,10 +394,9 @@ class JobListingController extends Controller
                 return back();
             }
 
-            $tag = implode(', ', $request->input('tags', []));
+            $tagsArray = json_decode($request->tags, true);
+            $tags = implode(', ', array_column($tagsArray, 'value'));
             $jobCategories = implode(', ', $request->input('categories', []));
-
-            dd($jobCategories);
 
             DB::beginTransaction();
             $job = new JobListing;
@@ -408,7 +409,7 @@ class JobListingController extends Controller
             $job->job_description = $request->job_description;
             $job->job_requirements = $request->job_requirements;
             $job->open_positions = $request->open_positions;
-            $job->duration = $request->project_duration." Months";
+            $job->duration = $request->project_duration . " Months";
             $job->location_type = $request->work_mode;
             $job->country = $request->country;
             $job->state = $request->state;
@@ -428,7 +429,6 @@ class JobListingController extends Controller
             $job->tracking_code = $request->tracking_code;
             $job->save();
 
-
             DB::commit();
 
             toast("Job Created Successfully", 'success');
@@ -441,6 +441,18 @@ class JobListingController extends Controller
             toast("Something Went Wrong", 'error');
             return back();
         }
+    }
+
+
+    public function uploadJobAsset(Request $request)
+    {
+        \Log::info("Something happened here");
+    }
+
+
+    public function editJobDetails($id){
+        $jobDetails = JobListing::find($id);
+        return view("business.update_job", compact("jobDetails"));
     }
 
     /**

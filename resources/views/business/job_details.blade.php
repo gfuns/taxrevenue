@@ -334,9 +334,9 @@
             <div class="card mb-4">
                 <!-- card body -->
 
-                <div class="card-header">
+                <div class="card-header d-lg-flex" style="margin-right:0px; padding-right:0px">
 
-                    <div class="container" style="margin-left: 0px; padding-left:0px">
+                    <div class="container" style="margin-left: 0px; padding-left:0px; margin-right:0px; padding-right:0px">
                         <div class="row">
                             <div class="col-md-8 col-7">
                                 <h4 class="mb-0">Project Milestones</h4>

@@ -133,7 +133,7 @@
                                                                 View Job Details
                                                             </a>
                                                             <a class="dropdown-item"
-                                                                href="{{ route('business.jobDetails', [$job->id]) }}">
+                                                                href="{{ route('business.updateJobDetails', [$job->id]) }}">
                                                                 <i class="fe fe-edit dropdown-item-icon"></i>
                                                                 Update Job Details
                                                             </a>
