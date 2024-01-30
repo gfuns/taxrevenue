@@ -18,7 +18,12 @@ class WebAuthenticated
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            return $next($request);
+            if(Auth::user()->status == "active"){
+                return $next($request);
+            }else{
+                Auth::logout();
+                return response()->view("auth.login");
+            }
         } else {
             return new JsonResponse([
                 'response' => [

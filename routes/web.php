@@ -63,7 +63,7 @@ Route::get('/account-selection', [App\Http\Controllers\OnboardingController::cla
 Route::get('/select-account/{accountType}', [App\Http\Controllers\OnboardingController::class, 'selectAccountType'])->name("selectAccount");
 
 Route::group([
-    'middleware' => ['emailverified'],
+    'middleware' => ['emailverified', 'webauthenticated'],
 ], function ($router) {
 
     Route::get('/business/dashboard', [App\Http\Controllers\Business\HomeController::class, 'dashboard'])->name('business.dashboard');
@@ -79,7 +79,7 @@ Route::group([
 
     Route::group([
         'prefix' => 'business',
-        'middleware' => 'validatebusiness',
+        'middleware' => ['validatebusiness', 'webauthenticated'],
 
     ], function ($router) {
 
