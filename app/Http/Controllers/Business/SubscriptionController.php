@@ -10,6 +10,7 @@ use App\Models\SubscriptionPlan;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class SubscriptionController extends Controller
@@ -139,6 +140,17 @@ class SubscriptionController extends Controller
         } else {
             return false;
         }
+
+    }
+
+
+    public function setAutoRenewal(Request $request){
+
+        CustomerSubscription::where('customer_id', Auth::user()->id)->where("id", $request->param)->update([
+            'auto_renew' => $request->status,
+        ]);
+
+        return response()->json(['status' => 200, 'message' => 'Autorenew status updated successfully.']);
 
     }
 

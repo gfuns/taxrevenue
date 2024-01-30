@@ -17,6 +17,9 @@
                             <li class="breadcrumb-item">
                                 <a href="{{ route('business.dashboard') }}">Dashboard</a>
                             </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">Account Settings</a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 Profile Information
                             </li>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Business;
 use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\Customer;
+use App\Models\JobListing;
 use App\Models\NotificationSetting;
 use App\Models\PlatformCategories;
 use Auth;
@@ -383,5 +384,27 @@ class HomeController extends Controller
             ]);
         }
 
+    }
+
+    public function deleteAccount()
+    {
+        return view("business.delete_account");
+    }
+
+    public function processAccountDeletion()
+    {
+        $customer = Auth::user();
+        $customer->status = "deleted";
+        if ($customer->save()) {
+            $jobs = JobListing::where("customer_id", Auth::user()->id)->update([
+                'status' => "deleted",
+            ]);
+
+            toast('Account Deleted Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something Went Wrong.', 'error');
+            return back();
+        }
     }
 }

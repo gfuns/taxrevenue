@@ -162,7 +162,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " id="viewtut" href="">
+                            <a class="nav-link " id="deleteAccount" href="{{ route("business.deleteAccount") }}">
                                 Delete Account
                             </a>
                         </li>

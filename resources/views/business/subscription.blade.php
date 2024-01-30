@@ -1,9 +1,8 @@
-hello
 @extends('business.layouts.app')
 
 @section('content')
 @section('title', env('APP_NAME') . ' | Subscriptions')
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <!-- Container fluid -->
 <section class="container-fluid p-4">
@@ -18,6 +17,9 @@ hello
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="{{ route('business.dashboard') }}">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">Account Settings</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 Subscriptions
@@ -43,12 +45,14 @@ hello
                     <!-- text -->
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <span>Subscribed Plan:</span>
-                        <span class="text-dark">{{ $activeSubscription->plan->plan }} Plan ({{ $activeSubscription->plan->duration }} Days)</span>
+                        <span class="text-dark">{{ $activeSubscription->plan->plan }} Plan
+                            ({{ $activeSubscription->plan->duration }} Days)</span>
                     </div>
                     <!-- text -->
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <span>Subscription Fee:</span>
-                        <span class="text-dark">&#8358;{{ number_format($activeSubscription->subscription_amount, 2) }}</span>
+                        <span
+                            class="text-dark">&#8358;{{ number_format($activeSubscription->subscription_amount, 2) }}</span>
                     </div>
                     <!-- text -->
                     <div class="d-flex align-items-center justify-content-between mb-4">
@@ -68,24 +72,31 @@ hello
                     <!-- text -->
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <span>Date Subscribed:</span>
-                        <span class="text-dark fw-bold">{{ date_format($activeSubscription->created_at, 'jS F, Y') }}</span>
+                        <span class="text-dark">{{ date_format($activeSubscription->created_at, 'jS F, Y') }}</span>
                     </div>
                     <!-- text -->
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <span>Renewal Date:</span>
-                        <span class="text-dark fw-bold">{{ date_format(new DateTime($activeSubscription->next_due_date), 'jS F, Y') }}</span>
+                        <span
+                            class="text-dark">{{ date_format(new DateTime($activeSubscription->next_due_date), 'jS F, Y') }}</span>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <span>Auto Renew Status:</span>
-                        <span class="text-dark fw-bold">$368.00</span>
+                        <div>
+                            <div class="form-check form-switch">
+                                <input data-id="{{ $activeSubscription->id }}" type="checkbox"
+                                    class="form-check-input subscriptionAutoRenew" id="autorenew"
+                                    @if ($activeSubscription->auto_renew == 1) checked="" @endif>
+                                <label class="form-check-label" for="autorenew"></label>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-12">
-                        <a href="{{ route("business.subscribe") }}"><button class="btn btn-primary" type="submit">Change Plan</button></a>
+                        <a href="{{ route('business.subscribe') }}"><button class="btn btn-primary"
+                                type="submit">Change Plan</button></a>
                     </div>
                 </div>
-
-
 
             </div>
         </div>
@@ -97,4 +108,55 @@ hello
     document.getElementById("subscription").classList.add('active');
 </script>
 
+@endsection
+
+@section('customjs')
+
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $(function() {
+        $('.subscriptionAutoRenew').change(function() {
+            var status = $(this).prop('checked') == true ? 1 : 0;
+            var param = $(this).data('id');
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "/business/set-auto-renewal",
+                data: {
+                    'status': status,
+                    'param': param
+                },
+                success: function(data) {
+                    if (data.status === 200) {
+                        Swal.fire({
+                            text: 'Autorenewal Status Updated Successfully.',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            toast: true,
+                            width: 450,
+                            timer: 4000,
+                            position: 'top-right'
+                        })
+                    } else {
+                        Swal.fire({
+                            text: 'Autorenewal Status Update Failed.',
+                            icon: 'error',
+                            showConfirmButton: false,
+                            toast: true,
+                            width: 450,
+                            timer: 4000,
+                            position: 'top-right'
+                        })
+                    }
+                }
+            });
+        })
+    })
+</script>
 @endsection
