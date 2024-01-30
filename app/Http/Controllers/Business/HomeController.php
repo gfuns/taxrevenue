@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\JobListing;
 use App\Models\NotificationSetting;
 use App\Models\PlatformCategories;
+use App\Models\JobApplication;
 use Auth;
 use Cloudinary;
 use Illuminate\Http\Request;
@@ -32,7 +33,17 @@ class HomeController extends Controller
      */
     public function dashboard()
     {
-        return view("business.dashboard");
+        $jobs = JobListing::where("customer_id", Auth::user()->business->id)->pluck("id");
+        $param = [
+            'jobsPosted' => JobListing::where("customer_id", Auth::user()->business->id)->count(),
+            'totalApplicants' => JobApplication::whereIn("job_listing_id", $jobs)->count(),
+            'areteBalance' => Auth::user()->wallet->arete_balance,
+            'referralPoints' => Auth::user()->wallet->referral_points,
+        ];
+
+        $latestJobs = JobListing::orderBy("id", "desc")->where("customer_id", Auth::user()->business->id)->limit(5)->get();
+        $latestApplications = JobApplication::orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->get();
+        return view("business.dashboard", compact("param", "latestJobs", "latestApplications"));
     }
 
     /**

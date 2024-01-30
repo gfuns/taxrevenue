@@ -8,7 +8,7 @@
         <!-- Navbar nav -->
         <ul class="navbar-nav flex-column" id="sideNavbar">
             <li class="nav-item">
-                <a class="nav-link "  id="dashboard" href="">
+                <a class="nav-link "  id="dashboard" href="{{ route("business.dashboard") }}">
                     <i class="nav-icon fe fe-home me-2"></i>
                     Dashboard
                 </a>
