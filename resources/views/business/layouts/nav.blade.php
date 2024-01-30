@@ -157,7 +157,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " id="viewtut" href="">
+                            <a class="nav-link " id="subscription" href="{{ route("business.subscription") }}">
                                 Subscription
                             </a>
                         </li>

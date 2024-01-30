@@ -189,6 +189,10 @@ Route::group([
 
         Route::get('/delete-job-asset/{id}', [App\Http\Controllers\Business\JobListingController::class, 'deleteJobAsset'])->name("business.deleteJobAsset");
 
+        Route::get('/subscription', [App\Http\Controllers\Business\SubscriptionController::class, 'subscription'])->name("business.subscription");
+
+        Route::get('/subscription/{id}', [App\Http\Controllers\Business\SubscriptionController::class, 'previewSubscription'])->name("business.previewSubscription");
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Route::post('/account-pin-setup', [BusinessAccountController::class, 'setupAccountPin']);
