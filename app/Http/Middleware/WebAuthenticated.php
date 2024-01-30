@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Session;
 class WebAuthenticated
 {
     /**
@@ -22,6 +22,7 @@ class WebAuthenticated
                 return $next($request);
             }else{
                 Auth::logout();
+                Session::flash("deletionProcessMessage", "Your Account Is Undergoing Deletion Process");
                 return response()->view("auth.login");
             }
         } else {

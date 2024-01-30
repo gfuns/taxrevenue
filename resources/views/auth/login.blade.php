@@ -29,13 +29,21 @@
                         account credentials</small>
                 </h2>
 
-                @if($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Invalid Login Credentials</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Invalid Login Credentials</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+                @if (Session::has('deletionProcessMessage'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Your Account Is Undergoing Deletion Process</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 @endif
                 <form class="validate validate-modern" action="{{ route('login') }}" method="POST">
                     @csrf
@@ -110,7 +118,8 @@
                         <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
                         <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
 
-                        <p class="text-white">The No. 1 world class cutting-edge job portal designed for professionals like you to elevate your job search experience!</p>
+                        <p class="text-white">The No. 1 world class cutting-edge job portal designed for professionals
+                            like you to elevate your job search experience!</p>
                     </div>
                 </div>
             </div>
