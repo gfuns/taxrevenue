@@ -191,7 +191,11 @@ Route::group([
 
         Route::get('/subscription', [App\Http\Controllers\Business\SubscriptionController::class, 'subscription'])->name("business.subscription");
 
+        Route::get('/initiate-subscription', [App\Http\Controllers\Business\SubscriptionController::class, 'initiateSubscription'])->name("business.subscribe");
+
         Route::get('/subscription/{id}', [App\Http\Controllers\Business\SubscriptionController::class, 'previewSubscription'])->name("business.previewSubscription");
+
+        Route::get('/subscription/process/{planId}/{cardId}', [App\Http\Controllers\Business\SubscriptionController::class, 'processSubscription'])->name("business.processSubscription");
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

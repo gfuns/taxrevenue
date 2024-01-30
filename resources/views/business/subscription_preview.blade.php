@@ -91,7 +91,9 @@
                                 <p class="mb-0">Expires {{ $card->expiry_month }}/{{ $card->expiry_year }}</p>
                             </div>
                             <div class="col-md-3 col-4">
-                                <button class="btn btn-primary btn-xs">Pay Now</button>
+                                <a href="{{ route('business.processSubscription', [$plan->id, $card->id]) }}"
+                                    onClick="this.disabled=true; this.innerHTML='Processing...';"><button
+                                        class="btn btn-primary btn-xs">Pay Now</button></a>
                             </div>
                         </div>
                     @endforeach
