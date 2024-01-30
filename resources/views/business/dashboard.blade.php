@@ -15,6 +15,16 @@
         background-color: rgba(118, 109, 244, .15) !important;
         color: #766df4 !important;
     }
+
+    .bg-soft-success{
+        background-color: #d1f5ea !important;
+        color: #20c997 !important;
+    }
+
+    .bg-soft-danger{
+        background-color: #fad9d8 !important;
+        color: #dc3545 !important;
+    }
 </style>
 
 <!-- Page Header -->
@@ -197,74 +207,29 @@
             <div class="card h-100">
                 <!-- Card header -->
                 <div class="card-header card-header-height d-flex align-items-center">
-                    <h4 class="mb-0">Transactions</h4>
+                    <h4 class="mb-0">Recent Transactions</h4>
                 </div>
                 <!-- Card body -->
                 <div class="card-body">
                     <!-- List group -->
-                    <ul class="list-group list-group-flush list-timeline-activity">
-                        <li class="list-group-item px-0 pt-0 border-0 mb-2">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <div class="avatar avatar-md avatar-indicators avatar-online">
-                                        <img alt="avatar" src="../../assets/images/avatar/avatar-6.jpg"
-                                            class="rounded-circle">
+                    <ul class="list-group list-group-flush ">
+                        @foreach ($latestTransactions as $lt)
+                            <li class="list-group-item px-0 pt-0 border-0 mb-2">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <div class="candidate-education-content d-flex">
+                                            <div class="circle flex-shrink-0 @if($lt->trx_type == "credit") bg-soft-success @else bg-soft-danger @endif">
+                                                {{ strtoupper(Str::substr($lt->trx_type, 0, 1)) }} </div>
+                                        </div>
+                                    </div>
+                                    <div class="col ms-n2">
+                                        <h4 class="mb-0 h5">{{ ucwords($lt->trx_type) }} Transaction</h4>
+                                        <p class="mb-1">{{ $lt->details }}</p>
+                                        <span class="fs-6">{{ $lt->created_at->diffForHumans() }}</span>
                                     </div>
                                 </div>
-                                <div class="col ms-n2">
-                                    <h4 class="mb-0 h5">Dianna Smiley</h4>
-                                    <p class="mb-1">Just buy the courses”Build React Application Tutorial”</p>
-                                    <span class="fs-6">2m ago</span>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- List group -->
-                        <li class="list-group-item px-0 pt-0 border-0 mb-2">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <div class="avatar avatar-md avatar-indicators avatar-offline">
-                                        <img alt="avatar" src="../../assets/images/avatar/avatar-7.jpg"
-                                            class="rounded-circle">
-                                    </div>
-                                </div>
-                                <div class="col ms-n2">
-                                    <h4 class="mb-0 h5">Irene Hargrove</h4>
-                                    <p class="mb-1">Comment on “Bootstrap Tutorial” Says “Hi,I m irene...</p>
-                                    <span class="fs-6">1 hour ago</span>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- List group -->
-                        <li class="list-group-item px-0 pt-0 border-0 mb-2">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <div class="avatar avatar-md avatar-indicators avatar-busy">
-                                        <img alt="avatar" src="../../assets/images/avatar/avatar-4.jpg"
-                                            class="rounded-circle">
-                                    </div>
-                                </div>
-                                <div class="col ms-n2">
-                                    <h4 class="mb-0 h5">Trevor Bradle</h4>
-                                    <p class="mb-1">Just share your article on Social Media..</p>
-                                    <span class="fs-6">2 month ago</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item px-0 pt-0 border-0">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <div class="avatar avatar-md avatar-indicators avatar-away">
-                                        <img alt="avatar" src="../../assets/images/avatar/avatar-1.jpg"
-                                            class="rounded-circle">
-                                    </div>
-                                </div>
-                                <div class="col ms-n2">
-                                    <h4 class="mb-0 h5">John Deo</h4>
-                                    <p class="mb-1">Just buy the courses”Build React Application Tutorial”</p>
-                                    <span class="fs-6">2m ago</span>
-                                </div>
-                            </div>
-                        </li>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>

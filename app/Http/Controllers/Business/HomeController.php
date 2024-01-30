@@ -9,6 +9,7 @@ use App\Models\JobListing;
 use App\Models\NotificationSetting;
 use App\Models\PlatformCategories;
 use App\Models\JobApplication;
+use App\Models\ReferralTransaction;
 use Auth;
 use Cloudinary;
 use Illuminate\Http\Request;
@@ -42,8 +43,9 @@ class HomeController extends Controller
         ];
 
         $latestJobs = JobListing::orderBy("id", "desc")->where("customer_id", Auth::user()->business->id)->limit(5)->get();
-        $latestApplications = JobApplication::orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->get();
-        return view("business.dashboard", compact("param", "latestJobs", "latestApplications"));
+        $latestApplications = JobApplication::orderBy("id", "desc")->whereIn("job_listing_id", $jobs)->limit(5)->get();
+        $latestTransactions = ReferralTransaction::orderBy("id", "desc")->where("customer_id", Auth::user()->business->id)->limit(5)->get();
+        return view("business.dashboard", compact("param", "latestJobs", "latestApplications", "latestTransactions"));
     }
 
     /**
