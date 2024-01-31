@@ -750,7 +750,7 @@
                                             <span class="position-absolute">
                                                 <img alt="avatar"
                                                     src="{{ Auth::user()->photo == null ? asset('assets/images/avatar/avatar.webp') : Auth::user()->photo }}"
-                                                    style="max-height:140px; max-width: 75px">
+                                                    style="max-height:140px; max-width: 150px">
                                             </span>
 
 
