@@ -262,13 +262,15 @@ class UtilityController extends Controller
 
     public function buyData()
     {
-        if (Session::get("dataStatus") == "successful") {
-            toast("Data Purchase Successful", 'success');
+        if (Session::has("dataStatus")) {
+            if (Session::get("dataStatus") == "successful") {
+                toast("Data Purchase Successful", 'success');
 
-        } else if (Session::get("dataStatus") == "pending") {
-            toast("Transaction is currently being processed", 'info');
-        } else {
-            toast("Data Purchase Failed", 'error');
+            } else if (Session::get("dataStatus") == "pending") {
+                toast("Transaction is currently being processed", 'info');
+            } else {
+                toast("Data Purchase Failed", 'error');
+            }
         }
         return redirect()->route('business.data.plans', ["mtn-data"]);
     }
@@ -424,13 +426,15 @@ class UtilityController extends Controller
 
     public function buyCable()
     {
-        if (Session::get("dataStatus") == "successful") {
-            toast("Cable Subscription Purchased Successful", 'success');
+        if (Session::has("cableStatus")) {
+            if (Session::get("cableStatus") == "successful") {
+                toast("Cable Subscription Purchased Successful", 'success');
 
-        } else if (Session::get("dataStatus") == "pending") {
-            toast("Transaction is currently being processed", 'info');
-        } else {
-            toast("Cable Subscription Purchase Failed", 'error');
+            } else if (Session::get("cableStatus") == "pending") {
+                toast("Transaction is currently being processed", 'info');
+            } else {
+                toast("Cable Subscription Purchase Failed", 'error');
+            }
         }
         return redirect()->route('business.cable.plans', ["dstv"]);
     }
@@ -585,7 +589,7 @@ class UtilityController extends Controller
                 } catch (\Exception $e) {
                     report($e);
                 } finally {
-                    Session::flash("dataStatus", "successful");
+                    Session::flash("cableStatus", "successful");
                     return redirect()->route("business.buyCable");
                 }
 
@@ -599,14 +603,14 @@ class UtilityController extends Controller
                 $trx->status = "Failed";
                 $trx->save();
 
-                Session::flash("dataStatus", "failed");
+                Session::flash("cableStatus", "failed");
                 return redirect()->route("business.buyCable");
             } else {
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Pending";
                 $trx->save();
 
-                Session::flash("dataStatus", "pending");
+                Session::flash("cableStatus", "pending");
                 return redirect()->route("business.buyCable");
             }
         } catch (\Exception $e) {

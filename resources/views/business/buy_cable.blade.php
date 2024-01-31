@@ -68,7 +68,7 @@
                     <div class="mb-3 col-md-12 col-12">
                         <div class="col-md-6 col-12">
                             <label class="form-label">Bouquet <span class="text-danger">*</span></label>
-                            <select id="country" name="bouquet" class="@error('bouquet') is-invalid @enderror"
+                            <select id="plans" name="bouquet" class="@error('bouquet') is-invalid @enderror"
                                 data-width="100%" required onchange="setAmount(this)">
                                 @php
                                     $bouquets = \App\Models\CableProvider::retrieveCablePlans($provida->service_id);

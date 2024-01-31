@@ -323,6 +323,10 @@
 
 
         $(document).ready(function() {
+            $('#plans').select2();
+        });
+
+        $(document).ready(function() {
             $('#category').select2();
         });
 

@@ -67,7 +67,7 @@
                     <div class="mb-3 col-md-12 col-12">
                         <div class="col-md-6 col-12">
                             <label class="form-label">Data Plan <span class="text-danger">*</span></label>
-                            <select id="country" name="data_plan" class="@error('data_plan') is-invalid @enderror"
+                            <select id="plans" name="data_plan" class="@error('data_plan') is-invalid @enderror"
                                 data-width="100%" required onchange="setAmount(this)">
                                 @php
                                     $dataPlans = \App\Models\DataProvider::retrieveDataPlans($provida->service_id);
