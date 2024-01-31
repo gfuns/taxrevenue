@@ -125,9 +125,6 @@
                                 <script language="javascript">
                                     print_country("country");
                                 </script>
-                                <script language="javascript">
-                                    print_country("country");
-                                </script>
                                 <div class="invalid-feedback">Please select valid date.</div>
                             </div>
                         </div>

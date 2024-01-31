@@ -96,8 +96,10 @@
                                         class="selectpicker @error('gender') is-invalid @enderror" data-width="100%"
                                         required>
                                         <option value="">Select Gender</option>
-                                        <option value="Male" @if (Auth::user()->gender == 'Male') selected @endif>Male</option>
-                                        <option value="Female" @if (Auth::user()->gender == 'Female') selected @endif>Female</option>
+                                        <option value="Male" @if (Auth::user()->gender == 'Male') selected @endif>Male
+                                        </option>
+                                        <option value="Female" @if (Auth::user()->gender == 'Female') selected @endif>Female
+                                        </option>
                                     </select>
                                     @error('gender')
                                         <span class="" role="alert">
@@ -107,9 +109,8 @@
                                 </div>
                                 <div class="mb-3 col-md-6 col-12">
                                     <label class="form-label">Country<span class="text-danger">*</span></label>
-                                    <select id="country" name="country"
-                                        class="@error('country') is-invalid @enderror" data-width="100%"
-                                        required>
+                                    <select id="country" name="country" class="@error('country') is-invalid @enderror"
+                                        data-width="100%" required>
                                         <option value="">Select Country</option>
                                         <option value="Afghanistan" @if (Auth::user()->country == 'Afghanistan') selected @endif>
                                             Afghanistan</option>
@@ -782,6 +783,15 @@
 <script type="text/javascript">
     document.getElementById("navSettings").classList.add('show');
     document.getElementById("profile").classList.add('active');
+</script>
+
+@endsection
+
+@section('customjs')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#country').select2();
+    });
 </script>
 
 @endsection
