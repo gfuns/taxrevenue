@@ -27,7 +27,7 @@
                         <ul class="breadcrumbs ">
                             <li><a href="/"><span class="fi-rr-home icon-home"></span>
                                     Home </a></li>
-                            <li><a href="/resources/blog">Blog Posts</a></li>
+                            <li><a href="/blog">Blog Posts</a></li>
                         </ul>
                     </div>
                 </div>
@@ -44,14 +44,43 @@
                 </div>
                 <div class="row mt-30">
                     <div class="col-lg-12">
-                        <aside class="col-lg-4 widget widget_search mb-30">
-                            <div class="search-form">
-                                <form role="search" method="GET" action="">
-                                    <input type=text placeholder="Search..." value="" name=q><button
-                                        type=submit><i class="fi-rr-search"></i></button>
-                                </form>
+                        <div class="box-filters-job">
+                            <div class="row">
+                                <div class="col-xl-8 col-lg-8 jobs-listing-container">
+                                    <aside class="col-lg-8 widget widget_search mb-10">
+                                        <div class="search-form">
+                                            <form role="search" method="GET" action="">
+                                                <input type=text placeholder="Search..." value=""
+                                                    name=q><button type=submit><i
+                                                        class="fi-rr-search"></i></button>
+                                            </form>
+                                        </div>
+                                    </aside>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 text-lg-end mt-sm-15 d-none d-lg-block">
+                                    <div class="display-flex2">
+                                        <div class="box-border"><span class="text-sort_by">Sort by:</span>
+                                            <div class="dropdown dropdown-sort"><button
+                                                    class="btn dropdown-toggle" id="dropdownSort2" type=button
+                                                    data-bs-toggle="dropdown" aria-expanded="false"
+                                                    data-bs-display="static"><span>Newest</span><i
+                                                        class="fi-rr-angle-small-down"></i></button>
+                                                <ul class="dropdown-menu js-dropdown-clickable dropdown-menu-light"
+                                                    aria-labelledby="dropdownSort2">
+                                                    <li><a class="dropdown-item dropdown-sort-by active"
+                                                            data-sort-by="newest" href="#"> Newest
+                                                        </a></li>
+                                                    <li><a class="dropdown-item dropdown-sort-by"
+                                                            data-sort-by="oldest" href="#"> Oldest
+                                                        </a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
-                        </aside>
+                        </div>
                         <div class="row">
                             @foreach ($blogPosts as $blog)
                                 @php
@@ -125,7 +154,7 @@
     </section>
 </main>
 <script type="text/javascript">
-    document.getElementById("resources").classList.add('active');
+    document.getElementById("blog").classList.add('active');
 </script>
 
 @endsection

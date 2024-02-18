@@ -24,11 +24,105 @@ class FrontEndController extends Controller
         return view("welcome", compact("categories", "todayJobs", "topRecruiters", "blogPosts"));
     }
 
-    public function findJobs()
+    /**
+     * businessListing
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function businessListing(Request $request)
+    {
+        if (isset($request->filter)) {
+
+            $businesses = Business::where("visibility", 1)->where("business_name", 'LIKE', $request->filter . '%')->get();
+
+        } else {
+            $businesses = Business::where("visibility", 1)->get();
+        }
+        return view("business_listing", compact("businesses"));
+    }
+
+    public function businessDetails($slug)
+    {
+        $business = Business::where("slug", $slug)->first();
+        $latestJobs = JobListing::where("business_id", $business->id)->where("visibility", "open")->limit(4)->get();
+        $reviews = BusinessReviews::orderBy("rating", "desc")->limit(5)->get();
+        return view("business_details", compact("business", "latestJobs", "reviews"));
+    }
+
+    /**
+     * jobPortal
+     *
+     * @return void
+     */
+    public function jobPortal()
     {
         $categories = PlatformCategories::all();
         $jobs = JobListing::where("visibility", "open")->get();
-        return view("find_jobs", compact("categories", "jobs"));
+        return view("job_portal", compact("categories", "jobs"));
+    }
+
+    public function jobDetails($slug)
+    {
+        $job = JobListing::where("slug", $slug)->first();
+        $categories = explode(', ', $job->getOriginalCategories());
+        $categoryNames = PlatformCategories::whereIn('id', $categories)->pluck('category_name');
+        $industry = $categoryNames->implode(' / ');
+        $similarJobs = JobListing::where("id", "!=", $job->id)->where("visibility", "open")->where(function ($query) use ($categories) {
+            foreach ($categories as $categoryId) {
+                $query->orWhereRaw("FIND_IN_SET(?, job_categories)", [$categoryId]);
+            }
+        })->limit(5)->get();
+        return view("job_details", compact("job", "similarJobs", "industry"));
+    }
+
+    /**
+     * shop
+     *
+     * @return void
+     */
+    public function shop()
+    {
+        $products = Products::orderBy("product_name", "asc")->get();
+        return view("shop", compact("products"));
+    }
+
+    /**
+     * academy
+     *
+     * @return void
+     */
+    public function academy()
+    {
+        $tutorialVideos = TutorialVideos::all();
+        return view("academy", compact("tutorialVideos"));
+    }
+
+    /**
+     * blogPosts
+     *
+     * @return void
+     */
+    public function blogPosts()
+    {
+        $lastRecord = BlogPost::count();
+        $marker = $this->blogMarkers($lastRecord, request()->page);
+        $blogPosts = BlogPost::orderBy("id", "desc")->paginate(6);
+        return view("blog", compact("blogPosts", "lastRecord", "marker"));
+    }
+
+    /**
+     * blogDetails
+     *
+     * @param mixed slug
+     *
+     * @return void
+     */
+    public function blogDetails($slug)
+    {
+        $blogPost = BlogPost::where("slug", $slug)->first();
+        return view("blog_details", compact("blogPost"));
     }
 
     public function jobsByCategory($slug)
@@ -72,71 +166,11 @@ class FrontEndController extends Controller
         return view("artisans", compact("candidates"));
     }
 
-    public function businesses(Request $request)
-    {
-        if (isset($request->filter)) {
-
-            $businesses = Business::where("visibility", 1)->where("business_name", 'LIKE', $request->filter . '%')->get();
-
-        } else {
-            $businesses = Business::where("visibility", 1)->get();
-        }
-        return view("businesses", compact("businesses"));
-    }
-
-    public function tutorialVideos()
-    {
-        $tutorialVideos = TutorialVideos::all();
-        return view("tutorials", compact("tutorialVideos"));
-    }
-
-    public function jobDetails($slug)
-    {
-        $job = JobListing::where("slug", $slug)->first();
-        $categories = explode(', ', $job->getOriginalCategories());
-        $categoryNames = PlatformCategories::whereIn('id', $categories)->pluck('category_name');
-        $industry = $categoryNames->implode(' / ');
-        $similarJobs = JobListing::where("id", "!=", $job->id)->where("visibility", "open")->where(function ($query) use ($categories) {
-            foreach ($categories as $categoryId) {
-                $query->orWhereRaw("FIND_IN_SET(?, job_categories)", [$categoryId]);
-            }
-        })->limit(5)->get();
-        return view("job_details", compact("job", "similarJobs", "industry"));
-    }
-
-    public function businessDetails($slug)
-    {
-        $business = Business::where("slug", $slug)->first();
-        $latestJobs = JobListing::where("business_id", $business->id)->where("visibility", "open")->limit(4)->get();
-        $reviews = BusinessReviews::orderBy("rating", "desc")->limit(5)->get();
-        return view("business_details", compact("business", "latestJobs", "reviews"));
-    }
-
     public function artisanDetails($slug)
     {
         $artisan = Artisans::where("slug", $slug)->first();
         $reviews = ArtisanReviews::orderBy("rating", "desc")->limit(5)->get();
         return view("artisan_details", compact("artisan", "reviews"));
-    }
-
-    public function miniStore()
-    {
-        $products = Products::orderBy("product_name", "asc")->get();
-        return view("mini_store", compact("products"));
-    }
-
-    public function blogPosts()
-    {
-        $lastRecord = BlogPost::count();
-        $marker = $this->blogMarkers($lastRecord, request()->page);
-        $blogPosts = BlogPost::orderBy("id", "desc")->paginate(6);
-        return view("blog", compact("blogPosts", "lastRecord", "marker"));
-    }
-
-    public function blogDetails($slug)
-    {
-        $blogPost = BlogPost::where("slug", $slug)->first();
-        return view("blog_details", compact("blogPost"));
     }
 
     /**

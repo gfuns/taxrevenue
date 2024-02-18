@@ -16,7 +16,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontEndController::class, 'index']);
 
-Route::get('/find-jobs', [FrontEndController::class, 'findJobs']);
+Route::get('/business-listing', [FrontEndController::class, 'businessListing']);
+
+Route::get('/job-portal', [FrontEndController::class, 'jobPortal']);
+
+Route::get('/shop-now', [FrontEndController::class, 'shop']);
+
+Route::get('/academy', [FrontEndController::class, 'academy']);
+
+Route::get('/blog', [FrontEndController::class, 'blogPosts']);
+
+//////////////////////////////////////////////////////////////////////
 
 Route::get('/job/details/{slug}', [FrontEndController::class, 'jobDetails']);
 
@@ -28,17 +38,9 @@ Route::get('/artisans', [FrontEndController::class, 'artisans']);
 
 Route::get('/artisan/details/{slug}', [FrontEndController::class, 'artisanDetails']);
 
-Route::get('/businesses', [FrontEndController::class, 'businesses']);
-
 Route::get('/business/details/{slug}', [FrontEndController::class, 'businessDetails']);
 
-Route::get('/resources/blog', [FrontEndController::class, 'blogPosts']);
-
 Route::get('/resources/blog/{slug}', [FrontEndController::class, 'blogDetails']);
-
-Route::get('/resources/tutorial-videos', [FrontEndController::class, 'tutorialVideos']);
-
-Route::get('/mini-store', [FrontEndController::class, 'miniStore']);
 
 Auth::routes();
 

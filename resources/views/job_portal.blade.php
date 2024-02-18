@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Find Jobs')
+@section('title', env('APP_NAME') . ' | Job Portal')
 
 <main class="main">
     <div class="ck-content">
@@ -474,6 +474,6 @@
 </main>
 
 <script type="text/javascript">
-    document.getElementById("findjobs").classList.add('active');
+    document.getElementById("jobportal").classList.add('active');
 </script>
 @endsection

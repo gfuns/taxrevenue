@@ -21,13 +21,24 @@
                 <div class="row">
                     <div class="col-lg-9">
                         <h2 style="color:#fff; padding-bottom:0px">{{ $blogPost->post_title }}</h2>
-                        <span class="font-regular text-white">Tags, Come Here</span>
+                        <span class="font-regular text-white">
+                            @if (isset($blogPost->tags))
+                            <div class="tags mb-15">
+                                @php
+                                    $blogTags = explode(', ', $blogPost->tags);
+                                @endphp
+                                @foreach ($blogTags as $tag)
+                                    <a class="btn btn-tag" style="cursor: pointer">{{ $tag }}</a>&nbsp;
+                                @endforeach
+                            </div>
+                        @endif
+                        </span>
                     </div>
                     <div class="col-lg-3 text-md-end">
                         <ul class="breadcrumbs ">
                             <li><a href="/"><span class="fi-rr-home icon-home"></span>
                                     Home </a></li>
-                            <li><a href="/resources/blog">Blog Posts</a></li>
+                            <li><a href="/blog">Blog Posts</a></li>
                         </ul>
                     </div>
                 </div>
@@ -58,7 +69,7 @@
 
 </main>
 <script type="text/javascript">
-    document.getElementById("resources").classList.add('active');
+    document.getElementById("blog").classList.add('active');
 </script>
 
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Mini Store ')
+@section('title', env('APP_NAME') . ' | Shop ')
 <style>
     .centered-image {
         position: absolute;
@@ -21,14 +21,14 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-9">
-                                <h2 class="mb-10" style="color:#fff">Mini Store</h2>
+                                <h2 class="mb-10" style="color:#fff">Our Shop</h2>
                                 <span class=" font-regular text-white">Shop for products you love with ease</span>
                             </div>
                             <div class="col-lg-3 text-md-end">
                                 <ul class="breadcrumbs ">
                                     <li><a href="/"><span class="fi-rr-home icon-home"></span>
                                             Home </a></li>
-                                    <li><a href="/mini-store">Mini Store</a></li>
+                                    <li><a href="/shop-now">Shop</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -45,10 +45,21 @@
                             <div class="content-page job-content-section">
                                 <div class="box-filters-job">
                                     <div class="row">
-                                        <div class="col-xl-6 col-lg-5 jobs-listing-container"><span
+                                        <div class="col-xl-8 col-lg-8 jobs-listing-container">
+                                            <aside class="col-lg-8 widget widget_search mb-10">
+                                                <div class="search-form">
+                                                    <form role="search" method="GET" action="">
+                                                        <input type=text placeholder="Search..." value=""
+                                                            name=q><button type=submit><i
+                                                                class="fi-rr-search"></i></button>
+                                                    </form>
+                                                </div>
+                                            </aside>
+                                            {{-- <span
                                                 class="text-small text-showing showing-of-results"> Showing 1-12 of
-                                                51 Product(s) </span></div>
-                                        <div class="col-xl-6 col-lg-7 text-lg-end mt-sm-15">
+                                                51 Product(s) </span> --}}
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 text-lg-end mt-sm-15 d-none d-lg-block">
                                             <div class="display-flex2">
                                                 <div class="box-border"><span class="text-sort_by">Sort by:</span>
                                                     <div class="dropdown dropdown-sort"><button
@@ -102,7 +113,8 @@
                                                             </div>
                                                             <div class="col-12 mt-3">
                                                                 <div class="">
-                                                                    <a href="{{ $prod->affiliate_link }}" target="_blank">
+                                                                    <a href="{{ $prod->affiliate_link }}"
+                                                                        target="_blank">
                                                                         <button class="btn btn-apply-now"> Buy Now
                                                                         </button>
                                                                     </a>
@@ -147,7 +159,7 @@
 </main>
 
 <script type="text/javascript">
-    document.getElementById("resources").classList.add('active');
+    document.getElementById("shop").classList.add('active');
 </script>
 
 @endsection

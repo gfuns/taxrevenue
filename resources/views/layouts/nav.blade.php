@@ -9,25 +9,12 @@
                 <nav class="nav-main-menu">
                     <ul class="main-menu">
                         <li><a id="home" href="/"> Home </a></li>
-                        <li><a id="findjobs" href="/find-jobs" class=" "> Find Jobs </a></li>
-                        <li><a id="businesses" href="/businesses" class=" "> Businesses </a></li>
-                        <li><a id="artisans" href="/artisans" class=" "> Artisans </a></li>
-                        <li class="has-children "><a id="resources" href="#" class=" "> Resources <div class="arrow-down"></div>
-                            </a>
-                            <ul class="sub-menu">
-
-                                <li class=" ">
-                                    <a href="/resources/blog"><i class="fas fa-globe" style="color: #690068"></i> Blog </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="/mini-store"><i class="fas fa-store" style="color: #690068"></i> Mini Store </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="/resources/tutorial-videos"><i class="far fa-play-circle" style="color: #690068"></i> Tutorial
-                                        Videos </a>
-                                </li>
-                            </ul>
-                        </li>
+                        <li><a id="businesses" href="/business-listing" class=" "> Business Directory </a></li>
+                        <li><a id="jobportal" href="/job-portal" class=" "> Job Portal </a></li>
+                        <li><a id="shop" href="/shop-now" class=" "> Shop Now </a></li>
+                        <li><a id="academy" href="/academy" class=" "> Academy </a></li>
+                        <li><a id="blog" href="/blog" class=" "> Blog </a></li>
+                        <li><a id="forum" href="https://preview.wstacks.com/proforum/" class=" "> Forum </a></li>
                     </ul>
                 </nav>
                 <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
@@ -53,25 +40,12 @@
                     <nav>
                         <ul class="mobile-menu font-heading">
                             <li class=" "><a href="/"> Home </a></li>
-                            <li class=" "><a href="/find-jobs"> Find Jobs </a></li>
-                            <li class=" "><a href="/businesses"> Businesses </a></li>
-                            <li class=" "><a href="/artisans"> Artisans </a></li>
-
-                            <li class=" has-children "><a href="#"> Resources <div class="arrow-down"></div>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li class=" ">
-                                        <a href="/resources/blog"><i class="fi fi-rr-home"></i> Blog </a>
-                                    </li>
-                                    <li class=" ">
-                                        <a href="/mini-store"><i class="fi fi-rr-home"></i> Mini Store </a>
-                                    </li>
-                                    <li class=" ">
-                                        <a href="/resources/tutorial-videos"><i class="fi fi-rr-home"></i> Tutorial
-                                            Videos </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            <li class=" "><a href="/business-listing"> Business Directory </a></li>
+                            <li class=" "><a href="/job-portal"> Job Portal </a></li>
+                            <li class=" "><a href="/shop-now"> Shop Now </a></li>
+                            <li class=" "><a href="/academy"> Academy </a></li>
+                            <li class=" "><a href="/blog"> Blog </a></li>
+                            <li class=" "><a href="https://preview.wstacks.com/proforum/"> Forum </a></li>
 
                         </ul>
                     </nav>
