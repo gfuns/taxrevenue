@@ -69,10 +69,10 @@
                 <div class="h6 mb-20">Download App</div>
                 <p class="color-text-paragraph-2 font-xs"></p>
                 <div class="mt-15">
-                    <a class="mr-5" href="#"><img src={{ asset('files/general/app-store.png') }}
-                            alt="App Store" style="max-width: 100px"></a>
-                    <a class="mr-5" href="#"><img src={{ asset('files/general/android.png') }}
-                            alt="Google Play" style="max-width: 100px"></a>
+                    <a class="mr-5" href="#"><img src={{ asset('files/general/app-store.png') }} alt="App Store"
+                            style="max-width: 100px"></a>
+                    <a class="mr-5" href="#"><img src={{ asset('files/general/android.png') }} alt="Google Play"
+                            style="max-width: 100px"></a>
                 </div>
             </div>
         </div>
@@ -124,7 +124,7 @@
 <script src={{ asset('themes/jobbox/plugins/waypoints.js') }}></script>
 <script src={{ asset('themes/jobbox/plugins/magnific-popup.js') }}></script>
 <script src={{ asset('themes/jobbox/plugins/perfect-scrollbar.min.js') }}></script>
-<script src={{ asset('themes/jobbox/plugins/select2.min.js') }}></script>
+<script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
 <script src={{ asset('themes/jobbox/plugins/isotope.js') }}></script>
 <script src={{ asset('themes/jobbox/plugins/scrollup.js') }}></script>
 <script src={{ asset('themes/jobbox/plugins/swiper-bundle.min.js') }}></script>
@@ -146,3 +146,9 @@
             class="js-cookie-consent-agree cookie-consent__agree page_speed_1815023329"> Allow cookies </button>
     </div>
 </div> --}}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#myloc').select2();
+    });
+</script>

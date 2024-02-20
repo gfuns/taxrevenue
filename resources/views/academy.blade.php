@@ -67,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-50">
+                    <div class="row ">
                         @foreach ($tutorialVideos as $vid)
                             <div class="col-lg-4 col-md-12 col-sm-12">
                                 <div

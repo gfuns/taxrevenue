@@ -58,9 +58,31 @@ class FrontEndController extends Controller
      */
     public function jobPortal()
     {
-        $categories = PlatformCategories::all();
-        $jobs = JobListing::all();
-        return view("job_portal", compact("categories", "jobs"));
+        $filter = request()->filter == null ? 'asc' : request()->filter;
+        $location = request()->location;
+        $keyword = request()->keyword;
+        if (isset($location) || isset($keyword)) {
+            if (isset($location) && !isset($keyword)) {
+                $lastRecord = JobListing::where("state", $location)->count();
+                $marker = $this->pageMarkers($lastRecord, request()->page);
+                $jobs = JobListing::orderBy("id", $filter)->where("state", $location)->paginate(16);
+            } else if (!isset($location) && isset($keyword)) {
+                $lastRecord = JobListing::where("job_title", "LIKE", "%" . $keyword . "%")->count();
+                $marker = $this->pageMarkers($lastRecord, request()->page);
+                $jobs = JobListing::orderBy("id", $filter)->where("job_title", "LIKE", "%" . $keyword . "%")->paginate(16);
+            } else {
+                $lastRecord = JobListing::where("state", $location)->where("job_title", "LIKE", "%" . $keyword . "%")->count();
+                $marker = $this->pageMarkers($lastRecord, request()->page);
+                $jobs = JobListing::orderBy("id", $filter)->where("state", $location)->where("job_title", "LIKE", "%" . $keyword . "%")->paginate(16);
+            }
+
+        } else {
+            $lastRecord = JobListing::count();
+            $marker = $this->pageMarkers($lastRecord, request()->page);
+            $jobs = JobListing::orderBy("id", $filter)->paginate(16);
+        }
+
+        return view("job_portal", compact("jobs", "location", "keyword", "lastRecord", "marker", "filter"));
     }
 
     public function jobDetails($slug)
@@ -271,6 +293,30 @@ class FrontEndController extends Controller
         } else {
             $marker["begin"] = number_format(((9 * ((int) $pageNum)) - 8), 0);
             $marker["index"] = number_format(((9 * ((int) $pageNum)) - 8), 0);
+        }
+
+        if ($end > $lastRecord) {
+            $marker["end"] = number_format($lastRecord, 0);
+        } else {
+            $marker["end"] = number_format($end, 0);
+        }
+
+        return $marker;
+    }
+
+    public function pageMarkers($lastRecord, $pageNum)
+    {
+        if ($pageNum == null) {
+            $pageNum = 1;
+        }
+        $end = (16 * ((int) $pageNum));
+        $marker = array();
+        if ((int) $pageNum == 1) {
+            $marker["begin"] = (int) $pageNum;
+            $marker["index"] = (int) $pageNum;
+        } else {
+            $marker["begin"] = number_format(((16 * ((int) $pageNum)) - 11), 0);
+            $marker["index"] = number_format(((16 * ((int) $pageNum)) - 11), 0);
         }
 
         if ($end > $lastRecord) {
