@@ -50,9 +50,8 @@
                                     <aside class="col-lg-8 widget widget_search mb-10">
                                         <div class="search-form">
                                             <form role="search" method="GET" action="">
-                                                <input type=text placeholder="Search..." value=""
-                                                    name=q><button type=submit><i
-                                                        class="fi-rr-search"></i></button>
+                                                <input type=text placeholder="Search..." value="{{ $search }}"
+                                                    name=q><button type=submit><i class="fi-rr-search"></i></button>
                                             </form>
                                         </div>
                                     </aside>
@@ -60,18 +59,17 @@
                                 <div class="col-xl-4 col-lg-4 text-lg-end mt-sm-15 d-none d-lg-block">
                                     <div class="display-flex2">
                                         <div class="box-border"><span class="text-sort_by">Sort by:</span>
-                                            <div class="dropdown dropdown-sort"><button
-                                                    class="btn dropdown-toggle" id="dropdownSort2" type=button
-                                                    data-bs-toggle="dropdown" aria-expanded="false"
-                                                    data-bs-display="static"><span>Newest</span><i
+                                            <div class="dropdown dropdown-sort"><button class="btn dropdown-toggle"
+                                                    id="dropdownSort2" type=button data-bs-toggle="dropdown"
+                                                    aria-expanded="false" data-bs-display="static"><span>Newest</span><i
                                                         class="fi-rr-angle-small-down"></i></button>
-                                                <ul class="dropdown-menu js-dropdown-clickable dropdown-menu-light"
+                                                <ul class="dropdown-menu dropdown-menu-light"
                                                     aria-labelledby="dropdownSort2">
-                                                    <li><a class="dropdown-item dropdown-sort-by active"
-                                                            data-sort-by="newest" href="#"> Newest
+                                                    <li><a class="dropdown-item @if ($filter == 'desc') active @endif"
+                                                            href="{{ url()->current() }}?filter=desc"> Newest
                                                         </a></li>
-                                                    <li><a class="dropdown-item dropdown-sort-by"
-                                                            data-sort-by="oldest" href="#"> Oldest
+                                                    <li><a class="dropdown-item @if ($filter == 'asc') active @endif"
+                                                            href="{{ url()->current() }}?filter=asc"> Oldest
                                                         </a></li>
                                                 </ul>
                                             </div>
@@ -103,7 +101,8 @@
                                                         $blogTags = explode(', ', $blog->tags);
                                                     @endphp
                                                     @foreach ($blogTags as $tag)
-                                                        <a class="btn btn-tag" style="cursor: pointer">{{ $tag }}</a>&nbsp;
+                                                        <a class="btn btn-tag"
+                                                            style="cursor: pointer">{{ $tag }}</a>&nbsp;
                                                     @endforeach
                                                 </div>
                                             @endif

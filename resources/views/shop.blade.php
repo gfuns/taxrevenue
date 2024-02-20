@@ -49,8 +49,8 @@
                                             <aside class="col-lg-8 widget widget_search mb-10">
                                                 <div class="search-form">
                                                     <form role="search" method="GET" action="">
-                                                        <input type=text placeholder="Search..." value=""
-                                                            name=q><button type=submit><i
+                                                        <input type=text placeholder="Search..."
+                                                            value="{{ $search }}" name=q><button type=submit><i
                                                                 class="fi-rr-search"></i></button>
                                                     </form>
                                                 </div>
@@ -67,14 +67,16 @@
                                                             data-bs-toggle="dropdown" aria-expanded="false"
                                                             data-bs-display="static"><span>Newest</span><i
                                                                 class="fi-rr-angle-small-down"></i></button>
-                                                        <ul class="dropdown-menu js-dropdown-clickable dropdown-menu-light"
+                                                        <ul class="dropdown-menu dropdown-menu-light"
                                                             aria-labelledby="dropdownSort2">
-                                                            <li><a class="dropdown-item dropdown-sort-by active"
-                                                                    data-sort-by="newest" href="#"> Newest
-                                                                </a></li>
-                                                            <li><a class="dropdown-item dropdown-sort-by"
-                                                                    data-sort-by="oldest" href="#"> Oldest
-                                                                </a></li>
+                                                            <li><a class="dropdown-item @if ($filter == 'desc') active @endif"
+                                                                    href="{{ url()->current() }}?filter=desc"> Newest
+                                                                </a>
+                                                            </li>
+                                                            <li><a class="dropdown-item @if ($filter == 'asc') active @endif"
+                                                                    href="{{ url()->current() }}?filter=asc"> Oldest
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -128,30 +130,24 @@
                                     @endforeach
                                 </div>
                             </div>
-                            {{-- <div class="paginations">
-                                <ul class="pager">
-                                    <li><a class="pager-prev pagination-button text-center" href="javascript:void(0)"
-                                            tabindex="-1"><i class="fi fi-rr-arrow-small-left btn-prev"></i></a></li>
-                                    <li><a class="pager-number active" href="javascript:void(0)">1</a></li>
-                                    <li><a class="pager-number pagination-button" data-page="2"
-                                            href="https://jobbox.archielite.com/jobs?layout=grid&amp;page=2">2</a>
-                                    </li>
-                                    <li><a class="pager-number pagination-button" data-page="3"
-                                            href="https://jobbox.archielite.com/jobs?layout=grid&amp;page=3">3</a>
-                                    </li>
-                                    <li><a class="pager-number pagination-button" data-page="4"
-                                            href="https://jobbox.archielite.com/jobs?layout=grid&amp;page=4">4</a>
-                                    </li>
-                                    <li><a class="pager-number pagination-button" data-page="5"
-                                            href="https://jobbox.archielite.com/jobs?layout=grid&amp;page=5">5</a>
-                                    </li>
-                                    <li><a class="pager-next pagination-button text-center" data-page="2"
-                                            href="#"><i class="fi fi-rr-arrow-small-right btn-next"></i></a></li>
-                                </ul>
-                            </div> --}}
+
                         </div>
                     </div>
+                    @if (count($products) > 0 && $marker != null)
+                        <div class="paginationssss">
+                            <div class="row g-2 pt-3 ms-4 me-4">
+                                <div class="col-md-9 mt-2">
+                                    Showing {{ $marker['begin'] }} to {{ $marker['end'] }} of
+                                    {{ number_format($lastRecord) }} Records
+                                </div>
+
+                                <div class="col-md-3">{{ $products->appends(request()->input())->links() }}
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
+
             </section>
         </div>
     </div>

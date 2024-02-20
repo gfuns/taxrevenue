@@ -36,7 +36,7 @@
                                 <aside class="col-lg-8 widget widget_search mb-10">
                                     <div class="search-form">
                                         <form role="search" method="GET" action="">
-                                            <input type=text placeholder="Search..." value=""
+                                            <input type=text placeholder="Search..." value="{{ $search }}"
                                                 name=q><button type=submit><i
                                                     class="fi-rr-search"></i></button>
                                         </form>
@@ -51,13 +51,13 @@
                                                 data-bs-toggle="dropdown" aria-expanded="false"
                                                 data-bs-display="static"><span>Newest</span><i
                                                     class="fi-rr-angle-small-down"></i></button>
-                                            <ul class="dropdown-menu js-dropdown-clickable dropdown-menu-light"
+                                            <ul class="dropdown-menu dropdown-menu-light"
                                                 aria-labelledby="dropdownSort2">
-                                                <li><a class="dropdown-item dropdown-sort-by active"
-                                                        data-sort-by="newest" href="#"> Newest
+                                                <li><a class="dropdown-item @if ($filter == 'desc') active @endif"
+                                                         href="{{ url()->current() }}?filter=desc"> Newest
                                                     </a></li>
-                                                <li><a class="dropdown-item dropdown-sort-by"
-                                                        data-sort-by="oldest" href="#"> Oldest
+                                                <li><a class="dropdown-item @if ($filter == 'asc') active @endif"
+                                                       href="{{ url()->current() }}?filter=asc"> Oldest
                                                     </a></li>
                                             </ul>
                                         </div>
@@ -86,6 +86,21 @@
                             </div>
                         @endforeach
                     </div>
+
+
+                @if (count($tutorialVideos) > 0 && $marker != null)
+                        <div class="paginationssss">
+                            <div class="row g-2 pt-3 ms-4 me-4">
+                                <div class="col-md-9 mt-2">
+                                    Showing {{ $marker['begin'] }} to {{ $marker['end'] }} of
+                                    {{ number_format($lastRecord) }} Records
+                                </div>
+
+                                <div class="col-md-3">{{ $tutorialVideos->appends(request()->input())->links() }}
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </section>
         </div>
