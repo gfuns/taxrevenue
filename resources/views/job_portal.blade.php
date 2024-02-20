@@ -13,7 +13,8 @@
                                 <span class="color-green">Arete</span> Job Portal
                             </h1>
                             <div class="font-lg font-regular color-white mt-20 wow animate__animated animate__fadeInUp"
-                                data-wow-delay=".1s"> “Arete is our first stop whenever we're hiring a PHP, Java or JavaScript role.
+                                data-wow-delay=".1s"> “Arete is our first stop whenever we're hiring a PHP, Java or
+                                JavaScript role.
                                 We've hired over 60 developers in the last few years, all thanks to Arete.” — Andrew
                                 Hall, Elite JSC. </div>
                             <div class="form-find position-relative mt-40 wow animate__animated animate__fadeIn"
@@ -21,48 +22,86 @@
                                 <form method="GET" action="" accept-charset="UTF-8">
                                     <select id="myloc" class="form-input mr-10" name="location">
                                         <option value="">Location</option>
-                                        <option value="Abia" @if($location == "Abia") selected @endif>Abia</option>
-                                        <option value="Abuja (FCT)" @if($location == "Abuja (FCT)") selected @endif>Abuja - Federal Capital Territory</option>
-                                        <option value="Adamawa" @if($location == "Adamawa") selected @endif>Adamawa</option>
-                                        <option value="Akwa Ibom" @if($location == "Akwa Ibom") selected @endif>Akwa Ibom</option>
-                                        <option value="Anambra" @if($location == "Anambra") selected @endif>Anambra</option>
-                                        <option value="Bauchi" @if($location == "Bauchi") selected @endif>Bauchi</option>
-                                        <option value="Bayelsa" @if($location == "Bayelsa") selected @endif>Bayelsa</option>
-                                        <option value="Benue" @if($location == "Benue") selected @endif>Benue</option>
-                                        <option value="Borno" @if($location == "Borno") selected @endif>Borno</option>
-                                        <option value="Cross River" @if($location == "Cross River") selected @endif>Cross River</option>
-                                        <option value="Delta" @if($location == "Delta") selected @endif>Delta</option>
-                                        <option value="Ebonyi" @if($location == "Ebonyi") selected @endif>Ebonyi</option>
-                                        <option value="Edo" @if($location == "Edo") selected @endif>Edo</option>
-                                        <option value="Ekiti" @if($location == "Ekiti") selected @endif>Ekiti</option>
-                                        <option value="Enugu" @if($location == "Enugu") selected @endif>Enugu</option>
-                                        <option value="Gombe" @if($location == "Gombe") selected @endif>Gombe</option>
-                                        <option value="Imo" @if($location == "Imo") selected @endif>Imo</option>
-                                        <option value="Jigawa" @if($location == "Jigawa") selected @endif>Jigawa</option>
-                                        <option value="Kaduna" @if($location == "Kaduna") selected @endif>Kaduna</option>
-                                        <option value="Kano" @if($location == "Kano") selected @endif>Kano</option>
-                                        <option value="Katsina" @if($location == "Katsina") selected @endif>Katsina</option>
-                                        <option value="Kebbi" @if($location == "Kebbi") selected @endif>Kebbi</option>
-                                        <option value="Kogi" @if($location == "Kogi") selected @endif>Kogi</option>
-                                        <option value="kwara" @if($location == "Kwara") selected @endif>Kwara</option>
-                                        <option value="Lagos" @if($location == "Lagos") selected @endif>Lagos</option>
-                                        <option value="Nassarawa" @if($location == "Nassarawa") selected @endif>Nassarawa</option>
-                                        <option value="Niger" @if($location == "Niger") selected @endif>Niger</option>
-                                        <option value="Ogun" @if($location == "Ogun") selected @endif>Ogun</option>
-                                        <option value="Ondo" @if($location == "Ondo") selected @endif>Ondo</option>
-                                        <option value="Osun" @if($location == "Osun") selected @endif>Osun</option>
-                                        <option value="Oyo" @if($location == "Oyo") selected @endif>Oyo</option>
-                                        <option value="Plateau" @if($location == "Plateau") selected @endif>Plateau</option>
-                                        <option value="Rivers" @if($location == "Rivers") selected @endif>Rivers</option>
-                                        <option value="Sokoto" @if($location == "Sokoto") selected @endif>Sokoto</option>
-                                        <option value="Taraba" @if($location == "Taraba") selected @endif>Taraba</option>
-                                        <option value="Yobe" @if($location == "Yobe") selected @endif>Yobe</option>
-                                        <option value="Zamfara" @if($location == "Zamfara") selected @endif>Zamfara</option>
+                                        <option value="Abia" @if ($location == 'Abia') selected @endif>Abia
+                                        </option>
+                                        <option value="Abuja (FCT)" @if ($location == 'Abuja (FCT)') selected @endif>
+                                            Abuja - Federal Capital Territory</option>
+                                        <option value="Adamawa" @if ($location == 'Adamawa') selected @endif>
+                                            Adamawa</option>
+                                        <option value="Akwa Ibom" @if ($location == 'Akwa Ibom') selected @endif>Akwa
+                                            Ibom</option>
+                                        <option value="Anambra" @if ($location == 'Anambra') selected @endif>
+                                            Anambra</option>
+                                        <option value="Bauchi" @if ($location == 'Bauchi') selected @endif>Bauchi
+                                        </option>
+                                        <option value="Bayelsa" @if ($location == 'Bayelsa') selected @endif>
+                                            Bayelsa</option>
+                                        <option value="Benue" @if ($location == 'Benue') selected @endif>Benue
+                                        </option>
+                                        <option value="Borno" @if ($location == 'Borno') selected @endif>Borno
+                                        </option>
+                                        <option value="Cross River" @if ($location == 'Cross River') selected @endif>
+                                            Cross River</option>
+                                        <option value="Delta" @if ($location == 'Delta') selected @endif>Delta
+                                        </option>
+                                        <option value="Ebonyi" @if ($location == 'Ebonyi') selected @endif>
+                                            Ebonyi</option>
+                                        <option value="Edo" @if ($location == 'Edo') selected @endif>Edo
+                                        </option>
+                                        <option value="Ekiti" @if ($location == 'Ekiti') selected @endif>Ekiti
+                                        </option>
+                                        <option value="Enugu" @if ($location == 'Enugu') selected @endif>Enugu
+                                        </option>
+                                        <option value="Gombe" @if ($location == 'Gombe') selected @endif>Gombe
+                                        </option>
+                                        <option value="Imo" @if ($location == 'Imo') selected @endif>Imo
+                                        </option>
+                                        <option value="Jigawa" @if ($location == 'Jigawa') selected @endif>
+                                            Jigawa</option>
+                                        <option value="Kaduna" @if ($location == 'Kaduna') selected @endif>
+                                            Kaduna</option>
+                                        <option value="Kano" @if ($location == 'Kano') selected @endif>Kano
+                                        </option>
+                                        <option value="Katsina" @if ($location == 'Katsina') selected @endif>
+                                            Katsina</option>
+                                        <option value="Kebbi" @if ($location == 'Kebbi') selected @endif>Kebbi
+                                        </option>
+                                        <option value="Kogi" @if ($location == 'Kogi') selected @endif>Kogi
+                                        </option>
+                                        <option value="kwara" @if ($location == 'Kwara') selected @endif>Kwara
+                                        </option>
+                                        <option value="Lagos" @if ($location == 'Lagos') selected @endif>Lagos
+                                        </option>
+                                        <option value="Nassarawa" @if ($location == 'Nassarawa') selected @endif>
+                                            Nassarawa</option>
+                                        <option value="Niger" @if ($location == 'Niger') selected @endif>Niger
+                                        </option>
+                                        <option value="Ogun" @if ($location == 'Ogun') selected @endif>Ogun
+                                        </option>
+                                        <option value="Ondo" @if ($location == 'Ondo') selected @endif>Ondo
+                                        </option>
+                                        <option value="Osun" @if ($location == 'Osun') selected @endif>Osun
+                                        </option>
+                                        <option value="Oyo" @if ($location == 'Oyo') selected @endif>Oyo
+                                        </option>
+                                        <option value="Plateau" @if ($location == 'Plateau') selected @endif>
+                                            Plateau</option>
+                                        <option value="Rivers" @if ($location == 'Rivers') selected @endif>
+                                            Rivers</option>
+                                        <option value="Sokoto" @if ($location == 'Sokoto') selected @endif>
+                                            Sokoto</option>
+                                        <option value="Taraba" @if ($location == 'Taraba') selected @endif>
+                                            Taraba</option>
+                                        <option value="Yobe" @if ($location == 'Yobe') selected @endif>Yobe
+                                        </option>
+                                        <option value="Zamfara" @if ($location == 'Zamfara') selected @endif>
+                                            Zamfara</option>
 
                                     </select>
 
-                                    <input class="form-input input-keysearch mr-10" name="keyword" value="{{ $keyword }}"
-                                        type=text placeholder="Job title, skills or industry...">
+                                    <input class="form-input input-keysearch mr-10" name="keyword"
+                                        value="{{ $keyword }}" type=text
+                                        placeholder="Job title, skills or industry...">
                                     <div class="search-btn-group"><button
                                             class="btn btn-default btn-find font-sm">Search</button>
                                     </div>
@@ -163,11 +202,14 @@
                                                     </div>
                                                     <p class="font-sm color-text-paragraph mt-15 job-description">
                                                         {{ strip_tags($job->job_description) }}</p>
-                                                    <div class="mt-30">
-                                                        <a class="btn btn-grey-small mr-5 mb-2"
-                                                            href="#">Sketch</a>
-                                                        <a class="btn btn-grey-small mr-5 mb-2"
-                                                            href="#">JavaScript</a>
+
+                                                    <div class="tags mt-30">
+
+                                                        @foreach ($job->tags as $tag)
+                                                            <a class="btn btn-tag mr-5 mb-2"
+                                                                style="cursor: pointer">{{ $tag }}</a>&nbsp;
+                                                        @endforeach
+
                                                     </div>
                                                     <div class="card-2-bottom mt-30">
                                                         <div class="row">
@@ -197,6 +239,15 @@
                                         </div>
                                     @endforeach
 
+                                    @if (count($jobs) < 1)
+                                        <div class="col-xl-12 col-12 job-items job-empty">
+                                            <div class="text-center mt-4"><i class="fi fi-rr-sad text-3xl"></i>
+                                                <h3 class="mt-2">No Jobs</h3>
+                                                <div class="mt-2 text-muted"> There are no jobs found with your
+                                                    queries. </div>
+                                            </div>
+                                        </div>
+                                    @endif
 
                                 </div>
                             </div>

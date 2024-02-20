@@ -128,6 +128,16 @@
                                             </div>
                                         </div>
                                     @endforeach
+
+                                    @if (count($products) < 1)
+                                        <div class="col-xl-12 col-12 job-items job-empty">
+                                            <div class="text-center mt-4"><i class="fi fi-rr-sad text-3xl"></i>
+                                                <h3 class="mt-2">No Product</h3>
+                                                <div class="mt-2 text-muted"> There are no products found with your
+                                                    queries. </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
 

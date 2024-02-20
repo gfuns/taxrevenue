@@ -48,6 +48,11 @@ class JobListing extends Model
         return array_map('strval', explode(',', preg_replace("/ /", "", $value)));
     }
 
+    public function getOriginalTags($value)
+    {
+        $this->attributes['tags'];
+    }
+
     public function getOriginalCategories()
     {
         return $this->attributes['job_categories'];

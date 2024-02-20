@@ -71,9 +71,18 @@ class FrontEndController extends Controller
                 $marker = $this->pageMarkers($lastRecord, request()->page);
                 $jobs = JobListing::orderBy("id", $filter)->where("job_title", "LIKE", "%" . $keyword . "%")->paginate(16);
             } else {
-                $lastRecord = JobListing::where("state", $location)->where("job_title", "LIKE", "%" . $keyword . "%")->count();
+                $lastRecord = JobListing::where("state", $location)
+                    ->where(function ($query) use ($keyword) {
+                        $query->where('job_title', 'LIKE', "%" . $keyword . "%")
+                            ->orWhere('tags', 'LIKE', "%" . $keyword . "%");
+                    })->count();
+
                 $marker = $this->pageMarkers($lastRecord, request()->page);
-                $jobs = JobListing::orderBy("id", $filter)->where("state", $location)->where("job_title", "LIKE", "%" . $keyword . "%")->paginate(16);
+                $jobs = JobListing::orderBy("id", $filter)->where("state", $location)
+                    ->where(function ($query) use ($keyword) {
+                        $query->where('job_title', 'LIKE', "%" . $keyword . "%")
+                            ->orWhere('tags', 'LIKE', "%" . $keyword . "%");
+                    })->paginate(16);
             }
 
         } else {
@@ -315,8 +324,8 @@ class FrontEndController extends Controller
             $marker["begin"] = (int) $pageNum;
             $marker["index"] = (int) $pageNum;
         } else {
-            $marker["begin"] = number_format(((16 * ((int) $pageNum)) - 11), 0);
-            $marker["index"] = number_format(((16 * ((int) $pageNum)) - 11), 0);
+            $marker["begin"] = number_format(((16 * ((int) $pageNum)) - 15), 0);
+            $marker["index"] = number_format(((16 * ((int) $pageNum)) - 15), 0);
         }
 
         if ($end > $lastRecord) {
