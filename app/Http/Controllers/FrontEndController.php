@@ -12,6 +12,7 @@ use App\Models\PlatformCategories;
 use App\Models\Products;
 use App\Models\TutorialVideos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class FrontEndController extends Controller
 {
@@ -33,20 +34,26 @@ class FrontEndController extends Controller
      */
     public function businessListing(Request $request)
     {
-        if (isset($request->filter)) {
-
-            $businesses = Business::where("visibility", 1)->where("business_name", 'LIKE', $request->filter . '%')->get();
+        $filter = request()->filter == null ? 'asc' : request()->filter;
+        $location = request()->location;
+        $keyword = request()->keyword;
+        if (isset($request->location)) {
+            $lastRecord = Business::count();
+            $marker = $this->pageMarkers($lastRecord, request()->page);
+            $businesses = Business::orderBy("id", $filter)->where("visibility", 1)->paginate(16);
 
         } else {
-            $businesses = Business::where("visibility", 1)->get();
+            $lastRecord = Business::count();
+            $marker = $this->pageMarkers($lastRecord, request()->page);
+            $businesses = Business::orderBy("id", $filter)->where("visibility", 1)->paginate(16);
         }
-        return view("business_listing", compact("businesses"));
+        return view("business_listing", compact("businesses", "lastRecord", "marker", "filter", "location", "keyword"));
     }
 
     public function businessDetails($slug)
     {
         $business = Business::where("slug", $slug)->first();
-        $latestJobs = JobListing::where("business_id", $business->id)->where("visibility", "open")->limit(4)->get();
+        $latestJobs = JobListing::where("business_id", $business->id)->limit(4)->get();
         $reviews = BusinessReviews::orderBy("rating", "desc")->limit(5)->get();
         return view("business_details", compact("business", "latestJobs", "reviews"));
     }
@@ -183,6 +190,11 @@ class FrontEndController extends Controller
     {
         $blogPost = BlogPost::where("slug", $slug)->first();
         return view("blog_details", compact("blogPost"));
+    }
+
+    public function forum()
+    {
+        return Redirect::to("https://preview.wstacks.com/proforum/");
     }
 
     public function jobsByCategory($slug)

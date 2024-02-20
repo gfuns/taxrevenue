@@ -87,7 +87,8 @@
                         <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
                         <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
 
-                        <p class="text-white">The No. 1 world class cutting-edge job portal designed for professionals like you to elevate your job search experience!</p>
+                        <p class="text-white">The No. 1 world class cutting-edge business directory designed for businesses
+                            like you to elevate your business experience!</p>
                     </div>
                 </div>
             </div>

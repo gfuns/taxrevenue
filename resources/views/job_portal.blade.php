@@ -101,7 +101,7 @@
 
                                     <input class="form-input input-keysearch mr-10" name="keyword"
                                         value="{{ $keyword }}" type=text
-                                        placeholder="Job title, skills or industry...">
+                                        placeholder="Job title, city, skills or industry...">
                                     <div class="search-btn-group"><button
                                             class="btn btn-default btn-find font-sm">Search</button>
                                     </div>

@@ -18,7 +18,11 @@ Route::get('/', [FrontEndController::class, 'index']);
 
 Route::get('/business-listing', [FrontEndController::class, 'businessListing']);
 
+Route::get('/business/details/{slug}', [FrontEndController::class, 'businessDetails']);
+
 Route::get('/job-portal', [FrontEndController::class, 'jobPortal']);
+
+Route::get('/job/details/{slug}', [FrontEndController::class, 'jobDetails']);
 
 Route::get('/shop-now', [FrontEndController::class, 'shop']);
 
@@ -26,21 +30,21 @@ Route::get('/academy', [FrontEndController::class, 'academy']);
 
 Route::get('/blog', [FrontEndController::class, 'blogPosts']);
 
-//////////////////////////////////////////////////////////////////////
+Route::get('/blog/{slug}', [FrontEndController::class, 'blogDetails']);
 
-Route::get('/job/details/{slug}', [FrontEndController::class, 'jobDetails']);
+Route::get('/about-us', [FrontEndController::class, 'aboutUs']);
 
-Route::get('/job-categories/{slug}', [FrontEndController::class, 'jobsByCategory']);
+Route::get('/contact-us', [FrontEndController::class, 'contactUs']);
 
-Route::get('/job-categories', [FrontEndController::class, 'jobsCategories']);
+Route::get('/terms-and-conditions', [FrontEndController::class, 'terms']);
 
-Route::get('/artisans', [FrontEndController::class, 'artisans']);
+Route::get('/privacy-policy', [FrontEndController::class, 'privacyPolicy']);
 
-Route::get('/artisan/details/{slug}', [FrontEndController::class, 'artisanDetails']);
+Route::get('/cookie-policy', [FrontEndController::class, 'cookiePolicy']);
 
-Route::get('/business/details/{slug}', [FrontEndController::class, 'businessDetails']);
+Route::get('/faqs', [FrontEndController::class, 'faqs']);
 
-Route::get('/resources/blog/{slug}', [FrontEndController::class, 'blogDetails']);
+Route::get('/forum', [FrontEndController::class, 'forum']);
 
 Auth::routes();
 

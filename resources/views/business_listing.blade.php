@@ -5,11 +5,25 @@
 <style>
     .truncate-text {
         display: -webkit-box;
-        -webkit-line-clamp: 3; /* Limit to 3 lines */
+        -webkit-line-clamp: 3;
+        /* Limit to 3 lines */
         -webkit-box-orient: vertical;
         overflow: hidden;
-        white-space: normal; /* Use 'normal' to allow wrapping */
+        white-space: normal;
+        /* Use 'normal' to allow wrapping */
         text-overflow: ellipsis;
+    }
+
+    .trim-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        /* Limit to 3 lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        white-space: normal;
+        /* Use 'normal' to allow wrapping */
+        text-overflow: ellipsis;
+
     }
 </style>
 <main class="main">
@@ -20,66 +34,164 @@
                     <div class="container">
                         <div class="banner-hero banner-company">
                             <div class="block-banner text-center">
-                                <h3 class="wow animate__animated animate__fadeInUp">Browse <span
-                                        style="color:#FEBA00">Businesses</span></h3>
-                                <div class="font-sm color-text-paragraph-2 mt-10 wow animate__animated animate__fadeInUp"
-                                    data-wow-delay=".1s">Thousands of jobs in the computer, engineering technology and
-                                    other industries are waiting for you.</div>
-                                <div class="box-list-character">
-                                    <ul>
-                                        <li><a href="/businesses?filter=A" class="keyword">a</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=B" class="keyword ">b</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=C" class="keyword ">c</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=D" class="keyword ">d</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=E" class="keyword ">e</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=F" class="keyword ">f</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=G" class="keyword ">g</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=H" class="keyword ">h</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=I" class="keyword ">i</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=J" class="keyword ">j</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=K" class="keyword ">k</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=L" class="keyword ">l</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=M" class="keyword ">m</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=N" class="keyword ">n</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=O" class="keyword ">o</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=P" class="keyword ">p</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=Q" class="keyword ">q</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=R" class="keyword ">r</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=S" class="keyword ">s</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=T" class="keyword ">t</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=U" class="keyword ">u</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=V" class="keyword ">v</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=W" class="keyword ">w</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=X" class="keyword ">x</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=Y" class="keyword ">y</a>
-                                        </li>
-                                        <li><a href="/businesses?filter=Z" class="keyword ">z</a>
-                                        </li>
-                                    </ul>
+                                <h3 class="wow animate__animated animate__fadeInUp">Our Comprehensive <span
+                                        style="color:#FEBA00"> Business Directory</span></h3>
+                                <div class="font-md color-text-paragraph-2 mt-10 wow animate__animated animate__fadeInUp"
+                                    data-wow-delay=".1s">Discover Your Next Favorite Business Today: Search, Explore,
+                                    Connect!</div>
+
+                                <div class="banner-inner" style="margin:auto; max-width: 1000px;">
+
+                                    <div class="form-find position-relative mt-40 wow animate__animated animate__fadeIn"
+                                        data-wow-delay=".2s">
+                                        <form method="GET" action="" accept-charset="UTF-8">
+                                            <select id="myloc" class="form-input mr-10" name="location">
+                                                <option value="">Location</option>
+                                                <option value="Abia"
+                                                    @if ($location == 'Abia') selected @endif>
+                                                    Abia
+                                                </option>
+                                                <option value="Abuja (FCT)"
+                                                    @if ($location == 'Abuja (FCT)') selected @endif>
+                                                    Abuja - Federal Capital Territory</option>
+                                                <option value="Adamawa"
+                                                    @if ($location == 'Adamawa') selected @endif>
+                                                    Adamawa</option>
+                                                <option value="Akwa Ibom"
+                                                    @if ($location == 'Akwa Ibom') selected @endif>
+                                                    Akwa
+                                                    Ibom</option>
+                                                <option value="Anambra"
+                                                    @if ($location == 'Anambra') selected @endif>
+                                                    Anambra</option>
+                                                <option value="Bauchi"
+                                                    @if ($location == 'Bauchi') selected @endif>
+                                                    Bauchi
+                                                </option>
+                                                <option value="Bayelsa"
+                                                    @if ($location == 'Bayelsa') selected @endif>
+                                                    Bayelsa</option>
+                                                <option value="Benue"
+                                                    @if ($location == 'Benue') selected @endif>
+                                                    Benue
+                                                </option>
+                                                <option value="Borno"
+                                                    @if ($location == 'Borno') selected @endif>
+                                                    Borno
+                                                </option>
+                                                <option value="Cross River"
+                                                    @if ($location == 'Cross River') selected @endif>
+                                                    Cross River</option>
+                                                <option value="Delta"
+                                                    @if ($location == 'Delta') selected @endif>
+                                                    Delta
+                                                </option>
+                                                <option value="Ebonyi"
+                                                    @if ($location == 'Ebonyi') selected @endif>
+                                                    Ebonyi</option>
+                                                <option value="Edo"
+                                                    @if ($location == 'Edo') selected @endif>
+                                                    Edo
+                                                </option>
+                                                <option value="Ekiti"
+                                                    @if ($location == 'Ekiti') selected @endif>
+                                                    Ekiti
+                                                </option>
+                                                <option value="Enugu"
+                                                    @if ($location == 'Enugu') selected @endif>
+                                                    Enugu
+                                                </option>
+                                                <option value="Gombe"
+                                                    @if ($location == 'Gombe') selected @endif>
+                                                    Gombe
+                                                </option>
+                                                <option value="Imo"
+                                                    @if ($location == 'Imo') selected @endif>
+                                                    Imo
+                                                </option>
+                                                <option value="Jigawa"
+                                                    @if ($location == 'Jigawa') selected @endif>
+                                                    Jigawa</option>
+                                                <option value="Kaduna"
+                                                    @if ($location == 'Kaduna') selected @endif>
+                                                    Kaduna</option>
+                                                <option value="Kano"
+                                                    @if ($location == 'Kano') selected @endif>
+                                                    Kano
+                                                </option>
+                                                <option value="Katsina"
+                                                    @if ($location == 'Katsina') selected @endif>
+                                                    Katsina</option>
+                                                <option value="Kebbi"
+                                                    @if ($location == 'Kebbi') selected @endif>
+                                                    Kebbi
+                                                </option>
+                                                <option value="Kogi"
+                                                    @if ($location == 'Kogi') selected @endif>
+                                                    Kogi
+                                                </option>
+                                                <option value="kwara"
+                                                    @if ($location == 'Kwara') selected @endif>
+                                                    Kwara
+                                                </option>
+                                                <option value="Lagos"
+                                                    @if ($location == 'Lagos') selected @endif>
+                                                    Lagos
+                                                </option>
+                                                <option value="Nassarawa"
+                                                    @if ($location == 'Nassarawa') selected @endif>
+                                                    Nassarawa</option>
+                                                <option value="Niger"
+                                                    @if ($location == 'Niger') selected @endif>
+                                                    Niger
+                                                </option>
+                                                <option value="Ogun"
+                                                    @if ($location == 'Ogun') selected @endif>
+                                                    Ogun
+                                                </option>
+                                                <option value="Ondo"
+                                                    @if ($location == 'Ondo') selected @endif>
+                                                    Ondo
+                                                </option>
+                                                <option value="Osun"
+                                                    @if ($location == 'Osun') selected @endif>
+                                                    Osun
+                                                </option>
+                                                <option value="Oyo"
+                                                    @if ($location == 'Oyo') selected @endif>
+                                                    Oyo
+                                                </option>
+                                                <option value="Plateau"
+                                                    @if ($location == 'Plateau') selected @endif>
+                                                    Plateau</option>
+                                                <option value="Rivers"
+                                                    @if ($location == 'Rivers') selected @endif>
+                                                    Rivers</option>
+                                                <option value="Sokoto"
+                                                    @if ($location == 'Sokoto') selected @endif>
+                                                    Sokoto</option>
+                                                <option value="Taraba"
+                                                    @if ($location == 'Taraba') selected @endif>
+                                                    Taraba</option>
+                                                <option value="Yobe"
+                                                    @if ($location == 'Yobe') selected @endif>
+                                                    Yobe
+                                                </option>
+                                                <option value="Zamfara"
+                                                    @if ($location == 'Zamfara') selected @endif>
+                                                    Zamfara</option>
+
+                                            </select>
+
+                                            <input class="form-input input-keysearch mr-10" name="keyword"
+                                                value="{{ $keyword }}" type=text
+                                                placeholder="Job title, city, skills or industry...">
+                                            <div class="search-btn-group"><button
+                                                    class="btn btn-default btn-find font-sm">Search</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -91,11 +203,12 @@
                         <div class="row flex-row-reverse row-filter justify-content-center">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-12 company-listing">
                                 <div class="content-page ">
-                                    <div class="box-filters-job">
+                                    <div class="box-filters-job d-none d-lg-block">
                                         <div class="row ">
                                             <div class="col-xl-6 col-lg-5"><span
-                                                    class="text-small text-showing font-weight-bold"> Showing 1 –
-                                                    12 of 20 Business(es) </span></div>
+                                                    class="text-small text-showing font-weight-bold"> Showing
+                                                    {{ $marker['begin'] }} to {{ $marker['end'] }} of
+                                                    {{ number_format($lastRecord) }} Records </span></div>
                                             <div class="col-xl-6 col-lg-7 text-lg-end mt-sm-15">
                                                 <div class="display-flex2">
 
@@ -107,14 +220,14 @@
                                                                 aria-expanded="false"
                                                                 data-bs-display="static"><span>Newest</span><i
                                                                     class="fi-rr-angle-small-down"></i></button>
-                                                            <ul class="dropdown-menu js-dropdown-clickable dropdown-menu-light"
+                                                            <ul class="dropdown-menu dropdown-menu-light"
                                                                 aria-labelledby="dropdownSort2">
-                                                                <li><a class="dropdown-item dropdown-sort-by active"
-                                                                        data-sort-by="newest" href="#">
+                                                                <li><a class="dropdown-item @if ($filter == 'desc') active @endif"
+                                                                        href="{{ url()->current() }}?filter=desc">
                                                                         Newest </a></li>
-                                                                <li><a class="dropdown-item dropdown-sort-by"
-                                                                        data-sort-by="oldest" href="#">
-                                                                        Oldest </a></li>
+                                                                <li><a class="dropdown-item @if ($filter == 'asc') active @endif"
+                                                                        href="{{ url()->current() }}?filter=asc"> Oldest
+                                                                    </a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -130,12 +243,15 @@
                                                         <div class="col-12">
                                                             <div class="card-grid-2-image-left">
                                                                 <div class="image-box"><img
-                                                                        src="{{ $biz->business_logo }}"
-                                                                        alt="#"></div>
-                                                                <div class="right-info"><a class="name-job"
-                                                                        href="/business/details/{{ $biz->slug }}">{{ $biz->business_name }}</a><span
-                                                                        class="location-small">{{ $biz->country }},
-                                                                        {{ $biz->city }}</span>
+                                                                        src="{{ $biz->business_logo }}" alt="#">
+                                                                </div>
+                                                                <div class="right-info">
+                                                                    <div class="trim-text">
+                                                                        <a class="name-job"
+                                                                            href="/business/details/{{ $biz->slug }}">{{ $biz->business_name }}</a>
+                                                                    </div>
+                                                                    <div class="location-small">
+                                                                        {{ $biz->state }}, {{ $biz->country }}</div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -144,7 +260,7 @@
 
                                                     <div class="card-block-info">
                                                         <p class="font-xs color-text-paragraph-2 truncate-text">
-                                                            {{$biz->business_description }} </p>
+                                                            {{ strip_tags($biz->business_description) }} </p>
                                                         <div class="card-2-bottom mt-20">
                                                             <div class="row">
                                                                 <div class="col-lg-6 col-7">
@@ -169,8 +285,7 @@
                                                                     <div class="text-start text-md-end"><a
                                                                             class="btn btn-apply-now"
                                                                             href="/business/details/{{ $biz->slug }}">
-                                                                            {{ $biz->jobListing->count() == 0 ? 'No' : $biz->jobListing->count() }}
-                                                                            Opening Jobs </a></div>
+                                                                            Explore Business </a></div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -178,21 +293,34 @@
                                                 </div>
                                             </div>
                                         @endforeach
+
+                                        @if (count($businesses) < 1)
+                                            <div class="col-xl-12 col-12 job-items job-empty">
+                                                <div class="text-center mt-4"><i class="fi fi-rr-sad text-3xl"></i>
+                                                    <h3 class="mt-2">No Business</h3>
+                                                    <div class="mt-2 text-muted"> There are no businesses found with
+                                                        your
+                                                        queries. </div>
+                                                </div>
+                                            </div>
+                                        @endif
+
                                     </div>
                                 </div>
-                                {{-- <div class="paginations">
-                                        <ul class="pager">
-                                            <li><a class="pager-prev pagination-button text-center"
-                                                    href="javascript:void(0)" tabindex="-1"><i
-                                                        class="fi fi-rr-arrow-small-left btn-prev"></i></a></li>
-                                            <li><a class="pager-number active" href="javascript:void(0)">1</a></li>
-                                            <li><a class="pager-number pagination-button" data-page="2"
-                                                    href="https://jobbox.archielite.com/companies?page=2">2</a></li>
-                                            <li><a class="pager-next pagination-button text-center" data-page="2"
-                                                    href="#"><i
-                                                        class="fi fi-rr-arrow-small-right btn-next"></i></a></li>
-                                        </ul>
-                                    </div> --}}
+                                @if (count($businesses) > 0 && $marker != null)
+                                    <div class="paginationssss">
+                                        <div class="row g-2 pt-3 ms-4 me-4">
+                                            <div class="col-md-9 mt-2">
+                                                Showing {{ $marker['begin'] }} to {{ $marker['end'] }} of
+                                                {{ number_format($lastRecord) }} Records
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                {{ $businesses->appends(request()->input())->links() }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

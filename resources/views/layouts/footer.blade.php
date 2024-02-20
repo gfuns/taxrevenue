@@ -14,8 +14,8 @@
         <div class="row">
             <div class="footer-col-1 col-md-3 col-sm-12"><a href="/" aria-label="{{ env('APP_NAME') }}"><img
                         alt="" src="{{ asset('files/general/logo.png') }}"></a>
-                <div class="mt-20 mb-20 font-sm text-white"> Arete is the world class cutting-edge job portal designed
-                    for professionals like you to elevate your job search experience!
+                <div class="mt-20 mb-20 font-sm text-white"> Arete is the world class cutting-edge business directory designed
+                    for businesses like you to elevate your business experience!
                 </div>
                 <div class="footer-social">
                     <a class="icon-socials" title="Facebook" href="https://facebook.com/" target="_blank"><img
@@ -32,19 +32,19 @@
             <div class="footer-col-2 col-md-2 col-sm-6 col-xs-6 text-white">
                 <div class="h6 mb-20">Resources</div>
                 <ul class="menu-footer text-white">
-                    <li><a href="about-us.html" class="text-white">About Us</a></li>
-                    <li><a href="#" class="text-white">Our Team</a></li>
-                    <li><a href="#" class="text-white">Products</a></li>
-                    <li><a href="contact.html" class="text-white">Contact</a></li>
+                    <li><a href="/about-us" class="text-white">About Us</a></li>
+                    <li><a href="/about-us#team" class="text-white">Our Team</a></li>
+                    <li><a href="/faqs" class="text-white">FAQs</a></li>
+                    <li><a href="/contact-us" class="text-white">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-col-2 col-md-2 col-sm-6 col-xs-6 text-white">
                 <div class="h6 mb-20">Community</div>
                 <ul class="menu-footer text-white">
-                    <li><a href="about-us.html" class="text-white">Feature</a></li>
-                    <li><a href="pricing-plan.html" class="text-white">Pricing</a></li>
-                    <li><a href="#" class="text-white">Credit</a></li>
-                    <li><a href="faqs.html" class="text-white">FAQ</a></li>
+                    <li><a href="/forum" class="text-white">Forum</a></li>
+                    <li><a href="/academy" class="text-white">Academy</a></li>
+                    <li><a href="/shop-now" class="text-white">Shop</a></li>
+                    <li><a href="/blog" class="text-white">News & Updates</a></li>
                 </ul>
             </div>
 
@@ -60,9 +60,9 @@
             <div class="footer-col-2 col-md-2 col-xs-6 text-white">
                 <div class="h6 mb-20">More</div>
                 <ul class="menu-footer">
-                    <li><a href="cookie-policy.html" class="text-white">Cookie Policy</a></li>
-                    <li><a href="terms.html" class="text-white">Terms</a></li>
-                    <li><a href="homepage-5.html" class="text-white">FAQ</a></li>
+                    <li><a href="/terms-and-conditions" class="text-white">Terms</a></li>
+                    <li><a href="/privacy-policy" class="text-white">Privacy Policy</a></li>
+                    <li><a href="/cookie-policy" class="text-white">Cookie Policy</a></li>
                 </ul>
             </div>
             <div class="footer-col-6 col-md-3 col-sm-12 text-white">
