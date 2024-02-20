@@ -60,16 +60,6 @@ class JobListing extends Model
         return $categories->makeHidden(['jobs']);
     }
 
-    public function getLanguagesAttribute($value)
-    {
-        return array_map('strval', explode(',', preg_replace("/ /", "", $value)));
-    }
-
-    public function getOriginalLanguages()
-    {
-        return $this->attributes['languages'];
-    }
-
     public function customer()
     {
         return $this->belongsTo('App\Models\Customer');

@@ -35,26 +35,26 @@
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-12 col-lg-8">
                     <div class="job-overview">
-                        <h5 class="border-bottom pb-15 mb-30">Job Information</h5>
+                        <h5 class="border-bottom pb-15 mb-30">Job Details</h5>
                         <div class="row">
-                            <div class="col-md-6 d-flex mt-15">
+                            <div class="col-md-12 d-flex mt-15">
                                 <div class="sidebar-icon-item"><img
                                         src="{{ asset('themes/jobbox/imgs/page/job-single/industry.svg') }}"
                                         alt="Industry">
                                 </div>
                                 <div class="sidebar-text-info ml-10"><span
-                                        class="text-description industry-icon mb-10">Industry</span><span
-                                        class="small-heading"> {{ $industry }}
+                                        class="text-description industry-icon mb-10">Job Title</span><span
+                                        class="small-heading"> {{ $job->job_title }}
                                     </span></div>
                             </div>
                             <div class="col-md-6 d-flex mt-15">
                                 <div class="sidebar-icon-item"><img
-                                        src={{ asset('themes/jobbox/imgs/page/job-single/job-level.svg') }}
-                                        alt="Job level">
+                                        src="{{ asset('themes/jobbox/imgs/page/job-single/location.svg') }}"
+                                        alt="Location">
                                 </div>
                                 <div class="sidebar-text-info ml-10"><span
-                                        class="text-description joblevel-icon mb-10">Job level</span><strong
-                                        class="small-heading">{{ $job->skill_level }} Professional</strong></div>
+                                        class="text-description mb-10">Location</span><strong class="small-heading">
+                                        {{ $job->location == "remote" ? "Remote" : ($job->location == "hybrid" ? "Hybrid" : ($job->state.", ".$job->country)) }} </strong></div>
                             </div>
                             <div class="col-md-6 d-flex mt-15">
                                 <div class="sidebar-icon-item"><img
@@ -67,6 +67,7 @@
                                         /{{ $job->salary_rate }}</strong>
                                 </div>
                             </div>
+
                             <div class="col-md-6 d-flex mt-15">
                                 <div class="sidebar-icon-item"><img
                                         src="{{ asset('themes/jobbox/imgs/page/job-single/job-type.svg') }}"
@@ -76,61 +77,32 @@
                                         class="text-description jobtype-icon mb-10">Job type</span><strong
                                         class="small-heading"> {{ $job->engagement_type }} </strong></div>
                             </div>
+
                             <div class="col-md-6 d-flex mt-15">
                                 <div class="sidebar-icon-item"><img
                                         src="{{ asset('themes/jobbox/imgs/page/blog/calendar.svg') }}"
                                         alt="Experience">
                                 </div>
                                 <div class="sidebar-text-info ml-10"><span
-                                        class="text-description experience-icon mb-10">Application Opens</span><strong
-                                        class="small-heading">{{ date_format(new DateTime($job->application_commencement), 'M d, Y') }}</strong>
+                                        class="text-description experience-icon mb-10">Date
+                                        Posted</span><strong
+                                        class="small-heading">{{ $job->created_at->diffForHumans() }}</strong>
                                 </div>
                             </div>
-                            <div class="col-md-6 d-flex mt-15">
-                                <div class="sidebar-icon-item"><img
-                                        src="{{ asset('themes/jobbox/imgs/page/blog/calendar.svg') }}"
-                                        alt="Experience">
-                                </div>
-                                <div class="sidebar-text-info ml-10"><span
-                                        class="text-description experience-icon mb-10">Application
-                                        Deadline</span><strong
-                                        class="small-heading">{{ date_format(new DateTime($job->application_deadline), 'M d, Y') }}</strong>
-                                </div>
+
+
+
+                        </div>
+                    </div>
+                    <div class="content-single">
+                        <div class="ck-content">
+                            <h5>Company Description</h5>
+                            <div>
+                                <p> @php echo $job->company_description; @endphp </p>
                             </div>
-                            <div class="col-md-6 d-flex mt-15">
-                                <div class="sidebar-icon-item"><img
-                                        src="{{ asset('themes/jobbox/imgs/page/job-single/location.svg') }}"
-                                        alt="Location">
-                                </div>
-                                <div class="sidebar-text-info ml-10"><span
-                                        class="text-description mb-10">Location</span><strong class="small-heading">
-                                        {{ $job->country }}, {{ $job->state }},
-                                        {{ $job->city }} </strong></div>
-                            </div>
-                            <div class="col-md-6 d-flex mt-15">
-                                <div class="sidebar-icon-item"><img
-                                        src={{ asset('themes/jobbox/imgs/page/company/icon-recruitment.svg') }}
-                                        alt="Job level">
-                                </div>
-                                <div class="sidebar-text-info ml-10"><span
-                                        class="text-description joblevel-icon mb-10">Open Positions</span><strong
-                                        class="small-heading">{{ $job->open_positions }} Open Positions</strong></div>
-                            </div>
-                            <div class="col-md-6 d-flex mt-15">
-                                <div class="sidebar-icon-item"><img
-                                        src={{ asset('themes/jobbox/imgs/page/blog/home.svg') }} alt="Job level">
-                                </div>
-                                <div class="sidebar-text-info ml-10"><span
-                                        class="text-description joblevel-icon mb-10">Work Nature</span><strong
-                                        class="small-heading">{{ ucwords($job->location_type) }}</strong></div>
-                            </div>
-                            <div class="col-md-6 d-flex mt-15">
-                                <div class="sidebar-icon-item"><img
-                                        src={{ asset('themes/jobbox/imgs/template/icons/time.svg') }} alt="Job level">
-                                </div>
-                                <div class="sidebar-text-info ml-10"><span
-                                        class="text-description joblevel-icon mb-10">Duration</span><strong
-                                        class="small-heading">{{ $job->duration }}</strong></div>
+
+                            <div>
+                                @php echo $job->job_requirements; @endphp
                             </div>
                         </div>
                     </div>
@@ -141,26 +113,17 @@
                                 <p> @php echo $job->job_description; @endphp </p>
                             </div>
 
-                            <div>
-                                @php echo $job->job_requirements; @endphp
-                            </div>
                         </div>
                     </div>
-                    {{-- <div class="mt-4">
-                            <h5 class="mb-3">Skills</h5>
-                            <div class="job-details-desc">
-                                <div class="mt-4"><span class="badge bg-primary me-1">Laravel</span></div>
-                            </div>
-                        </div> --}}
 
 
                     <div class="single-apply-jobs">
                         <div class="row align-items-center">
                             <div class="col-md-5">
-                                <div class=""><button class="btn btn-default mr-15"
-                                        data-job-name="UI / UX Designer full-time" data-job-id="1"
-                                        data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm"> Apply Now
-                                    </button></div>
+                                <div class="">
+                                    <a href="{{ $job->application_url }}" target="_blank">
+                                        <button class="btn btn-default mr-15"> Apply Now </button></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -177,8 +140,7 @@
                                             class="sidebar-company">{{ $job->business->business_name }}</span></a>
                                             <a
                                         class="link-underline mt-10 mb-2"
-                                        href="/business/details/{{ $job->business->slug }}">{{ $job->business->jobListing->count() == 0 ? 'No' : $job->business->jobListing->count() }}
-                                        Open Jobs</a>
+                                        href="/business/details/{{ $job->business->slug }}">{{ $job->business->state.", ".$job->business->country }}</a>
 
                                         @php
                                         $unrated = 5 - $job->business->rating;
@@ -299,6 +261,6 @@
 
 </main>
 <script type="text/javascript">
-    document.getElementById("findjobs").classList.add('active');
+    document.getElementById("jobportal").classList.add('active');
 </script>
 @endsection

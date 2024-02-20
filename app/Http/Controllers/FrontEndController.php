@@ -18,7 +18,7 @@ class FrontEndController extends Controller
     public function index()
     {
         $categories = PlatformCategories::all();
-        $todayJobs = JobListing::orderBy("id", "desc")->where("visibility", "open")->limit(8)->get();
+        $todayJobs = JobListing::orderBy("id", "desc")->limit(8)->get();
         $topRecruiters = Business::where("visibility", 1)->limit(20)->get();
         $blogPosts = BlogPost::orderBy("id", "desc")->where("visibility", "public")->where("status", "published")->limit(6)->get();
         return view("welcome", compact("categories", "todayJobs", "topRecruiters", "blogPosts"));
@@ -59,7 +59,7 @@ class FrontEndController extends Controller
     public function jobPortal()
     {
         $categories = PlatformCategories::all();
-        $jobs = JobListing::where("visibility", "open")->get();
+        $jobs = JobListing::all();
         return view("job_portal", compact("categories", "jobs"));
     }
 
@@ -69,7 +69,7 @@ class FrontEndController extends Controller
         $categories = explode(', ', $job->getOriginalCategories());
         $categoryNames = PlatformCategories::whereIn('id', $categories)->pluck('category_name');
         $industry = $categoryNames->implode(' / ');
-        $similarJobs = JobListing::where("id", "!=", $job->id)->where("visibility", "open")->where(function ($query) use ($categories) {
+        $similarJobs = JobListing::where("id", "!=", $job->id)->where(function ($query) use ($categories) {
             foreach ($categories as $categoryId) {
                 $query->orWhereRaw("FIND_IN_SET(?, job_categories)", [$categoryId]);
             }
