@@ -40,7 +40,7 @@
                                     data-wow-delay=".1s">Discover Your Next Favorite Business Today: Search, Explore,
                                     Connect!</div>
 
-                                <div class="banner-inner" style="margin:auto; max-width: 1000px;">
+                                <div class="banner-inner" style="margin:auto; max-width: 1000px; text-align:left">
 
                                     <div class="form-find position-relative mt-40 wow animate__animated animate__fadeIn"
                                         data-wow-delay=".2s">
@@ -185,7 +185,7 @@
 
                                             <input class="form-input input-keysearch mr-10" name="keyword"
                                                 value="{{ $keyword }}" type=text
-                                                placeholder="Job title, city, skills or industry...">
+                                                placeholder="Business Name or industry...">
                                             <div class="search-btn-group"><button
                                                     class="btn btn-default btn-find font-sm">Search</button>
                                             </div>

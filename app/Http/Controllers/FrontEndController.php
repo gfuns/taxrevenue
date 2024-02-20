@@ -37,10 +37,41 @@ class FrontEndController extends Controller
         $filter = request()->filter == null ? 'asc' : request()->filter;
         $location = request()->location;
         $keyword = request()->keyword;
-        if (isset($request->location)) {
-            $lastRecord = Business::count();
-            $marker = $this->pageMarkers($lastRecord, request()->page);
-            $businesses = Business::orderBy("id", $filter)->where("visibility", 1)->paginate(16);
+        if (isset($location) || isset($keyword)) {
+            if (isset($location) && !isset($keyword)) {
+                $lastRecord = Business::where("state", $location)->count();
+                $marker = $this->pageMarkers($lastRecord, request()->page);
+                $businesses = Business::orderBy("id", $filter)->where("state", $location)->paginate(16);
+            } else if (!isset($location) && isset($keyword)) {
+                $lastRecord = Business::where(function ($query) use ($keyword) {
+                    $query->where('business_name', 'LIKE', "%" . $keyword . "%")
+                        ->orWhere('business_category', 'LIKE', "%" . $keyword . "%")
+                        ->orWhere('business_description', 'LIKE', "%" . $keyword . "%");
+                })->count();
+
+                $marker = $this->pageMarkers($lastRecord, request()->page);
+                $businesses = Business::orderBy("id", $filter)
+                    ->where(function ($query) use ($keyword) {
+                        $query->where('business_name', 'LIKE', "%" . $keyword . "%")
+                            ->orWhere('business_category', 'LIKE', "%" . $keyword . "%")
+                            ->orWhere('business_description', 'LIKE', "%" . $keyword . "%");
+                    })->paginate(16);
+            } else {
+                $lastRecord = Business::where("state", $location)
+                    ->where(function ($query) use ($keyword) {
+                        $query->where('business_name', 'LIKE', "%" . $keyword . "%")
+                            ->orWhere('business_category', 'LIKE', "%" . $keyword . "%")
+                            ->orWhere('business_description', 'LIKE', "%" . $keyword . "%");
+                    })->count();
+
+                $marker = $this->pageMarkers($lastRecord, request()->page);
+                $businesses = Business::orderBy("id", $filter)->where("state", $location)
+                    ->where(function ($query) use ($keyword) {
+                        $query->where('business_name', 'LIKE', "%" . $keyword . "%")
+                            ->orWhere('business_category', 'LIKE', "%" . $keyword . "%")
+                            ->orWhere('business_description', 'LIKE', "%" . $keyword . "%");
+                    })->paginate(16);
+            }
 
         } else {
             $lastRecord = Business::count();
@@ -74,21 +105,32 @@ class FrontEndController extends Controller
                 $marker = $this->pageMarkers($lastRecord, request()->page);
                 $jobs = JobListing::orderBy("id", $filter)->where("state", $location)->paginate(16);
             } else if (!isset($location) && isset($keyword)) {
-                $lastRecord = JobListing::where("job_title", "LIKE", "%" . $keyword . "%")->count();
+                $lastRecord = JobListing::where(function ($query) use ($keyword) {
+                    $query->where('job_title', 'LIKE', "%" . $keyword . "%")
+                        ->orWhere('tags', 'LIKE', "%" . $keyword . "%")
+                        ->orWhere('city', 'LIKE', "%" . $keyword . "%");
+                })->count();
                 $marker = $this->pageMarkers($lastRecord, request()->page);
-                $jobs = JobListing::orderBy("id", $filter)->where("job_title", "LIKE", "%" . $keyword . "%")->paginate(16);
+                $jobs = JobListing::orderBy("id", $filter)
+                    ->where(function ($query) use ($keyword) {
+                        $query->where('job_title', 'LIKE', "%" . $keyword . "%")
+                            ->orWhere('tags', 'LIKE', "%" . $keyword . "%")
+                            ->orWhere('city', 'LIKE', "%" . $keyword . "%");
+                    })->paginate(16);
             } else {
                 $lastRecord = JobListing::where("state", $location)
                     ->where(function ($query) use ($keyword) {
                         $query->where('job_title', 'LIKE', "%" . $keyword . "%")
-                            ->orWhere('tags', 'LIKE', "%" . $keyword . "%");
+                            ->orWhere('tags', 'LIKE', "%" . $keyword . "%")
+                            ->orWhere('city', 'LIKE', "%" . $keyword . "%");
                     })->count();
 
                 $marker = $this->pageMarkers($lastRecord, request()->page);
                 $jobs = JobListing::orderBy("id", $filter)->where("state", $location)
                     ->where(function ($query) use ($keyword) {
                         $query->where('job_title', 'LIKE', "%" . $keyword . "%")
-                            ->orWhere('tags', 'LIKE', "%" . $keyword . "%");
+                            ->orWhere('tags', 'LIKE', "%" . $keyword . "%")
+                            ->orWhere('city', 'LIKE', "%" . $keyword . "%");
                     })->paginate(16);
             }
 
