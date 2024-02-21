@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMail as ContactMail;
 use App\Models\ArtisanReviews;
 use App\Models\Artisans;
 use App\Models\BlogPost;
 use App\Models\Business;
 use App\Models\BusinessReviews;
+use App\Models\CustomerContact;
+use App\Models\Faq;
 use App\Models\JobListing;
 use App\Models\PlatformCategories;
 use App\Models\Products;
 use App\Models\TutorialVideos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use Mail;
+use Session;
 
 class FrontEndController extends Controller
 {
@@ -233,9 +239,85 @@ class FrontEndController extends Controller
         return view("blog_details", compact("blogPost"));
     }
 
+    public function aboutUs()
+    {
+        return view("about_us");
+    }
+
+    public function contactUs()
+    {
+        return view("contact_us");
+    }
+
+    public function processContactForm(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required',
+            'subject' => 'required',
+            'message' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $contact = new CustomerContact;
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->subject = $request->subject;
+        $contact->message = $request->message;
+        if ($contact->save()) {
+
+            try {
+                $user = "gfunzy@gmail.com";
+                Mail::to($user)->send(new ContactMail($user, $contact));
+            } catch (\Exception $e) {
+                report($e);
+                \Log::info($e->getMessage());
+            }
+
+            Session::flash("success", "We have received your message and will get back to you soonest.");
+            return back();
+
+            // finally {
+            //     Session::flash("success", "We have received your message and will get back to you soonest.");
+            //     return back();
+            // }
+
+        } else {
+            Session::flash("error", "Something Went Wrong");
+            return back();
+        }
+    }
+
+    public function faqs()
+    {
+        $faqList = Faq::all();
+        return view("faqs", compact("faqList"));
+    }
+
     public function forum()
     {
         return Redirect::to("https://preview.wstacks.com/proforum/");
+    }
+
+    public function terms()
+    {
+        return view("terms");
+    }
+
+    public function privacyPolicy()
+    {
+        return view("privacy_policy");
+    }
+
+    public function cookiePolicy()
+    {
+        return view("cookie_policy");
     }
 
     public function jobsByCategory($slug)

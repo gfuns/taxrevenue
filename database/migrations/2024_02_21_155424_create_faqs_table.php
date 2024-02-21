@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('artisan_portfolios', function (Blueprint $table) {
+        Schema::create('faqs', function (Blueprint $table) {
             $table->id();
-            $table->integer('artisan_id')->unsigned();
-            $table->text('file');
-            $table->string('portfolio_url')->nullable;
+            $table->text('question');
+            $table->longText('answer');
             $table->timestamps();
-            $table->foreign('artisan_id')->references('id')->on('artisans')->onDelete('cascade');
         });
     }
 
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('artisan_portfolios');
+        Schema::dropIfExists('faqs');
     }
 };

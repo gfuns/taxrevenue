@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('temp_media', function (Blueprint $table) {
+        Schema::create('customer_contacts', function (Blueprint $table) {
             $table->id();
-            $table->string('tracking_code');
-            $table->string('asset_type');
-            $table->string('asset_name');
-            $table->text('asset_url');
-            $table->string('file_size');
-            $table->string('file_type');
+            $table->string('name');
+            $table->string('email');
+            $table->text('subject');
+            $table->longText('message');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('temp_media');
+        Schema::dropIfExists('customer_contacts');
     }
 };

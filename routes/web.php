@@ -36,6 +36,8 @@ Route::get('/about-us', [FrontEndController::class, 'aboutUs']);
 
 Route::get('/contact-us', [FrontEndController::class, 'contactUs']);
 
+Route::post('/processContactForm', [FrontEndController::class, 'processContactForm'])->name("processContactForm");
+
 Route::get('/terms-and-conditions', [FrontEndController::class, 'terms']);
 
 Route::get('/privacy-policy', [FrontEndController::class, 'privacyPolicy']);

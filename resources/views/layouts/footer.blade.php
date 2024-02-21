@@ -138,6 +138,11 @@
 <script src={{ asset('themes/jobbox/plugins/leaflet/leaflet.js') }}></script>
 <script src={{ asset('themes/jobbox/plugins/leaflet/leaflet.markercluster-src.js') }}></script>
 
+<script src="{{asset('js/iziToast.js')}}"></script>
+<script src="{{asset('js/iziwrapper.js')}}"></script>
+
+
+<script src="{{ asset("js/bootstrap-notify.min.js") }} "></script>
 
 {{-- <div class="js-cookie-consent cookie-consent cookie-consent-full-width page_speed_287683390">
     <div class="cookie-consent-body page_speed_2125851095"><span class="cookie-consent__message"> Your

@@ -4,7 +4,6 @@
     <meta charset=utf-8>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5, user-scalable=1" name=viewport>
-    <meta name=csrf-token content="EY5nUa2keDTIenseR1VcVZ6687FpKtkai0Mr1BxH">
     <style>
         @font-face {
             font-family: 'Plus Jakarta Sans';
@@ -212,6 +211,7 @@
     <link media="all" type=text/css rel="stylesheet"
         href="{{ asset('themes/jobbox/plugins/animate.min9d7d.css') }}?v=1.10.0">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flat-icons@1.0.0/creative.min.css">
 
     <style>
         .page_speed_515102175 {
@@ -294,5 +294,6 @@
         }
     </style>
 
-
+<link href="{{asset('css/iziToast.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset("css/fonts.min.css") }}">
 </head>
