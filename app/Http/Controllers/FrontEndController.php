@@ -19,10 +19,9 @@ class FrontEndController extends Controller
     public function index()
     {
         $categories = PlatformCategories::all();
-        $todayJobs = JobListing::orderBy("id", "desc")->limit(8)->get();
-        $topRecruiters = Business::where("visibility", 1)->limit(20)->get();
+        $topRecruiters = Business::where("visibility", 1)->limit(8)->get();
         $blogPosts = BlogPost::orderBy("id", "desc")->where("visibility", "public")->where("status", "published")->limit(6)->get();
-        return view("welcome", compact("categories", "todayJobs", "topRecruiters", "blogPosts"));
+        return view("welcome", compact("categories", "topRecruiters", "blogPosts"));
     }
 
     /**

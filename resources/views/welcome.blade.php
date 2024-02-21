@@ -15,30 +15,54 @@
                                 <div class="row">
                                     <div class="col-xl-7 col-lg-12">
                                         <div class="block-banner">
-                                            <h1 class="heading-banner wow animate__animated animate__fadeInUp"> It's
-                                                Easy to Find Your <span class="color-brand-2">Dream Job</span>
+                                            <h1 class="heading-banner wow animate__animated animate__fadeInUp">Finding a local business near you has never been <span class="color-brand-2">easier!</span>
                                             </h1>
                                             <div class="banner-description mt-20 wow animate__animated animate__fadeInUp"
-                                                data-wow-delay=".1s"> Each month, more than 3 million job seekers
-                                                turn to Arete in their search for work, making over 140,000
-                                                applications every single day </div>
+                                                data-wow-delay=".1s"> Every month, Arete welcomes over 3 million users seeking local businesses, with over 140,000 connections made daily. Join the thriving community and discover your next favorite business with our intuitive business directory navigation! </div>
                                             <div class="form-find position-relative mt-40 wow animate__animated animate__fadeIn"
                                                 data-wow-delay=".2s">
-                                                <form method="GET" action="/find-jobs" accept-charset="UTF-8">
-                                                    <div class="box-industry">
-                                                        <select class="form-input mr-10 select-active input-industry "
-                                                            name="job_categories">
-                                                            <option value="">Select Job Type</option>
-                                                            @foreach ($categories as $cat)
-                                                                <option value="{{ $cat->id }}">
-                                                                    {{ $cat->category_name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                                <form method="GET" action="/job-portal" accept-charset="UTF-8">
+
                                                     <select class="form-input mr-10 select-active input-industry"
                                                         name="location" data-location-type="state">
                                                         <option value="">Location</option>
-                                                        <option value="Nigeria">Nigeria</option>
+                                                        <option value="Abia">Abia</option>
+                                                        <option value="Abuja (FCT)">Abuja - Federal Capital Territory</option>
+                                                        <option value="Adamawa">Adamawa</option>
+                                                        <option value="Akwa Ibom">Akwa Ibom</option>
+                                                        <option value="Anambra">Anambra</option>
+                                                        <option value="Bauchi">Bauchi</option>
+                                                        <option value="Bayelsa">Bayelsa</option>
+                                                        <option value="Benue">Benue</option>
+                                                        <option value="Borno">Borno</option>
+                                                        <option value="Cross River">Cross River</option>
+                                                        <option value="Delta">Delta</option>
+                                                        <option value="Ebonyi">Ebonyi</option>
+                                                        <option value="Edo">Edo</option>
+                                                        <option value="Ekiti">Ekiti</option>
+                                                        <option value="Enugu">Enugu</option>
+                                                        <option value="Gombe">Gombe</option>
+                                                        <option value="Imo">Imo</option>
+                                                        <option value="Jigawa">Jigawa</option>
+                                                        <option value="Kaduna">Kaduna</option>
+                                                        <option value="Kano">Kano</option>
+                                                        <option value="Katsina">Katsina</option>
+                                                        <option value="Kebbi">Kebbi</option>
+                                                        <option value="Kogi">Kogi</option>
+                                                        <option value="kwara">Kwara</option>
+                                                        <option value="Lagos">Lagos</option>
+                                                        <option value="Nassarawa">Nassarawa</option>
+                                                        <option value="Niger">Niger</option>
+                                                        <option value="Ogun">Ogun</option>
+                                                        <option value="Ondo">Ondo</option>
+                                                        <option value="Osun">Osun</option>
+                                                        <option value="Oyo">Oyo</option>
+                                                        <option value="Plateau">Plateau</option>
+                                                        <option value="Rivers">Rivers</option>
+                                                        <option value="Sokoto">Sokoto</option>
+                                                        <option value="Taraba">Taraba</option>
+                                                        <option value="Yobe">Yobe</option>
+                                                        <option value="Zamfara">Zamfara</option>
                                                     </select>
                                                     <input class="form-input input-keysearch mr-10" name="keyword"
                                                         value="" type=text placeholder="Your keyword...">
@@ -49,7 +73,7 @@
                                                 </form>
                                             </div>
                                             <img class="img-responsive mt-50 d-none d-lg-block d-xl-block"
-                                                alt="" src="{{ asset('files/pages/arrow.png') }}">
+                                                alt="" src="{{ asset('files/pages/arrow.png') }}" style="max-height: 250px">
                                         </div>
                                     </div>
                                     <div class="col-xl-5 col-lg-12 d-none d-xl-block col-md-6">
@@ -69,7 +93,7 @@
                                     <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp"> Browse
                                         Businesses by Category </h2>
                                     <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">
-                                        Find the job that’s perfect for you. about 800+ new jobs everyday </p>
+                                        Locate Businesses With Ease: Navigate Our Diverse Categories and Uncover Businesses Tailored to Your Interests! </p>
                                 </div>
                                 <div class="box-swiper mt-50">
                                     <div class="swiper-container swiper-group-5 swiper">
@@ -134,8 +158,7 @@
                                 <span class="color-brand-2" style="color:#690068">Businesses</span>
                             </h2>
                             <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">
-                                Discover your next career move, freelance gig, or internship from your dream recruiters
-                                and businesses all over the World.</p>
+                                Discover your next favorite business today. Connect, Explore and Transact with local businesses around you</p>
                         </div>
                     </div>
                     <div class="container">
