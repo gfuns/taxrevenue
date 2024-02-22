@@ -70,7 +70,7 @@
                             <span class="bi bi-people-fill fs-3 text-primary"></span>
                         </div>
                     </div>
-                    <h2 class="fw-bold mb-1">{{ number_format($param['totalApplicants'], 0) }}</h2>
+                    <h2 class="fw-bold mb-1">{{ number_format(0, 0) }}</h2>
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@
                 <div
                     class="card-header align-items-center card-header-height d-flex justify-content-between align-items-center">
                     <div>
-                        <h4 class="mb-0">Statistics of Active Applicants</h4>
+                        <h4 class="mb-0">Statistics of Customer Interactions and Reach</h4>
                     </div>
                 </div>
                 <!-- Card body -->
@@ -128,113 +128,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xl-4 col-lg-12 col-md-12 col-12 mb-4">
-            <!-- Card -->
-            <div class="card">
-                <!-- Card header -->
-                <div class="card-header d-flex align-items-center justify-content-between card-header-height">
-                    <h4 class="mb-0">Job Listing</h4>
-                    <a href="{{ route('business.jobListing') }}" class="btn btn-outline-secondary btn-sm">View All</a>
-                </div>
-                <!-- Card body -->
-                <div class="card-body">
-                    <!-- List group -->
-                    <ul class="list-group list-group-flush">
-                        @foreach ($latestJobs as $job)
-                            <li class="list-group-item px-0 pt-0 mb-4">
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <div class="candidate-education-content d-flex">
-                                            <div class="circle flex-shrink-0 bg-soft-primary">
-                                                {{ strtoupper(Str::substr($job->job_title, 0, 1)) }} </div>
-                                        </div>
-                                    </div>
-                                    <div class="col ms-n3">
-                                        <h4 class="mb-0 h5">{{ $job->job_title }}</h4>
-                                        <span class="me-2 fs-6">
-                                            <span class="text-dark me-1 fw-semibold">Date Posted:</span>
-                                            {{ date_format($job->created_at, 'jS F, Y') }}
-                                        </span>
-                                    </div>
 
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 col-lg-12 col-md-12 col-12 mb-4">
-            <!-- Card -->
-            <div class="card ">
-                <!-- Card header -->
-                <div class="card-header d-flex align-items-center justify-content-between card-header-height">
-                    <h4 class="mb-0">Job Applications</h4>
-                    <a href="{{ route('business.allJobApplications') }}" class="btn btn-outline-secondary btn-sm">View
-                        All</a>
-                </div>
-                <!-- Card body -->
-                <div class="card-body">
-                    <!-- List group -->
-                    <ul class="list-group list-group-flush">
-                        @foreach ($latestApplications as $app)
-                            <li class="list-group-item px-0 pt-0 mb-4">
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <div class="avatar avatar-md avatar-indicators avatar-online">
-                                            <img alt="avatar" src="{{ $app->artisan->customer->photo }}"
-                                                class="rounded-circle">
-                                        </div>
-                                    </div>
-                                    <div class="col ms-n3">
-                                        <h4 class="mb-0 h5">
-                                            {{ $app->artisan->customer->first_name . ' ' . $app->artisan->customer->last_name }}
-                                        </h4>
-                                        <span class="me-2 fs-6">
-                                            {{ $app->artisan->profession }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 col-lg-12 col-md-12 col-12 mb-4">
-            <!-- Card -->
-            <div class="card h-100">
-                <!-- Card header -->
-                <div class="card-header card-header-height d-flex align-items-center">
-                    <h4 class="mb-0">Recent Transactions</h4>
-                </div>
-                <!-- Card body -->
-                <div class="card-body">
-                    <!-- List group -->
-                    <ul class="list-group list-group-flush ">
-                        @foreach ($latestTransactions as $lt)
-                            <li class="list-group-item px-0 pt-0 border-0 mb-2">
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <div class="candidate-education-content d-flex">
-                                            <div class="circle flex-shrink-0 @if($lt->trx_type == "credit") bg-soft-success @else bg-soft-danger @endif">
-                                                {{ strtoupper(Str::substr($lt->trx_type, 0, 1)) }} </div>
-                                        </div>
-                                    </div>
-                                    <div class="col ms-n2">
-                                        <h4 class="mb-0 h5">{{ ucwords($lt->trx_type) }} Transaction</h4>
-                                        <p class="mb-1">{{ $lt->details }}</p>
-                                        <span class="fs-6">{{ $lt->created_at->diffForHumans() }}</span>
-                                    </div>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
 
 <script>

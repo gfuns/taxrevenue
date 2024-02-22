@@ -8,7 +8,7 @@
         <!-- Navbar nav -->
         <ul class="navbar-nav flex-column" id="sideNavbar">
             <li class="nav-item">
-                <a class="nav-link "  id="dashboard" href="{{ route("business.dashboard") }}">
+                <a class="nav-link " id="dashboard" href="{{ route('business.dashboard') }}">
                     <i class="nav-icon fe fe-home me-2"></i>
                     Dashboard
                 </a>
@@ -20,47 +20,52 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="jobs" href="{{ route("business.jobListing") }}">
-                    <i class="nav-icon bi bi-briefcase-fill me-2"></i>
-                    Job Listing
+                <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse" data-bs-target="#navSettings"
+                    aria-expanded="false" aria-controls="navSettings">
+                    <i class="nav-icon bi bi-gear-wide-connected me-2"></i> Account Settings
                 </a>
-            </li>
+                <div id="navSettings" class="collapse " data-bs-parent="#sideNavbar">
+                    <ul class="nav flex-column">
 
-            <!-- Nav item -->
-            <li class="nav-item">
-                <div class="nav-divider"></div>
-            </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="profile" href="{{ route('business.viewProfile') }}">
+                                Profile
+                            </a>
+                        </li>
+                        {{-- <li class="nav-item">
+                            <a class="nav-link " id="changepwd" href="{{ route("business.changePassword") }}">
+                                Change Password
+                            </a>
+                        </li> --}}
+                        <li class="nav-item">
+                            <a class="nav-link " id="busDet" href="{{ route('business.businessProfile') }}">
+                                Business Information
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="notification" href="{{ route('business.notificationSettings') }}">
+                                Notifications
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="security" href="{{ route('business.security') }}">
+                                Security
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="subscription" href="{{ route('business.subscription') }}">
+                                Subscription
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="deleteAccount" href="{{ route('business.deleteAccount') }}">
+                                Delete Account
+                            </a>
+                        </li>
 
-            <li class="nav-item">
-                <a class="nav-link " id="applications" href="{{ route("business.allJobApplications") }}">
-                    <i class="nav-icon bi bi-people-fill me-2"></i>
-                    Job Applications
-                </a>
+                    </ul>
+                </div>
             </li>
-
-            <!-- Nav item -->
-            <li class="nav-item">
-                <div class="nav-divider"></div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link " id="messages" href="#">
-                    <i class="nav-icon fe fe-message-square me-2"></i>
-                    Messages
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <div class="nav-divider"></div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link " id="wallet" href="#">
-                    <i class="nav-icon bi bi-wallet me-2"></i>
-                    Wallet
-                </a>
-            </li>
-
 
             <li class="nav-item">
                 <div class="nav-divider"></div>
@@ -75,22 +80,22 @@
                     <ul class="nav flex-column">
 
                         <li class="nav-item">
-                            <a class="nav-link " id="airtime" href="{{ route("business.buyAirtime") }}">
+                            <a class="nav-link " id="airtime" href="{{ route('business.buyAirtime') }}">
                                 Airtime Purchase
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " id="data" href="{{ route("business.buyData") }}">
+                            <a class="nav-link " id="data" href="{{ route('business.buyData') }}">
                                 Data Purchase
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " id="cable" href="{{ route("business.buyCable") }}">
+                            <a class="nav-link " id="cable" href="{{ route('business.buyCable') }}">
                                 Cable Subscription
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " id="electricity" href="{{ route("business.buyElectricity") }}">
+                            <a class="nav-link " id="electricity" href="{{ route('business.buyElectricity') }}">
                                 Electricity Purchase
                             </a>
                         </li>
@@ -106,73 +111,98 @@
                 </div>
             </li>
 
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link " id="help" href="/academy">
+                    <i class="nav-icon bi bi-play-btn me-2"></i>
+                    Academy
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link " id="help" href="/forum">
+                    <i class="nav-icon bi bi-chat-left-dots me-2"></i>
+                    Forum
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link " id="help" href="/shop-now">
+                    <i class="nav-icon bi bi-cart-check me-2"></i>
+                    Mini Store
+                </a>
+            </li>
+
+            <!-- Nav item -->
+            {{-- <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link " id="messages" href="#">
+                    <i class="nav-icon fe fe-message-square me-2"></i>
+                    Messages
+                </a>
+            </li> --}}
+
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link " id="wallet" href="#">
+                    <i class="nav-icon bi bi-wallet me-2"></i>
+                    Wallet
+                </a>
+            </li>
+
+
+
+
             <!-- Nav item -->
             <li class="nav-item">
                 <div class="nav-divider"></div>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="referrals" href="{{ route("business.referrals") }}">
+                <a class="nav-link " id="referrals" href="{{ route('business.referrals') }}">
                     <i class="nav-icon bi bi-diagram-3-fill me-2"></i>
                     Referrals
                 </a>
             </li>
 
-             <!-- Nav item -->
-             <li class="nav-item">
+
+
+            <!-- Nav item -->
+            <li class="nav-item">
                 <div class="nav-divider"></div>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse" data-bs-target="#navSettings"
-                    aria-expanded="false" aria-controls="navSettings">
-                    <i class="nav-icon bi bi-gear-wide-connected me-2"></i> Account Settings
+                <a class="nav-link " id="jobs" href="{{ route('business.jobListing') }}">
+                    <i class="nav-icon bi bi-briefcase-fill me-2"></i>
+                    Job Listing
                 </a>
-                <div id="navSettings" class="collapse " data-bs-parent="#sideNavbar">
-                    <ul class="nav flex-column">
-
-                        <li class="nav-item">
-                            <a class="nav-link " id="profile" href="{{ route("business.viewProfile") }}">
-                                Profile
-                            </a>
-                        </li>
-                        {{-- <li class="nav-item">
-                            <a class="nav-link " id="changepwd" href="{{ route("business.changePassword") }}">
-                                Change Password
-                            </a>
-                        </li> --}}
-                        <li class="nav-item">
-                            <a class="nav-link " id="busDet" href="{{ route('business.businessProfile') }}">
-                                Business Information
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " id="notification" href="{{ route("business.notificationSettings") }}">
-                                Notifications
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " id="security" href="{{ route("business.security") }}">
-                                Security
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " id="subscription" href="{{ route("business.subscription") }}">
-                                Subscription
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " id="deleteAccount" href="{{ route("business.deleteAccount") }}">
-                                Delete Account
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
             </li>
 
+
+
             <!-- Nav item -->
-             <li class="nav-item">
+            <li class="nav-item">
                 <div class="nav-divider"></div>
             </li>
 

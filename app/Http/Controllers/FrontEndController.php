@@ -151,15 +151,20 @@ class FrontEndController extends Controller
     public function jobDetails($slug)
     {
         $job = JobListing::where("slug", $slug)->first();
-        $categories = explode(', ', $job->getOriginalCategories());
-        $categoryNames = PlatformCategories::whereIn('id', $categories)->pluck('category_name');
-        $industry = $categoryNames->implode(' / ');
-        $similarJobs = JobListing::where("id", "!=", $job->id)->where(function ($query) use ($categories) {
-            foreach ($categories as $categoryId) {
-                $query->orWhereRaw("FIND_IN_SET(?, job_categories)", [$categoryId]);
-            }
-        })->limit(5)->get();
-        return view("job_details", compact("job", "similarJobs", "industry"));
+        if (isset($job)) {
+            $categories = explode(', ', $job->getOriginalCategories());
+            $categoryNames = PlatformCategories::whereIn('id', $categories)->pluck('category_name');
+            $industry = $categoryNames->implode(' / ');
+            $similarJobs = JobListing::where("id", "!=", $job->id)->where(function ($query) use ($categories) {
+                foreach ($categories as $categoryId) {
+                    $query->orWhereRaw("FIND_IN_SET(?, job_categories)", [$categoryId]);
+                }
+            })->limit(5)->get();
+            return view("job_details", compact("job", "similarJobs", "industry"));
+        } else {
+            Session::flash("error", "Something Went Wrong");
+            return back();
+        }
     }
 
     /**

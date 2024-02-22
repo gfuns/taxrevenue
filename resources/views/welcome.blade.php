@@ -381,11 +381,10 @@
                             <div class="col-lg-6">
                                 <div class="section-title text-center mb-4 pb-2">
                                     <h2 class="text-center mb-15 wow animate__animated animate__fadeInUp"> Our Happy
-                                        Customer </h2>
+                                        Customers </h2>
                                     <div
                                         class="font-lg color-text-paragraph-2 text-center wow animate__animated animate__fadeInUp">
-                                        When it comes to choosing the right web hosting provider, we know how easy it is
-                                        to get overwhelmed with the number. </div>
+                                        Here Is What Our Users Have to Say: Real Stories, Real Results! </div>
                                 </div>
                             </div>
                         </div>

@@ -22,7 +22,7 @@
                         <ul class="breadcrumbs ">
                             <li><a href="/"><span class="fi-rr-home icon-home"></span>
                                     Home </a></li>
-                            <li><a href="/find-jobs">Find Jobs</a></li>
+                            <li><a href="/job-portal">Job Portal</a></li>
                         </ul>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                                         src="{{ asset('themes/jobbox/imgs/page/job-single/salary.svg') }}"
                                         alt="Salary"></div>
                                 <div class="sidebar-text-info ml-10"><span
-                                        class="text-description salary-icon mb-10">Salary</span><strong
+                                        class="text-description salary-icon mb-10">Renumeration</span><strong
                                         class="small-heading">&#8358;{{ number_format($job->minimum_salary, 0) }} -
                                         &#8358;{{ number_format($job->maximum_salary, 0) }}
                                         /{{ $job->salary_rate }}</strong>
@@ -74,7 +74,7 @@
                                         alt="Job type">
                                 </div>
                                 <div class="sidebar-text-info ml-10"><span
-                                        class="text-description jobtype-icon mb-10">Job type</span><strong
+                                        class="text-description jobtype-icon mb-10">Engagement Type</span><strong
                                         class="small-heading"> {{ $job->engagement_type }} </strong></div>
                             </div>
 

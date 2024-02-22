@@ -56,14 +56,12 @@
                             <!-- form select -->
                             <select id="status" name="status" class="form-select" onChange="this.form.submit()">
                                 <option value="">All Statuses</option>
+                                <option value="archived" @if ($status == 'archived') selected @endif>Archived
+                                </option>
                                 <option value="draft" @if ($status == 'draft') selected @endif>Draft
                                 </option>
                                 <option value="published" @if ($status == 'published') selected @endif>Published
                                 </option>
-                                <option value="open" @if ($status == 'open') selected @endif>Open
-                                </option>
-                                <option value="hired" @if ($status == 'hired') selected @endif>Hired</option>
-                                <option value="closed" @if ($status == 'closed') selected @endif>Closed</option>
                             </select>
                         </div>
                     </div>
@@ -81,9 +79,8 @@
                                         <tr>
                                             <th>#</th>
                                             <th class="text-nowrap">Job Title</th>
+                                            <th class="text-nowrap">Job Location</th>
                                             <th class="text-nowrap">Engagement Type</th>
-                                            <th class="text-nowrap">Open Positions</th>
-                                            <th class="text-nowrap">Work Nature</th>
                                             <th class="text-nowrap">Status</th>
                                             <th class="text-nowrap">Date Published</th>
                                             <th class="text-nowrap"></th>
@@ -95,22 +92,18 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                  <td>{{ $job->job_title }}</td>
+                                                 <td class="text-nowrap">{{ ucwords($job->location) }}</td>
                                                 <td class="text-nowrap">{{ $job->engagement_type }}</td>
-                                                <td class="text-nowrap">{{ $job->open_positions }} Positions</td>
-                                                <td class="text-nowrap">{{ ucwords($job->location_type) }}</td>
                                                 <td class="text-nowrap">
-                                                    @if ($job->status == 'published' && $job->visibility == 'open')
+                                                    @if ($job->status == 'published')
                                                         <span class="badge text-success bg-light-success">
-                                                            {{ ucwords($job->visibility) }}</span>
-                                                    @elseif($job->status == 'published' && $job->visibility == 'hired')
-                                                        <span class="badge text-primary bg-light-primary">
-                                                            {{ ucwords($job->visibility) }}</span>
+                                                            {{ ucwords($job->status) }}</span>
                                                     @elseif($job->status == 'draft')
-                                                        <span class="badge text-primary bg-light-primary">
+                                                        <span class="badge text-warning bg-light-warning">
                                                             {{ ucwords($job->status) }}</span>
                                                     @else
                                                         <span class="badge text-danger bg-light-danger">
-                                                            {{ ucwords($job->visibility) }}</span>
+                                                            {{ ucwords($job->status) }}</span>
                                                     @endif
                                                 </td>
                                                 <td class="text-nowrap">{{ date_format($job->created_at, 'd M, Y') }}
@@ -136,11 +129,6 @@
                                                                 href="{{ route('business.updateJobDetails', [$job->id]) }}">
                                                                 <i class="fe fe-edit dropdown-item-icon"></i>
                                                                 Update Job Details
-                                                            </a>
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('business.jobApplications', [$job->id]) }}">
-                                                                <i class="fe fe-folder-plus dropdown-item-icon"></i>
-                                                                View Job Applications
                                                             </a>
                                                         </div>
                                                     </div>
