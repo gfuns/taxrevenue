@@ -67,8 +67,7 @@
                             </div>
                             <div class="mb-3 col-md-6 col-12">
                                 <label class="form-label">Business Category</label>
-                                <select id="category" name="business_category"
-                                    class="@error('category') is-invalid @enderror" data-width="100%" required>
+                                <select id="category" name="business_category" class="@error('category') is-invalid @enderror" data-width="100%" required onchange="showHideTextField()">
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}"
@@ -78,6 +77,10 @@
                                     <option value="Others">Others</option>
                                 </select>
                                 <div class="invalid-feedback">Please select business category</div>
+
+                                <div id="customOption" style="display: none;" class="pt-3">
+                                    <input id="customField" type="text" name="category_name" value="" class="form-control" placeholder="Enter Your Business Category">
+                                </div>
                             </div>
                             <!-- input -->
                             <div class="mb-3 col-md-12 col-12">
@@ -264,9 +267,26 @@
 <script type="text/javascript">
     document.getElementById("businessInfo").classList.add('active');
 </script>
+
 @endsection
 
 @section('customjs')
+<script>
+    // Function to show or hide the custom text field based on selection
+    function showHideTextField() {
+        var selectBox = document.getElementById("category");
+        var textDiv = document.getElementById("customOption");
+        var textField = document.getElementById("customField");
+
+        if (selectBox.value === "Others") {
+            textDiv.style.display = "block";
+            textField.setAttribute("required", true);
+        } else {
+            textDiv.style.display = "none";
+        }
+    }
+</script>
+
 <script type="text/javascript">
     CKEDITOR.replace('editor1');
 

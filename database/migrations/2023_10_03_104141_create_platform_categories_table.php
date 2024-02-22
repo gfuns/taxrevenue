@@ -15,7 +15,6 @@ return new class extends Migration
             $table->increments('id');
             $table->string('category_icon');
             $table->string('category_name');
-            $table->integer('user_id')->unsigned();
             $table->timestamps();
         });
     }

@@ -189,6 +189,10 @@ Route::group([
 
         Route::post('/set-auto-renewal', [App\Http\Controllers\Business\SubscriptionController::class, 'setAutoRenewal'])->name("business.setAutoRenewal");
 
+        Route::get('/default-card/{id}', [App\Http\Controllers\Business\SubscriptionController::class, 'defaultCard'])->name("business.defaultCard");
+
+        Route::get('/delete-card/{id}', [App\Http\Controllers\Business\SubscriptionController::class, 'deleteCard'])->name("business.deleteCard");
+
         Route::get('/delete-account', [App\Http\Controllers\Business\HomeController::class, 'deleteAccount'])->name("business.deleteAccount");
 
         Route::get('/process-account-deletion', [App\Http\Controllers\Business\HomeController::class, 'processAccountDeletion'])->name("business.processAccountDeletion");
@@ -196,6 +200,8 @@ Route::group([
         Route::get('/mini-store', [App\Http\Controllers\Business\HomeController::class, 'miniStore'])->name("business.miniStore");
 
         Route::get('/academy', [App\Http\Controllers\Business\HomeController::class, 'academy'])->name("business.academy");
+
+        Route::get('/wallet', [App\Http\Controllers\Business\HomeController::class, 'WalletTransactions'])->name("business.WalletTransactions");
 
     });
 

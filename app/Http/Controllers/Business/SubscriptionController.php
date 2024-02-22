@@ -28,8 +28,12 @@ class SubscriptionController extends Controller
     public function subscription()
     {
         $activeSubscription = CustomerSubscription::where("customer_id", Auth::user()->id)->where("status", "active")->first();
+        $customerCards = CustomerCards::where("customer_id", Auth::user()->id)->get();
+        return view("business.subscription", compact("activeSubscription", "customerCards"));
+
         if (isset($activeSubscription)) {
-            return view("business.subscription", compact("activeSubscription"));
+            $customerCards = CustomerCards::where("customer_id", Auth::user()->id)->get();
+            return view("business.subscription", compact("activeSubscription", "customerCards"));
         } else {
             return redirect()->route("business.subscribe");
         }

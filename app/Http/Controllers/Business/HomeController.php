@@ -6,15 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\Customer;
 use App\Models\JobListing;
-use App\Models\Products;
-use App\Models\TutorialVideos;
 use App\Models\NotificationSetting;
 use App\Models\PlatformCategories;
-use App\Models\ReferralTransaction;
+use App\Models\Products;
+use App\Models\TutorialVideos;
 use Auth;
 use Cloudinary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -165,7 +166,7 @@ class HomeController extends Controller
 
     public function updateBusinessProfile(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'business_name' => 'required',
             'business_category' => 'required',
             'business_description' => 'required',
@@ -177,33 +178,72 @@ class HomeController extends Controller
             'business_address' => 'required',
         ]);
 
-        $business = Business::where("customer_id", Auth::user()->id)->first();
-        $business->business_name = $request->business_name;
-        $business->slug = preg_replace("/ /", "-", strtolower($request->business_name));
-        $business->category_id = $request->business_category;
-        $business->business_category = PlatformCategories::find($request->business_category)->category_name;
-        $business->country = $request->country;
-        $business->state = $request->state;
-        $business->city = $request->city;
-        $business->street = $request->business_address;
-        $business->business_address = $request->business_address;
-        $business->business_description = $request->business_description;
-        $business->business_phone = $request->business_phone;
-        $business->business_email = $request->business_email;
-        $business->website_url = $request->website_url;
-        $business->facebook_url = $request->facebook_url;
-        $business->twitter_url = $request->twitter_url;
-        $business->instagram_url = $request->instagram_url;
-        $business->linkedin_url = $request->linkedin_url;
-        $business->visibility = 1;
-        if ($request->has('business_logo')) {
-            $uploadedFileUrl = Cloudinary::upload($request->file('business_logo')->getRealPath())->getSecurePath();
-            $business->business_logo = $uploadedFileUrl;
+        if ($request->business_category == "Others") {
+            $validator = Validator::make($request->all(), [
+                'category_name' => 'required|unique:platform_categories',
+            ]);
         }
-        if ($business->save()) {
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        try {
+
+            DB::beginTransaction();
+
+            if ($request->business_category == "Others") {
+                $platformCat = new PlatformCategories;
+                $platformCat->category_name = $request->category_name;
+                $platformCat->slug = preg_replace("/ /", "-", strtolower($request->category_name));
+                $platformCat->save();
+                $businessCategoryId = $platformCat->id;
+                $businessCategoryName = PlatformCategories::find($platformCat->id)->category_name;
+            }else{
+
+                $businessCategoryId = $request->business_category;
+                $businessCategoryName = PlatformCategories::find($request->business_category)->category_name;
+            }
+
+
+
+            $business = Business::where("customer_id", Auth::user()->id)->first();
+            $business->business_name = $request->business_name;
+            $business->slug = preg_replace("/ /", "-", strtolower($request->business_name));
+            $business->category_id = $businessCategoryId;
+            $business->business_category = $businessCategoryName;
+            $business->country = $request->country;
+            $business->state = $request->state;
+            $business->city = $request->city;
+            $business->street = $request->business_address;
+            $business->business_address = $request->business_address;
+            $business->business_description = $request->business_description;
+            $business->business_phone = $request->business_phone;
+            $business->business_email = $request->business_email;
+            $business->website_url = $request->website_url;
+            $business->facebook_url = $request->facebook_url;
+            $business->twitter_url = $request->twitter_url;
+            $business->instagram_url = $request->instagram_url;
+            $business->linkedin_url = $request->linkedin_url;
+            $business->visibility = 1;
+            if ($request->has('business_logo')) {
+                $uploadedFileUrl = Cloudinary::upload($request->file('business_logo')->getRealPath())->getSecurePath();
+                $business->business_logo = $uploadedFileUrl;
+            }
+
+            $business->save();
+
+            DB::commit();
+
             toast('Business Information Successfully Updated.', 'success');
             return back();
-        } else {
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            report($e);
             toast('Something went wrong. Please try again', 'error');
             return back();
         }
@@ -418,8 +458,8 @@ class HomeController extends Controller
         }
     }
 
-
-    public function miniStore(){
+    public function miniStore()
+    {
         $search = request()->q;
         $filter = request()->filter == null ? 'asc' : request()->filter;
         if (isset($search)) {
@@ -431,9 +471,8 @@ class HomeController extends Controller
             $marker = $this->shopMarkers($lastRecord, request()->page);
             $products = Products::orderBy("id", $filter)->paginate(12);
         }
-        return view("business.mini_store",  compact("products", "search", "lastRecord", "marker", "filter"));
+        return view("business.mini_store", compact("products", "search", "lastRecord", "marker", "filter"));
     }
-
 
     public function academy()
     {
@@ -452,6 +491,9 @@ class HomeController extends Controller
     }
 
 
+    public function WalletTransactions(){
+        return view("business.payment_methods");
+    }
 
     public function shopMarkers($lastRecord, $pageNum)
     {

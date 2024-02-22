@@ -57,25 +57,23 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link " id="subscription" href="{{ route('business.subscription') }}">
+                                Billing & Payments
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link " id="notification" href="{{ route('business.notificationSettings') }}">
                                 Notifications
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link " id="pm" href="{{ route('business.notificationSettings') }}">
-                                Payment Methods
-                            </a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link " id="security" href="{{ route('business.security') }}">
                                 Security
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link " id="subscription" href="{{ route('business.subscription') }}">
-                                Subscription
-                            </a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link " id="deleteAccount" href="{{ route('business.deleteAccount') }}">
                                 Delete Account
@@ -84,6 +82,19 @@
 
                     </ul>
                 </div>
+            </li>
+
+
+
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link " id="wallet" href="{{ route("business.WalletTransactions") }}">
+                    <i class="nav-icon bi bi-wallet me-2"></i>
+                    Wallet
+                </a>
             </li>
 
             <li class="nav-item">
@@ -177,19 +188,6 @@
                     Messages
                 </a>
             </li> --}}
-
-            <li class="nav-item">
-                <div class="nav-divider"></div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link " id="wallet" href="#">
-                    <i class="nav-icon bi bi-wallet me-2"></i>
-                    Wallet
-                </a>
-            </li>
-
-
 
 
             <!-- Nav item -->
