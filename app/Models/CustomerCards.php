@@ -5,11 +5,10 @@ namespace App\Models;
 use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CustomerCards extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     public function getCardHolderAttribute($value)
     {

@@ -8,10 +8,10 @@ use App\Models\CustomerCards;
 use App\Models\CustomerSubscription;
 use App\Models\SubscriptionPlan;
 use Auth;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class SubscriptionController extends Controller
 {
@@ -36,6 +36,56 @@ class SubscriptionController extends Controller
             return view("business.subscription", compact("activeSubscription", "customerCards"));
         } else {
             return redirect()->route("business.subscribe");
+        }
+    }
+
+    public function defaultCard($id)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            CustomerCards::where('customer_id', Auth::user()->id)->where("default_card", 1)->update([
+                'default_card' => 0,
+            ]);
+
+            $card = CustomerCards::where("id", $id)->where("customer_id", Auth::user()->id)->first();
+            if (isset($card)) {
+                $card->default_card = 1;
+                $card->save();
+
+                DB::commit();
+
+                toast('Primary Card Set Successfully.', 'success');
+                return back();
+            } else {
+                toast('Something went wrong.', 'error');
+                return back();
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            report($e);
+
+            toast('Something went wrong.', 'error');
+            return back();
+        }
+    }
+
+    public function deleteCard($id)
+    {
+        $card = CustomerCards::find($id);
+        if (isset($card)) {
+            if ($card->delete()) {
+                toast('Card Details Deleted Successfully.', 'success');
+                return back();
+            } else {
+                toast('Something went wrong.', 'error');
+                return back();
+            }
+        } else {
+            toast('Something went wrong.', 'error');
+            return back();
         }
     }
 
@@ -147,8 +197,8 @@ class SubscriptionController extends Controller
 
     }
 
-
-    public function setAutoRenewal(Request $request){
+    public function setAutoRenewal(Request $request)
+    {
 
         CustomerSubscription::where('customer_id', Auth::user()->id)->where("id", $request->param)->update([
             'auto_renew' => $request->status,

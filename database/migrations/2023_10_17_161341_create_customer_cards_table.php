@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('card_holder')->nullable();
             $table->integer('default_card')->default(0);
             $table->timestamps();
-            $table->softDeletes();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }

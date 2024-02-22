@@ -121,7 +121,7 @@
                                                     </a>
                                                 @endif
                                                 <a class="dropdown-item"
-                                                    href="{{ route('business.deleteAccount', [$card->id]) }}"
+                                                    href="{{ route('business.deleteCard', [$card->id]) }}"
                                                     onclick="return confirm('Are you sure you want to delete this card?')">
                                                     <i class="fe fe-trash dropdown-item-icon"></i>
                                                     Remove Card
