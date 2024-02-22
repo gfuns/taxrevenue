@@ -20,6 +20,29 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link " id="businessInfo" href="{{ route('business.businessProfile') }}">
+                    <i class="nav-icon fe fe-briefcase me-2"></i>
+                    Business Information
+                </a>
+            </li>
+
+            <!-- Nav item -->
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link " id="page" href="{{ route('business.businessProfile') }}">
+                    <i class="nav-icon fe fe-layout me-2"></i>
+                    Business Page Setup
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse" data-bs-target="#navSettings"
                     aria-expanded="false" aria-controls="navSettings">
                     <i class="nav-icon bi bi-gear-wide-connected me-2"></i> Account Settings
@@ -29,22 +52,18 @@
 
                         <li class="nav-item">
                             <a class="nav-link " id="profile" href="{{ route('business.viewProfile') }}">
-                                Profile
+                                Profile Information
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a class="nav-link " id="changepwd" href="{{ route("business.changePassword") }}">
-                                Change Password
-                            </a>
-                        </li> --}}
-                        <li class="nav-item">
-                            <a class="nav-link " id="busDet" href="{{ route('business.businessProfile') }}">
-                                Business Information
-                            </a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link " id="notification" href="{{ route('business.notificationSettings') }}">
                                 Notifications
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="pm" href="{{ route('business.notificationSettings') }}">
+                                Payment Methods
                             </a>
                         </li>
                         <li class="nav-item">
@@ -117,7 +136,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link " id="help" href="/academy">
+                <a class="nav-link " id="academy" href="{{ route("business.academy") }}">
                     <i class="nav-icon bi bi-play-btn me-2"></i>
                     Academy
                 </a>
@@ -129,7 +148,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link " id="help" href="/forum">
+                <a class="nav-link " id="forum" href="/forum">
                     <i class="nav-icon bi bi-chat-left-dots me-2"></i>
                     Forum
                 </a>
@@ -141,7 +160,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link " id="help" href="/shop-now">
+                <a class="nav-link " id="store" href="{{ route("business.miniStore") }}">
                     <i class="nav-icon bi bi-cart-check me-2"></i>
                     Mini Store
                 </a>

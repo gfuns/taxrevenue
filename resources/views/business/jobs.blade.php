@@ -23,8 +23,8 @@
                     </nav>
                 </div>
 
-                 <!-- button -->
-                 <div>
+                <!-- button -->
+                <div>
                     <a href="{{ route('business.initializeNewJob') }}" class="btn btn-primary me-2">New Job Listing</a>
 
                 </div>
@@ -91,8 +91,8 @@
                                         @foreach ($jobs as $job)
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
-                                                 <td>{{ $job->job_title }}</td>
-                                                 <td class="text-nowrap">{{ ucwords($job->location) }}</td>
+                                                <td>{{ $job->job_title }}</td>
+                                                <td class="text-nowrap">{{ ucwords($job->location) }}</td>
                                                 <td class="text-nowrap">{{ $job->engagement_type }}</td>
                                                 <td class="text-nowrap">
                                                     @if ($job->status == 'published')
@@ -129,6 +129,29 @@
                                                                 href="{{ route('business.updateJobDetails', [$job->id]) }}">
                                                                 <i class="fe fe-edit dropdown-item-icon"></i>
                                                                 Update Job Details
+                                                            </a>
+
+                                                            @if ($job->status == 'published')
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('business.archiveJob', [$job->id]) }}"
+                                                                    onclick="return confirm('Are you sure you want to archive this job?');">
+                                                                    <i class="fe fe-archive dropdown-item-icon"></i>
+                                                                    Archive Job
+                                                                </a>
+                                                            @else
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('business.publishJob', [$job->id]) }}"
+                                                                    onclick="return confirm('Are you sure you want to publish this job?');">
+                                                                    <i class="fe fe-check-circle dropdown-item-icon"></i>
+                                                                    Publish Job
+                                                                </a>
+                                                            @endif
+
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('business.deleteJob', [$job->id]) }}"
+                                                                onclick="return confirm('Are you sure you want to delete this job?');">
+                                                                <i class="fe fe-trash dropdown-item-icon"></i>
+                                                                Delete Job
                                                             </a>
                                                         </div>
                                                     </div>

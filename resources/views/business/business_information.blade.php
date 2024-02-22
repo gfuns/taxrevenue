@@ -18,9 +18,6 @@
                             <li class="breadcrumb-item">
                                 <a href="{{ route('business.dashboard') }}">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item">
-                                <a href="#">Account Settings</a>
-                            </li>
                             <li class="breadcrumb-item active" aria-current="page">Business Information</li>
                         </ol>
                     </nav>
@@ -57,7 +54,8 @@
                             <div class="col-md-12 col-12 mb-5">
                                 <div class="col-md-6 col-12">
                                     <h5 class="mb-3">&nbsp; </h5>
-                                    <input type="file" name="business_logo" class="form-control" @if($business->businessLogo() == null) required @endif>
+                                    <input type="file" name="business_logo" class="form-control"
+                                        @if ($business->businessLogo() == null) required @endif>
                                 </div>
                             </div>
                             <!-- input -->
@@ -77,6 +75,7 @@
                                             @if ($business->category_id == $category->id) selected @endif>
                                             {{ $category->category_name }}</option>
                                     @endforeach
+                                    <option value="Others">Others</option>
                                 </select>
                                 <div class="invalid-feedback">Please select business category</div>
                             </div>
@@ -102,20 +101,107 @@
 
                             <div class="mb-3 col-md-6 col-12">
                                 <label for="selectDate" class="form-label">Country</label>
-                                <select class="form-control text-dark" required="required" name="country"
+
+                                <select name="country" class="form-select text-dark" id="country" required>
+                                    <option value="">Select Country</option>
+                                    <option value="Nigeria" @if ($business->country == 'Nigeria') selected @endif>Nigeria
+                                    </option>
+                                </select>
+
+                                {{-- <select class="form-control text-dark" required="required" name="country"
                                     onChange="print_state('state',this.selectedIndex);" id="country"
                                     style="width:100%" required>
-                                </select>
+                                </select> --}}
                                 <div class="invalid-feedback">Please select valid date.</div>
                             </div>
 
                             <div class="mb-3 col-md-6 col-12">
                                 <label for="selectDate" class="form-label">State</label>
-                                <select class="form-control text-dark" required name="state" id="state"
+
+                                <select name="state" class="form-select text-dark" id="state" required>
+                                    <option value="" disabled>Select State</option>
+                                    <option value="Abia" @if ($business->state == 'Abia') selected @endif>Abia
+                                    </option>
+                                    <option value="Abuja (FCT)" @if ($business->state == 'Abuja (FCT)') selected @endif>
+                                        Abuja - Federal Capital Territory</option>
+                                    <option value="Adamawa" @if ($business->state == 'Adamawa') selected @endif>
+                                        Adamawa</option>
+                                    <option value="Akwa Ibom" @if ($business->state == 'Akwa Ibom') selected @endif>Akwa
+                                        Ibom</option>
+                                    <option value="Anambra" @if ($business->state == 'Anambra') selected @endif>
+                                        Anambra</option>
+                                    <option value="Bauchi" @if ($business->state == 'Bauchi') selected @endif>Bauchi
+                                    </option>
+                                    <option value="Bayelsa" @if ($business->state == 'Bayelsa') selected @endif>
+                                        Bayelsa</option>
+                                    <option value="Benue" @if ($business->state == 'Benue') selected @endif>Benue
+                                    </option>
+                                    <option value="Borno" @if ($business->state == 'Borno') selected @endif>Borno
+                                    </option>
+                                    <option value="Cross River" @if ($business->state == 'Cross River') selected @endif>
+                                        Cross River</option>
+                                    <option value="Delta" @if ($business->state == 'Delta') selected @endif>Delta
+                                    </option>
+                                    <option value="Ebonyi" @if ($business->state == 'Ebonyi') selected @endif>
+                                        Ebonyi</option>
+                                    <option value="Edo" @if ($business->state == 'Edo') selected @endif>Edo
+                                    </option>
+                                    <option value="Ekiti" @if ($business->state == 'Ekiti') selected @endif>Ekiti
+                                    </option>
+                                    <option value="Enugu" @if ($business->state == 'Enugu') selected @endif>Enugu
+                                    </option>
+                                    <option value="Gombe" @if ($business->state == 'Gombe') selected @endif>Gombe
+                                    </option>
+                                    <option value="Imo" @if ($business->state == 'Imo') selected @endif>Imo
+                                    </option>
+                                    <option value="Jigawa" @if ($business->state == 'Jigawa') selected @endif>
+                                        Jigawa</option>
+                                    <option value="Kaduna" @if ($business->state == 'Kaduna') selected @endif>
+                                        Kaduna</option>
+                                    <option value="Kano" @if ($business->state == 'Kano') selected @endif>Kano
+                                    </option>
+                                    <option value="Katsina" @if ($business->state == 'Katsina') selected @endif>
+                                        Katsina</option>
+                                    <option value="Kebbi" @if ($business->state == 'Kebbi') selected @endif>Kebbi
+                                    </option>
+                                    <option value="Kogi" @if ($business->state == 'Kogi') selected @endif>Kogi
+                                    </option>
+                                    <option value="kwara" @if ($business->state == 'Kwara') selected @endif>Kwara
+                                    </option>
+                                    <option value="Lagos" @if ($business->state == 'Lagos') selected @endif>Lagos
+                                    </option>
+                                    <option value="Nassarawa" @if ($business->state == 'Nassarawa') selected @endif>
+                                        Nassarawa</option>
+                                    <option value="Niger" @if ($business->state == 'Niger') selected @endif>Niger
+                                    </option>
+                                    <option value="Ogun" @if ($business->state == 'Ogun') selected @endif>Ogun
+                                    </option>
+                                    <option value="Ondo" @if ($business->state == 'Ondo') selected @endif>Ondo
+                                    </option>
+                                    <option value="Osun" @if ($business->state == 'Osun') selected @endif>Osun
+                                    </option>
+                                    <option value="Oyo" @if ($business->state == 'Oyo') selected @endif>Oyo
+                                    </option>
+                                    <option value="Plateau" @if ($business->state == 'Plateau') selected @endif>
+                                        Plateau</option>business
+                                    <option value="Rivers" @if ($business->state == 'Rivers') selected @endif>
+                                        Rivers</option>
+                                    <option value="Sokoto" @if ($business->state == 'Sokoto') selected @endif>
+                                        Sokoto</option>
+                                    <option value="Taraba" @if ($business->state == 'Taraba') selected @endif>
+                                        Taraba</option>
+                                    <option value="Yobe" @if ($business->state == 'Yobe') selected @endif>Yobe
+                                    </option>
+                                    <option value="Zamfara" @if ($business->state == 'Zamfara') selected @endif>
+                                        Zamfara</option>
+                                </select>
+
+
+                                {{-- <select class="form-control text-dark" required name="state" id="state"
                                     style="width:100%"></select>
                                 <script language="javascript">
                                     print_country("country");
-                                </script>
+                                </script> --}}
                                 <div class="invalid-feedback">Please select valid date.</div>
                             </div>
 
@@ -176,8 +262,7 @@
 </div>
 
 <script type="text/javascript">
-    document.getElementById("navSettings").classList.add('show');
-    document.getElementById("busDet").classList.add('active');
+    document.getElementById("businessInfo").classList.add('active');
 </script>
 @endsection
 
@@ -186,13 +271,13 @@
     CKEDITOR.replace('editor1');
 
     $(document).ready(function() {
-            var country = {{ Js::from($business->country) }};
-            $('#country').select2().val(country).trigger('change');
-        });
+        var country = {{ Js::from($business->country) }};
+        $('#country').select2().val(country).trigger('change');
+    });
 
-        $(document).ready(function() {
-            var state = {{ Js::from($business->state) }};
-            $('#state').select2().val(state).trigger('change');
-        });
+    $(document).ready(function() {
+        var state = {{ Js::from($business->state) }};
+        $('#state').select2().val(state).trigger('change');
+    });
 </script>
 @endsection

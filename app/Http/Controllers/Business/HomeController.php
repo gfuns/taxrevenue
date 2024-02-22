@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\Customer;
 use App\Models\JobListing;
+use App\Models\Products;
+use App\Models\TutorialVideos;
 use App\Models\NotificationSetting;
 use App\Models\PlatformCategories;
 use App\Models\ReferralTransaction;
@@ -414,5 +416,88 @@ class HomeController extends Controller
             toast('Something Went Wrong.', 'error');
             return back();
         }
+    }
+
+
+    public function miniStore(){
+        $search = request()->q;
+        $filter = request()->filter == null ? 'asc' : request()->filter;
+        if (isset($search)) {
+            $lastRecord = Products::where("product_name", "LIKE", "%" . $search . "%")->count();
+            $marker = $this->shopMarkers($lastRecord, request()->page);
+            $products = Products::orderBy("id", $filter)->where("product_name", "LIKE", "%" . $search . "%")->paginate(12);
+        } else {
+            $lastRecord = Products::count();
+            $marker = $this->shopMarkers($lastRecord, request()->page);
+            $products = Products::orderBy("id", $filter)->paginate(12);
+        }
+        return view("business.mini_store",  compact("products", "search", "lastRecord", "marker", "filter"));
+    }
+
+
+    public function academy()
+    {
+        $search = request()->q;
+        $filter = request()->filter == null ? 'asc' : request()->filter;
+        if (isset($search)) {
+            $lastRecord = TutorialVideos::where("video_title", "LIKE", "%" . $search . "%")->count();
+            $marker = $this->academyMarkers($lastRecord, request()->page);
+            $tutorialVideos = TutorialVideos::orderBy("id", $filter)->where("video_title", "LIKE", "%" . $search . "%")->paginate(9);
+        } else {
+            $lastRecord = TutorialVideos::count();
+            $marker = $this->academyMarkers($lastRecord, request()->page);
+            $tutorialVideos = TutorialVideos::orderBy("id", $filter)->paginate(9);
+        }
+        return view("business.academy", compact("tutorialVideos", "search", "lastRecord", "marker", "filter"));
+    }
+
+
+
+    public function shopMarkers($lastRecord, $pageNum)
+    {
+        if ($pageNum == null) {
+            $pageNum = 1;
+        }
+        $end = (12 * ((int) $pageNum));
+        $marker = array();
+        if ((int) $pageNum == 1) {
+            $marker["begin"] = (int) $pageNum;
+            $marker["index"] = (int) $pageNum;
+        } else {
+            $marker["begin"] = number_format(((12 * ((int) $pageNum)) - 11), 0);
+            $marker["index"] = number_format(((12 * ((int) $pageNum)) - 11), 0);
+        }
+
+        if ($end > $lastRecord) {
+            $marker["end"] = number_format($lastRecord, 0);
+        } else {
+            $marker["end"] = number_format($end, 0);
+        }
+
+        return $marker;
+    }
+
+    public function academyMarkers($lastRecord, $pageNum)
+    {
+        if ($pageNum == null) {
+            $pageNum = 1;
+        }
+        $end = (9 * ((int) $pageNum));
+        $marker = array();
+        if ((int) $pageNum == 1) {
+            $marker["begin"] = (int) $pageNum;
+            $marker["index"] = (int) $pageNum;
+        } else {
+            $marker["begin"] = number_format(((9 * ((int) $pageNum)) - 8), 0);
+            $marker["index"] = number_format(((9 * ((int) $pageNum)) - 8), 0);
+        }
+
+        if ($end > $lastRecord) {
+            $marker["end"] = number_format($lastRecord, 0);
+        } else {
+            $marker["end"] = number_format($end, 0);
+        }
+
+        return $marker;
     }
 }

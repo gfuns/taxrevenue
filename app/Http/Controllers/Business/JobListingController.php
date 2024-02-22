@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
 use App\Models\Business;
-use App\Models\JobAssets;
 use App\Models\JobListing;
 use App\Models\PlatformCategories;
 use Auth;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -131,7 +129,7 @@ class JobListingController extends Controller
             $job->customer_id = Auth::user()->id;
             $job->business_id = $business->id;
             $job->job_title = $request->job_title;
-            $job->slug = preg_replace("/ /", "-", strtolower($request->job_title))."-".strtotime(now());
+            $job->slug = preg_replace("/ /", "-", strtolower($request->job_title)) . "-" . strtotime(now());
             $job->tags = $tags;
             $job->company_description = $request->company_description;
             $job->job_description = $request->job_description;
@@ -214,7 +212,7 @@ class JobListingController extends Controller
             DB::beginTransaction();
             $job = JobListing::find($request->job_id);
             $job->job_title = $request->job_title;
-            $job->slug = preg_replace("/ /", "-", strtolower($request->job_title))."-".strtotime(now());
+            $job->slug = preg_replace("/ /", "-", strtolower($request->job_title)) . "-" . strtotime(now());
             $job->tags = $tags;
             $job->company_description = $request->company_description;
             $job->job_description = $request->job_description;
@@ -242,6 +240,59 @@ class JobListingController extends Controller
             DB::rollback();
             report($e);
 
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+    }
+
+    public function deleteJob($id)
+    {
+        $job = JobListing::find($id);
+        if (isset($job)) {
+            if ($job->delete()) {
+                toast("Job Deleted Successfully", 'success');
+                return back();
+            } else {
+                toast("Something Went Wrong", 'error');
+                return back();
+            }
+        } else {
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+    }
+
+    public function archiveJob($id)
+    {
+        $job = JobListing::find($id);
+        if (isset($job)) {
+            $job->status = "archived";
+            if ($job->save()) {
+                toast("Job Archived Successfully", 'success');
+                return back();
+            } else {
+                toast("Something Went Wrong", 'error');
+                return back();
+            }
+        } else {
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+    }
+
+    public function publishJob($id)
+    {
+        $job = JobListing::find($id);
+        if (isset($job)) {
+            $job->status = "published";
+            if ($job->save()) {
+                toast("Job Published Successfully", 'success');
+                return back();
+            } else {
+                toast("Something Went Wrong", 'error');
+                return back();
+            }
+        } else {
             toast("Something Went Wrong", 'error');
             return back();
         }

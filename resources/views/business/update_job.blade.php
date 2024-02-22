@@ -83,14 +83,14 @@
                                 <label for="workMode" class="form-label">Work Location</label>
                                 <select name="work_location" class="form-select text-dark" id="workMode" required>
                                     <option value="" disabled>Work Location</option>
-                                    <option value="on-site" @if ($jobDetails->location == 'on-site') selected @endif>On-Site
+                                    <option value="on-site" @if ($jobDetails->location == 'in-office') selected @endif>In-Office
                                     </option>
                                     <option value="remote" @if ($jobDetails->location == 'remote') selected @endif>Remote
                                     </option>
                                     <option value="hybrid" @if ($jobDetails->location == 'hybrid') selected @endif>Hybrid
                                     </option>
                                 </select>
-                                <div class="invalid-feedback">Please select work mode.</div>
+                                <div class="invalid-feedback">Please select work location.</div>
                             </div>
 
                             <div class="mb-3 col-md-6">

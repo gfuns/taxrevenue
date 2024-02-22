@@ -127,21 +127,13 @@ Route::group([
 
         Route::get('/job/details/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobDetails'])->name("business.jobDetails");
 
-        Route::get('/job/assets/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobAssets'])->name("business.jobAssets");
+        Route::get('/job/delete/{id}', [App\Http\Controllers\Business\JobListingController::class, 'deleteJob'])->name("business.deleteJob");
 
-        Route::get('/job/applications', [App\Http\Controllers\Business\JobListingController::class, 'allJobApplications'])->name("business.allJobApplications");
+        Route::get('/job/archive/{id}', [App\Http\Controllers\Business\JobListingController::class, 'archiveJob'])->name("business.archiveJob");
 
-        Route::get('/job/applications/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobApplications'])->name("business.jobApplications");
+        Route::get('/job/publish/{id}', [App\Http\Controllers\Business\JobListingController::class, 'publishJob'])->name("business.publishJob");
 
-        Route::get('/application/details/{id}', [App\Http\Controllers\Business\JobListingController::class, 'applicationDetails'])->name("business.applicationDetails");
-
-        Route::get('/application/approve/{id}', [App\Http\Controllers\Business\JobListingController::class, 'approveApplication'])->name("business.approveApplication");
-
-        Route::get('/application/reject/{id}', [App\Http\Controllers\Business\JobListingController::class, 'rejectApplication'])->name("business.rejectApplication");
-
-        Route::get('/application/archive/{id}', [App\Http\Controllers\Business\JobListingController::class, 'archiveJobApplications'])->name("business.archiveJobApplications");
-
-        Route::get('/buy-airtime', [App\Http\Controllers\Business\UtilityController::class, 'buyAirtime'])->name("business.buyAirtime");
+       Route::get('/buy-airtime', [App\Http\Controllers\Business\UtilityController::class, 'buyAirtime'])->name("business.buyAirtime");
 
         Route::get('/buy-airtime/preview/{id}', [App\Http\Controllers\Business\UtilityController::class, 'airtimePreview'])->name("business.airtimePreview");
 
@@ -177,10 +169,6 @@ Route::group([
 
         Route::get('/electricity-purchase/wallet/{id}', [App\Http\Controllers\Business\UtilityController::class, 'walletElectricityPurchase'])->name("business.walletElectricityPurchase");
 
-        Route::post('/add-milestone', [App\Http\Controllers\Business\JobListingController::class, 'addProjectMilestone'])->name("business.addProjectMilestone");
-
-        Route::post('/update-milestone', [App\Http\Controllers\Business\JobListingController::class, 'updateProjectMilestone'])->name("business.updateProjectMilestone");
-
         Route::get('/jobs/initialize', [App\Http\Controllers\Business\JobListingController::class, 'initializeNewJob'])->name("business.initializeNewJob");
 
         Route::get('/jobs/new', [App\Http\Controllers\Business\JobListingController::class, 'newJobListing'])->name("business.newJobListing");
@@ -190,12 +178,6 @@ Route::group([
         Route::post('/jobs/save', [App\Http\Controllers\Business\JobListingController::class, 'storeJobListing'])->name("business.storeJobListing");
 
         Route::post('/jobs/update', [App\Http\Controllers\Business\JobListingController::class, 'updateJobListing'])->name("business.updateJobListing");
-
-        Route::post('/jobs/asset-upload', [App\Http\Controllers\Business\JobListingController::class, 'uploadJobAsset'])->name("business.uploadJobAsset");
-
-        Route::get('/fetch-job-asset', [App\Http\Controllers\Business\JobListingController::class, 'fetchJobAssets'])->name("business.fetchJobAssets");
-
-        Route::get('/delete-job-asset/{id}', [App\Http\Controllers\Business\JobListingController::class, 'deleteJobAsset'])->name("business.deleteJobAsset");
 
         Route::get('/subscription', [App\Http\Controllers\Business\SubscriptionController::class, 'subscription'])->name("business.subscription");
 
@@ -210,6 +192,10 @@ Route::group([
         Route::get('/delete-account', [App\Http\Controllers\Business\HomeController::class, 'deleteAccount'])->name("business.deleteAccount");
 
         Route::get('/process-account-deletion', [App\Http\Controllers\Business\HomeController::class, 'processAccountDeletion'])->name("business.processAccountDeletion");
+
+        Route::get('/mini-store', [App\Http\Controllers\Business\HomeController::class, 'miniStore'])->name("business.miniStore");
+
+        Route::get('/academy', [App\Http\Controllers\Business\HomeController::class, 'academy'])->name("business.academy");
 
     });
 
