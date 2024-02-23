@@ -45,8 +45,10 @@
                                     <h5 class="mb-0 display-5 fw-bold mt-4">
                                         &#8358;{{ number_format(Auth::user()->wallet->arete_balance, 2) }}</h5>
                                     <div class="mt-4">
-                                        <button class="btn btn-success">Top Up</button>
-                                        <button class="btn btn-danger ms-5">Withdraw</button>
+                                        <button class="btn btn-success" data-bs-toggle="modal"
+                                        data-bs-target="#topupModal">Top Up</button>
+                                        <button class="btn btn-danger ms-5" data-bs-toggle="modal"
+                                        data-bs-target="#withdrawalModal">Withdraw</button>
                                     </div>
                                 </div>
                             </div>
@@ -238,8 +240,195 @@
     </div>
 </div>
 
+
+
+<!-- Topup Modal -->
+<div class="modal fade" id="topupModal" tabindex="-1" role="dialog" aria-labelledby="topupModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header align-items-center d-flex">
+                <h4 class="modal-title" id="topupModalLabel">Wallet Topup</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="mb-3 col-12 col-md-12 mb-4">
+                    <form method="POST" action="{{ route('business.initiateWalletTopup') }}"
+                        class="row mb-4 needs-validation" novalidate>
+                        @csrf
+                        <div class="mb-3 col-12">
+                            <label for="amount" class="form-label">Topup Amount</label>
+                            <input id="amount" type="text" class="form-control" name="topup_amount"
+                                placeholder="Topup Amount" oninput="validateInput(event)" required />
+                            <div class="invalid-feedback">Please enter topup amount.</div>
+                        </div>
+
+                        <div class=" col-12">
+                            <button class="btn btn-primary text-end" type="submit"
+                                onClick = "this.disabled=true; this.innerHTML='Submiting request, please wait...';this.form.submit();">Proceed
+                                To Payment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Withdrawal Modal -->
+<div class="modal fade" id="withdrawalModal" tabindex="-1" role="dialog" aria-labelledby="withdrawalModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header align-items-center d-flex">
+                <h4 class="modal-title" id="withdrawalModalLabel">Wallet Withdrawal Transaction</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="mb-3 col-12 col-md-12 mb-4">
+                    <form method="POST" action="{{ route('business.initiateWalletWithdrawal') }}"
+                        class="row mb-4 needs-validation" novalidate>
+                        @csrf
+                        <div class="mb-3 col-12">
+                            <label for="bank" class="form-label">Bank</label>
+                            <select name="bank" class="form-select text-dark" id="bank" required
+                                style="width:100%">
+                                <option value="">Select Bank</option>
+                                @foreach ($bankList as $bank)
+                                    <option value="{{ $bank->bank_code }}">{{ $bank->bank_name }}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">Please enter topup amount.</div>
+                        </div>
+
+                        <div class="mb-3 col-12">
+                            <label for="accountnumber" class="form-label">Account Number</label>
+                            <input id="accountnumber" type="text" class="form-control" name="account_number"
+                                placeholder="Account Number" oninput="validateInput(event)" maxlength="10"
+                                required />
+                            <div class="invalid-feedback">Please enter account Number.</div>
+                            <div id="validationprogress" class="valid-feedback" style="font-weight:bold;">Validating
+                                Account Number...</div>
+                            <div id="validationerror" class="invalid-feedback" style="font-weight:bold;">Account
+                                Number Validation Failed</div>
+                        </div>
+
+                        <div id="accountnamediv" class="mb-3 col-12">
+                            <label for="accountname" class="form-label">Account Name</label>
+                            <input id="accountname" type="text" class="form-control" name="account_name"
+                                placeholder="Account Name" required readonly />
+                            <div class="invalid-feedback">Please enter account Number.</div>
+                        </div>
+
+                        <div class="mb-3 col-12">
+                            <label for="amount" class="form-label">Withdrawal Amount</label>
+                            <input id="amount" type="text" class="form-control" name="amount"
+                                placeholder="Withdrawal Amount" oninput="validateInput(event)" required />
+                            <div class="invalid-feedback">Please enter withdrawal amount.</div>
+                        </div>
+
+                        @if (Auth::user()->withdrawal_confirmation == 'GoogleAuth')
+                            <div class="mb-3 col-12">
+                                <label for="gacode" class="form-label">Google Authenticator Code</label>
+                                <input id="gacode" type="text" class="form-control" name="ga_code"
+                                    placeholder="Google Authenticator Code" oninput="validateInput(event)" required />
+                                <div class="invalid-feedback">Please enter google authenticator code.</div>
+                            </div>
+                        @endif
+
+                        <div class=" col-12">
+                            <button id="submitbutton" class="btn btn-primary text-end" type="submit"
+                                onClick = "this.disabled=true; this.innerHTML='Submiting request, please wait...';this.form.submit();">Submit
+                                Withdrawal Request</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     document.getElementById("wallet").classList.add('active');
 </script>
 
+@endsection
+
+
+@section('customjs')
+<script type="text/javascript">
+    function validateInput(event) {
+        const input = event.target;
+        let value = input.value;
+
+        // Remove commas from the input value
+        value = value.replace(/,/g, '');
+
+        // Regular expression to match non-numeric and non-decimal characters
+        const nonNumericDecimalRegex = /[^0-9.]/g;
+
+        if (nonNumericDecimalRegex.test(value)) {
+            // If non-numeric or non-decimal characters are found, remove them from the input value
+            value = value.replace(nonNumericDecimalRegex, '');
+        }
+
+        // Ensure there is only one decimal point in the value
+        const decimalCount = value.split('.').length - 1;
+        if (decimalCount > 1) {
+            value = value.replace(/\./g, '');
+        }
+
+        // Assign the cleaned value back to the input field
+        input.value = value;
+    }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Hide the account name text field by default
+        $('#accountnamediv').hide();
+
+        // Disable the submit button by default
+        $('#submitbutton').prop('disabled', true);
+
+        // AJAX request on account number change
+        $('#accountnumber').on('input', function() {
+            var accountnumber = $(this).val();
+            var bank = document.getElementById("bank").value;
+
+            // Check if the length of the input is between 1 and 10 digits
+            if (accountnumber.length == 10) {
+                $('#validationprogress').show();
+                $('#validationerror').hide();
+                // Make AJAX call to validate account number
+                $.ajax({
+                    url: '{{ route('business.validateAccount') }}',
+                    type: 'POST',
+                    data: {
+                        accountnumber: accountnumber,
+                        bank: bank,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        // Update account name field with the returned value
+                        $('#accountname').val(response.account_name);
+                        // Show the account name text field
+                        $('#accountnamediv').show();
+                        // Enable the submit button
+                        $('#submitbutton').prop('disabled', false);
+                        $('#validationprogress').hide();
+
+                    },
+                    error: function(xhr, status, error) {
+                        $('#validationprogress').hide();
+                        $('#validationerror').show();
+                        // Handle errors if needed
+                    }
+                });
+            }
+        });
+    });
+</script>
 @endsection

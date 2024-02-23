@@ -9,9 +9,11 @@ use App\Models\PaystackTransaction;
 use App\Models\ReferralTransaction;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class WalletController extends Controller
 {
@@ -39,7 +41,8 @@ class WalletController extends Controller
         $lastRecord = AreteWalletTransaction::where("customer_id", Auth::user()->id)->where("trx_type", "debit")->count();
         $marker = $this->getMarkers($lastRecord, request()->page);
         $withdrawals = AreteWalletTransaction::where("customer_id", Auth::user()->id)->where("trx_type", "debit")->paginate(50);
-        return view("business.wallet_withdrawals", compact("withdrawals", "lastRecord", "marker"));
+        $bankList = BankList::all();
+        return view("business.wallet_withdrawals", compact("withdrawals", "lastRecord", "marker", "bankList"));
     }
 
     public function pointsTransaction()
@@ -47,7 +50,8 @@ class WalletController extends Controller
         $lastRecord = ReferralTransaction::where("customer_id", Auth::user()->id)->count();
         $marker = $this->getMarkers($lastRecord, request()->page);
         $transactions = ReferralTransaction::where("customer_id", Auth::user()->id)->paginate(50);
-        return view("business.wallet_points", compact("transactions", "lastRecord", "marker"));
+        $bankList = BankList::all();
+        return view("business.wallet_points", compact("transactions", "lastRecord", "marker", "bankList"));
     }
 
     public function initiateWalletTopup(Request $request)
@@ -99,15 +103,108 @@ class WalletController extends Controller
             'bank' => 'required',
             'account_number' => 'required',
             'account_name' => 'required',
-            'withdrawal_amount' => 'required',
-            'ga_code' => 'required',
+            'amount' => 'required',
         ]);
+
+        if (Auth::user()->withdrawal_confirmation == 'GoogleAuth') {
+            $validator = Validator::make($request->all(), [
+                'ga_code' => 'required',
+            ]);
+        }
 
         if ($validator->fails()) {
             $errors = $validator->errors()->all();
             $errors = implode("<br>", $errors);
             toast($errors, 'error');
             return back();
+        }
+
+        $withdrawalAmount = abs(preg_replace("/,/", "", $request->amount));
+
+        if ($withdrawalAmount > Auth::user()->wallet->arete_balance) {
+            toast('Insufficiant Wallet Balance.', 'error');
+            return back();
+        } else {
+
+            try {
+                $response = Http::accept('application/json')->withHeaders([
+                    'Authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
+                ])->post("https://api.paystack.co/transferrecipient", [
+                    "type" => "nuban",
+                    "name" => $request->account_name,
+                    "account_number" => $request->account_number,
+                    "bank_code" => $request->bank,
+                    "currency" => "NGN",
+                ]);
+
+                $result = $response->json();
+
+                if ($result["status"] === true) {
+
+                    $data = $response->collect("data");
+
+                    $recipient = $data["recipient_code"];
+                    $reference = Uuid::uuid4();
+
+                    //Initiate the Actual Transfer
+
+                    $response = Http::accept('application/json')->withHeaders([
+                        'Authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
+                    ])->post("https://api.paystack.co/transfer", [
+                        "source" => "balance",
+                        "reason" => "Customer Funds Withdrawal from Arete Nigeria",
+                        "amount" => (abs($request->amount) * 100),
+                        "recipient" => $recipient,
+                        "reference" => $reference,
+                    ]);
+
+                    $transferRes = $response->json();
+
+                    if ($transferRes["status"] === true) {
+                        $transferData = $response->collect("data");
+
+                        $bankName = BankList::where("bank_code", $request->bank)->first()->bank_name;
+
+                        DB::beginTransaction();
+
+                        $trx = new AreteWalletTransaction;
+                        $trx->customer_id = Auth::user()->id;
+                        $trx->trx_type = "debit";
+                        $trx->payment_method = "Direct Transfer";
+                        $trx->amount = $withdrawalAmount;
+                        $trx->description = "Customer Wallet Withdrawal";
+                        $trx->reference = $transferData["reference"];
+                        $trx->bank = $bankName;
+                        $trx->account_number = $request->account_number;
+                        $trx->account_name = $request->account_name;
+                        $trx->balance_before = Auth::user()->wallet->arete_balance;
+                        $trx->balance_after = (Auth::user()->wallet->arete_balance - $withdrawalAmount);
+                        $trx->status = "Successful";
+                        $trx->save();
+
+                        $wallet = Auth::user()->wallet;
+                        $wallet->arete_balance = (Auth::user()->wallet->arete_balance - $withdrawalAmount);
+                        $wallet->save();
+
+                        DB::commit();
+
+                        toast("Funds Withdrawal Successful", 'success');
+                        return redirect()->route("business.myWallet");
+                    } else {
+                        toast($transferRes["message"], 'error');
+                        return redirect()->route("business.myWallet");
+                    }
+                } else {
+                    toast($result["message"], 'error');
+                    return redirect()->route("business.myWallet");
+                }
+            } catch (\Exception $e) {
+                DB::rollback();
+                report($e);
+
+                toast("Something Went Wrong", 'error');
+                return redirect()->route("business.myWallet");
+            }
         }
 
     }

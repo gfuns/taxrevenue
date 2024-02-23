@@ -300,10 +300,13 @@
                         <div class="mb-3 col-12">
                             <label for="accountnumber" class="form-label">Account Number</label>
                             <input id="accountnumber" type="text" class="form-control" name="account_number"
-                                placeholder="Account Number" oninput="validateInput(event)" maxlength="10" required />
+                                placeholder="Account Number" oninput="validateInput(event)" maxlength="10"
+                                required />
                             <div class="invalid-feedback">Please enter account Number.</div>
-                            <div id="validationprogress" class="valid-feedback" style="font-weight:bold;">Validating Account Number...</div>
-                            <div id="validationerror" class="invalid-feedback" style="font-weight:bold;">Account Number Validation Failed</div>
+                            <div id="validationprogress" class="valid-feedback" style="font-weight:bold;">Validating
+                                Account Number...</div>
+                            <div id="validationerror" class="invalid-feedback" style="font-weight:bold;">Account
+                                Number Validation Failed</div>
                         </div>
 
                         <div id="accountnamediv" class="mb-3 col-12">
@@ -315,17 +318,19 @@
 
                         <div class="mb-3 col-12">
                             <label for="amount" class="form-label">Withdrawal Amount</label>
-                            <input id="amount" type="text" class="form-control" name="topup_amount"
+                            <input id="amount" type="text" class="form-control" name="amount"
                                 placeholder="Withdrawal Amount" oninput="validateInput(event)" required />
                             <div class="invalid-feedback">Please enter withdrawal amount.</div>
                         </div>
 
-                        <div class="mb-3 col-12">
-                            <label for="gacode" class="form-label">Google Authenticator Code</label>
-                            <input id="gacode" type="text" class="form-control" name="ga_code"
-                                placeholder="Google Authenticator Code" oninput="validateInput(event)" required />
-                            <div class="invalid-feedback">Please enter google authenticator code.</div>
-                        </div>
+                        @if (Auth::user()->withdrawal_confirmation == 'GoogleAuth')
+                            <div class="mb-3 col-12">
+                                <label for="gacode" class="form-label">Google Authenticator Code</label>
+                                <input id="gacode" type="text" class="form-control" name="ga_code"
+                                    placeholder="Google Authenticator Code" oninput="validateInput(event)" required />
+                                <div class="invalid-feedback">Please enter google authenticator code.</div>
+                            </div>
+                        @endif
 
                         <div class=" col-12">
                             <button id="submitbutton" class="btn btn-primary text-end" type="submit"
@@ -407,6 +412,8 @@
                         $('#accountnamediv').show();
                         // Enable the submit button
                         $('#submitbutton').prop('disabled', false);
+                        $('#validationprogress').hide();
+
                     },
                     error: function(xhr, status, error) {
                         $('#validationprogress').hide();
