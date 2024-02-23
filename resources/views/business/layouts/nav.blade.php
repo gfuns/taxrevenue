@@ -91,7 +91,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="wallet" href="{{ route("business.WalletTransactions") }}">
+                <a class="nav-link " id="wallet" href="{{ route("business.myWallet") }}">
                     <i class="nav-icon bi bi-wallet me-2"></i>
                     Wallet
                 </a>

@@ -1,7 +1,7 @@
 @extends('business.layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Wallet')
+@section('title', env('APP_NAME') . ' | Referral Points Transactions')
 
 
 <!-- Container fluid -->
@@ -11,14 +11,14 @@
             <!-- Page header -->
             <div class="border-bottom pb-3 mb-3">
                 <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-0 h2 fw-bold">Wallet</h1>
+                    <h1 class="mb-0 h2 fw-bold">Referral Points Transactions</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="{{ route('business.dashboard') }}">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Wallet</li>
+                            <li class="breadcrumb-item active" aria-current="page">Referral Points Transactions</li>
                         </ol>
                     </nav>
                 </div>
@@ -77,15 +77,16 @@
                                         <!-- Nav -->
                                         <ul class="nav nav-lb-tab border-bottom-0" id="tab" role="tablist">
                                             <li class="nav-item" role="presentation">
-                                                <a class="nav-link active" href="{{ route('business.myWallet') }}"
+                                                <a class="nav-link" href="{{ route('business.myWallet') }}"
                                                     role="tab">Top Up Transactions</a>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <a class="nav-link" href="{{ route('business.myWalletWithdrawals') }}"
+                                                <a class="nav-link"
+                                                    href="{{ route('business.myWalletWithdrawals') }}"
                                                     role="tab">Withdrawal Transactions</a>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <a class="nav-link" href="{{ route('business.myWalletPoints') }}"
+                                                <a class="nav-link active" href="{{ route('business.myWalletPoints') }}"
                                                     role="tab">Referral Points Transactions</a>
                                             </li>
                                         </ul>
@@ -99,7 +100,7 @@
                                             aria-labelledby="courses-tab">
                                             <!-- Card header -->
                                             <div class="card-header border-bottom-0">
-                                                <h3 class="h4 mb-3 mt-4">Top Transactions</h3>
+                                                <h3 class="h4 mb-3 mt-4">Referral Points Transactions</h3>
                                                 {{-- <div class="row align-items-center">
                                                     <div class="col-lg-3 col-md-6 pe-md-0 mb-2 mb-lg-0">
                                                         <!-- Custom select -->
@@ -144,8 +145,9 @@
                                                     <thead class="table-light">
                                                         <tr>
                                                             <th>S/No</th>
-                                                            <th>Topup Amount</th>
-                                                            <th>Payment Method</th>
+                                                            <th>Tranx. Amount</th>
+                                                            <th>Tranx. Type</th>
+                                                            <th>Transaction Details</th>
                                                             <th>Balance Before</th>
                                                             <th>Balance After</th>
                                                             <th>Transaction Date</th>
@@ -153,30 +155,24 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach ($topUps as $trx)
+                                                        @foreach ($transactions as $trx)
                                                             <tr>
                                                                 <td>{{ $loop->index + 1 }}</td>
-                                                                <td>&#8358;{{ number_format($trx->amount, 2) }}</td>
-                                                                <td>{{ $trx->payment_method }}</td>
-                                                                <td>&#8358;{{ number_format($trx->balance_before, 2) }}
-                                                                </td>
-                                                                <td>&#8358;{{ number_format($trx->balance_after, 2) }}
-                                                                </td>
-                                                                <td>{{ date_format($trx->created_at, 'jS M, Y') }}</td>
+                                                                <td>{{ number_format($trx->amount, 2) }} Points</td>
                                                                 <td>
-                                                                    @if ($trx->status == 'Initiated')
+                                                                    @if($trx->trx_type == 'credit')
                                                                         <span
-                                                                            class="badge text-info bg-light-info">Initiated</span>
-                                                                    @elseif($trx->status == 'Pending')
-                                                                        <span
-                                                                            class="badge text-warning bg-light-warning">Pending</span>
-                                                                    @elseif($trx->status == 'Successful')
-                                                                        <span
-                                                                            class="badge text-success bg-light-success">Successful</span>
+                                                                            class="badge text-success bg-light-success">{{ strtoupper($trx->trx_type) }}</span>
                                                                     @else
                                                                         <span
-                                                                            class="badge text-danger bg-light-danger">Failed</span>
+                                                                            class="badge text-danger bg-light-danger">{{ strtoupper($trx->trx_type) }}</span>
                                                                     @endif
+                                                                </td>
+                                                                <td>{{ $trx->details }}</td>
+                                                                <td>{{ number_format($trx->balance_before, 2) }} Points</td>
+                                                                <td>{{ number_format($trx->balance_after, 2) }} Points</td>
+                                                                <td>{{ date_format($trx->created_at, 'jS M, Y') }}</td>
+                                                                <td><span class="badge text-success bg-light-success">Successful</span>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -192,12 +188,12 @@
                                 </div>
                                 <!-- Card Footer -->
                                 <div class="card-footer">
-                                    @if (count($topUps) < 1)
+                                    @if (count($transactions) < 1)
                                         <div class="col-xl-12 col-12 job-items job-empty">
                                             <div class="text-center mt-4"><i class="bi bi-emoji-frown"
                                                     style="font-size: 48px"></i>
-                                                <h3 class="mt-2">No Top Up Transaction</h3>
-                                                <div class="mt-2 text-muted"> There are no top up
+                                                <h3 class="mt-2">No Withdrawal Transaction</h3>
+                                                <div class="mt-2 text-muted"> There are no withdrawal
                                                     transactions found with your
                                                     queries. </div>
                                             </div>
@@ -205,7 +201,7 @@
                                     @endif
                                     {{-- Paginator --}}
 
-                                    @if (count($topUps) > 0 && $marker != null)
+                                    @if (count($transactions) > 0 && $marker != null)
                                         <div class="row g-2 pt-3 me-4">
                                             <div class="col-md-9">Showing {{ $marker['begin'] }} to
                                                 {{ $marker['end'] }}
@@ -213,7 +209,7 @@
                                                 {{ number_format($lastRecord) }} Records</div>
 
                                             <div class="col-md-3">
-                                                {{ $topUps->appends(request()->input())->links() }}
+                                                {{ $transactions->appends(request()->input())->links() }}
                                             </div>
                                         </div>
                                     @endif

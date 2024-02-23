@@ -1,7 +1,7 @@
 @extends('business.layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Wallet')
+@section('title', env('APP_NAME') . ' | Withdrawals')
 
 
 <!-- Container fluid -->
@@ -18,7 +18,7 @@
                             <li class="breadcrumb-item">
                                 <a href="{{ route('business.dashboard') }}">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Wallet</li>
+                            <li class="breadcrumb-item active" aria-current="page">Withdrawals</li>
                         </ol>
                     </nav>
                 </div>
@@ -77,11 +77,12 @@
                                         <!-- Nav -->
                                         <ul class="nav nav-lb-tab border-bottom-0" id="tab" role="tablist">
                                             <li class="nav-item" role="presentation">
-                                                <a class="nav-link active" href="{{ route('business.myWallet') }}"
+                                                <a class="nav-link" href="{{ route('business.myWallet') }}"
                                                     role="tab">Top Up Transactions</a>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <a class="nav-link" href="{{ route('business.myWalletWithdrawals') }}"
+                                                <a class="nav-link active"
+                                                    href="{{ route('business.myWalletWithdrawals') }}"
                                                     role="tab">Withdrawal Transactions</a>
                                             </li>
                                             <li class="nav-item" role="presentation">
@@ -99,7 +100,7 @@
                                             aria-labelledby="courses-tab">
                                             <!-- Card header -->
                                             <div class="card-header border-bottom-0">
-                                                <h3 class="h4 mb-3 mt-4">Top Transactions</h3>
+                                                <h3 class="h4 mb-3 mt-4">Withdrawal Transactions</h3>
                                                 {{-- <div class="row align-items-center">
                                                     <div class="col-lg-3 col-md-6 pe-md-0 mb-2 mb-lg-0">
                                                         <!-- Custom select -->
@@ -144,8 +145,8 @@
                                                     <thead class="table-light">
                                                         <tr>
                                                             <th>S/No</th>
-                                                            <th>Topup Amount</th>
-                                                            <th>Payment Method</th>
+                                                            <th>Trx. Amount</th>
+                                                            <th>Recipient's Details</th>
                                                             <th>Balance Before</th>
                                                             <th>Balance After</th>
                                                             <th>Transaction Date</th>
@@ -153,11 +154,15 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach ($topUps as $trx)
+                                                        @foreach ($withdrawals as $trx)
                                                             <tr>
                                                                 <td>{{ $loop->index + 1 }}</td>
                                                                 <td>&#8358;{{ number_format($trx->amount, 2) }}</td>
-                                                                <td>{{ $trx->payment_method }}</td>
+                                                                <td>
+                                                                    {{ $trx->bank }}<br />
+                                                                    {{ $trx->account_number }}<br />
+                                                                    {{ $trx->account_name }}
+                                                                </td>
                                                                 <td>&#8358;{{ number_format($trx->balance_before, 2) }}
                                                                 </td>
                                                                 <td>&#8358;{{ number_format($trx->balance_after, 2) }}
@@ -192,12 +197,12 @@
                                 </div>
                                 <!-- Card Footer -->
                                 <div class="card-footer">
-                                    @if (count($topUps) < 1)
+                                    @if (count($withdrawals) < 1)
                                         <div class="col-xl-12 col-12 job-items job-empty">
                                             <div class="text-center mt-4"><i class="bi bi-emoji-frown"
                                                     style="font-size: 48px"></i>
-                                                <h3 class="mt-2">No Top Up Transaction</h3>
-                                                <div class="mt-2 text-muted"> There are no top up
+                                                <h3 class="mt-2">No Withdrawal Transaction</h3>
+                                                <div class="mt-2 text-muted"> There are no withdrawal
                                                     transactions found with your
                                                     queries. </div>
                                             </div>
@@ -205,7 +210,7 @@
                                     @endif
                                     {{-- Paginator --}}
 
-                                    @if (count($topUps) > 0 && $marker != null)
+                                    @if (count($withdrawals) > 0 && $marker != null)
                                         <div class="row g-2 pt-3 me-4">
                                             <div class="col-md-9">Showing {{ $marker['begin'] }} to
                                                 {{ $marker['end'] }}
@@ -213,7 +218,7 @@
                                                 {{ number_format($lastRecord) }} Records</div>
 
                                             <div class="col-md-3">
-                                                {{ $topUps->appends(request()->input())->links() }}
+                                                {{ $withdrawals->appends(request()->input())->links() }}
                                             </div>
                                         </div>
                                     @endif

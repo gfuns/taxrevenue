@@ -203,7 +203,11 @@ Route::group([
 
         Route::get('/academy', [App\Http\Controllers\Business\HomeController::class, 'academy'])->name("business.academy");
 
-        Route::get('/wallet', [App\Http\Controllers\Business\HomeController::class, 'WalletTransactions'])->name("business.WalletTransactions");
+        Route::get('/wallet', [App\Http\Controllers\Business\WalletController::class, 'myWallet'])->name("business.myWallet");
+
+        Route::get('/wallet/withdrawals', [App\Http\Controllers\Business\WalletController::class, 'withdrawals'])->name("business.myWalletWithdrawals");
+
+        Route::get('/wallet/points', [App\Http\Controllers\Business\WalletController::class, 'pointsTransaction'])->name("business.myWalletPoints");
 
     });
 
