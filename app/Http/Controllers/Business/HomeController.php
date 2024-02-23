@@ -160,7 +160,7 @@ class HomeController extends Controller
     public function businessProfile()
     {
         $business = Business::where("customer_id", Auth::user()->id)->first();
-        $categories = PlatformCategories::orderBy("category_name", "asc")->get();
+        $categories = PlatformCategories::orderBy("category_name", "asc")->where("category_type", "business")->get();
         return view("business.business_information", compact("business", "categories"));
     }
 

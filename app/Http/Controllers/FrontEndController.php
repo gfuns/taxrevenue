@@ -26,7 +26,15 @@ class FrontEndController extends Controller
 {
     public function index()
     {
-        $categories = PlatformCategories::all();
+        $limit = 10;
+        $preCat = PlatformCategories::where("category_type", "business")->count();
+        if($preCat % 2 == 0){
+            $limit = $preCat;
+        }else{
+            $limit = ($preCat - 1);
+        }
+
+        $categories = PlatformCategories::where("category_type", "business")->limit($limit)->get();
         $topRecruiters = Business::where("visibility", 1)->limit(8)->get();
         $blogPosts = BlogPost::orderBy("id", "desc")->where("visibility", "public")->where("status", "published")->limit(6)->get();
         return view("welcome", compact("categories", "topRecruiters", "blogPosts"));
@@ -90,7 +98,7 @@ class FrontEndController extends Controller
 
 
     public function businessCategories(){
-        $categories = PlatformCategories::all();
+        $categories = PlatformCategories::where("category_type", "business")->get();
         return view("business_categories", compact("categories"));
     }
 
