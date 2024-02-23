@@ -209,6 +209,8 @@ Route::group([
 
         Route::get('/wallet/points', [App\Http\Controllers\Business\WalletController::class, 'pointsTransaction'])->name("business.myWalletPoints");
 
+        Route::post('initiateWalletTopup', [App\Http\Controllers\Business\WalletController::class, 'initiateWalletTopup'])->name("business.initiateWalletTopup");
+
     });
 
 });

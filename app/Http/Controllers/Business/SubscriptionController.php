@@ -8,6 +8,7 @@ use App\Models\CustomerCards;
 use App\Models\CustomerSubscription;
 use App\Models\PaystackTransaction;
 use App\Models\SubscriptionPlan;
+use App\Models\AreteWalletTransaction;
 use Auth;
 use Carbon\Carbon;
 use Coderatio\PaystackMirror\Actions\Transactions\VerifyTransaction;
@@ -324,23 +325,53 @@ class SubscriptionController extends Controller
                     $newCard->default_card = isset($defaultMethod) ? 0 : 1;
                     $newCard->save();
 
+                    DB::commit();
+
+                    toast("Payment Method Added Successfully", 'success');
+                    return redirect()->route("business.subscription");
+
+                }else if($paystack->trx_type == "topup"){
+                    $trx = new AreteWalletTransaction;
+                    $trx->customer_id = Auth::user()->id;
+                    $trx->trx_type = "credit";
+                    $trx->payment_method = ucwords($cardDetails->brand)." ending with ".$cardDetails->last4;
+                    $trx->amount = $paystack->amount;
+                    $trx->description = "Customer Wallet Balance Topup";
+                    $trx->reference = $paystack->reference;
+                    $trx->balance_before = Auth::user()->wallet->arete_balance;
+                    $trx->balance_after = (Auth::user()->wallet->arete_balance + $paystack->amount);
+                    $trx->save();
+
+                    $wallet = Auth::user()->wallet;
+                    $wallet->arete_balance = (Auth::user()->wallet->arete_balance + $paystack->amount);
+                    $wallet->save();
+
+                    DB::commit();
+
+                    toast("Wallet Topup Successful", 'success');
+                    return redirect()->route("business.myWallet");
                 }
 
-                DB::commit();
 
-                toast("Payment Method Added Successfully", 'success');
-                return redirect()->route("business.subscription");
             } catch (\Exception $e) {
                 DB::rollback();
                 report($e);
 
                 toast("Something Went Wrong", 'error');
-                return redirect()->route("business.subscription");
+                if($paystack->trx_type == "paymentmethod"){
+                    return redirect()->route("business.subscription");
+                }else if($paystack->trx_type == "topup"){
+                    return redirect()->route("business.myWallet");
+                }
             }
 
         } else {
             toast("This transaction has already been processed", 'error');
-            return redirect()->route("business.subscription");
+            if($paystack->trx_type == "paymentmethod"){
+                return redirect()->route("business.subscription");
+            }else if($paystack->trx_type == "topup"){
+                return redirect()->route("business.myWallet");
+            }
         }
     }
 

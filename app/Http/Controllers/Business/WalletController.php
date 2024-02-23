@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\AreteWalletTransaction;
 use App\Models\ReferralTransaction;
+use App\Models\PaystackTransaction;
+use Illuminate\Support\Str;
+
+use Illuminate\Support\Facades\Http;
 class WalletController extends Controller
 {
      /**
@@ -39,6 +43,38 @@ class WalletController extends Controller
         $marker = $this->getMarkers($lastRecord, request()->page);
         $transactions = ReferralTransaction::where("customer_id", Auth::user()->id)->paginate(50);
         return view("business.wallet_points", compact("transactions", "lastRecord", "marker"));
+    }
+
+
+    public function initiateWalletTopup(Request $request){
+        $transaction = new PaystackTransaction;
+        $transaction->customer_id = Auth::user()->id;
+        $transaction->trx_type = "topup";
+        $transaction->reference = "pm_rf" . Str::random(11);
+        $transaction->amount = 100;
+        if ($transaction->save()) {
+            $response = Http::accept('application/json')->withHeaders([
+                'authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
+                'content_type' => "Content-Type: application/json",
+            ])->post("https://api.paystack.co/transaction/initialize", [
+                "email" => Auth::user()->email,
+                "amount" => ($transaction->amount * 100),
+                "reference" => $transaction->reference,
+            ]);
+
+            $responseData = $response->collect("data");
+
+            if (isset($responseData['authorization_url'])) {
+                return redirect($responseData['authorization_url']);
+            }
+
+            toast("Paystack gateway service took too long to respond", 'error');
+            return back();
+
+        } else {
+            toast('Something went wrong.', 'error');
+            return back();
+        }
     }
 
 

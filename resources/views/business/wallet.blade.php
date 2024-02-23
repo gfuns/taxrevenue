@@ -45,7 +45,8 @@
                                     <h5 class="mb-0 display-5 fw-bold mt-4">
                                         &#8358;{{ number_format(Auth::user()->wallet->arete_balance, 2) }}</h5>
                                     <div class="mt-4">
-                                        <button class="btn btn-success">Top Up</button>
+                                        <button class="btn btn-success" data-bs-toggle="modal"
+                                            data-bs-target="#topupModal">Top Up</button>
                                         <button class="btn btn-danger ms-5">Withdraw</button>
                                     </div>
                                 </div>
@@ -233,8 +234,73 @@
     </div>
 </div>
 
+
+<!-- Payment Modal -->
+<div class="modal fade" id="topupModal" tabindex="-1" role="dialog" aria-labelledby="topupModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header align-items-center d-flex">
+                <h4 class="modal-title" id="topupModalLabel">Wallet Topup</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="mb-3 col-12 col-md-12 mb-4">
+                    <form method="POST" action="{{ route('business.initiateWalletTopup') }}"
+                        class="row mb-4 needs-validation" novalidate>
+                        @csrf
+                        <div class="mb-3 col-12">
+                            <label for="amount" class="form-label">Topup Amount</label>
+                            <input id="amount" type="text" class="form-control" name="topup_amount"
+                                placeholder="Topup Amount" oninput="validateInput(event)" required />
+                            <div class="invalid-feedback">Please enter topup amount.</div>
+                        </div>
+
+                        <div class=" col-12">
+                            <button class="btn btn-primary text-end" type="submit"
+                                onClick = "this.disabled=true; this.innerHTML='Submiting request, please wait...';this.form.submit();">Proceed
+                                To Payment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     document.getElementById("wallet").classList.add('active');
 </script>
 
+@endsection
+
+
+@section('customjs')
+<script type="text/javascript">
+    function validateInput(event) {
+        const input = event.target;
+        let value = input.value;
+
+        // Remove commas from the input value
+        value = value.replace(/,/g, '');
+
+        // Regular expression to match non-numeric and non-decimal characters
+        const nonNumericDecimalRegex = /[^0-9.]/g;
+
+        if (nonNumericDecimalRegex.test(value)) {
+            // If non-numeric or non-decimal characters are found, remove them from the input value
+            value = value.replace(nonNumericDecimalRegex, '');
+        }
+
+        // Ensure there is only one decimal point in the value
+        const decimalCount = value.split('.').length - 1;
+        if (decimalCount > 1) {
+            value = value.replace(/\./g, '');
+        }
+
+        // Assign the cleaned value back to the input field
+        input.value = value;
+    }
+</script>
 @endsection

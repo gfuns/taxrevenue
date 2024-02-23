@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer("customer_id")->unsigned();
             $table->string("reference");
-            $table->enum("trx_type", ["paymentmethod", "utility"]);
+            $table->enum("trx_type", ["paymentmethod", "topup", "utility"]);
             $table->double("amount", 12, 2);
             $table->string("status")->default("pending");
             $table->integer("processed")->default(0);
