@@ -6,6 +6,7 @@ use App\Jobs\SendEmailVerificationCode;
 use App\Models\CustomerOtp;
 use App\Models\CustomerWallet;
 use App\Models\Referral;
+use App\Models\Business;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -148,6 +149,10 @@ class Customer extends Authenticatable
             $customerWallet = new CustomerWallet;
             $customerWallet->customer_id = $customer->id;
             $customerWallet->save();
+
+            $business = new Business;
+            $business->customer_id = $customer->id;
+            $business->save();
         });
     }
 

@@ -202,13 +202,11 @@ class HomeController extends Controller
                 $platformCat->save();
                 $businessCategoryId = $platformCat->id;
                 $businessCategoryName = PlatformCategories::find($platformCat->id)->category_name;
-            }else{
+            } else {
 
                 $businessCategoryId = $request->business_category;
                 $businessCategoryName = PlatformCategories::find($request->business_category)->category_name;
             }
-
-
 
             $business = Business::where("customer_id", Auth::user()->id)->first();
             $business->business_name = $request->business_name;
@@ -490,8 +488,8 @@ class HomeController extends Controller
         return view("business.academy", compact("tutorialVideos", "search", "lastRecord", "marker", "filter"));
     }
 
-
-    public function WalletTransactions(){
+    public function WalletTransactions()
+    {
         return view("business.payment_methods");
     }
 

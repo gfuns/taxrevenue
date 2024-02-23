@@ -71,8 +71,8 @@
                     <div class="input-item text-left">
                         <input name="terms" class="input-checkbox input-checkbox-md" id="agree" type="checkbox"
                             required="required" data-msg-required="You should accept our terms and policy.">
-                        <label for="agree">I agree to the <a target="_blank" href="#">Terms and Condition</a>
-                            and <a target="_blank" href="#">Privacy
+                        <label for="agree">I agree to the <a target="_blank" href="/terms-and-conditions">Terms and Condition</a>
+                            and <a target="_blank" href="/privacy-policy">Privacy
                                 Policy</a>.</label>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Create Account</button>
@@ -97,8 +97,8 @@
                     <li><a href="#"><em class="fab fa-telegram-plane"></em></a></li>
                 </ul>
                 <ul class="footer-links guttar-20px align-items-center">
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms and Condition</a></li>
+                    <li><a href="/privacy-policy" target="_blank">Privacy Policy</a></li>
+                    <li><a href="/terms-and-conditions" target="_blank">Terms and Condition</a></li>
                     <li>
                         <div class="lang-switch relative"><a href="javascript:void(0)"
                                 class="lang-switch-btn toggle-tigger">EN<em class="ti ti-angle-up"></em></a>

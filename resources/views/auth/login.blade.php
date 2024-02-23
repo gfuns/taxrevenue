@@ -89,8 +89,8 @@
                     <li><a href="#"><em class="fab fa-telegram-plane"></em></a></li>
                 </ul>
                 <ul class="footer-links guttar-20px align-items-center">
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms and Condition</a></li>
+                    <li><a href="/privacy-policy" target="_blank">Privacy Policy</a></li>
+                    <li><a href="/terms-and-conditions" target="_blank">Terms and Condition</a></li>
                     <li>
                         <div class="lang-switch relative"><a href="javascript:void(0)"
                                 class="lang-switch-btn toggle-tigger">EN<em class="ti ti-angle-up"></em></a>
