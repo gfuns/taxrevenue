@@ -185,7 +185,7 @@ Route::group([
 
         Route::get('/subscription/{id}', [App\Http\Controllers\Business\SubscriptionController::class, 'previewSubscription'])->name("business.previewSubscription");
 
-        Route::get('/subscription/process/{planId}/{cardId}', [App\Http\Controllers\Business\SubscriptionController::class, 'processSubscription'])->name("business.processSubscription");
+        Route::post('/subscription/process', [App\Http\Controllers\Business\SubscriptionController::class, 'processSubscription'])->name("business.processSubscription");
 
         Route::post('/set-auto-renewal', [App\Http\Controllers\Business\SubscriptionController::class, 'setAutoRenewal'])->name("business.setAutoRenewal");
 

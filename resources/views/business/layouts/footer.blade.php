@@ -35,191 +35,24 @@
     <script src="{{ asset('assets/js/vendors/sweetalert2.all.min.js') }}"></script>
 
     <script type="text/javascript">
-        $('#updateMilestone').on('show.bs.offcanvas', function(event) {
+        $('#subscriptionDetails').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var milestone = button.data('milestone') // Extract info from data-* attributes
-            var milestonefee = button.data('milestonefee') // Extract info from data-* attributes
-            var deadline = button.data('deadline') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            var offcanvas = $(this)
-            offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #milestone').val(milestone)
-            offcanvas.find('.offcanvas-body #milestonefee').val(milestonefee)
-            offcanvas.find('.offcanvas-body #deadline').val(deadline)
-        })
-
-        $('#editCategory').on('show.bs.offcanvas', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var categoryname = button.data('categoryname') // Extract info from data-* attributes
-            var icon = button.data('icon') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            var offcanvas = $(this)
-            offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #categoryname').val(categoryname)
-            document.getElementById("icon").src = icon;
-        })
-
-
-        $('#editProvider').on('show.bs.offcanvas', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var biller = button.data('biller') // Extract info from data-* attributes
-            var fee = button.data('fee') // Extract info from data-* attributes
-            var icon = button.data('icon') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            var offcanvas = $(this)
-            offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #biller').val(biller)
-            offcanvas.find('.offcanvas-body #fee').val(fee)
-            document.getElementById("icon").src = icon;
-        })
-
-        $('#editPlan').on('show.bs.offcanvas', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var planname = button.data('planname') // Extract info from data-* attributes
-            var amount = button.data('amount') // Extract info from data-* attributes
-            var duration = button.data('duration') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            var offcanvas = $(this)
-            offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #planname').val(planname)
-            offcanvas.find('.offcanvas-body #amount').val(amount)
-            offcanvas.find('.offcanvas-body #duration').val(duration)
-        })
-
-        $('#editTutorial').on('show.bs.offcanvas', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var videotitle = button.data('videotitle') // Extract info from data-* attributes
-            var videodesc = button.data('videodesc') // Extract info from data-* attributes
-            var videourl = button.data('videourl') // Extract info from data-* attributes
-            var thumbnail = button.data('thumbnail') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            var offcanvas = $(this)
-            offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #videotitle').val(videotitle)
-            offcanvas.find('.offcanvas-body #videodesc').val(videodesc)
-            offcanvas.find('.offcanvas-body #videourl').val(videourl)
-            document.getElementById("thumbnail").src = thumbnail;
-        })
-
-        $('#editProduct').on('show.bs.offcanvas', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var productname = button.data('productname') // Extract info from data-* attributes
-            var originalprice = button.data('originalprice') // Extract info from data-* attributes
-            var discountedprice = button.data('discountedprice') // Extract info from data-* attributes
-            var currency = button.data('currency') // Extract info from data-* attributes
-            var affiliatelink = button.data('affiliatelink') // Extract info from data-* attributes
-            var thumbnail = button.data('thumbnail') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            var offcanvas = $(this)
-            offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #productname').val(productname)
-            offcanvas.find('.offcanvas-body #originalprice').val(originalprice)
-            offcanvas.find('.offcanvas-body #discountedprice').val(discountedprice)
-            offcanvas.find('.offcanvas-body #affiliatelink').val(affiliatelink)
-            document.getElementById("thumbnail").src = thumbnail;
-            $('#currency').select2({
-                dropdownParent: $('#editProduct'),
-            }).val(currency).trigger('change');
-        })
-
-        $('#editDataProvider').on('show.bs.offcanvas', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var biller = button.data('biller') // Extract info from data-* attributes
-            var serviceid = button.data('serviceid') // Extract info from data-* attributes
-            var fee = button.data('fee') // Extract info from data-* attributes
-            var icon = button.data('icon') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            var offcanvas = $(this)
-            offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #biller').val(biller)
-            offcanvas.find('.offcanvas-body #serviceid').val(serviceid)
-            offcanvas.find('.offcanvas-body #fee').val(fee)
-            document.getElementById("icon").src = icon;
-        })
-
-        $('#editPowerProvider').on('show.bs.offcanvas', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var biller = button.data('biller') // Extract info from data-* attributes
-            var acronym = button.data('acronym') // Extract info from data-* attributes
-            var serviceid = button.data('serviceid') // Extract info from data-* attributes
-            var fee = button.data('fee') // Extract info from data-* attributes
-            var icon = button.data('icon') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            var offcanvas = $(this)
-            offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #biller').val(biller)
-            offcanvas.find('.offcanvas-body #acronym').val(acronym)
-            offcanvas.find('.offcanvas-body #serviceid').val(serviceid)
-            offcanvas.find('.offcanvas-body #fee').val(fee)
-            document.getElementById("icon").src = icon;
-        })
-
-        $('#viewAdmin').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var firstname = button.data('firstname') // Extract info from data-* attributes
-            var lastname = button.data('lastname') // Extract info from data-* attributes
-            var email = button.data('email') // Extract info from data-* attributes
-            var role = button.data('role') // Extract info from data-* attributes
-            var photo = button.data('photo') // Extract info from data-* attributes
-            var datejoined = button.data('datejoined') // Extract info from data-* attributes
+            var planDetails = button.data('plandetails') // Extract info from data-* attributes
+            var planFee = button.data('planfee') // Extract info from data-* attributes
+            var renewalDate = button.data('renewaldate') // Extract info from data-* attributes
+            var planId = button.data('planid') // Extract info from data-* attributes
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 
             var modal = $(this)
-            document.getElementById("vfirstname").innerHTML = firstname;
-            document.getElementById("vlastname").innerHTML = lastname;
-            document.getElementById("vrole").innerHTML = role;
-            document.getElementById("vemail").innerHTML = email;
-            document.getElementById("vregdate").innerHTML = datejoined;
-            document.getElementById("vphoto").src = photo;
+            document.getElementById("planDetails").innerHTML = planDetails;
+            document.getElementById("planFee").innerHTML = planFee;
+            document.getElementById("renewalDate").innerHTML = renewalDate;
+            modal.find('.modal-body #planId').val(planId);
         })
 
 
-        $('#editAdmin').on('show.bs.offcanvas', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var firstname = button.data('firstname') // Extract info from data-* attributes
-            var lastname = button.data('lastname') // Extract info from data-* attributes
-            var email = button.data('email') // Extract info from data-* attributes
-            var role = button.data('role') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 
-            var offcanvas = $(this)
-            // modal.find('.modal-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #firstname').val(firstname)
-            offcanvas.find('.offcanvas-body #lastname').val(lastname)
-            offcanvas.find('.offcanvas-body #email').val(email)
-            $('#role').select2({
-                dropdownParent: $('#editAdmin'),
-            }).val(role).trigger('change');
-        })
 
 
         $('#coursecatsel').select2({
@@ -247,76 +80,6 @@
 
 
 
-
-
-
-        $('#editInstructor').on('show.bs.offcanvas', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var firstname = button.data('firstname') // Extract info from data-* attributes
-            var lastname = button.data('lastname') // Extract info from data-* attributes
-            var email = button.data('email') // Extract info from data-* attributes
-            var discipline = button.data('discipline') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            var offcanvas = $(this)
-            // modal.find('.modal-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #firstname').val(firstname)
-            offcanvas.find('.offcanvas-body #lastname').val(lastname)
-            offcanvas.find('.offcanvas-body #email').val(email)
-            offcanvas.find('.offcanvas-body #discipline').val(discipline)
-        })
-
-
-        $('#editStudent').on('show.bs.offcanvas', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var firstname = button.data('firstname') // Extract info from data-* attributes
-            var lastname = button.data('lastname') // Extract info from data-* attributes
-            var email = button.data('email') // Extract info from data-* attributes
-            var experiencelevel = button.data('experiencelevel') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-
-            var offcanvas = $(this)
-            // modal.find('.modal-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #firstname').val(firstname)
-            offcanvas.find('.offcanvas-body #lastname').val(lastname)
-            offcanvas.find('.offcanvas-body #email').val(email)
-            $('#parent').select2({
-                dropdownParent: $('#editStudent'),
-            }).val(experiencelevel).trigger('change');
-
-        })
-
-
-
-
-
-        $('#editCourseCategory').on('show.bs.offcanvas', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var catname = button.data('catname') // Extract info from data-* attributes
-            var slug = button.data('slug') // Extract info from data-* attributes
-            var parentcat = button.data('parentcat') // Extract info from data-* attributes
-            var pbstatus = button.data('pbstatus') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            var offcanvas = $(this)
-            offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #name').val(catname)
-            offcanvas.find('.offcanvas-body #slug').val(slug)
-            document.getElementById("status").checked = pbstatus;
-
-            $('#parent').select2({
-                dropdownParent: $('#editCourseCategory'),
-            }).val(parentcat).trigger('change');
-        })
 
 
         // In your Javascript (external .js resource or <script> tag)

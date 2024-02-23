@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 class SubscriptionController extends Controller
 {
@@ -92,7 +93,8 @@ class SubscriptionController extends Controller
     public function initiateSubscription()
     {
         $subscriptionPlans = SubscriptionPlan::where("id", ">", 1)->get();
-        return view("business.initiate_subscription", compact("subscriptionPlans"));
+        $primaryCard = CustomerCards::where("customer_id", Auth::user()->id)->where("default_card", 1)->first();
+        return view("business.initiate_subscription", compact("subscriptionPlans", "primaryCard"));
     }
 
     public function previewSubscription($id)
@@ -107,12 +109,24 @@ class SubscriptionController extends Controller
         }
     }
 
-    public function processSubscription($planId, $cardId)
+    public function processSubscription(Request $request)
     {
-        $plan = SubscriptionPlan::find($planId);
-        $card = CustomerCards::find($cardId);
+        $validator = Validator::make($request->all(), [
+            'plan_id' => 'required',
+            'card_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $plan = SubscriptionPlan::find($request->plan_id);
+        $card = CustomerCards::find($request->card_id);
         if (isset($plan) && isset($card)) {
-            $status = $this->chargeCardWithAuthorization($cardId, $planId);
+            $status = $this->chargeCardWithAuthorization($request->card_id, $request->plan_id);
 
             if ($status === true) {
                 try {
@@ -160,38 +174,44 @@ class SubscriptionController extends Controller
      */
     public function chargeCardWithAuthorization($cardId, $planId)
     {
-        $plan = SubscriptionPlan::find($planId);
-        $card = CustomerCards::where("id", $cardId)->where("customer_id", Auth::user()->id)->first();
-        if (isset($plan) && isset($card)) {
-            $response = Http::accept('application/json')->withHeaders([
-                'Authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
-            ])->post("https://api.paystack.co/transaction/charge_authorization", [
-                "authorization_code" => $card->authorization_code,
-                "email" => Auth::user()->email,
-                "amount" => ($plan->billing_amount * 100),
-            ]);
+        try {
 
-            $resData = $response->json();
+            $plan = SubscriptionPlan::find($planId);
+            $card = CustomerCards::where("id", $cardId)->where("customer_id", Auth::user()->id)->first();
+            if (isset($plan) && isset($card)) {
+                $response = Http::accept('application/json')->withHeaders([
+                    'Authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
+                ])->post("https://api.paystack.co/transaction/charge_authorization", [
+                    "authorization_code" => $card->authorization_code,
+                    "email" => Auth::user()->email,
+                    "amount" => ($plan->billing_amount * 100),
+                ]);
 
-            if ($resData["status"] === true && $resData["data"]["status"] == "success") {
-                $cardTrx = new CardTransactions;
-                $cardTrx->customer_id = Auth::user()->id;
-                $cardTrx->card_id = $cardId;
-                $cardTrx->amount = $plan->billing_amount;
-                $cardTrx->paystack_reference = $resData["data"]["reference"];
-                $cardTrx->description = ucwords($card->card_brand) . " card:  " . $card->last_four_digits . " - Customer Subscription to " . $plan->plan . " Plan (" . $plan->duration . ")";
-                if ($cardTrx->save()) {
-                    return true;
+                $resData = $response->json();
 
+                if ($resData["status"] === true && $resData["data"]["status"] == "success") {
+                    $cardTrx = new CardTransactions;
+                    $cardTrx->customer_id = Auth::user()->id;
+                    $cardTrx->card_id = $cardId;
+                    $cardTrx->amount = $plan->billing_amount;
+                    $cardTrx->paystack_reference = $resData["data"]["reference"];
+                    $cardTrx->description = ucwords($card->card_brand) . " card:  " . $card->last_four_digits . " - Customer Subscription to " . $plan->plan . " Plan (" . $plan->duration . ")";
+                    if ($cardTrx->save()) {
+                        return true;
+
+                    } else {
+                        return false;
+
+                    }
                 } else {
                     return false;
-
                 }
+
             } else {
                 return false;
             }
-
-        } else {
+        } catch (\Exception $e) {
+            \Log::info($e->getMessage());
             return false;
         }
 

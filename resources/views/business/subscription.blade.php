@@ -145,19 +145,145 @@
             <div class="card">
                 <!-- card body -->
                 <div class="card-body">
-                    <div class="mb-3">
+                    <div class="mb-0">
                         <h4 class="mb-0">Subscription History</h4>
                         <span>Below is a history of all your subscription transactions.</span>
                         <hr />
                     </div>
+                    <div class="table-responsive">
+                        <table class="table mb-0 text-nowrap table-hover table-centered table-with-checkbox">
+                            <!-- Table Head -->
+                            <thead class="">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Transaction ID</th>
+                                    <th>Service</th>
+                                    <th>Provider</th>
+                                    <th>Details</th>
+                                    <th>Payment Method</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
+                            </tbody>
 
+                        </table>
+                    </div>
                 </div>
 
             </div>
         </div>
     </div>
 </section>
+
+  <!-- Payment Modal -->
+  <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header align-items-center d-flex">
+                <h4 class="modal-title" id="paymentModalLabel">Add New Payment Method</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div>
+                    <!-- Form -->
+                    <form class="row mb-4 needs-validation" novalidate>
+                        <div class="mb-3 col-12 col-md-12 mb-4">
+                            <h5 class="mb-3">Credit / Debit card</h5>
+                            <!-- Radio button -->
+                            <div class="d-inline-flex">
+                                <div class="form-check me-2">
+                                    <input type="radio" id="paymentRadioOne" name="paymentRadioOne" class="form-check-input" required />
+                                    <label class="form-check-label" for="paymentRadioOne"><img src="../assets/images/creditcard/americanexpress.svg" alt="card" /></label>
+                                </div>
+                                <!-- Radio button -->
+                                <div class="form-check me-2">
+                                    <input type="radio" id="paymentRadioTwo" name="paymentRadioOne" class="form-check-input" required />
+                                    <label class="form-check-label" for="paymentRadioTwo"><img src="../assets/images/creditcard/mastercard.svg" alt="card" /></label>
+                                </div>
+
+                                <!-- Radio button -->
+                                <div class="form-check">
+                                    <input type="radio" id="paymentRadioFour" name="paymentRadioOne" class="form-check-input" required />
+                                    <label class="form-check-label" for="paymentRadioFour"><img src="../assets/images/creditcard/visa.svg" alt="card" /></label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Name on card -->
+                        <div class="mb-3 col-12 col-md-4">
+                            <label for="nameoncard" class="form-label">Name on card</label>
+                            <input id="nameoncard" type="text" class="form-control" name="nameoncard" placeholder="Name" required />
+                            <div class="invalid-feedback">Please enter name of card.</div>
+                        </div>
+                        <!-- Month -->
+                        <div class="mb-3 col-12 col-md-4">
+                            <label class="form-label" for="month">Month</label>
+                            <select class="form-select" id="month" required>
+                                <option value="">Month</option>
+                                <option value="Jan">Jan</option>
+                                <option value="Feb">Feb</option>
+                                <option value="Mar">Mar</option>
+                                <option value="Apr">Apr</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="Aug">Aug</option>
+                                <option value="Sep">Sep</option>
+                                <option value="Oct">Oct</option>
+                                <option value="Nov">Nov</option>
+                                <option value="Dec">Dec</option>
+                            </select>
+                            <div class="invalid-feedback">Please enter month.</div>
+                        </div>
+                        <!-- Year -->
+                        <div class="mb-3 col-12 col-md-4">
+                            <label class="form-label" for="year">Year</label>
+                            <select class="form-select" id="year" required>
+                                <option value="">Year</option>
+                                <option value="June">2018</option>
+                                <option value="July">2019</option>
+                                <option value="August">2020</option>
+                                <option value="Sep">2021</option>
+                                <option value="Oct">2022</option>
+                            </select>
+                            <div class="invalid-feedback">Please enter year.</div>
+                        </div>
+                        <!-- Card number -->
+                        <div class="mb-3 col-md-8 col-12">
+                            <label class="form-label" for="card-mask">Card Number</label>
+                            <input class="form-control" id="card-mask" type="text" value="" required />
+                            <div class="invalid-feedback">Please enter card number.</div>
+                        </div>
+                        <!-- CVV -->
+                        <div class="mb-3 col-md-4 col-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="digit-mask">
+                                    CVV Code
+                                    <i class="fe fe-help-circle ms-1" data-bs-toggle="tooltip" data-placement="top" title="A 3 - digit number, typically printed on the back of a card."></i>
+                                </label>
+                                <input class="form-control" id="digit-mask" type="text" value="" required />
+                                <div class="invalid-feedback">Please enter cvv code.</div>
+                            </div>
+                        </div>
+                        <!-- Button -->
+                        <div class="col-md-6 col-12">
+                            <button class="btn btn-primary" type="submit">Add New Card</button>
+                            <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                    <span>
+                        <strong>Note:</strong>
+                        that you can later remove your card at the account setting page.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     document.getElementById("navSettings").classList.add('show');

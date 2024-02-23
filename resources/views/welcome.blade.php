@@ -15,7 +15,7 @@
                                 <div class="row">
                                     <div class="col-xl-7 col-lg-12">
                                         <div class="block-banner">
-                                            <h1 class="heading-banner wow animate__animated animate__fadeInUp">Finding a local business near you has never been <span class="color-brand-2">easier!</span>
+                                            <h1 class="heading-banner wow animate__animated animate__fadeInUp">Finding local businesses near you has never been <span class="color-brand-2">easier!</span>
                                             </h1>
                                             <div class="banner-description mt-20 wow animate__animated animate__fadeInUp"
                                                 data-wow-delay=".1s"> Every month, Arete welcomes over 3 million users seeking local businesses, with over 140,000 connections made daily. Join the thriving community and discover your next favorite business with our intuitive business directory navigation! </div>

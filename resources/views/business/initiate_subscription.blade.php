@@ -141,7 +141,14 @@
                                 <h4 class="mb-4">
                                     &#8358; {{ number_format($plan->billing_amount, 2) }}
                                 </h4>
-                                <a href="{{ route("business.previewSubscription", [$plan->id]) }}"><button class="btn btn-primary btn-sm" style="background: #690068; border: #690068">Subscribe Now</button></a>
+                                {{-- <a href="{{ route("business.previewSubscription", [$plan->id]) }}"></a> --}}
+                                <button class="btn btn-primary btn-sm" style="background: #690068; border: #690068"
+                                    data-bs-toggle="modal" data-bs-target="#subscriptionDetails"
+                                    data-planid="{{ $plan->id }}"
+                                    data-plandetails="{{ $plan->plan }} ({{ $plan->duration }} Days)"
+                                    data-planfee="&#8358;{{ number_format($plan->billing_amount, 2) }}"
+                                    data-renewaldate="@php echo date_format(Carbon\Carbon::now()->addDays($plan->duration), 'jS F, Y'); @endphp">Subscribe
+                                    Now</button>
                             </div>
                         </div>
                     </div>
@@ -150,6 +157,58 @@
         </div>
     </div>
 </section>
+
+
+<!-- Payment Modal -->
+<div class="modal fade" id="subscriptionDetails" tabindex="-1" role="dialog"
+    aria-labelledby="subscriptionDetailsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header align-items-center d-flex">
+                <h4 class="modal-title" id="subscriptionDetailsLabel">Details Of Selected Plan</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div>
+                    <!-- Form -->
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex mb-2">
+                            <span class="text-dark col-4"><strong>Plan Type:</strong></strong></span>
+                            <span class="text-dark fw-medium col-8" id="planDetails"></span>
+                        </li>
+                        <li class="d-flex mt-4 mb-2">
+                            <span class="text-dark col-4"><strong>Plan Fee:</strong></span>
+                            <span class="text-dark fw-medium col-8" id="planFee"></span>
+                        </li>
+                        <li class="d-flex mt-4 mb-2">
+                            <span class="text-dark col-4"><strong>Renewal Date:</strong></span>
+                            <span class="text-dark fw-medium col-8" id="renewalDate"></span>
+                        </li>
+
+                        <div class="col-12 mt-5">
+                            <form method="POST" action="{{ route('business.processSubscription') }}">
+                                @csrf
+                                <input id="planId" type="hidden" name="plan_id" value="" />
+                                <input id="cardId" type="hidden" name="card_id"
+                                    value="{{ $primaryCard->id }}" />
+                                <button class="btn btn-primary text-end" type="submit"
+                                    onClick = "this.disabled=true; this.innerHTML='Submiting request, please wait...';this.form.submit();">Activate
+                                    Subscription Plan</button></a>
+                            </form>
+                        </div>
+
+                        <hr class="mt-4 my-3">
+                        <p><b>Note:</b> On the Renewal Date, your primary payment method will be automaticall charged
+                            the renewal amount. We advice that you have an active and valid payment method to avoid
+                            failures when charging your account.</p>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     document.getElementById("navSettings").classList.add('show');
