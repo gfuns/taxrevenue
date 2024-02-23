@@ -31,7 +31,7 @@ class WalletController extends Controller
     {
         $lastRecord = AreteWalletTransaction::where("customer_id", Auth::user()->id)->where("trx_type", "credit")->count();
         $marker = $this->getMarkers($lastRecord, request()->page);
-        $topUps = AreteWalletTransaction::where("customer_id", Auth::user()->id)->where("trx_type", "credit")->paginate(50);
+        $topUps = AreteWalletTransaction::orderBy("id", "desc")->where("customer_id", Auth::user()->id)->where("trx_type", "credit")->paginate(50);
         $bankList = BankList::all();
         return view("business.wallet", compact("topUps", "lastRecord", "marker", "bankList"));
     }
@@ -40,7 +40,7 @@ class WalletController extends Controller
     {
         $lastRecord = AreteWalletTransaction::where("customer_id", Auth::user()->id)->where("trx_type", "debit")->count();
         $marker = $this->getMarkers($lastRecord, request()->page);
-        $withdrawals = AreteWalletTransaction::where("customer_id", Auth::user()->id)->where("trx_type", "debit")->paginate(50);
+        $withdrawals = AreteWalletTransaction::orderBy("id", "desc")->where("customer_id", Auth::user()->id)->where("trx_type", "debit")->paginate(50);
         $bankList = BankList::all();
         return view("business.wallet_withdrawals", compact("withdrawals", "lastRecord", "marker", "bankList"));
     }
@@ -49,7 +49,7 @@ class WalletController extends Controller
     {
         $lastRecord = ReferralTransaction::where("customer_id", Auth::user()->id)->count();
         $marker = $this->getMarkers($lastRecord, request()->page);
-        $transactions = ReferralTransaction::where("customer_id", Auth::user()->id)->paginate(50);
+        $transactions = ReferralTransaction::orderBy("id", "desc")->where("customer_id", Auth::user()->id)->paginate(50);
         $bankList = BankList::all();
         return view("business.wallet_points", compact("transactions", "lastRecord", "marker", "bankList"));
     }

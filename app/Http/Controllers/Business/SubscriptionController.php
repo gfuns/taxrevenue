@@ -340,6 +340,7 @@ class SubscriptionController extends Controller
                     $trx->reference = $paystack->reference;
                     $trx->balance_before = Auth::user()->wallet->arete_balance;
                     $trx->balance_after = (Auth::user()->wallet->arete_balance + $paystack->amount);
+                    $trx->status = $payment->data->status == "success" ? "Successful" : "Failed";
                     $trx->save();
 
                     $wallet = Auth::user()->wallet;
