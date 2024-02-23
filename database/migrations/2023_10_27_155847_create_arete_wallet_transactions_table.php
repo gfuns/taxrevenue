@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('bank')->nullable();
             $table->string('account_number')->nullable();
             $table->string('account_name')->nullable();
+            $table->double('balance_before', 12, 2)->default(0.00);
+            $table->double('balance_after', 12, 2)->default(0.00);
             $table->timestamps();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
