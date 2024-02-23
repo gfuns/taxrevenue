@@ -9,12 +9,12 @@ class PlatformCategories extends Model
 {
     use HasFactory;
 
-    protected $appends = array('jobs');
+    protected $appends = array('businesses');
 
-    public function getJobsAttribute()
+    public function getBusinessesAttribute()
     {
-        $jobs = JobListing::where("job_categories", "LIKE", '%' . $this->id . '%')->count();
-        return (int) $jobs;
+        $businesses = Business::where("business_category", $this->category_name)->count();
+        return (int) $businesses;
     }
 
     /**

@@ -104,13 +104,13 @@
                                                     <div class="swiper-slide hover-up">
                                                 @endif
 
-                                                <a href="/job-categories/{{ $cat->slug }}">
+                                                <a href="/business-categories/{{ $cat->slug }}">
                                                     <div class="item-logo">
-                                                        <div class="image-left"><img src="{{ $cat->category_icon }}"
+                                                        <div class="image-left"><img src="{{ $cat->category_icon == null ? "https://res.cloudinary.com/soha/image/upload/v1701601099/fvnn5nrxg9m4di9jjrux.png" :  $cat->category_icon}}"
                                                                 alt="Content Writer"></div>
                                                         <div class="text-info-right">
                                                             <div class="h6">{{ $cat->category_name }}</div>
-                                                            <p class="font-xs"> {{ $cat->jobs }} <span> Listing(s)
+                                                            <p class="font-xs"> {{ $cat->businesses }} <span> Listing(s)
                                                                     Available</span>
                                                             </p>
                                                         </div>

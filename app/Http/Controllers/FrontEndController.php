@@ -5,20 +5,20 @@ namespace App\Http\Controllers;
 use App\Mail\ContactMail as ContactMail;
 use App\Models\ArtisanReviews;
 use App\Models\Artisans;
+use App\Models\BankList;
 use App\Models\BlogPost;
 use App\Models\Business;
 use App\Models\BusinessReviews;
 use App\Models\CustomerContact;
 use App\Models\Faq;
-use App\Models\BankList;
 use App\Models\JobListing;
 use App\Models\PlatformCategories;
 use App\Models\Products;
 use App\Models\TutorialVideos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Http;
 use Mail;
 use Session;
 
@@ -46,25 +46,25 @@ class FrontEndController extends Controller
         $keyword = request()->keyword;
         if (isset($location) || isset($keyword)) {
             if (isset($location) && !isset($keyword)) {
-                $lastRecord = Business::where("state", $location)->count();
+                $lastRecord = Business::where("state", $location)->where("visibility", 1)->count();
                 $marker = $this->pageMarkers($lastRecord, request()->page);
-                $businesses = Business::orderBy("id", $filter)->where("state", $location)->paginate(16);
+                $businesses = Business::orderBy("id", $filter)->where("state", $location)->where("visibility", 1)->paginate(16);
             } else if (!isset($location) && isset($keyword)) {
-                $lastRecord = Business::where(function ($query) use ($keyword) {
+                $lastRecord = Business::where("visibility", 1)->where(function ($query) use ($keyword) {
                     $query->where('business_name', 'LIKE', "%" . $keyword . "%")
                         ->orWhere('business_category', 'LIKE', "%" . $keyword . "%")
                         ->orWhere('business_description', 'LIKE', "%" . $keyword . "%");
                 })->count();
 
                 $marker = $this->pageMarkers($lastRecord, request()->page);
-                $businesses = Business::orderBy("id", $filter)
+                $businesses = Business::orderBy("id", $filter)->where("visibility", 1)
                     ->where(function ($query) use ($keyword) {
                         $query->where('business_name', 'LIKE', "%" . $keyword . "%")
                             ->orWhere('business_category', 'LIKE', "%" . $keyword . "%")
                             ->orWhere('business_description', 'LIKE', "%" . $keyword . "%");
                     })->paginate(16);
             } else {
-                $lastRecord = Business::where("state", $location)
+                $lastRecord = Business::where("state", $location)->where("visibility", 1)
                     ->where(function ($query) use ($keyword) {
                         $query->where('business_name', 'LIKE', "%" . $keyword . "%")
                             ->orWhere('business_category', 'LIKE', "%" . $keyword . "%")
@@ -72,7 +72,7 @@ class FrontEndController extends Controller
                     })->count();
 
                 $marker = $this->pageMarkers($lastRecord, request()->page);
-                $businesses = Business::orderBy("id", $filter)->where("state", $location)
+                $businesses = Business::orderBy("id", $filter)->where("state", $location)->where("visibility", 1)
                     ->where(function ($query) use ($keyword) {
                         $query->where('business_name', 'LIKE', "%" . $keyword . "%")
                             ->orWhere('business_category', 'LIKE', "%" . $keyword . "%")
@@ -86,6 +86,22 @@ class FrontEndController extends Controller
             $businesses = Business::orderBy("id", $filter)->where("visibility", 1)->paginate(16);
         }
         return view("business_listing", compact("businesses", "lastRecord", "marker", "filter", "location", "keyword"));
+    }
+
+
+    public function businessCategories(){
+        $categories = PlatformCategories::all();
+        return view("business_categories", compact("categories"));
+    }
+
+    public function listingByCategories($slug)
+    {
+        $filter = request()->filter == null ? 'asc' : request()->filter;
+        $category = PlatformCategories::where("slug", $slug)->first();
+        $lastRecord = Business::where("business_category", $category->category_name)->where("visibility", 1)->count();
+        $marker = $this->pageMarkers($lastRecord, request()->page);
+        $businesses = Business::orderBy("id", $filter)->where("business_category", $category->category_name)->where("visibility", 1)->paginate(16);
+        return view("category_listing", compact("category", "businesses", "lastRecord", "marker", "filter"));
     }
 
     public function businessDetails($slug)
@@ -375,8 +391,7 @@ class FrontEndController extends Controller
         return view("artisan_details", compact("artisan", "reviews"));
     }
 
-
-     /**
+    /**
      * bankList
      *
      * @return void
@@ -387,21 +402,20 @@ class FrontEndController extends Controller
             'Authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
         ])->get("https://api.paystack.co/bank", ["currency" => "NGN"]);
 
-         $bankList = $response->collect("data");
+        $bankList = $response->collect("data");
 
-         foreach($bankList as $bank){
+        foreach ($bankList as $bank) {
             $isExisting = BankList::where("bank_code", $bank["code"])->where("bank_name", $bank["name"])->first();
-            if(!isset($isExisting)){
+            if (!isset($isExisting)) {
                 $bankList = new BankList;
                 $bankList->bank_code = $bank["code"];
                 $bankList->bank_name = $bank["name"];
                 $bankList->save();
             }
 
-         }
+        }
 
     }
-
 
     /**
      * blogMarkers Helper Function
