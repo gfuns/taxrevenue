@@ -25,6 +25,9 @@
     <script src="{{ asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/libs/yaireo/tagify/dist/tagify.min.js') }}"></script>
+    <script src="{{ asset("assets/libs/imask/dist/imask.min.js") }}"></script>
+    <script src="{{ asset("assets/js/vendors/inputmask.js") }}"></script>
+    <script src="{{ asset("assets/js/vendors/validation.js") }}"></script>
 
 
     @include('sweetalert::alert')

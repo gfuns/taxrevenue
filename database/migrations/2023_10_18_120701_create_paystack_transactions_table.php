@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('paystack_transactions', function (Blueprint $table) {
             $table->id();
+            $table->integer("customer_id")->unsigned();
+            $table->string("reference");
+            $table->enum("trx_type", ["paymentmethod", "utility"]);
+            $table->double("amount", 12, 2);
+            $table->string("status")->default("pending");
+            $table->integer("processed")->default(0);
             $table->timestamps();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 

@@ -193,6 +193,8 @@ Route::group([
 
         Route::get('/delete-card/{id}', [App\Http\Controllers\Business\SubscriptionController::class, 'deleteCard'])->name("business.deleteCard");
 
+        Route::post('/initiateCardAddition', [App\Http\Controllers\Business\SubscriptionController::class, 'initiateCardAddition'])->name("business.initiateCardAddition");
+
         Route::get('/delete-account', [App\Http\Controllers\Business\HomeController::class, 'deleteAccount'])->name("business.deleteAccount");
 
         Route::get('/process-account-deletion', [App\Http\Controllers\Business\HomeController::class, 'processAccountDeletion'])->name("business.processAccountDeletion");
@@ -206,3 +208,6 @@ Route::group([
     });
 
 });
+
+
+Route::get('/paystack/callback', [App\Http\Controllers\Business\SubscriptionController::class, 'handlePaystackCallback']);

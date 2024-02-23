@@ -6,13 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\CardTransactions;
 use App\Models\CustomerCards;
 use App\Models\CustomerSubscription;
+use App\Models\PaystackTransaction;
 use App\Models\SubscriptionPlan;
 use Auth;
 use Carbon\Carbon;
+use Coderatio\PaystackMirror\Actions\Transactions\VerifyTransaction;
+use Coderatio\PaystackMirror\PaystackMirror;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class SubscriptionController extends Controller
 {
@@ -30,7 +34,8 @@ class SubscriptionController extends Controller
     {
         $activeSubscription = CustomerSubscription::where("customer_id", Auth::user()->id)->where("status", "active")->first();
         $customerCards = CustomerCards::where("customer_id", Auth::user()->id)->get();
-        return view("business.subscription", compact("activeSubscription", "customerCards"));
+        $transactions = CustomerSubscription::orderBy("id", "desc")->where("customer_id", Auth::user()->id)->get();
+        return view("business.subscription", compact("activeSubscription", "customerCards", "transactions"));
 
         if (isset($activeSubscription)) {
             $customerCards = CustomerCards::where("customer_id", Auth::user()->id)->get();
@@ -77,13 +82,19 @@ class SubscriptionController extends Controller
     {
         $card = CustomerCards::find($id);
         if (isset($card)) {
-            if ($card->delete()) {
-                toast('Card Details Deleted Successfully.', 'success');
-                return back();
-            } else {
-                toast('Something went wrong.', 'error');
+            if($card->default_card == 0){
+                if ($card->delete()) {
+                    toast('Card Details Deleted Successfully.', 'success');
+                    return back();
+                } else {
+                    toast('Something went wrong.', 'error');
+                    return back();
+                }
+            }else{
+                toast('You must have atleast one Primary Payment Method on your account.', 'error');
                 return back();
             }
+
         } else {
             toast('Something went wrong.', 'error');
             return back();
@@ -93,8 +104,21 @@ class SubscriptionController extends Controller
     public function initiateSubscription()
     {
         $subscriptionPlans = SubscriptionPlan::where("id", ">", 1)->get();
-        $primaryCard = CustomerCards::where("customer_id", Auth::user()->id)->where("default_card", 1)->first();
-        return view("business.initiate_subscription", compact("subscriptionPlans", "primaryCard"));
+        $customerCards = CustomerCards::where("customer_id", Auth::user()->id)->get();
+        if (count($customerCards) > 0) {
+
+            $primaryCard = CustomerCards::where("customer_id", Auth::user()->id)->where("default_card", 1)->first();
+
+            if (!isset($primaryCard)) {
+                $primaryCard = CustomerCards::where("customer_id", Auth::user()->id)->first();
+            }
+
+            return view("business.initiate_subscription", compact("subscriptionPlans", "primaryCard"));
+        } else {
+            toast('You do not have a payment method on file. Please add your preferred payment method', 'error');
+            return back();
+        }
+
     }
 
     public function previewSubscription($id)
@@ -139,7 +163,7 @@ class SubscriptionController extends Controller
                     $subscription = new CustomerSubscription;
                     $subscription->customer_id = Auth::user()->id;
                     $subscription->plan_id = $plan->id;
-                    $subscription->card_id = $card->id;
+                    $subscription->card_details = ucwords($card->card_brand) . " ending with " . $card->last_four_digits;
                     $subscription->subscription_amount = $plan->billing_amount;
                     $subscription->auto_renew = 1;
                     $subscription->status = "active";
@@ -212,7 +236,8 @@ class SubscriptionController extends Controller
             }
         } catch (\Exception $e) {
             \Log::info($e->getMessage());
-            return false;
+            toast('We encountered an error while trying to connect with your card provider. Please Try again after some time', 'error');
+            return back();
         }
 
     }
@@ -226,6 +251,97 @@ class SubscriptionController extends Controller
 
         return response()->json(['status' => 200, 'message' => 'Autorenew status updated successfully.']);
 
+    }
+
+    public function initiateCardAddition(Request $request)
+    {
+        $transaction = new PaystackTransaction;
+        $transaction->customer_id = Auth::user()->id;
+        $transaction->trx_type = "paymentmethod";
+        $transaction->reference = "pm_rf" . Str::random(11);
+        $transaction->amount = 100;
+        if ($transaction->save()) {
+            $response = Http::accept('application/json')->withHeaders([
+                'authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
+                'content_type' => "Content-Type: application/json",
+            ])->post("https://api.paystack.co/transaction/initialize", [
+                "email" => Auth::user()->email,
+                "amount" => ($transaction->amount * 100),
+                "reference" => $transaction->reference,
+            ]);
+
+            $responseData = $response->collect("data");
+
+            if (isset($responseData['authorization_url'])) {
+                return redirect($responseData['authorization_url']);
+            }
+
+            toast("Paystack gateway service took too long to respond", 'error');
+            return back();
+
+        } else {
+            toast('Something went wrong.', 'error');
+            return back();
+        }
+    }
+
+    public function handlePaystackCallback(Request $request)
+    {
+        $payment = PaystackMirror::run(env('PAYSTACK_SECRET_KEY'), new VerifyTransaction($request->reference))
+            ->getResponse()->asObject();
+
+
+
+        if (!isset($payment->data)) {
+            toast("Something Went Wrong", 'error');
+            return redirect()->route("business.subscription");
+        }
+
+        $paystack = PaystackTransaction::where("reference", $payment->data->reference)->where('processed', 0)->first();
+        $cardDetails = $payment->data->authorization;
+        if (isset($paystack) && isset($cardDetails)) {
+
+            try {
+                DB::beginTransaction();
+
+                $paystack->processed = 1;
+                $paystack->status = $payment->data->status == "success" ? "Successful" : "Failed";
+                $paystack->save();
+
+                if ($paystack->trx_type == "paymentmethod") {
+
+                    $defaultMethod = CustomerCards::where("customer_id", Auth::user()->id)->where("default_card", 1)->first();
+
+                    $newCard = new CustomerCards;
+                    $newCard->customer_id = Auth::user()->id;
+                    $newCard->authorization_code = encrypt($cardDetails->authorization_code);
+                    $newCard->last_four_digits = $cardDetails->last4;
+                    $newCard->expiry_month = $cardDetails->exp_month;
+                    $newCard->expiry_year = $cardDetails->exp_year;
+                    $newCard->card_brand = $cardDetails->brand;
+                    $newCard->issuing_bank = $cardDetails->bank;
+                    $newCard->card_holder = $cardDetails->account_name;
+                    $newCard->default_card = isset($defaultMethod) ? 0 : 1;
+                    $newCard->save();
+
+                }
+
+                DB::commit();
+
+                toast("Payment Method Added Successfully", 'success');
+                return redirect()->route("business.subscription");
+            } catch (\Exception $e) {
+                DB::rollback();
+                report($e);
+
+                toast("Something Went Wrong", 'error');
+                return redirect()->route("business.subscription");
+            }
+
+        } else {
+            toast("This transaction has already been processed", 'error');
+            return redirect()->route("business.subscription");
+        }
     }
 
 }

@@ -156,17 +156,22 @@
                             <thead class="">
                                 <tr>
                                     <th>#</th>
-                                    <th>Transaction ID</th>
-                                    <th>Service</th>
-                                    <th>Provider</th>
-                                    <th>Details</th>
+                                    <th>Selected Plan</th>
+                                    <th>Amount Paid</th>
                                     <th>Payment Method</th>
-                                    <th>Amount</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
+                                    <th>Trns. Date</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($transactions as $trx)
+                                    <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $trx->plan->plan }}</td>
+                                        <td>&#8358;{{ number_format($trx->subscription_amount, 2) }}</td>
+                                        <td>{{ $trx->card_details }}</td>
+                                        <td>{{ date_format($trx->created_at, 'jS M, Y') }}</td>
+                                    </tr>
+                                @endforeach
 
                             </tbody>
 
@@ -179,8 +184,9 @@
     </div>
 </section>
 
-  <!-- Payment Modal -->
-  <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+<!-- Payment Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header align-items-center d-flex">
@@ -191,84 +197,23 @@
             <div class="modal-body">
                 <div>
                     <!-- Form -->
-                    <form class="row mb-4 needs-validation" novalidate>
+                    <form method="POST" action="{{ route("business.initiateCardAddition") }}" class="row mb-4 needs-validation" novalidate>
+                        @csrf
                         <div class="mb-3 col-12 col-md-12 mb-4">
-                            <h5 class="mb-3">Credit / Debit card</h5>
+                            <h4 class="mb-3">Instructions</h4>
                             <!-- Radio button -->
-                            <div class="d-inline-flex">
-                                <div class="form-check me-2">
-                                    <input type="radio" id="paymentRadioOne" name="paymentRadioOne" class="form-check-input" required />
-                                    <label class="form-check-label" for="paymentRadioOne"><img src="../assets/images/creditcard/americanexpress.svg" alt="card" /></label>
-                                </div>
-                                <!-- Radio button -->
-                                <div class="form-check me-2">
-                                    <input type="radio" id="paymentRadioTwo" name="paymentRadioOne" class="form-check-input" required />
-                                    <label class="form-check-label" for="paymentRadioTwo"><img src="../assets/images/creditcard/mastercard.svg" alt="card" /></label>
-                                </div>
+                            <div class="">
+                                <p>As part of our platform security policy, we do not directly store customer cards on
+                                    our infrastructure. We partner with <a href="https://paystack.com" target="_blank"><strong>Paystack</strong></a> our payment solution provider to handle and manage customer card information.</p>
 
-                                <!-- Radio button -->
-                                <div class="form-check">
-                                    <input type="radio" id="paymentRadioFour" name="paymentRadioOne" class="form-check-input" required />
-                                    <label class="form-check-label" for="paymentRadioFour"><img src="../assets/images/creditcard/visa.svg" alt="card" /></label>
-                                </div>
+                                <p>We will be redirecting you to paystack payment page where you would be providing and
+                                    validating your card by performing a small transaction of 100 Naira.</p>
+
+                                <p>Upon the validation transaction is successful and confirmed for your card, your card will be successfully added as a payment method to your account for future transactions. </p>
                             </div>
                         </div>
-                        <!-- Name on card -->
-                        <div class="mb-3 col-12 col-md-4">
-                            <label for="nameoncard" class="form-label">Name on card</label>
-                            <input id="nameoncard" type="text" class="form-control" name="nameoncard" placeholder="Name" required />
-                            <div class="invalid-feedback">Please enter name of card.</div>
-                        </div>
-                        <!-- Month -->
-                        <div class="mb-3 col-12 col-md-4">
-                            <label class="form-label" for="month">Month</label>
-                            <select class="form-select" id="month" required>
-                                <option value="">Month</option>
-                                <option value="Jan">Jan</option>
-                                <option value="Feb">Feb</option>
-                                <option value="Mar">Mar</option>
-                                <option value="Apr">Apr</option>
-                                <option value="May">May</option>
-                                <option value="June">June</option>
-                                <option value="July">July</option>
-                                <option value="Aug">Aug</option>
-                                <option value="Sep">Sep</option>
-                                <option value="Oct">Oct</option>
-                                <option value="Nov">Nov</option>
-                                <option value="Dec">Dec</option>
-                            </select>
-                            <div class="invalid-feedback">Please enter month.</div>
-                        </div>
-                        <!-- Year -->
-                        <div class="mb-3 col-12 col-md-4">
-                            <label class="form-label" for="year">Year</label>
-                            <select class="form-select" id="year" required>
-                                <option value="">Year</option>
-                                <option value="June">2018</option>
-                                <option value="July">2019</option>
-                                <option value="August">2020</option>
-                                <option value="Sep">2021</option>
-                                <option value="Oct">2022</option>
-                            </select>
-                            <div class="invalid-feedback">Please enter year.</div>
-                        </div>
-                        <!-- Card number -->
-                        <div class="mb-3 col-md-8 col-12">
-                            <label class="form-label" for="card-mask">Card Number</label>
-                            <input class="form-control" id="card-mask" type="text" value="" required />
-                            <div class="invalid-feedback">Please enter card number.</div>
-                        </div>
-                        <!-- CVV -->
-                        <div class="mb-3 col-md-4 col-12">
-                            <div class="mb-3">
-                                <label class="form-label" for="digit-mask">
-                                    CVV Code
-                                    <i class="fe fe-help-circle ms-1" data-bs-toggle="tooltip" data-placement="top" title="A 3 - digit number, typically printed on the back of a card."></i>
-                                </label>
-                                <input class="form-control" id="digit-mask" type="text" value="" required />
-                                <div class="invalid-feedback">Please enter cvv code.</div>
-                            </div>
-                        </div>
+
+
                         <!-- Button -->
                         <div class="col-md-6 col-12">
                             <button class="btn btn-primary" type="submit">Add New Card</button>
@@ -277,7 +222,7 @@
                     </form>
                     <span>
                         <strong>Note:</strong>
-                        that you can later remove your card at the account setting page.
+                        that you can later remove your card at the account setting page for billing & payments.
                     </span>
                 </div>
             </div>
