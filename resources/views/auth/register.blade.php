@@ -67,6 +67,10 @@
                             data-msg-required="Required." data-msg-equalTo="Enter the same value."
                             data-msg-minlength="At least 6 chars." required>
                     </div>
+                    <div class="input-item">
+                        <input type="text" placeholder="Referral ID" value="{{ request()->ref }}" class="input-bordered"
+                            name="referral_code" @if(isset(request()->ref)) readonly @endif>
+                    </div>
 
                     <div class="input-item text-left">
                         <input name="terms" class="input-checkbox input-checkbox-md" id="agree" type="checkbox"

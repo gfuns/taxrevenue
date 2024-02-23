@@ -35,13 +35,30 @@
                     <!-- Card -->
                     <div class="card">
 
+
+                        <div class="col-md-8 col-10 ms-4 mt-4">
+                            <strong>You can refer users by sharing your referral link or by using your Referral ID:
+                                <span class="text-success" style="font-size: 18px; font-weight:bold">
+                                    {{ Auth::user()->referral_code }}</span></strong><br>
+                            <div class="mb-3 mt-2 input-group">
+                                <input type="text" class="form-control readonly"
+                                    value="{{ env('APP_URL') }}/register?ref={{ Auth::user()->referral_code }}"
+                                    id="link" readonly>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" onclick="copyToClipboard()"
+                                        type="button" id="button-addon2"><i class="fe fe-copy"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
                         <div class="card-header border-bottom-0">
                             <!-- Form -->
                             <form method="GET" class="d-flex align-items-center">
                                 <span class="position-absolute ps-3 search-icon">
                                     <i class="fe fe-search"></i>
                                 </span>
-                                <input type="search" name="search" value="{{ $search }}" class="form-control ps-6" placeholder="Search Referrals">
+                                <input type="search" name="search" value="{{ $search }}"
+                                    class="form-control ps-6" placeholder="Search Referrals">
                             </form>
                         </div>
 
@@ -69,7 +86,7 @@
                                                     </h5>
                                                 </div>
                                             </td>
-                                            <td>{{ date_format($referral->created_at, 'F, j, Y') }}</td>
+                                            <td>{{ date_format($referral->created_at, 'F jS, Y') }}</td>
                                             <td>&#8358;{{ number_format($referral->bonus_received, 2) }}</td>
                                         </tr>
                                     @endforeach
@@ -109,4 +126,36 @@
     document.getElementById("referrals").classList.add('active');
 </script>
 
+@endsection
+
+@section('customjs')
+<script type="text/javascript">
+
+function copyToClipboard() {
+    // Get the text field value
+    var textToCopy = document.getElementById("link").value;
+
+    // Create a temporary textarea element
+    var textarea = document.createElement("textarea");
+
+    // Set the value of the textarea to the text you want to copy
+    textarea.value = textToCopy;
+
+    // Append the textarea to the DOM
+    document.body.appendChild(textarea);
+
+    // Select the text in the textarea
+    textarea.select();
+
+    // Execute the copy command
+    document.execCommand("copy");
+
+    // Remove the textarea from the DOM
+    document.body.removeChild(textarea);
+
+    // Optionally, you can provide some feedback to the user
+    alert("Referall Link copied to clipboard");
+}
+
+</script>
 @endsection
