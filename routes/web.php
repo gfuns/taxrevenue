@@ -211,9 +211,15 @@ Route::group([
 
         Route::post('initiateWalletTopup', [App\Http\Controllers\Business\WalletController::class, 'initiateWalletTopup'])->name("business.initiateWalletTopup");
 
+        Route::post('initiateWalletWithdrawal', [App\Http\Controllers\Business\WalletController::class, 'initiateWalletWithdrawal'])->name("business.initiateWalletWithdrawal");
+
+        Route::post('validateAccount', [App\Http\Controllers\Business\WalletController::class, 'validateBankAccount'])->name("business.validateAccount");
+
     });
 
 });
 
+
+Route::get('/resolve-bank', [App\Http\Controllers\FrontEndController::class, 'bankList']);
 
 Route::get('/paystack/callback', [App\Http\Controllers\Business\SubscriptionController::class, 'handlePaystackCallback']);

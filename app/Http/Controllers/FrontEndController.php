@@ -10,6 +10,7 @@ use App\Models\Business;
 use App\Models\BusinessReviews;
 use App\Models\CustomerContact;
 use App\Models\Faq;
+use App\Models\BankList;
 use App\Models\JobListing;
 use App\Models\PlatformCategories;
 use App\Models\Products;
@@ -17,6 +18,7 @@ use App\Models\TutorialVideos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
 use Mail;
 use Session;
 
@@ -372,6 +374,34 @@ class FrontEndController extends Controller
         $reviews = ArtisanReviews::orderBy("rating", "desc")->limit(5)->get();
         return view("artisan_details", compact("artisan", "reviews"));
     }
+
+
+     /**
+     * bankList
+     *
+     * @return void
+     */
+    public function bankList()
+    {
+        $response = Http::accept('application/json')->withHeaders([
+            'Authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
+        ])->get("https://api.paystack.co/bank", ["currency" => "NGN"]);
+
+         $bankList = $response->collect("data");
+
+         foreach($bankList as $bank){
+            $isExisting = BankList::where("bank_code", $bank["code"])->where("bank_name", $bank["name"])->first();
+            if(!isset($isExisting)){
+                $bankList = new BankList;
+                $bankList->bank_code = $bank["code"];
+                $bankList->bank_name = $bank["name"];
+                $bankList->save();
+            }
+
+         }
+
+    }
+
 
     /**
      * blogMarkers Helper Function
