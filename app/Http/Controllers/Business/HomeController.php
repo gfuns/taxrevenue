@@ -6,12 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\BusinessPage;
 use App\Models\Customer;
+use App\Models\CustomerSubscription;
 use App\Models\JobListing;
 use App\Models\NotificationSetting;
 use App\Models\PlatformCategories;
 use App\Models\Products;
 use App\Models\TutorialVideos;
-use App\Models\CustomerSubscription;
 use Auth;
 use Cloudinary;
 use Illuminate\Http\Request;
@@ -229,6 +229,8 @@ class HomeController extends Controller
             $business->twitter_url = $request->twitter_url;
             $business->instagram_url = $request->instagram_url;
             $business->linkedin_url = $request->linkedin_url;
+            $business->latitude = $request->latitude;
+            $business->longitude = $request->longitude;
             $business->visibility = 1;
             if ($request->has('business_logo')) {
                 $uploadedFileUrl = Cloudinary::upload($request->file('business_logo')->getRealPath())->getSecurePath();
@@ -553,6 +555,34 @@ class HomeController extends Controller
         return $marker;
     }
 
+    public function updatePageSettings(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'business_id' => 'required',
+            'banner_type' => 'required',
+            'catalogue_display' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $business = Business::find($request->business_id);
+        $business->page_banner = $request->banner_type;
+        $business->catalogue_display = $request->catalogue_display;
+        if ($business->save()) {
+            toast('Page Settings Updated Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something Went Wrong.', 'error');
+            return back();
+        }
+
+    }
+
     public function updateTopBanner(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -582,7 +612,7 @@ class HomeController extends Controller
                 $bannerExist->file_size = $fileSize;
                 $bannerExist->file_extension = $fileExtension;
                 if ($bannerExist->save()) {
-                    toast('Top Banner Updated Successfully.', 'success');
+                    toast('Static Page Banner Updated Successfully.', 'success');
                     return back();
                 } else {
                     toast('Something Went Wrong.', 'error');
@@ -598,7 +628,7 @@ class HomeController extends Controller
                 $banner->file_size = $fileSize;
                 $banner->file_extension = $fileExtension;
                 if ($banner->save()) {
-                    toast('Top Banner Updated Successfully.', 'success');
+                    toast('Static Page Banner Updated Successfully.', 'success');
                     return back();
                 } else {
                     toast('Something Went Wrong.', 'error');

@@ -31,6 +31,10 @@
         background: #eaeaea;
     }
 
+    .sam {
+        margin-top: 0px;
+    }
+
     @media (max-width:576px) {
         .tbi {
             max-height: 6rem;
@@ -43,6 +47,10 @@
             max-width: 16rem;
 
         }
+
+        .sam {
+            margin-top: 10px !important;
+        }
     }
 </style>
 
@@ -51,7 +59,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
             <!-- Page header -->
-            <div class="border-bottom pb-3 mb-3">
+            <div class="border-bottom pb-3 mb-3 d-lg-flex align-items-center justify-content-between">
                 <div class="mb-2 mb-lg-0">
                     <h1 class="mb-0 h2 fw-bold">Business Page Setup</h1>
                     <!-- Breadcrumb -->
@@ -64,6 +72,14 @@
                         </ol>
                     </nav>
                 </div>
+
+                <!-- button -->
+                <div>
+                    <a href="/business/details/{{ $business->slug }}" class="btn btn-primary btn-sm me-2 sam"
+                        target="_blank" style="background: #690068; border: #690068"><i class="fe fe-globe"></i> Preview
+                        Business Page</a>
+
+                </div>
             </div>
         </div>
     </div>
@@ -72,7 +88,47 @@
         <div class="col-lg-12 col-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0 h4">Top Banner (1920px X 360px)</h5>
+                    <h5 class="mb-0 h4">Page Settings</h5>
+                </div>
+                <div class="card-body">
+                    <form class="" action="{{ route("business.updatePageSettings") }}" method="POST">
+                        <input type="hidden" name="business_id" value="{{ $business->id }}">
+                        @csrf
+                        <div class="row">
+                            <label class="col-md-2 col-form-label">Banner Type<span
+                                    class="text-danger text-danger">*</span></label>
+                            <div class="col-md-4">
+                                <select id="bannertype" name="banner_type" class="form-control mb-3">
+                                    <option value="static" @if ($business->page_banner == 'static') selected @endif>Static
+                                        Banner</option>
+                                    <option value="slider" @if ($business->page_banner == 'slider') selected @endif>Sliding
+                                        Banners</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <label class="col-md-2 col-form-label">Display Catalogue<span
+                                    class="text-danger text-danger">*</span></label>
+                            <div class="col-md-4">
+                                <select id="discat" name="catalogue_display" class="form-control mb-3">
+                                    <option value="yes" @if ($business->catalogue_display == 'yes') selected @endif>Yes
+                                    </option>
+                                    <option value="no" @if ($business->catalogue_display == 'no') selected @endif>No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group mb-0 text-right mt-4">
+                            <button type="submit" class="btn btn-primary"
+                                onClick = "this.disabled=true; this.innerHTML='Uploading file...';this.form.submit();">Save
+                                Page Settings</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-6">
+                <div class="card-header">
+                    <h5 class="mb-0 h4">Static Banner (1920px X 360px)</h5>
                 </div>
                 <div class="card-body">
                     <form class="" action="{{ route('business.updateTopBanner') }}" method="POST"
@@ -104,8 +160,10 @@
                                             </span>
 
                                             <div class="remove">
-                                                <a href="{{ route("business.removePageFile", [$topBanner->id]) }}" onclick="return confirm('Are you sure you want to delete this file?');"><button class="btn btn-sm  remove-attachment"
-                                                        type="button"><i class="fe fe-x"></i></button></a>
+                                                <a href="{{ route('business.removePageFile', [$topBanner->id]) }}"
+                                                    onclick="return confirm('Are you sure you want to delete this file?');"><button
+                                                        class="btn btn-sm  remove-attachment" type="button"><i
+                                                            class="fe fe-x"></i></button></a>
                                             </div>
                                         </div>
                                     </div>
@@ -157,8 +215,10 @@
                                                 </span>
 
                                                 <div class="remove">
-                                                    <a href="{{ route("business.removePageFile", [$slider->id]) }}" onclick="return confirm('Are you sure you want to delete this file?');"><button class="btn btn-sm  remove-attachment"
-                                                            type="button"><i class="fe fe-x"></i></button></a>
+                                                    <a href="{{ route('business.removePageFile', [$slider->id]) }}"
+                                                        onclick="return confirm('Are you sure you want to delete this file?');"><button
+                                                            class="btn btn-sm  remove-attachment" type="button"><i
+                                                                class="fe fe-x"></i></button></a>
                                                 </div>
                                             </div>
                                         @endforeach
@@ -212,8 +272,10 @@
                                                 </span>
 
                                                 <div class="remove">
-                                                    <a href="{{ route("business.removePageFile", [$cat->id]) }}" onclick="return confirm('Are you sure you want to delete this file?');"><button class="btn btn-sm  remove-attachment"
-                                                            type="button"><i class="fe fe-x"></i></button></a>
+                                                    <a href="{{ route('business.removePageFile', [$cat->id]) }}"
+                                                        onclick="return confirm('Are you sure you want to delete this file?');"><button
+                                                            class="btn btn-sm  remove-attachment" type="button"><i
+                                                                class="fe fe-x"></i></button></a>
                                                 </div>
                                             </div>
                                         @endforeach

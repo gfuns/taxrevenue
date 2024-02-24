@@ -26,11 +26,42 @@
 <main class="main">
     <section class="section-box-2 company-detail">
         <div class="">
-            @if (isset($topBanner->file_url))
+            @if ($business->page_banner == 'static' && isset($topBanner->file_url))
                 <div class="">
                     <div class="wrap-cover-image">
                         <img src="{{ $topBanner->file_url }}" alt="LinkedIn">
                     </div>
+                </div>
+            @endif
+
+            @if ($business->page_banner == 'slider' && count($sliderBanners) > 0)
+                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        @foreach ($sliderBanners as $slider)
+                            <div class="carousel-item active">
+                                <img src="{{ $slider->file_url }}" class="d-block w-100" alt="...">
+
+                            </div>
+                        @endforeach
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
             @endif
             <div class="box-company-profile">
@@ -90,21 +121,24 @@
                             </div>
                         </div>
                     </div>
-                    <div class="box-related-job content-page box-list-jobs">
-                        <h5 class="mb-30">Find a display of some of our gods and services</h5>
-                        <div class="display-grid row">
-                            @foreach ($catalogues as $cat)
-                                <div class="col-4 col-lg-2 jobs-listing">
-                                    <div class="card-grid-2 hover-up" style="background:white">
-                                        <div class="row">
-                                            <div class="image-box"><img src="{{ $cat->file_url }}" alt=""></div>
+                    @if ($business->catalogue_display == 'yes' && count($catalogues) > 0)
+                        <div class="box-related-job content-page box-list-jobs">
+                            <h5 class="mb-30">Find a display of some of our gods and services</h5>
+                            <div class="display-grid row">
+                                @foreach ($catalogues as $cat)
+                                    <div class="col-4 col-lg-2 jobs-listing">
+                                        <div class="card-grid-2 hover-up" style="background:white">
+                                            <div class="row">
+                                                <div class="image-box"><img src="{{ $cat->file_url }}" alt="">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-                    <hr />
+                        <hr />
+                    @endif
                     <div class="mt-4 pt-3 position-relative review-listing page_speed_115609192">
                         <h6 class="fs-17 fw-semibold mb-3">Reviews For {{ $business->business_name }}</h6>
                         <div class="spinner-overflow"></div>
@@ -154,9 +188,11 @@
                     <div class="sidebar-border">
                         <div class="">
                             <h5 class="sidebar-company mb-4">Contact Details</h5>
-                            <div class="box-map job-board-street-map-container">
-                                <div id="map" style="height: 200px"></div>
-                            </div>
+                            @if (isset($business->latitude) && isset($business->longitude))
+                                <div class="box-map job-board-street-map-container">
+                                    <div id="map" style="height: 200px"></div>
+                                </div>
+                            @endif
                         </div>
                         <div class="sidebar-list-job">
                             <ul>
@@ -268,9 +304,12 @@
 
 @section('customjs')
 <script type="text/javascript">
-    var map = L.map('map').setView([51.505, -0.09], 13);
     var business = {{ Js::from($business->business_name) }};
     var address = {{ Js::from($business->city . ', ' . $business->state . ', ' . $business->country) }};
+    var latitude = {{ Js::from($business->latitude) }};
+    var longitude = {{ Js::from($business->longitude) }};
+
+    var map = L.map('map').setView([latitude, longitude], 13);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -281,6 +320,11 @@
     L.marker([51.5, -0.09]).addTo(map)
         .bindPopup('<strong>' + business + '.</strong> <br/>' + address)
         .openPopup();
+</script>
+
+<script type="text/javascript">
+    var myCarousel = document.querySelector('#myCarousel')
+    var carousel = new bootstrap.Carousel(myCarousel)
 </script>
 
 

@@ -111,4 +111,12 @@
         $(document).ready(function() {
             $('#jobStatus').select2();
         });
+
+        $(document).ready(function() {
+            $('#bannertype').select2();
+        });
+
+        $(document).ready(function() {
+            $('#discat').select2();
+        });
     </script>

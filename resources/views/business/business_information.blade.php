@@ -67,7 +67,9 @@
                             </div>
                             <div class="mb-3 col-md-6 col-12">
                                 <label class="form-label">Business Category</label>
-                                <select id="category" name="business_category" class="@error('category') is-invalid @enderror" data-width="100%" required onchange="showHideTextField()">
+                                <select id="category" name="business_category"
+                                    class="@error('category') is-invalid @enderror" data-width="100%" required
+                                    onchange="showHideTextField()">
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}"
@@ -79,7 +81,8 @@
                                 <div class="invalid-feedback">Please select business category</div>
 
                                 <div id="customOption" style="display: none;" class="pt-3">
-                                    <input id="customField" type="text" name="category_name" value="" class="form-control" placeholder="Enter Your Business Category">
+                                    <input id="customField" type="text" name="category_name" value=""
+                                        class="form-control" placeholder="Enter Your Business Category">
                                 </div>
                             </div>
                             <!-- input -->
@@ -222,7 +225,21 @@
                                 <div class="invalid-feedback">Please enter business address</div>
                             </div>
 
-                            <div class="mb-3 col-md-12 col-12">
+                            <div class="row mb-3 col-md-6 col-12" style="margin:0px; padding:0px">
+                                <div class="mb-3 col-md-6 col-12 ">
+                                    <label class="form-label">Business Address Latitude</label>
+                                    <input type="text" name="latitude" value="{{ $business->latitude }}"
+                                        class="form-control" placeholder="Enter Business Address Latitude">
+                                    <div class="invalid-feedback">Please enter website url</div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label class="form-label">Business Address Longitude</label>
+                                    <input type="text" name="longitude" value="{{ $business->longitude }}"
+                                        class="form-control" placeholder="Enter Business Address Longitude">
+                                    <div class="invalid-feedback">Please enter website url</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-6 col-12">
                                 <label class="form-label">Website URL</label>
                                 <input type="text" name="website_url" value="{{ $business->website_url }}"
                                     class="form-control" placeholder="Enter Website URL">

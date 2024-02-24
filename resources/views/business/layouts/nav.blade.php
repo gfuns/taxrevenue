@@ -1,7 +1,7 @@
 <nav class="navbar-vertical navbar navbar-dark">
     <div class="vh-100" data-simplebar>
         <!-- Brand logo -->
-        <a class="navbar-brand" href="/admin">
+        <a class="navbar-brand" href="{{ route('business.dashboard') }}">
             <h3 class="fw-bold"><img src="{{ asset('images/logo.png') }}" alt="">
             </h3>
         </a>

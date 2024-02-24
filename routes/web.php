@@ -109,6 +109,8 @@ Route::group([
 
         Route::get('/business-page-setup', [App\Http\Controllers\Business\HomeController::class, 'businessPage'])->name("business.businessPage");
 
+        Route::post('/update-page-settings', [App\Http\Controllers\Business\HomeController::class, 'updatePageSettings'])->name("business.updatePageSettings");
+
         Route::post('/update-top-banner', [App\Http\Controllers\Business\HomeController::class, 'updateTopBanner'])->name("business.updateTopBanner");
 
         Route::post('/update-slider-banner', [App\Http\Controllers\Business\HomeController::class, 'uploadSliderBanner'])->name("business.uploadSliderBanner");

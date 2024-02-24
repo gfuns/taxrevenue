@@ -2,7 +2,12 @@
     <a id="nav-toggle" href="#">
         <i class="fe fe-menu"></i>
     </a>
-
+    <div class="ms-3 mt-1">
+        <!-- Form -->
+        <a href="/" data-bs-toggle="tooltip" data-placement="right" title="Visit Landing Page">
+            <i class="fe fe-globe" style="font-size: 24px; color: var(--geeks-gray-700);"></i>
+        </a>
+    </div>
     <!--Navbar nav -->
     <div class="ms-auto d-flex">
         <a href="#" class="form-check form-switch theme-switch btn btn-light btn-icon rounded-circle ">
