@@ -9,6 +9,7 @@ use App\Models\BankList;
 use App\Models\BlogPost;
 use App\Models\Business;
 use App\Models\BusinessReviews;
+use App\Models\BusinessPage;
 use App\Models\CustomerContact;
 use App\Models\Faq;
 use App\Models\JobListing;
@@ -117,7 +118,10 @@ class FrontEndController extends Controller
         $business = Business::where("slug", $slug)->first();
         $latestJobs = JobListing::where("business_id", $business->id)->limit(4)->get();
         $reviews = BusinessReviews::orderBy("rating", "desc")->limit(5)->get();
-        return view("business_details", compact("business", "latestJobs", "reviews"));
+        $topBanner = BusinessPage::where("business_id", $business->id)->where("file_position", "banner")->first();
+        $sliderBanners = BusinessPage::where("business_id", $business->id)->where("file_position", "slider")->get();
+        $catalogues = BusinessPage::where("business_id", $business->id)->where("file_position", "catalogue")->get();
+        return view("business_details", compact("business", "latestJobs", "reviews", "topBanner", "sliderBanners", "catalogues"));
     }
 
     /**

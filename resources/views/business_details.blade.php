@@ -2,26 +2,65 @@
 
 @section('content')
 @section('title', env('APP_NAME') . ' | ' . $business->business_name)
+<style type="text/css">
+    .mts {
+        margin-top: 0px;
+    }
 
+    @media (max-width:576px) {
+        .mts {
+            margin-top: 20px !important;
+        }
+
+    }
+</style>
 <main class="main">
-    <section class="section-box">
-        <div class="breadcrumb-cover page_speed_160581955" style="background:url({{ asset('files/pages/Search.png') }}">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <h2 class="mb-10" style="color:#fff">{{ $business->business_name }}</h2>
-                        <span class="card-location font-regular text-white">{{ $business->country }},
-                            {{ $business->city }}</span>
-                    </div>
-                    <div class="col-lg-3 text-md-end">
-                        <ul class="breadcrumbs ">
-                            <li><a href="/"><span class="fi-rr-home icon-home"></span>
-                                    Home </a></li>
-                            <li><a href="/businesses">Businesses</a></li>
-                        </ul>
-                    </div>
+    <section class="section-box-2 company-detail">
+        <div class="">
+            <div class="">
+                <div class="wrap-cover-image">
+                    <img src="{{ $topBanner->file_url }}" alt="LinkedIn">
                 </div>
             </div>
+            <div class="box-company-profile">
+
+                <div class="row mt-30">
+                    <div class="row col-lg-8 col-12">
+                        <div class="col-lg-2 col-2">
+                            <img src="{{ $business->business_logo }}" class="img-fluid" alt="Logo">
+                        </div>
+                        <div class="col-lg-8 col-md-10 col-10">
+                            <h5 class="f-20"> {{ $business->business_name }}</h5>
+                            <span class="mt-6" style="display: block; font-size: 14px">
+                                {{ $business->city . ', ' . $business->state . ', ' . $business->country }}</span>
+                            <span class="font-regular">
+                                @php
+                                    $unrated = 5 - $business->rating;
+                                @endphp
+                                @for ($i = 1; $i <= $business->rating; $i++)
+                                    <img alt="star" class="rating-star"
+                                        src={{ asset('themes/jobbox/imgs/template/icons/star.svg') }}>
+                                @endfor
+                                @for ($i = 1; $i <= $unrated; $i++)
+                                    <img alt="star" class="rating-star"
+                                        src="{{ asset('themes/jobbox/imgs/template/icons/gray-star.svg') }}">
+                                @endfor
+                                <span
+                                    class="font-xs color-text-mutted ml-10"><span>(</span><span>{{ $business->reviews->count() }}</span><span>
+                                        Reviews)</span></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 text-lg-end mts">
+                        <a class="btn btn-apply-icon btn-apply"
+                            href="whatsapp://send?phone={{ $business->business_phone }}&text=Hi, I saw your business page on Arete Planet. I am very please to connect with you."
+                            target="_blank"> Chat Business
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="border-bottom pt-10 pb-10"></div>
         </div>
     </section>
     <section class="section-box mt-50 company-detail-job-list">
@@ -32,68 +71,21 @@
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="tab-about" role="tabpanel"
                                 aria-labelledby="tab-about">
-                                <h4>We are {{ $business->business_name }}</h4>
+                                <h5 class="f-20" style="color:black">Who We Are and What We do</h5>
                                 <div class="ck-content">
-                                    <p>@php echo $business->business_description; @endphp</p>
+                                    <p style="font-size: 12px">@php echo $business->business_description; @endphp</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="box-related-job content-page box-list-jobs">
-                        <h5 class="mb-30">Latest Jobs</h5>
+                        <h5 class="mb-30">Find a display of some of our gods and services</h5>
                         <div class="display-grid row">
-                            @foreach ($latestJobs as $ljob)
-                                <div class="col-12 col-lg-6 jobs-listing">
-                                    <div class="card-grid-2 hover-up"><span class="flash"></span>
+                            @foreach ($catalogues as $cat)
+                                <div class="col-4 col-lg-2 jobs-listing">
+                                    <div class="card-grid-2 hover-up" style="background:white">
                                         <div class="row">
-                                            <div class=" col-lg-12 col-md-12 col-sm-12">
-                                                <div class="card-grid-2-image-left">
-                                                    <div class="image-box"><img
-                                                            src="{{ $ljob->business->business_logo }}" alt="">
-                                                    </div>
-                                                    <div class="right-info"><a class="name-job"
-                                                            href="/business/details/{{ $ljob->business->slug }}">{{ $ljob->business->business_name }}</a><span
-                                                            class="location-small">{{ $ljob->country }},
-                                                            {{ $ljob->city }}</span></div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="card-block-info">
-                                            <div class="mt-5">
-                                                <span class="card-briefcase"> {{ $ljob->engagement_type }} </span>
-                                                <span class="card-time">
-                                                    <span>{{ $ljob->created_at->diffForHumans() }}</span>
-                                                </span>
-                                            </div>
-                                            <p class="font-sm color-text-paragraph mt-10">
-                                                {{ strip_tags($ljob->job_description) }}
-                                            </p>
-                                            <div class="col-lg-12 text-start col-md-12 col-sm-12">
-                                                <div class="mb-15 mt-30"><a class="btn btn-grey-small mr-5 mb-2"
-                                                        href="#">Sketch</a><a class="btn btn-grey-small mr-5 mb-2"
-                                                        href="#">JavaScript</a></div>
-                                            </div>
-                                            <div class="card-2-bottom mt-20">
-                                                <div class="row">
-                                                    <div class="col-lg-7 col-7"><span class="card-text-price"
-                                                            title="&#8358;{{ number_format($ljob->minimum_salary, 0) }}
-                                                            -
-                                                            &#8358;{{ number_format($ljob->maximum_salary, 0) }}">
-                                                            &#8358;{{ number_format($ljob->minimum_salary, 0) }}
-                                                            -
-                                                            &#8358;{{ number_format($ljob->maximum_salary, 0) }}
-                                                        </span><span
-                                                            class="text-muted">/{{ $ljob->salary_rate }}</span></div>
-                                                    <div class="col-lg-5 col-5 text-end">
-                                                        <div class="">
-                                                            <a href="/job/details/{{ $ljob->slug }}">
-                                                                <button class="btn btn-apply-now">Apply Now</button>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <div class="image-box"><img src="{{ $cat->file_url }}" alt=""></div>
                                         </div>
                                     </div>
                                 </div>
@@ -248,14 +240,9 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="ads_banner_widget"><a href="../index.html"><img
-                                src="{{ asset('files/widgets/widget-banner.png') }}" alt="Banner image"
-                                class="align-middle"></a></div>
                 </div>
             </div>
         </div>
-        <form method="GET" action="#" accept-charset="UTF-8" id="job-pagination-form"><input type=hidden
-                name=page value="1"></form>
     </section>
 
 </main>

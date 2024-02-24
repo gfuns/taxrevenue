@@ -148,6 +148,6 @@
 </main>
 
 <script type="text/javascript">
-    document.getElementById("findjobs").classList.add('active');
+    document.getElementById("businesses").classList.add('active');
 </script>
 @endsection
