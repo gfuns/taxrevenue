@@ -32,7 +32,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="page" href="{{ route('business.businessProfile') }}">
+                <a class="nav-link " id="page" href="{{ route('business.businessPage') }}">
                     <i class="nav-icon fe fe-layout me-2"></i>
                     Business Page Setup
                 </a>

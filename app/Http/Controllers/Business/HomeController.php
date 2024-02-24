@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
 use App\Models\Business;
+use App\Models\BusinessPage;
 use App\Models\Customer;
 use App\Models\JobListing;
 use App\Models\NotificationSetting;
@@ -245,6 +246,15 @@ class HomeController extends Controller
             toast('Something went wrong. Please try again', 'error');
             return back();
         }
+    }
+
+    public function businessPage()
+    {
+        $business = Business::where("customer_id", Auth::user()->id)->first();
+        $topBanner = BusinessPage::where("business_id", $business->id)->where("file_position", "banner")->first();
+        $sliderBanners = BusinessPage::where("business_id", $business->id)->where("file_position", "slider")->get();
+        $catalogues = BusinessPage::where("business_id", $business->id)->where("file_position", "catalogue")->get();
+        return view("business.business_page", compact("business", "topBanner", "sliderBanners", "catalogues"));
     }
 
     public function notificationSettings()
@@ -539,5 +549,179 @@ class HomeController extends Controller
         }
 
         return $marker;
+    }
+
+    public function updateTopBanner(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'business_id' => 'required',
+            'top_banner' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048|dimensions:max_width=1920,max_height=360',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+        try {
+
+            $fileName = $request->file('top_banner')->getClientOriginalName();
+            $byteSize = $request->file('top_banner')->getSize();
+            $fileSize = $this->formatFileSize($byteSize);
+            $fileExtension = $request->file('top_banner')->getClientOriginalExtension();
+            $fileURL = Cloudinary::uploadFile($request->file('top_banner')->getRealPath())->getSecurePath();
+
+            $bannerExist = BusinessPage::where("business_id", $request->business_id)->where("file_position", "banner")->first();
+            if (isset($bannerExist)) {
+                $bannerExist->file_url = $fileURL;
+                $bannerExist->file_url = $fileURL;
+                $bannerExist->file_name = $fileName;
+                $bannerExist->file_size = $fileSize;
+                $bannerExist->file_extension = $fileExtension;
+                if ($bannerExist->save()) {
+                    toast('Top Banner Updated Successfully.', 'success');
+                    return back();
+                } else {
+                    toast('Something Went Wrong.', 'error');
+                    return back();
+                }
+            } else {
+                $banner = new BusinessPage;
+                $banner->business_id = $request->business_id;
+                $banner->file_position = "banner";
+                $banner->file_type = "image";
+                $banner->file_url = $fileURL;
+                $banner->file_name = $fileName;
+                $banner->file_size = $fileSize;
+                $banner->file_extension = $fileExtension;
+                if ($banner->save()) {
+                    toast('Top Banner Updated Successfully.', 'success');
+                    return back();
+                } else {
+                    toast('Something Went Wrong.', 'error');
+                    return back();
+                }
+            }
+        } catch (\Exception $e) {
+            toast('We are having issues connecting to our cloud file management server. Please try again later.', 'error');
+            return back();
+        }
+    }
+
+    public function uploadSliderBanner(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'business_id' => 'required',
+            'slider_banner' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048|dimensions:max_width=1500,max_height=450',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        try {
+            $fileName = $request->file('slider_banner')->getClientOriginalName();
+            $byteSize = $request->file('slider_banner')->getSize();
+            $fileSize = $this->formatFileSize($byteSize);
+            $fileExtension = $request->file('slider_banner')->getClientOriginalExtension();
+            $fileURL = Cloudinary::uploadFile($request->file('slider_banner')->getRealPath())->getSecurePath();
+
+            $banner = new BusinessPage;
+            $banner->business_id = $request->business_id;
+            $banner->file_position = "slider";
+            $banner->file_type = "image";
+            $banner->file_url = $fileURL;
+            $banner->file_name = $fileName;
+            $banner->file_size = $fileSize;
+            $banner->file_extension = $fileExtension;
+            if ($banner->save()) {
+                toast('Slider Banner Uploaded Successfully.', 'success');
+                return back();
+            } else {
+                toast('Something Went Wrong.', 'error');
+                return back();
+            }
+        } catch (\Exception $e) {
+            toast('We are having issues connecting to our cloud file management server. Please try again later.', 'error');
+            return back();
+        }
+
+    }
+
+    public function uploadCatalogue(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'business_id' => 'required',
+            'catalogue_image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048|dimensions:max_width=1500,max_height=450',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+        try {
+
+            $fileName = $request->file('catalogue_image')->getClientOriginalName();
+            $byteSize = $request->file('catalogue_image')->getSize();
+            $fileSize = $this->formatFileSize($byteSize);
+            $fileExtension = $request->file('catalogue_image')->getClientOriginalExtension();
+            $fileURL = Cloudinary::uploadFile($request->file('catalogue_image')->getRealPath())->getSecurePath();
+
+            $banner = new BusinessPage;
+            $banner->business_id = $request->business_id;
+            $banner->file_position = "catalogue";
+            $banner->file_type = "image";
+            $banner->file_url = $fileURL;
+            $banner->file_name = $fileName;
+            $banner->file_size = $fileSize;
+            $banner->file_extension = $fileExtension;
+            if ($banner->save()) {
+                toast('Business Catalogue Image Uploaded Successfully.', 'success');
+                return back();
+            } else {
+                toast('Something Went Wrong.', 'error');
+                return back();
+            }
+        } catch (\Exception $e) {
+            toast('We are having issues connecting to our cloud file management server. Please try again later.', 'error');
+            return back();
+        }
+
+    }
+
+    public function removePageFile($id)
+    {
+        $pageFile = BusinessPage::find($id);
+        if (isset($pageFile)) {
+            if ($pageFile->delete()) {
+                toast('File Deleted Successfully.', 'success');
+                return back();
+            } else {
+                toast('Something Went Wrong.', 'error');
+                return back();
+            }
+        } else {
+            toast('Something Went Wrong.', 'error');
+            return back();
+        }
+    }
+
+    public function formatFileSize($size)
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $i = 0;
+
+        while ($size > 1024) {
+            $size /= 1024;
+            $i++;
+        }
+
+        return round($size, 2) . ' ' . $units[$i];
     }
 }

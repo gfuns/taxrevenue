@@ -107,6 +107,16 @@ Route::group([
 
         Route::post('/update-business-profile', [App\Http\Controllers\Business\HomeController::class, 'updateBusinessProfile'])->name("business.updateBusinessProfile");
 
+        Route::get('/business-page-setup', [App\Http\Controllers\Business\HomeController::class, 'businessPage'])->name("business.businessPage");
+
+        Route::post('/update-top-banner', [App\Http\Controllers\Business\HomeController::class, 'updateTopBanner'])->name("business.updateTopBanner");
+
+        Route::post('/update-slider-banner', [App\Http\Controllers\Business\HomeController::class, 'uploadSliderBanner'])->name("business.uploadSliderBanner");
+
+        Route::post('/update-catalogue', [App\Http\Controllers\Business\HomeController::class, 'uploadCatalogue'])->name("business.uploadCatalogue");
+
+        Route::get('/remove-page-file/{id}', [App\Http\Controllers\Business\HomeController::class, 'removePageFile'])->name("business.removePageFile");
+
         Route::get('/notification-settings', [App\Http\Controllers\Business\HomeController::class, 'notificationSettings'])->name("business.notificationSettings");
 
         Route::get('/notification/unsubscribe-all', [App\Http\Controllers\Business\HomeController::class, 'unsubscribeAllNotifications'])->name("business.unsubscribeAllNotifications");
