@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TopupSuccessful as TopupSuccessful;
+use App\Models\AreteWalletTransaction;
 use App\Models\CardTransactions;
 use App\Models\CustomerCards;
 use App\Models\CustomerSubscription;
 use App\Models\PaystackTransaction;
 use App\Models\SubscriptionPlan;
-use App\Models\AreteWalletTransaction;
 use Auth;
 use Carbon\Carbon;
 use Coderatio\PaystackMirror\Actions\Transactions\VerifyTransaction;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Mail;
 
 class SubscriptionController extends Controller
 {
@@ -83,7 +85,7 @@ class SubscriptionController extends Controller
     {
         $card = CustomerCards::find($id);
         if (isset($card)) {
-            if($card->default_card == 0){
+            if ($card->default_card == 0) {
                 if ($card->delete()) {
                     toast('Card Details Deleted Successfully.', 'success');
                     return back();
@@ -91,7 +93,7 @@ class SubscriptionController extends Controller
                     toast('Something went wrong.', 'error');
                     return back();
                 }
-            }else{
+            } else {
                 toast('You must have atleast one Primary Payment Method on your account.', 'error');
                 return back();
             }
@@ -291,8 +293,6 @@ class SubscriptionController extends Controller
         $payment = PaystackMirror::run(env('PAYSTACK_SECRET_KEY'), new VerifyTransaction($request->reference))
             ->getResponse()->asObject();
 
-
-
         if (!isset($payment->data)) {
             toast("Something Went Wrong", 'error');
             return redirect()->route("business.subscription");
@@ -330,11 +330,11 @@ class SubscriptionController extends Controller
                     toast("Payment Method Added Successfully", 'success');
                     return redirect()->route("business.subscription");
 
-                }else if($paystack->trx_type == "topup"){
+                } else if ($paystack->trx_type == "topup") {
                     $trx = new AreteWalletTransaction;
                     $trx->customer_id = Auth::user()->id;
                     $trx->trx_type = "credit";
-                    $trx->payment_method = ucwords($cardDetails->brand)." ending with ".$cardDetails->last4;
+                    $trx->payment_method = ucwords($cardDetails->brand) . " ending with " . $cardDetails->last4;
                     $trx->amount = $paystack->amount;
                     $trx->description = "Customer Wallet Balance Topup";
                     $trx->reference = $paystack->reference;
@@ -349,30 +349,32 @@ class SubscriptionController extends Controller
 
                     DB::commit();
 
+                    try {
+                        $user = Auth::user();
+                        Mail::to($user)->send(new TopupSuccessful($user, $trx));
+                    } catch (\Exception $e) {
+                        report($e);
+                    }
+
                     toast("Wallet Topup Successful", 'success');
                     return redirect()->route("business.myWallet");
                 }
-
 
             } catch (\Exception $e) {
                 DB::rollback();
                 report($e);
 
                 toast("Something Went Wrong", 'error');
-                if($paystack->trx_type == "paymentmethod"){
+                if ($paystack->trx_type == "paymentmethod") {
                     return redirect()->route("business.subscription");
-                }else if($paystack->trx_type == "topup"){
+                } else if ($paystack->trx_type == "topup") {
                     return redirect()->route("business.myWallet");
                 }
             }
 
         } else {
             toast("This transaction has already been processed", 'error');
-            if($paystack->trx_type == "paymentmethod"){
-                return redirect()->route("business.subscription");
-            }else if($paystack->trx_type == "topup"){
-                return redirect()->route("business.myWallet");
-            }
+            return redirect()->route("business.dashboard");
         }
     }
 

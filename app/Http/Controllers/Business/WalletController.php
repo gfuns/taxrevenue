@@ -67,32 +67,38 @@ class WalletController extends Controller
             return back();
         }
 
-        $transaction = new PaystackTransaction;
-        $transaction->customer_id = Auth::user()->id;
-        $transaction->trx_type = "topup";
-        $transaction->reference = "pm_rf" . Str::random(11);
-        $transaction->amount = $request->topup_amount;
-        if ($transaction->save()) {
-            $response = Http::accept('application/json')->withHeaders([
-                'authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
-                'content_type' => "Content-Type: application/json",
-            ])->post("https://api.paystack.co/transaction/initialize", [
-                "email" => Auth::user()->email,
-                "amount" => ($transaction->amount * 100),
-                "reference" => $transaction->reference,
-            ]);
+        try {
+            $transaction = new PaystackTransaction;
+            $transaction->customer_id = Auth::user()->id;
+            $transaction->trx_type = "topup";
+            $transaction->reference = "pm_rf" . Str::random(11);
+            $transaction->amount = $request->topup_amount;
+            if ($transaction->save()) {
+                $response = Http::accept('application/json')->withHeaders([
+                    'authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
+                    'content_type' => "Content-Type: application/json",
+                ])->post("https://api.paystack.co/transaction/initialize", [
+                    "email" => Auth::user()->email,
+                    "amount" => ($transaction->amount * 100),
+                    "reference" => $transaction->reference,
+                ]);
 
-            $responseData = $response->collect("data");
+                $responseData = $response->collect("data");
 
-            if (isset($responseData['authorization_url'])) {
-                return redirect($responseData['authorization_url']);
+                if (isset($responseData['authorization_url'])) {
+                    return redirect($responseData['authorization_url']);
+                }
+
+                toast("Paystack gateway service took too long to respond", 'error');
+                return back();
+
+            } else {
+                toast('Something went wrong.', 'error');
+                return back();
             }
-
-            toast("Paystack gateway service took too long to respond", 'error');
-            return back();
-
-        } else {
-            toast('Something went wrong.', 'error');
+        } catch (\Exception $e) {
+            report($e);
+            toast('We encountered an error while trying to connect with our payment provider. Please Try again after some time', 'error');
             return back();
         }
     }
