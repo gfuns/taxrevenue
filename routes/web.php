@@ -75,7 +75,7 @@ Route::get('/account-selection', [App\Http\Controllers\OnboardingController::cla
 Route::get('/select-account/{accountType}', [App\Http\Controllers\OnboardingController::class, 'selectAccountType'])->name("selectAccount");
 
 Route::group([
-    'middleware' => ['emailverified', 'webauthenticated'],
+    'middleware' => ['emailverified', 'webauthenticated', 'g2fa'],
 ], function ($router) {
 
     Route::get('/business/dashboard', [App\Http\Controllers\Business\HomeController::class, 'dashboard'])->name('business.dashboard');
@@ -91,7 +91,7 @@ Route::group([
 
     Route::group([
         'prefix' => 'business',
-        'middleware' => ['validatebusiness', 'webauthenticated'],
+        'middleware' => ['validatebusiness', 'webauthenticated', 'g2fa'],
 
     ], function ($router) {
 
@@ -149,7 +149,7 @@ Route::group([
 
         Route::get('/job/publish/{id}', [App\Http\Controllers\Business\JobListingController::class, 'publishJob'])->name("business.publishJob");
 
-       Route::get('/buy-airtime', [App\Http\Controllers\Business\UtilityController::class, 'buyAirtime'])->name("business.buyAirtime");
+        Route::get('/buy-airtime', [App\Http\Controllers\Business\UtilityController::class, 'buyAirtime'])->name("business.buyAirtime");
 
         Route::get('/buy-airtime/preview/{id}', [App\Http\Controllers\Business\UtilityController::class, 'airtimePreview'])->name("business.airtimePreview");
 
@@ -237,6 +237,9 @@ Route::group([
 
 });
 
+Route::post('/login/2fa', [App\Http\Controllers\Business\TwofactorController::class, 'verify2FA'])->name('login.2fa');
+
+Route::post('/login/validate2fa', [App\Http\Controllers\Business\TwofactorController::class, 'validate2fa'])->name('login.validate2fa');
 
 Route::get('/resolve-bank', [App\Http\Controllers\FrontEndController::class, 'bankList']);
 

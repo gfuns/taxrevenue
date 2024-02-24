@@ -48,18 +48,6 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\WebAuthenticated::class,
         ],
 
-        'mobileauthenticated' => [
-            \App\Http\Middleware\MobileAuthenticated::class,
-        ],
-
-        'validatewebkey' => [
-            \App\Http\Middleware\ValidateWebKey::class,
-        ],
-
-        'validatemobilekey' => [
-            \App\Http\Middleware\ValidateMobileKey::class,
-        ],
-
         'mustverify' => [
             \App\Http\Middleware\MustVerify::class,
         ],
@@ -72,16 +60,8 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\ValidateBusiness::class,
         ],
 
-        'validateartisan' => [
-            \App\Http\Middleware\ValidateArtisan::class,
-        ],
-
         'businessprofileupdated' => [
             \App\Http\Middleware\BusinessProfileUpdated::class,
-        ],
-
-        'artisanprofileupdated' => [
-            \App\Http\Middleware\ArtisanProfileUpdated::class,
         ],
     ];
 
@@ -104,5 +84,6 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'g2fa' => \App\Http\Middleware\Google2fa::class,
     ];
 }
