@@ -16,12 +16,12 @@
         color: #766df4 !important;
     }
 
-    .bg-soft-success{
+    .bg-soft-success {
         background-color: #d1f5ea !important;
         color: #20c997 !important;
     }
 
-    .bg-soft-danger{
+    .bg-soft-danger {
         background-color: #fad9d8 !important;
         color: #dc3545 !important;
     }
@@ -40,77 +40,75 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xl-3 col-lg-6 col-md-12 col-12">
-            <!-- Card -->
-            <div class="card mb-4">
-                <!-- Card body -->
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3 lh-1">
-                        <div>
-                            <span class="fs-6 text-uppercase fw-bold ls-md">Total Jobs Posted</span>
+        <div class="col-lg-3 col-12">
+            <div class="col-lg-12 col-12">
+                <!-- Card -->
+                <div class="card mb-4 bg-light-success">
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-2 lh-1">
+                            <h4 class="fs-6 text-uppercase fw-bold ls-md">Current Subscription</h4>
+                            <div>
+                                <span class="bi bi-award-fill fs-3 text-success"></span>
+                            </div>
                         </div>
-                        <div>
-                            <span class="bi bi-briefcase-fill fs-3 text-primary"></span>
-                        </div>
+                        <h4 class="fw-bold mb-1">
+                            @if (isset($param['activeSubscription']))
+                                &#8358;{{ number_format($param['activeSubscription']->subscription_amount, 2) }}/{{ $param['activeSubscription']->plan->plan }}
+                            @else
+                                <span class="fs-5">No Active Subscription Found</span>
+                            @endif
+                        </h4>
                     </div>
-                    <h2 class="fw-bold mb-1">{{ number_format($param['jobsPosted'], 0) }}</h2>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-12">
+                <!-- Card -->
+                <div class="card mb-4">
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-2 lh-1">
+                            <h4 class="fs-6 text-uppercase fw-bold ls-md">Arete Wallet Balance</h4>
+                            <div>
+                                <span class="bi bi-wallet fs-3 text-primary"></span>
+                            </div>
+                        </div>
+                        <h4 class="fw-bold mb-1">&#8358;{{ number_format($param['areteBalance'], 2) }}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-12">
+                <!-- Card -->
+                <div class="card mb-4">
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-2 lh-1">
+                            <h4 class="fs-6 text-uppercase fw-bold ls-md">Referral Points</h4>
+                            <div>
+                                <span class="bi bi-balloon-heart-fill fs-3 text-primary"></span>
+                            </div>
+                        </div>
+                        <h4 class="fw-bold mb-1">{{ number_format($param['referralPoints'], 0) }} Points</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-12">
+                <!-- Card -->
+                <div class="card mb-4">
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-2 lh-1">
+                            <h4 class="fs-6 text-uppercase fw-bold ls-md">Total Jobs Posted</h4>
+                            <div>
+                                <span class="bi bi-briefcase-fill fs-3 text-primary"></span>
+                            </div>
+                        </div>
+                        <h4 class="fw-bold mb-1">{{ number_format($param['jobsPosted'], 0) }} Job Listing(s)</h4>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-6 col-md-12 col-12">
-            <!-- Card -->
-            <div class="card mb-4">
-                <!-- Card body -->
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3 lh-1">
-                        <div>
-                            <span class="fs-6 text-uppercase fw-bold ls-md">Total Applicants</span>
-                        </div>
-                        <div>
-                            <span class="bi bi-people-fill fs-3 text-primary"></span>
-                        </div>
-                    </div>
-                    <h2 class="fw-bold mb-1">{{ number_format(0, 0) }}</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-md-12 col-12">
-            <!-- Card -->
-            <div class="card mb-4">
-                <!-- Card body -->
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3 lh-1">
-                        <div>
-                            <span class="fs-6 text-uppercase fw-bold ls-md">Arete Wallet Balance</span>
-                        </div>
-                        <div>
-                            <span class="bi bi-wallet fs-3 text-primary"></span>
-                        </div>
-                    </div>
-                    <h2 class="fw-bold mb-1">&#8358;{{ number_format($param['areteBalance'], 2) }}</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-md-12 col-12">
-            <!-- Card -->
-            <div class="card mb-4">
-                <!-- Card body -->
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3 lh-1">
-                        <div>
-                            <span class="fs-6 text-uppercase fw-bold ls-md">Referral Points</span>
-                        </div>
-                        <div>
-                            <span class="bi bi-balloon-heart-fill fs-3 text-primary"></span>
-                        </div>
-                    </div>
-                    <h2 class="fw-bold mb-1">{{ number_format($param['referralPoints'], 0) }}</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+        <div class="col-lg-9 col-12">
             <!-- Card -->
             <div class="card mb-4">
                 <!-- Card header -->

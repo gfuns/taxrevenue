@@ -14,7 +14,8 @@
         <div class="row">
             <div class="footer-col-1 col-md-3 col-sm-12"><a href="/" aria-label="{{ env('APP_NAME') }}"><img
                         alt="" src="{{ asset('files/general/logo.png') }}"></a>
-                <div class="mt-20 mb-20 font-sm text-white"> Arete is the world class cutting-edge business directory designed
+                <div class="mt-20 mb-20 font-sm text-white"> Arete is the world class cutting-edge business directory
+                    designed
                     for businesses like you to elevate your business experience!
                 </div>
                 <div class="footer-social">
@@ -135,20 +136,22 @@
 <script src={{ asset('vendor/core/plugins/cookie-consent/js/cookie-consentf700.js') }}?v=1.0.1></script>
 <script src={{ asset('vendor/core/plugins/language/js/language-publicd1f1.js') }}?v=2.2.0></script>
 <script src={{ asset('themes/jobbox/js/noUISlider.js') }}></script>
-<script src={{ asset('themes/jobbox/plugins/leaflet/leaflet.js') }}></script>
-<script src={{ asset('themes/jobbox/plugins/leaflet/leaflet.markercluster-src.js') }}></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-<script src="{{asset('js/iziToast.js')}}"></script>
-<script src="{{asset('js/iziwrapper.js')}}"></script>
+<script src="{{ asset('js/iziToast.js') }}"></script>
+<script src="{{ asset('js/iziwrapper.js') }}"></script>
 
 
-<script src="{{ asset("js/bootstrap-notify.min.js") }} "></script>
+<script src="{{ asset('js/bootstrap-notify.min.js') }} "></script>
 
 {{-- <div class="js-cookie-consent cookie-consent cookie-consent-full-width page_speed_287683390">
     <div class="cookie-consent-body page_speed_2125851095"><span class="cookie-consent__message"> Your
-            experience on this site will be improved by allowing cookies <a href="cookie-policy.html">Cookie
-                Policy</a></span><button
-            class="js-cookie-consent-agree cookie-consent__agree page_speed_1815023329"> Allow cookies </button>
+            experience on this site will be improved by allowing cookies <a href="/cookie-policy">Cookie
+                Policy</a></span><button class="js-cookie-consent-agree cookie-consent__agree page_speed_1815023329">
+            Allow cookies </button>
     </div>
 </div> --}}
 

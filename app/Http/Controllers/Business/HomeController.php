@@ -11,6 +11,7 @@ use App\Models\NotificationSetting;
 use App\Models\PlatformCategories;
 use App\Models\Products;
 use App\Models\TutorialVideos;
+use App\Models\CustomerSubscription;
 use Auth;
 use Cloudinary;
 use Illuminate\Http\Request;
@@ -42,6 +43,7 @@ class HomeController extends Controller
             'jobsPosted' => JobListing::where("customer_id", Auth::user()->business->id)->count(),
             'areteBalance' => Auth::user()->wallet->arete_balance,
             'referralPoints' => Auth::user()->wallet->referral_points,
+            'activeSubscription' => $activeSubscription = CustomerSubscription::where("customer_id", Auth::user()->id)->where("status", "active")->first(),
         ];
 
         return view("business.dashboard", compact("param"));

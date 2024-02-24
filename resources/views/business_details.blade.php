@@ -7,9 +7,18 @@
         margin-top: 0px;
     }
 
+    .blo {
+        min-height: 100px;
+    }
+
     @media (max-width:576px) {
         .mts {
             margin-top: 20px !important;
+        }
+
+        .blo {
+            min-height: 60px !important;
+
         }
 
     }
@@ -17,19 +26,21 @@
 <main class="main">
     <section class="section-box-2 company-detail">
         <div class="">
-            <div class="">
-                <div class="wrap-cover-image">
-                    <img src="{{ $topBanner->file_url }}" alt="LinkedIn">
+            @if (isset($topBanner->file_url))
+                <div class="">
+                    <div class="wrap-cover-image">
+                        <img src="{{ $topBanner->file_url }}" alt="LinkedIn">
+                    </div>
                 </div>
-            </div>
+            @endif
             <div class="box-company-profile">
 
-                <div class="row mt-30">
+                <div class="row mt-10">
                     <div class="row col-lg-8 col-12">
-                        <div class="col-lg-2 col-2">
-                            <img src="{{ $business->business_logo }}" class="img-fluid" alt="Logo">
+                        <div class="col-lg-2 col-3">
+                            <img src="{{ $business->business_logo }}" class="img-fluid blo" alt="Logo">
                         </div>
-                        <div class="col-lg-8 col-md-10 col-10">
+                        <div class="col-lg-8 col-md-8 col-8">
                             <h5 class="f-20"> {{ $business->business_name }}</h5>
                             <span class="mt-6" style="display: block; font-size: 14px">
                                 {{ $business->city . ', ' . $business->state . ', ' . $business->country }}</span>
@@ -52,9 +63,10 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12 text-lg-end mts">
-                        <a class="btn btn-apply-icon btn-apply"
+                        <a class="btn  btn-apply"
                             href="whatsapp://send?phone={{ $business->business_phone }}&text=Hi, I saw your business page on Arete Planet. I am very please to connect with you."
-                            target="_blank"> Chat Business
+                            target="_blank"> <i class="fab fa-whatsapp fa-1x me-2" style="font-size:18px"></i> Chat
+                            Business
                         </a>
                     </div>
 
@@ -63,7 +75,7 @@
             <div class="border-bottom pt-10 pb-10"></div>
         </div>
     </section>
-    <section class="section-box mt-50 company-detail-job-list">
+    <section class="section-box mt-10 company-detail-job-list">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-12 col-sm-12 col-12">
@@ -140,103 +152,106 @@
                 </div>
                 <div class="col-lg-4 col-md-12 col-sm-12 col-12 pl-40 pl-lg-15 mt-lg-30">
                     <div class="sidebar-border">
-                        <div class="sidebar-heading">
-                            <div class="avatar-sidebar">
-                                <figure><a><img alt="#" src="{{ $business->business_logo }}" /></a></figure>
-                                <div class="sidebar-info ">
-                                    <span class="sidebar-company mb-2">{{ $business->business_name }}</span>
-
-                                    <a class="link-underline mt-5 mb-2">{{ $business->jobListing->count() == 0 ? 'No' : $business->jobListing->count() }}
-                                        Open Jobs</a>
-
-                                    @php
-                                        $unrated = 5 - $business->rating;
-                                    @endphp
-                                    @for ($i = 1; $i <= $business->rating; $i++)
-                                        <img alt="star" class="rating-star"
-                                            src={{ asset('themes/jobbox/imgs/template/icons/star.svg') }}>
-                                    @endfor
-                                    @for ($i = 1; $i <= $unrated; $i++)
-                                        <img alt="star" class="rating-star"
-                                            src="{{ asset('themes/jobbox/imgs/template/icons/gray-star.svg') }}">
-                                    @endfor
-
-                                    <span
-                                        class="font-xs color-text-mutted ml-10"><span>(</span><span>{{ $business->reviews->count() }}</span><span>)</span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="sidebar-list-job">
+                        <div class="">
+                            <h5 class="sidebar-company mb-4">Contact Details</h5>
                             <div class="box-map job-board-street-map-container">
-                                MAP comes here
+                                <div id="map" style="height: 200px"></div>
                             </div>
                         </div>
                         <div class="sidebar-list-job">
                             <ul>
-                                <li>
-                                    <div class="sidebar-icon-item">
-                                        <i class="fi-rr-envelope"></i>
-                                    </div>
-                                    <div class="sidebar-text-info">
-                                        <span class="text-description">Email Address</span>
-                                        <strong class="small-heading">{{ $business->business_email }}</strong>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="sidebar-icon-item">
-                                        <i class="fi-rr-phone-call"></i>
-                                    </div>
-                                    <div class="sidebar-text-info">
-                                        <span class="text-description">Phone Number</span>
-                                        <strong class="small-heading">{{ $business->business_phone }}</strong>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="sidebar-icon-item">
-                                        <i class="fi-rr-map-marker-home"></i>
-                                    </div>
-                                    <div class="sidebar-text-info">
-                                        <span class="text-description">Contact Address</span>
-                                        <strong class="small-heading">{{ $business->business_address }}</strong>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="sidebar-icon-item"><i class="fi-rr-globe"></i></div>
-                                    <div class="sidebar-text-info">
-                                        <span class="text-description">Website</span>
-                                        <a href="{{ $business->website_url }}" target="_blank">
-                                            <strong class="small-heading">{{ $business->website_url }}</strong>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="sidebar-icon-item"><i class="fab fa-facebook"></i></div>
-                                    <div class="sidebar-text-info">
-                                        <span class="text-description">Facebook</span>
-                                        <strong class="small-heading">{{ $business->facebook_url }}</strong>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="sidebar-icon-item"><i class="fab fa-linkedin-in"></i></div>
-                                    <div class="sidebar-text-info">
-                                        <span class="text-description">LinkedIn</span>
-                                        <strong class="small-heading">{{ $business->linkedin_url }}</strong>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="sidebar-icon-item"><i class="fab fa-twitter"></i></div>
-                                    <div class="sidebar-text-info">
-                                        <span class="text-description">Twitter</span>
-                                        <strong class="small-heading">{{ $business->twitter_url }}</strong>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="sidebar-icon-item"><i class="fab fa-instagram"></i></div>
-                                    <div class="sidebar-text-info">
-                                        <span class="text-description">Instagram</span>
-                                        <strong class="small-heading">{{ $business->instagram_url }}</strong>
-                                    </div>
-                                </li>
+                                @if (isset($business->business_email))
+                                    <li>
+                                        <div class="sidebar-icon-item">
+                                            <i class="fi-rr-envelope"></i>
+                                        </div>
+                                        <div class="sidebar-text-info">
+                                            <span class="text-description">Email Address</span>
+                                            <a href="mailto:{{ $business->business_email }}">
+                                                <strong class="small-heading">{{ $business->business_email }}</strong>
+                                            </a>
+                                        </div>
+                                    </li>
+                                @endif
+                                @if (isset($business->business_phone))
+                                    <li>
+                                        <div class="sidebar-icon-item">
+                                            <i class="fi-rr-phone-call"></i>
+                                        </div>
+                                        <div class="sidebar-text-info">
+                                            <span class="text-description">Phone Number</span>
+                                            <a href="tel:{{ $business->business_phone }}">
+                                                <strong class="small-heading">{{ $business->business_phone }}</strong>
+                                            </a>
+                                        </div>
+                                    </li>
+                                @endif
+                                @if (isset($business->business_address))
+                                    <li>
+                                        <div class="sidebar-icon-item">
+                                            <i class="fi-rr-map-marker-home"></i>
+                                        </div>
+                                        <div class="sidebar-text-info">
+                                            <span class="text-description">Contact Address</span>
+                                            <strong class="small-heading">{{ $business->business_address }}</strong>
+                                        </div>
+                                    </li>
+                                @endif
+                                @if (isset($business->website_url))
+                                    <li>
+                                        <div class="sidebar-icon-item"><i class="fi-rr-globe"></i></div>
+                                        <div class="sidebar-text-info">
+                                            <span class="text-description">Website</span>
+                                            <a href="{{ $business->website_url }}" target="_blank">
+                                                <strong class="small-heading">{{ $business->website_url }}</strong>
+                                            </a>
+                                        </div>
+                                    </li>
+                                @endif
+                                @if (isset($business->facebook_url))
+                                    <li>
+                                        <div class="sidebar-icon-item"><i class="fab fa-facebook"></i></div>
+                                        <div class="sidebar-text-info">
+                                            <span class="text-description">Facebook</span>
+                                            <a href="{{ $business->facebook_url }}" target="_blank">
+                                                <strong class="small-heading">{{ $business->facebook_url }}</strong>
+                                            </a>
+                                        </div>
+                                    </li>
+                                @endif
+                                @if (isset($business->linkedin_url))
+                                    <li>
+                                        <div class="sidebar-icon-item"><i class="fab fa-linkedin-in"></i></div>
+                                        <div class="sidebar-text-info">
+                                            <span class="text-description">LinkedIn</span>
+                                            <a href="{{ $business->linkedin_url }}" target="_blank">
+                                                <strong class="small-heading">{{ $business->linkedin_url }}</strong>
+                                            </a>
+                                        </div>
+                                    </li>
+                                @endif
+                                @if (isset($business->twitter_url))
+                                    <li>
+                                        <div class="sidebar-icon-item"><i class="fab fa-twitter"></i></div>
+                                        <div class="sidebar-text-info">
+                                            <span class="text-description">Twitter</span>
+                                            <a href="{{ $business->twitter_url }}" target="_blank">
+                                                <strong class="small-heading">{{ $business->twitter_url }}</strong>
+                                            </a>
+                                        </div>
+                                    </li>
+                                @endif
+                                @if (isset($business->instagram_url))
+                                    <li>
+                                        <div class="sidebar-icon-item"><i class="fab fa-instagram"></i></div>
+                                        <div class="sidebar-text-info">
+                                            <span class="text-description">Instagram</span>
+                                            <a href="{{ $business->instagram_url }}" target="_blank">
+                                                <strong class="small-heading">{{ $business->instagram_url }}</strong>
+                                            </a>
+                                        </div>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -249,4 +264,53 @@
 <script type="text/javascript">
     document.getElementById("businesses").classList.add('active');
 </script>
+@endsection
+
+@section('customjs')
+<script type="text/javascript">
+    var map = L.map('map').setView([51.505, -0.09], 13);
+    var business = {{ Js::from($business->business_name) }};
+    var address = {{ Js::from($business->city . ', ' . $business->state . ', ' . $business->country) }};
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+
+    L.marker([51.5, -0.09]).addTo(map)
+        .bindPopup('<strong>' + business + '.</strong> <br/>' + address)
+        .openPopup();
+</script>
+
+
+{{-- <script type="text/javascript">
+    function getLatLngFromAddress(address) {
+        // Replace 'YOUR_API_KEY' with your actual API key
+        var apiKey = 'YOUR_API_KEY';
+        var geocodingUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent(address) +
+            '&key=' + apiKey;
+
+        // Make a request to the Geocoding API
+        fetch(geocodingUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.results.length > 0) {
+                    // Get the latitude and longitude from the first result
+                    var latitude = data.results[0].geometry.location.lat;
+                    var longitude = data.results[0].geometry.location.lng;
+                    console.log('Latitude:', latitude);
+                    console.log('Longitude:', longitude);
+                } else {
+                    console.error('No results found');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+
+    // Example usage:
+    getLatLngFromAddress('1600 Amphitheatre Parkway, Mountain View, CA');
+</script> --}}
 @endsection
