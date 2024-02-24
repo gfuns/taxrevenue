@@ -8,8 +8,8 @@ use App\Models\Artisans;
 use App\Models\BankList;
 use App\Models\BlogPost;
 use App\Models\Business;
-use App\Models\BusinessReviews;
 use App\Models\BusinessPage;
+use App\Models\BusinessReviews;
 use App\Models\CustomerContact;
 use App\Models\Faq;
 use App\Models\JobListing;
@@ -29,9 +29,9 @@ class FrontEndController extends Controller
     {
         $limit = 10;
         $preCat = PlatformCategories::where("category_type", "business")->count();
-        if($preCat % 2 == 0){
+        if ($preCat % 2 == 0) {
             $limit = $preCat;
-        }else{
+        } else {
             $limit = ($preCat - 1);
         }
 
@@ -97,8 +97,8 @@ class FrontEndController extends Controller
         return view("business_listing", compact("businesses", "lastRecord", "marker", "filter", "location", "keyword"));
     }
 
-
-    public function businessCategories(){
+    public function businessCategories()
+    {
         $categories = PlatformCategories::where("category_type", "business")->get();
         return view("business_categories", compact("categories"));
     }
@@ -308,14 +308,14 @@ class FrontEndController extends Controller
         if ($contact->save()) {
 
             try {
-                $user = "gfunzy@gmail.com";
+                $user = "areteplanet23@gmail.com";
                 Mail::to($user)->send(new ContactMail($user, $contact));
             } catch (\Exception $e) {
                 report($e);
-                \Log::info($e->getMessage());
             }
 
-            Session::flash("success", "We have received your message and will get back to you soonest.");
+            Session::flash("alert-type", "success");
+            Session::flash("message", "We have received your message and will get back to you soonest.");
             return back();
 
             // finally {
@@ -324,7 +324,8 @@ class FrontEndController extends Controller
             // }
 
         } else {
-            Session::flash("error", "Something Went Wrong");
+            Session::flash("alert-type", "error");
+            Session::flash("message", "Something Went Wrong");
             return back();
         }
     }

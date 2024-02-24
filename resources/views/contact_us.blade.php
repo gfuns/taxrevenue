@@ -136,27 +136,44 @@
 
 
 @section('customjs')
-@if (Session::has('error'))
-    <script>
-        $.notify({
-            icon: 'flaticon-alarm-1',
-            title: 'Error',
-            message: {{ Js::from(Session::get('error')) }},
-        }, {
-            type: 'danger',
-        });
-    </script>
-@endif
 
-@if (Session::has('success'))
-    <script>
-        $.notify({
-            icon: 'flaticon-alarm-1',
-            title: 'Successful!',
-            message: {{ Js::from(Session::get('success')) }},
-        }, {
-            type: 'success',
-        });
-    </script>
-@endif
+<script>
+    @if (Session::has('message'))
+        var type = "{{ Session::get('alert-type', 'info') }}"
+        switch (type) {
+            case 'info':
+
+                toastr.options.timeOut = 10000;
+                toastr.info("{{ Session::get('message') }}");
+                var audio = new Audio('audio.mp3');
+                audio.play();
+                break;
+            case 'success':
+
+                toastr.options.timeOut = 10000;
+                toastr.success("{{ Session::get('message') }}");
+                var audio = new Audio('audio.mp3');
+                audio.play();
+
+                break;
+            case 'warning':
+
+                toastr.options.timeOut = 10000;
+                toastr.warning("{{ Session::get('message') }}");
+                var audio = new Audio('audio.mp3');
+                audio.play();
+
+                break;
+            case 'error':
+
+                toastr.options.timeOut = 10000;
+                toastr.error("{{ Session::get('message') }}");
+                var audio = new Audio('audio.mp3');
+                audio.play();
+
+                break;
+        }
+    @endif
+</script>
+
 @endsection

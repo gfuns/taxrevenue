@@ -185,7 +185,8 @@
                                     <div class="mt-4">
                                         <p class="mt-2">No Reviews Found</p>
                                         @if (!Auth::user())
-                                            <div class="mt-2 text-muted"> <a href="/login" style="color: #690068">Sign In</a> to write a
+                                            <div class="mt-2 text-muted"> <a href="/login"
+                                                    style="color: #690068">Sign In</a> to write a
                                                 review for this business. </div>
                                         @endif
                                     </div>
@@ -193,7 +194,35 @@
                             @endif
 
                             <div>
-                                <form action="https://jobbox.archielite.com/review/create" method="post" class="review-form mt-4 pt-3"><input type="hidden" name="_token" value="kqsYGdIzLnaRXefyGCoGvCSxU0QXqz9ntHSPQ6lf" autocomplete="off"><input type="hidden" name="reviewable_type" value="Botble\JobBoard\Models\Company"><input type="hidden" name="reviewable_id" value="1"><h6 class="fs-17 fw-semibold mb-2">Reviews for LinkedIn</h6><div class="row"><div class="col-lg-12"><div class="mb-3"><div class="br-wrapper br-theme-css-stars"><select name="star" class="jquery-bar-rating" data-read-only="false" style="display: none;"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5" selected="">5</option></select><div class="br-widget"><a href="#" data-rating-value="1" data-rating-text="1" class="br-selected"></a><a href="#" data-rating-value="2" data-rating-text="2" class="br-selected"></a><a href="#" data-rating-value="3" data-rating-text="3" class="br-selected"></a><a href="#" data-rating-value="4" data-rating-text="4" class="br-selected"></a><a href="#" data-rating-value="5" data-rating-text="5" class="br-selected br-current"></a><div class="br-current-rating">5</div></div></div></div></div><div class="col-lg-12"><div class="mb-3"><label for="review" class="form-label">Review</label><textarea class="form-control" id="review" name="review" placeholder="Add your review"></textarea></div></div></div><div class="text-end"><button type="submit" class="btn btn-primary btn-hover"> Submit Review </button></div></form>
+                                <form action="{{ route('business.reviewBusiness') }}" method="post"
+                                    class="review-form mt-4">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <div class="br-wrapper br-theme-css-stars">
+                                                    <select name="star" class="jquery-bar-rating"
+                                                        data-read-only="false" style="display: none;">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5" selected="">5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <label for="review" class="form-label">Review</label>
+                                                <input id="rating" name="rating" type="hidden"
+                                                    value="" />
+                                                <textarea class="form-control" id="review" name="review" placeholder="Add your review" style="resize: none"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-end"><button type="submit" class="btn btn-primary btn-hover">
+                                            Submit Review </button></div>
+                                </form>
                             </div>
 
                             {{-- <div class="review-pagination d-flex justify-content-center mt-3"></div> --}}
@@ -341,6 +370,45 @@
 <script type="text/javascript">
     var myCarousel = document.querySelector('#myCarousel')
     var carousel = new bootstrap.Carousel(myCarousel)
+</script>
+
+<script>
+    @if (Session::has('message'))
+        var type = "{{ Session::get('alert-type', 'info') }}"
+        switch (type) {
+            case 'info':
+
+                toastr.options.timeOut = 10000;
+                toastr.info("{{ Session::get('message') }}");
+                var audio = new Audio('audio.mp3');
+                audio.play();
+                break;
+            case 'success':
+
+                toastr.options.timeOut = 10000;
+                toastr.success("{{ Session::get('message') }}");
+                var audio = new Audio('audio.mp3');
+                audio.play();
+
+                break;
+            case 'warning':
+
+                toastr.options.timeOut = 10000;
+                toastr.warning("{{ Session::get('message') }}");
+                var audio = new Audio('audio.mp3');
+                audio.play();
+
+                break;
+            case 'error':
+
+                toastr.options.timeOut = 10000;
+                toastr.error("{{ Session::get('message') }}");
+                var audio = new Audio('audio.mp3');
+                audio.play();
+
+                break;
+        }
+    @endif
 </script>
 
 

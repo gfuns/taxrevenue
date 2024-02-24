@@ -140,12 +140,11 @@
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="{{ asset('themes/jobbox/plugins/jquery-bar-rating/jquery.barrating.min.js') }}"></script>
 
-<script src="{{ asset('js/iziToast.js') }}"></script>
-<script src="{{ asset('js/iziwrapper.js') }}"></script>
-
-
-<script src="{{ asset('js/bootstrap-notify.min.js') }} "></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+{{-- <script src="{{ asset("themes/jobbox/js/company-detail.js") }}"></script> --}}
 
 {{-- <div class="js-cookie-consent cookie-consent cookie-consent-full-width page_speed_287683390">
     <div class="cookie-consent-body page_speed_2125851095"><span class="cookie-consent__message"> Your

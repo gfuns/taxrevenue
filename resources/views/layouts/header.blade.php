@@ -212,6 +212,7 @@
         href="{{ asset('themes/jobbox/plugins/animate.min9d7d.css') }}?v=1.10.0">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flat-icons@1.0.0/creative.min.css">
+        <link media="all" type="text/css" rel="stylesheet" href="{{ asset("themes/jobbox/plugins/jquery-bar-rating/themes/css-stars.css") }}">
 
     <style>
         .page_speed_515102175 {
