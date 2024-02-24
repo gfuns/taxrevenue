@@ -231,6 +231,8 @@ Route::group([
 
         Route::post('validateAccount', [App\Http\Controllers\Business\WalletController::class, 'validateBankAccount'])->name("business.validateAccount");
 
+        Route::post('reviewBusiness', [App\Http\Controllers\Business\HomeController::class, 'reviewBusiness'])->name("business.reviewBusiness");
+
     });
 
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Business;
 use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\BusinessPage;
+use App\Models\BusinessReviews;
 use App\Models\Customer;
 use App\Models\CustomerSubscription;
 use App\Models\JobListing;
@@ -755,5 +756,34 @@ class HomeController extends Controller
         }
 
         return round($size, 2) . ' ' . $units[$i];
+    }
+
+    public function reviewBusiness(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'business_id' => 'required',
+            'rating' => 'required',
+            'review' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $review = new BusinessReviews;
+        $review->business_id = $request->business_id;
+        $review->customer_id = Auth::user()->id;
+        $review->ratings = $request->rating;
+        $review->review = $request->review;
+        if ($review->save()) {
+            toast('Review Submitted Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something Went Wrong.', 'error');
+            return back();
+        }
     }
 }
