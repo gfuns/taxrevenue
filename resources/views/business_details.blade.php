@@ -151,13 +151,13 @@
                                 <div class="d-sm-flex align-items-top review-item">
                                     <div class="flex-shrink-0"><img
                                             class="rounded-circle avatar-md img-thumbnail review-user-avatar"
-                                            src="{{ $review->artisan->customer->photo }}" alt=""></div>
+                                            src="{{ $review->customer->photo }}" alt=""></div>
                                     <div class="flex-grow-1 ms-sm-3">
                                         <div>
                                             <p class="text-muted float-end fs-14 mb-2">
                                                 {{ date_format($review->created_at, 'M d, Y') }}</p>
                                             <h6 class="mt-sm-0 mt-3 mb-1">
-                                                {{ $review->artisan->customer->first_name . ' ' . $review->artisan->customer->last_name }}
+                                                {{ $review->customer->first_name . ' ' . $review->customer->last_name }}
                                             </h6>
                                             <div class="text-warning review-rating mb-2">
                                                 @php
@@ -184,46 +184,59 @@
                                 <div class="col-xl-12 col-12 job-items job-empty">
                                     <div class="mt-4">
                                         <p class="mt-2">No Reviews Found</p>
-                                        @if (!Auth::user())
-                                            <div class="mt-2 text-muted"> <a href="/login"
-                                                    style="color: #690068">Sign In</a> to write a
-                                                review for this business. </div>
-                                        @endif
                                     </div>
                                 </div>
                             @endif
 
-                            <div>
-                                <form action="{{ route('business.reviewBusiness') }}" method="post"
-                                    class="review-form mt-4">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="mb-3">
-                                                <div class="br-wrapper br-theme-css-stars">
-                                                    <select name="star" class="jquery-bar-rating"
-                                                        data-read-only="false" style="display: none;">
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5" selected="">5</option>
-                                                    </select>
+                            @if (!Auth::user())
+                                <div class="mt-4 text-center">
+                                    <div class="mt-4 text-muted"> <a href="/login" style="color: #690068">Sign
+                                            In</a> to
+                                        write a
+                                        review for this business. </div>
+                                </div>
+                            @endif
+
+                            @if (Auth::user() && Auth::user()->hasReviewed($business->id) == false)
+                                <div>
+                                    <form action="{{ route('business.reviewBusiness') }}" method="post"
+                                        class="mt-4">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <div class="br-wrapper br-theme-css-stars">
+                                                        <select name="star" class="jquery-bar-rating"
+                                                            data-read-only="false" style="display: none;"
+                                                            onchange="captureRating(this.value)">
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5" selected="">5</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label for="review" class="form-label">Review</label>
+                                                    <input id="rating" name="rating" type="hidden"
+                                                        value="5" />
+                                                    <input name="business_id" type="hidden"
+                                                        value="{{ $business->id }}" />
+
+                                                    <textarea class="form-control" id="review" name="review" placeholder="Add your review" style="resize: none"></textarea>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12">
-                                            <div class="mb-3">
-                                                <label for="review" class="form-label">Review</label>
-                                                <input id="rating" name="rating" type="hidden"
-                                                    value="" />
-                                                <textarea class="form-control" id="review" name="review" placeholder="Add your review" style="resize: none"></textarea>
-                                            </div>
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary btn-hover">
+                                                Submit Review </button>
                                         </div>
-                                    </div>
-                                    <div class="text-end"><button type="submit" class="btn btn-primary btn-hover">
-                                            Submit Review </button></div>
-                                </form>
-                            </div>
+                                    </form>
+                                </div>
+                            @endif
 
                             {{-- <div class="review-pagination d-flex justify-content-center mt-3"></div> --}}
                         </div>
@@ -372,38 +385,44 @@
     var carousel = new bootstrap.Carousel(myCarousel)
 </script>
 
+<script type="text/javascript">
+    function captureRating(value) {
+        document.getElementById("rating").value = value;
+    }
+</script>
+
 <script>
     @if (Session::has('message'))
         var type = "{{ Session::get('alert-type', 'info') }}"
         switch (type) {
             case 'info':
 
-                toastr.options.timeOut = 10000;
+                toastr.options.timeOut = 5000;
                 toastr.info("{{ Session::get('message') }}");
-                var audio = new Audio('audio.mp3');
+                var audio = new Audio('{{ asset('audio.wav') }}');
                 audio.play();
                 break;
             case 'success':
 
                 toastr.options.timeOut = 10000;
                 toastr.success("{{ Session::get('message') }}");
-                var audio = new Audio('audio.mp3');
+                var audio = new Audio('{{ asset('audio.wav') }}');
                 audio.play();
 
                 break;
             case 'warning':
 
-                toastr.options.timeOut = 10000;
+                toastr.options.timeOut = 5000;
                 toastr.warning("{{ Session::get('message') }}");
-                var audio = new Audio('audio.mp3');
+                var audio = new Audio('{{ asset('audio.wav') }}');
                 audio.play();
 
                 break;
             case 'error':
 
-                toastr.options.timeOut = 10000;
+                toastr.options.timeOut = 5000;
                 toastr.error("{{ Session::get('message') }}");
-                var audio = new Audio('audio.mp3');
+                var audio = new Audio('{{ asset('audio.wav') }}');
                 audio.play();
 
                 break;

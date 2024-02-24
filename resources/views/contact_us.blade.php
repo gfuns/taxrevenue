@@ -145,14 +145,14 @@
 
                 toastr.options.timeOut = 10000;
                 toastr.info("{{ Session::get('message') }}");
-                var audio = new Audio('audio.mp3');
+                var audio = new Audio('audio.wav');
                 audio.play();
                 break;
             case 'success':
 
                 toastr.options.timeOut = 10000;
                 toastr.success("{{ Session::get('message') }}");
-                var audio = new Audio('audio.mp3');
+                var audio = new Audio('audio.wav');
                 audio.play();
 
                 break;
@@ -160,7 +160,7 @@
 
                 toastr.options.timeOut = 10000;
                 toastr.warning("{{ Session::get('message') }}");
-                var audio = new Audio('audio.mp3');
+                var audio = new Audio('audio.wav');
                 audio.play();
 
                 break;
@@ -168,7 +168,7 @@
 
                 toastr.options.timeOut = 10000;
                 toastr.error("{{ Session::get('message') }}");
-                var audio = new Audio('audio.mp3');
+                var audio = new Audio('audio.wav');
                 audio.play();
 
                 break;

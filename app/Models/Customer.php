@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Jobs\SendEmailVerificationCode;
+use App\Models\Business;
 use App\Models\CustomerOtp;
 use App\Models\CustomerWallet;
 use App\Models\Referral;
-use App\Models\Business;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,11 +45,6 @@ class Customer extends Authenticatable
         return $this->hasOne('App\Models\Business');
     }
 
-    public function artisan()
-    {
-        return $this->hasOne('App\Models\Artisans');
-    }
-
     public function jobs()
     {
         return $this->hasMany('App\Models\JobListing');
@@ -65,6 +60,16 @@ class Customer extends Authenticatable
         $plan = CustomerSubscription::orderBy("id", "desc")->where("customer_id", Auth::user()->id)->where("status", "active")->first();
 
         return $plan;
+    }
+
+    public function hasReviewed($businessId)
+    {
+        $reviewed = BusinessReviews::where("customer_id", Auth::user()->id)->where("business_id", $businessId)->first();
+        if (isset($reviewed)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

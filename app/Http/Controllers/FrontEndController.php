@@ -294,9 +294,8 @@ class FrontEndController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
+            Session::flash("alert-type", "error");
+            Session::flash("message", "Please fill the contact form");
             return back();
         }
 

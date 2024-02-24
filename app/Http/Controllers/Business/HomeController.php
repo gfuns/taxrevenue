@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use Session;
 class HomeController extends Controller
 {
     /**
@@ -767,22 +767,23 @@ class HomeController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
+            Session::flash("alert-type", "error");
+            Session::flash("message", "Please fill the review form");
             return back();
         }
 
         $review = new BusinessReviews;
         $review->business_id = $request->business_id;
         $review->customer_id = Auth::user()->id;
-        $review->ratings = $request->rating;
+        $review->rating = $request->rating;
         $review->review = $request->review;
         if ($review->save()) {
-            toast('Review Submitted Successfully.', 'success');
+            Session::flash("alert-type", "success");
+            Session::flash("message", "Review Submitted Successfully.");
             return back();
         } else {
-            toast('Something Went Wrong.', 'error');
+            Session::flash("alert-type", "error");
+            Session::flash("message", "Something Went Wrong.");
             return back();
         }
     }
