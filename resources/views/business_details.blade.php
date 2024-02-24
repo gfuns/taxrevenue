@@ -129,7 +129,10 @@
                                     <div class="col-4 col-lg-2 jobs-listing">
                                         <div class="card-grid-2 hover-up" style="background:white">
                                             <div class="row">
-                                                <div class="image-box"><img src="{{ $cat->file_url }}" alt="">
+                                                <div class="image-box gallery">
+                                                    <a href="{{ $cat->file_url }}" class="gallery-item"><img
+                                                            src="{{ $cat->file_url }}" alt="" />
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -392,6 +395,16 @@
 </script>
 
 <script>
+    $(document).ready(function() {
+        $('.gallery').magnificPopup({
+            delegate: 'a',
+            type: 'image',
+            gallery: {
+                enabled: true
+            }
+        });
+    });
+
     @if (Session::has('message'))
         var type = "{{ Session::get('alert-type', 'info') }}"
         switch (type) {
