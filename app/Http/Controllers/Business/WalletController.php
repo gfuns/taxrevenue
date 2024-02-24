@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WithdrawalSuccessful as WithdrawalSuccessful;
 use App\Models\AreteWalletTransaction;
 use App\Models\BankList;
 use App\Models\PaystackTransaction;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Mail;
 use Ramsey\Uuid\Uuid;
 
 class WalletController extends Controller
@@ -193,6 +195,13 @@ class WalletController extends Controller
                         $wallet->save();
 
                         DB::commit();
+
+                        try {
+                            $user = Auth::user();
+                            Mail::to($user)->send(new WithdrawalSuccessful($user, $trx));
+                        } catch (\Exception $e) {
+                            report($e);
+                        }
 
                         toast("Funds Withdrawal Successful", 'success');
                         return redirect()->route("business.myWallet");
