@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}?version={{ date('his') }}">
     <title>Two-Factor Verification | {{ env('APP_NAME') }}</title>
-    <link rel="stylesheet" href="{{ asset('assets/css/vendor.bundle.css') }}?ver={{ date('his') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style-green.css') }}?ver={{ date('his') }}">
+    <link rel="stylesheet" href="{{ asset('auth/assets/css/vendor.bundle.css') }}?ver={{ date('his') }}">
+    <link rel="stylesheet" href="{{ asset('auth/assets/css/style-green.css') }}?ver={{ date('his') }}">
 </head>
 
 <body class="page-ath theme-modern page-ath-modern page-ath-alt">
@@ -23,8 +23,6 @@
                             src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 50px">
                     </a></div>
             </center>
-
-
 
             <div class="page-ath-form" style="width: 500px">
                 <h2 class="page-ath-heading">2FA Authentication</h2>
@@ -51,27 +49,18 @@
                 <div class="gaps-2x"></div>
             </div>
 
-
-            @php
-                    $social = \App\Models\Social::find(1);
-                @endphp
             <div class="page-ath-footer">
                 <ul class="socials mb-3">
-                    <li><a href="{{ $social->facebook == null ? '#' : $social->facebook }}" title="Facebook"><em
-                                class="fab fa-facebook-f"></em></a></li>
-                    <li><a href="{{ $social->twitter == null ? '#' : $social->twitter }}" title="Twitter"><em
-                                class="fab fa-twitter"></em></a></li>
-                    <li><a href="{{ $social->slack == null ? '#' : $social->slack }}" title="Slack"><em class="fab fa-slack"></em></a></li>
-                    <li><a href="{{ $social->instagram == null ? '#' : $social->instagram }}" title="Instagram"><em
-                                class="fab fa-instagram"></em></a></li>
-                    <li><a href="{{ $social->linkedin == null ? '#' : $social->linkedin }}" title="LinkedIn"><em class="fab fa-linkedin"></em></a>
-                    </li>
-                    <li><a href="{{ $social->medium == null ? '#' : $social->medium }}" title="Medium"><em class="fab fa-medium"></em></a>
-                    </li>
+                    <li><a href="#" title="Facebook"><em class="fab fa-facebook-f"></em></a></li>
+                    <li><a href="#" title="Twitter"><em class="fab fa-twitter"></em></a></li>
+                    <li><a href="#" title="Slack"><em class="fab fa-slack"></em></a></li>
+                    <li><a href="#" title="Instagram"><em class="fab fa-instagram"></em></a></li>
+                    <li><a href="#" title="LinkedIn"><em class="fab fa-linkedin"></em></a></li>
+                    <li><a href="#" title="Medium"><em class="fab fa-medium"></em></a></li>
                 </ul>
                 <ul class="footer-links guttar-20px align-items-center">
-                    <li><a href="/privacy-policy">Privacy and Policy</a></li>
-                    <li><a href="/terms-and-condition">Terms and Condition</a></li>
+                    <li><a href="/privacy-policy" target="_blank">Privacy and Policy</a></li>
+                    <li><a href="/terms-and-conditions" target="_blank">Terms and Condition</a></li>
                 </ul>
                 <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Right Reserved.
                 </div>
@@ -80,8 +69,8 @@
     </div>
 
 
-    <script src="{{ asset('assets/js/jquery.bundle.js') }}?ver={{ date('his') }}"></script>
-    <script src="{{ asset('assets/js/script.js') }}?ver={{ date('his') }}"></script>
+    <script src="{{ asset('auth/assets/js/jquery.bundle.js') }}?ver={{ date('his') }}"></script>
+    <script src="{{ asset('auth/assets/js/script.js') }}?ver={{ date('his') }}"></script>
     <script type="text/javascript">
         jQuery(function() {
             var $frv = jQuery('.validate');

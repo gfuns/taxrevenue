@@ -37,7 +37,7 @@ class TwofactorController extends Controller
         $code = $request->confirmation_code;
 
         if (Auth::user()->auth_2fa == "Email") {
-            $codeIsValid = CustomerOtp::where("user_id", Auth::user()->id)->where("otp", $code)->where("otp_type", "Email")->first();
+            $codeIsValid = CustomerOtp::where("customer_id", Auth::user()->id)->where("otp", $code)->where("otp_type", "Email")->first();
             if (isset($codeIsValid)) {
                 $codeIsValid->delete();
                 $data = [
