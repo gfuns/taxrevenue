@@ -107,6 +107,7 @@ class WalletController extends Controller
 
     public function initiateWalletWithdrawal(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'bank' => 'required',
             'account_number' => 'required',
@@ -116,7 +117,7 @@ class WalletController extends Controller
 
         if (Auth::user()->withdrawal_confirmation == 'GoogleAuth') {
             $validator = Validator::make($request->all(), [
-                'ga_code' => 'required',
+                'google_authenticator_code' => 'required',
             ]);
         }
 
@@ -128,6 +129,16 @@ class WalletController extends Controller
         }
 
         $withdrawalAmount = abs(preg_replace("/,/", "", $request->amount));
+
+        if (Auth::user()->withdrawal_confirmation == 'GoogleAuth') {
+            $google2fa = app('pragmarx.google2fa');
+            $valid = $google2fa->verify($request->google_authenticator_code, Auth::user()->google2fa_secret);
+
+            if (!$valid) {
+                toast('Invalid Google Authenticator Code Provided.', 'error');
+                return back();
+            }
+        }
 
         if ($withdrawalAmount > Auth::user()->wallet->arete_balance) {
             toast('Insufficiant Wallet Balance.', 'error');

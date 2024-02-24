@@ -322,8 +322,8 @@
                         @if (Auth::user()->withdrawal_confirmation == 'GoogleAuth')
                             <div class="mb-3 col-12">
                                 <label for="gacode" class="form-label">Google Authenticator Code</label>
-                                <input id="gacode" type="text" class="form-control" name="ga_code"
-                                    placeholder="Google Authenticator Code" oninput="validateInput(event)" required />
+                                <input id="gacode" type="text" class="form-control" name="google_authenticator_code"
+                                    placeholder="Google Authenticator Code" required />
                                 <div class="invalid-feedback">Please enter google authenticator code.</div>
                             </div>
                         @endif
