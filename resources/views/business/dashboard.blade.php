@@ -43,13 +43,14 @@
         <div class="col-lg-3 col-12">
             <div class="col-lg-12 col-12">
                 <!-- Card -->
-                <div class="card mb-4 bg-light-success">
+                <div class="card mb-4 @if (isset($param['activeSubscription'])) bg-light-success @else  bg-light-danger @endif">
                     <!-- Card body -->
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-2 lh-1">
                             <h4 class="fs-6 text-uppercase fw-bold ls-md">Current Subscription</h4>
                             <div>
-                                <span class="bi bi-award-fill fs-3 text-success"></span>
+                                <span
+                                    class="bi bi-award-fill fs-3 @if (isset($param['activeSubscription'])) text-success @else  text-danger @endif"></span>
                             </div>
                         </div>
                         <h4 class="fw-bold mb-1">
