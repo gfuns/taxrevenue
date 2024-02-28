@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -42,6 +44,38 @@ class RegisterController extends Controller
     }
 
     /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request)
+    {
+
+        if (request()->input('referral_code') != null) {
+            $refereeExist = Customer::where("referral_code", request()->input('referral_code'))->first();
+            if ($refereeExist == null) {
+                // dd("Referee Does Not Exist");
+                return back()->withErrors("Invalid Referral Code Provided")->withInput();
+            }
+        }
+
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        if ($response = $this->registered($request, $user)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+        ? new JsonResponse([], 201)
+        : redirect($this->redirectPath());
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -65,6 +99,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
         return Customer::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],

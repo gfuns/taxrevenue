@@ -28,33 +28,34 @@
                 <h2 class="page-ath-heading">Sign Up
                     <small>Create Your {{ env('APP_NAME') }} Account</small>
                 </h2>
-                @if($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 @endif
                 <form class="validate validate-modern" method="POST" action="{{ route('register') }}" id="register">
                     @csrf
                     <div class="input-item">
                         <input type="text" placeholder="First Name" class="input-bordered" name="first_name"
-                            value="{{ old("first_name") }}" minlength="3" data-msg-required="Required."
+                            value="{{ old('first_name') }}" minlength="3" data-msg-required="Required."
                             data-msg-minlength="At least 3 chars." required>
                     </div>
                     <div class="input-item">
                         <input type="text" placeholder="Last Name" class="input-bordered" name="last_name"
-                            value="{{ old("last_name") }}" minlength="3" data-msg-required="Required."
+                            value="{{ old('last_name') }}" minlength="3" data-msg-required="Required."
                             data-msg-minlength="At least 3 chars." required>
                     </div>
                     <div class="input-item">
                         <input type="email" placeholder="Your Email" class="input-bordered" name="email"
-                            value="{{ old("email") }}" data-msg-required="Required." data-msg-email="Enter valid email." required>
+                            value="{{ old('email') }}" data-msg-required="Required."
+                            data-msg-email="Enter valid email." required>
                     </div>
                     <div class="input-item">
                         <input type="password" placeholder="Password" class="input-bordered" name="password"
@@ -68,14 +69,17 @@
                             data-msg-minlength="At least 6 chars." required>
                     </div>
                     <div class="input-item">
-                        <input type="text" placeholder="Referral ID" value="{{ request()->ref }}" class="input-bordered"
-                            name="referral_code" @if(isset(request()->ref)) readonly @endif>
+                        <input type="text" placeholder="Referral ID"
+                            value="{{ request()->ref == null ? old('referral_code') : request()->ref }}"
+                            class="input-bordered" name="referral_code"
+                            @if (isset(request()->ref)) readonly @endif>
                     </div>
 
                     <div class="input-item text-left">
                         <input name="terms" class="input-checkbox input-checkbox-md" id="agree" type="checkbox"
                             required="required" data-msg-required="You should accept our terms and policy.">
-                        <label for="agree">I agree to the <a target="_blank" href="/terms-and-conditions">Terms and Condition</a>
+                        <label for="agree">I agree to the <a target="_blank" href="/terms-and-conditions">Terms and
+                                Condition</a>
                             and <a target="_blank" href="/privacy-policy">Privacy
                                 Policy</a>.</label>
                     </div>
@@ -114,7 +118,8 @@
                         </div>
                     </li>
                 </ul>
-                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Right Reserved.</div>
+                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Right Reserved.
+                </div>
             </div>
         </div>
         <div class="page-ath-gfx" style="background-image: url({{ asset('auth/images/ath-gfx.png') }});">
@@ -130,7 +135,8 @@
                         <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
                         <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
 
-                        <p class="text-white">The No. 1 world class cutting-edge business directory designed for businesses
+                        <p class="text-white">The No. 1 world class cutting-edge business directory designed for
+                            businesses
                             like you to elevate your business experience!</p>
                     </div>
                 </div>

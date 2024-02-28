@@ -144,11 +144,15 @@ class Customer extends Authenticatable
                 SendEmailVerificationCode::dispatch($otp);
             }
 
-            if (request()->input('referral_code') !== null) {
-                $referral = new Referral;
-                $referral->customer_id = Customer::where("referral_code", request()->input('referral_code'))->first()->id;
-                $referral->referral_id = $customer->id;
-                $referral->save();
+            if (request()->input('referral_code') != null) {
+                $referee = Customer::where("referral_code", request()->input('referral_code'))->first();
+                if ($referee != null) {
+                    $referral = new Referral;
+                    $referral->customer_id = $referee->id;
+                    $referral->referral_id = $customer->id;
+                    $referral->save();
+
+                }
             }
 
             $customerWallet = new CustomerWallet;
