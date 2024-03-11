@@ -12,6 +12,38 @@
         border: 1px solid #ccc;
         border-radius: 10px;
     }
+
+    .password-toggle {
+        position: relative;
+    }
+
+    .password-toggle input[type="password"] {
+        padding-right: 30px;
+    }
+
+    .password-toggle .toggle-password {
+        position: absolute;
+        top: 72%;
+        right: 20px;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+    .password-toggle .toggle-password-2 {
+        position: absolute;
+        top: 72%;
+        right: 20px;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+    .password-toggle .toggle-password-3 {
+        position: absolute;
+        top: 72%;
+        right: 20px;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
 </style>
 <!-- Container fluid -->
 <section class="container-fluid p-4">
@@ -56,12 +88,15 @@
                             @csrf
                             <div class="row">
                                 <!-- form group -->
-                                <div class="mb-3 col-12">
+                                <div class="mb-3 col-12 password-toggle">
                                     <label class="form-label">Current Password <span
                                             class="text-danger">*</span></label>
-                                    <input type="password" name="current_password"
+                                    <input type="password" name="current_password" id="password"
                                         class="form-control @error('current_password') is-invalid @enderror"
                                         placeholder="Enter Current Password" required>
+                                    <span class="toggle-password" onclick="togglePasswordVisibility()">
+                                        <i class="fe fe-eye"></i>
+                                    </span>
                                     @error('current_password')
                                         <span class="" role="alert">
                                             <strong style="color: #b02a37; font-size:12px">{{ $message }}</strong>
@@ -69,11 +104,14 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3 col-12">
+                                <div class="mb-3 col-12 password-toggle">
                                     <label class="form-label">New Password <span class="text-danger">*</span></label>
-                                    <input type="password" name="new_password"
+                                    <input type="password" name="new_password" id="password2"
                                         class="form-control @error('new_password') is-invalid @enderror"
                                         placeholder="Enter New Password" required>
+                                    <span class="toggle-password-2" onclick="togglePassword2Visibility()">
+                                        <i class="fe fe-eye"></i>
+                                    </span>
                                     @error('new_password')
                                         <span class="" role="alert">
                                             <strong style="color: #b02a37; font-size:12px">{{ $message }}</strong>
@@ -81,12 +119,15 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3 col-12">
+                                <div class="mb-3 col-12 password-toggle">
                                     <label class="form-label">Confirm New Password <span
                                             class="text-danger">*</span></label>
-                                    <input type="password" name="new_password_confirmation"
+                                    <input type="password" name="new_password_confirmation" id="password3"
                                         class="form-control @error('new_password_confirmation') is-invalid @enderror"
                                         placeholder="Confirm New Password" required>
+                                    <span class="toggle-password-3" onclick="togglePassword3Visibility()">
+                                        <i class="fe fe-eye"></i>
+                                    </span>
                                     @error('new_password_confirmation')
                                         <span class="" role="alert">
                                             <strong style="color: #b02a37; font-size:12px">{{ $message }}</strong>
@@ -501,5 +542,52 @@
             });
         })
     })
+</script>
+
+<script type="text/javascript">
+    function togglePasswordVisibility() {
+        var passwordInput = document.getElementById("password");
+        var icon = document.querySelector(".toggle-password i");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.remove("fe-eye");
+            icon.classList.add("fe-eye-off");
+        } else {
+            passwordInput.type = "password";
+            icon.classList.remove("fe-eye-off");
+            icon.classList.add("fe-eye");
+        }
+    }
+
+    function togglePassword2Visibility() {
+        var passwordInput = document.getElementById("password2");
+        var icon = document.querySelector(".toggle-password-2 i");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.remove("fe-eye");
+            icon.classList.add("fe-eye-off");
+        } else {
+            passwordInput.type = "password";
+            icon.classList.remove("fe-eye-off");
+            icon.classList.add("fe-eye");
+        }
+    }
+
+    function togglePassword3Visibility() {
+        var passwordInput = document.getElementById("password3");
+        var icon = document.querySelector(".toggle-password-3 i");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.remove("fe-eye");
+            icon.classList.add("fe-eye-off");
+        } else {
+            passwordInput.type = "password";
+            icon.classList.remove("fe-eye-off");
+            icon.classList.add("fe-eye");
+        }
+    }
 </script>
 @endsection
