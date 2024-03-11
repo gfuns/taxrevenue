@@ -115,7 +115,7 @@ Route::group([
 
         Route::post('/update-slider-banner', [App\Http\Controllers\Business\HomeController::class, 'uploadSliderBanner'])->name("business.uploadSliderBanner");
 
-        Route::post('/update-catalogue', [App\Http\Controllers\Business\HomeController::class, 'uploadCatalogue'])->name("business.uploadCatalogue");
+        Route::post('/upload-catalogue', [App\Http\Controllers\Business\HomeController::class, 'uploadCatalogue'])->name("business.uploadCatalogue");
 
         Route::get('/remove-page-file/{id}', [App\Http\Controllers\Business\HomeController::class, 'removePageFile'])->name("business.removePageFile");
 
