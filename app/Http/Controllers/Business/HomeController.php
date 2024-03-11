@@ -14,12 +14,14 @@ use App\Models\PlatformCategories;
 use App\Models\Products;
 use App\Models\TutorialVideos;
 use Auth;
+use Carbon\Carbon;
 use Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Session;
+
 class HomeController extends Controller
 {
     /**
@@ -47,7 +49,35 @@ class HomeController extends Controller
             'activeSubscription' => $activeSubscription = CustomerSubscription::where("customer_id", Auth::user()->id)->where("status", "active")->first(),
         ];
 
-        return view("business.dashboard", compact("param"));
+        // Get the current month
+        $currentMonth = Carbon::now()->month;
+
+        // Get the year
+        $year = Carbon::now()->year;
+
+        // Get the number of days in the current month
+        $daysInMonth = Carbon::now()->daysInMonth;
+
+        // Initialize an array to store the formatted dates
+        $formattedDates = null;
+
+        // Loop through each day of the month and format the date
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            // Create a Carbon instance for the current day
+            $date = Carbon::createFromDate($year, $currentMonth, $day);
+
+            // Format the date as "dd Mmm" (e.g., "01 Mar", "02 Mar", etc.)
+            $formattedDate = $date->format('d M');
+
+            // Add the formatted date to the array
+            $formattedDates[] = $formattedDate;
+        }
+
+        // $formattedDates = implode(', ', $formattedDates);
+
+        // dd($formattedDates);
+
+        return view("business.dashboard", compact("param", "formattedDates"));
     }
 
     /**

@@ -122,7 +122,7 @@
                 <!-- Card body -->
                 <div class="card-body">
                     <!-- Earning chart -->
-                    <div id="earning" class="apex-charts"></div>
+                    <div id="sessionChart" class="apex-charts"></div>
                 </div>
             </div>
         </div>
