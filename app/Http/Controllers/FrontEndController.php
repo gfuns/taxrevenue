@@ -117,7 +117,7 @@ class FrontEndController extends Controller
     {
         $business = Business::where("slug", $slug)->first();
         $latestJobs = JobListing::where("business_id", $business->id)->limit(4)->get();
-        $reviews = BusinessReviews::orderBy("rating", "desc")->limit(5)->get();
+        $reviews = BusinessReviews::orderBy("rating", "desc")->where("business_id", $business->id)->limit(5)->get();
         $topBanner = BusinessPage::where("business_id", $business->id)->where("file_position", "banner")->first();
         $sliderBanners = BusinessPage::where("business_id", $business->id)->where("file_position", "slider")->get();
         $catalogues = BusinessPage::where("business_id", $business->id)->where("file_position", "catalogue")->get();
