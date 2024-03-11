@@ -9,6 +9,24 @@
     <link rel="stylesheet" href="{{ asset('auth/assets/css/vendor.bundle.css') }}">
     <link rel="stylesheet" href="{{ asset('auth/assets/css/style.css') }}">
 
+    <style type="text/css">
+        .password-toggle {
+            position: relative;
+        }
+
+        .password-toggle input[type="password"] {
+            padding-right: 30px;
+        }
+
+        .password-toggle .toggle-password {
+            position: absolute;
+            top: 35%;
+            right: 5px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
+
 </head>
 
 <body class="page-ath theme-modern page-ath-modern">
@@ -51,10 +69,13 @@
                         <input type="email" placeholder="Your Email" data-msg-required="Required."
                             class="input-bordered" name="email" value="{{ old('email') }}" required autofocus>
                     </div>
-                    <div class="input-item">
-                        <input type="password" placeholder="Password" minlength="6" data-msg-required="Required."
-                            data-msg-minlength="At least 6 chars." class="input-bordered" name="password" value=""
-                            required>
+                    <div class="input-item password-toggle">
+                        <input id="password" type="password" placeholder="Password" minlength="6"
+                            data-msg-required="Required." data-msg-minlength="At least 6 chars." class="input-bordered"
+                            name="password" value="" required>
+                        <span class="toggle-password" onclick="togglePasswordVisibility()">
+                            <i class="fa fa-eye"></i>
+                        </span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="input-item text-left">
@@ -102,7 +123,8 @@
                         </div>
                     </li>
                 </ul>
-                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Right Reserved.</div>
+                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Right Reserved.
+                </div>
             </div>
         </div>
         <div class="page-ath-gfx" style="background-image: url({{ asset('auth/images/ath-gfx.png') }});">
@@ -118,7 +140,8 @@
                         <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
                         <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
 
-                        <p class="text-white">The No. 1 world class cutting-edge business directory designed for businesses
+                        <p class="text-white">The No. 1 world class cutting-edge business directory designed for
+                            businesses
                             like you to elevate your business experience!</p>
                     </div>
                 </div>
@@ -138,6 +161,24 @@
                 });
             }
         });
+    </script>
+
+
+    <script type="text/javascript">
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("password");
+            var icon = document.querySelector(".toggle-password i");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
     </script>
 
 </body>

@@ -9,6 +9,32 @@
     <link rel="stylesheet" href="{{ asset('auth/assets/css/vendor.bundle.css') }}">
     <link rel="stylesheet" href="{{ asset('auth/assets/css/style.css') }}">
 
+    <style type="text/css">
+        .password-toggle {
+            position: relative;
+        }
+
+        .password-toggle input[type="password"] {
+            padding-right: 30px;
+        }
+
+        .password-toggle .toggle-password {
+            position: absolute;
+            top: 35%;
+            right: 5px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .password-toggle .toggle-password-2 {
+            position: absolute;
+            top: 35%;
+            right: 5px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
+
 </head>
 
 <body class="page-ath theme-modern page-ath-modern">
@@ -57,16 +83,22 @@
                             value="{{ old('email') }}" data-msg-required="Required."
                             data-msg-email="Enter valid email." required>
                     </div>
-                    <div class="input-item">
+                    <div class="input-item password-toggle">
                         <input type="password" placeholder="Password" class="input-bordered" name="password"
                             id="password" minlength="6" data-msg-required="Required."
                             data-msg-minlength="At least 6 chars." required>
+                            <span class="toggle-password" onclick="togglePasswordVisibility()">
+                                <i class="fa fa-eye"></i>
+                            </span>
                     </div>
-                    <div class="input-item">
+                    <div class="input-item password-toggle">
                         <input type="password" placeholder="Repeat Password" class="input-bordered"
-                            name="password_confirmation" data-rule-equalTo="#password" minlength="6"
+                            name="password_confirmation" data-rule-equalTo="#password" id="password2" minlength="6"
                             data-msg-required="Required." data-msg-equalTo="Enter the same value."
                             data-msg-minlength="At least 6 chars." required>
+                            <span class="toggle-password-2" onclick="togglePassword2Visibility()">
+                                <i class="fa fa-eye"></i>
+                            </span>
                     </div>
                     <div class="input-item">
                         <input type="text" placeholder="Referral ID"
@@ -158,6 +190,39 @@
             }
         });
     </script>
+
+
+<script type="text/javascript">
+    function togglePasswordVisibility() {
+        var passwordInput = document.getElementById("password");
+        var icon = document.querySelector(".toggle-password i");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+
+    function togglePassword2Visibility() {
+        var passwordInput = document.getElementById("password2");
+        var icon = document.querySelector(".toggle-password-2 i");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+</script>
 
 </body>
 
