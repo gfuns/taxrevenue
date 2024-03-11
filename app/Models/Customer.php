@@ -6,6 +6,7 @@ use App\Jobs\SendEmailVerificationCode;
 use App\Models\Business;
 use App\Models\CustomerOtp;
 use App\Models\CustomerWallet;
+use App\Models\NotificationSetting;
 use App\Models\Referral;
 use Auth;
 use Carbon\Carbon;
@@ -162,6 +163,10 @@ class Customer extends Authenticatable
             $business = new Business;
             $business->customer_id = $customer->id;
             $business->save();
+
+            $notSet = new NotificationSetting;
+            $notSet->customer_id = $customer->id;
+            $notSet->save();
         });
     }
 
