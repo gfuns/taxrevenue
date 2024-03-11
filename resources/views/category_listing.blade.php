@@ -2,7 +2,30 @@
 
 @section('content')
 @section('title', env('APP_NAME') . ' | Jobs For ' . $category->category_name)
+<style>
+    .truncate-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        /* Limit to 3 lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        white-space: normal;
+        /* Use 'normal' to allow wrapping */
+        text-overflow: ellipsis;
+    }
 
+    .trim-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        /* Limit to 3 lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        white-space: normal;
+        /* Use 'normal' to allow wrapping */
+        text-overflow: ellipsis;
+
+    }
+</style>
 <main class="main">
     <section class="section-box">
         <div class="breadcrumb-cover page_speed_160581955" style="background:url({{ asset('files/pages/Search.png') }}">
@@ -63,8 +86,7 @@
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="card-grid-2-image-left">
-                                                    <div class="image-box"><img src="{{ $biz->business_logo }}"
-                                                            alt="#">
+                                                    <div class="image-box"><img src="{{ $biz->business_logo }}" style="max-width: 50px" alt="#">
                                                     </div>
                                                     <div class="right-info">
                                                         <div class="trim-text">

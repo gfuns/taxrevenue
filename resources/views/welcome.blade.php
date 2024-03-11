@@ -2,7 +2,30 @@
 
 @section('content')
 @section('title', env('APP_NAME') . ' | Home')
+<style>
+    .truncate-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        /* Limit to 3 lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        white-space: normal;
+        /* Use 'normal' to allow wrapping */
+        text-overflow: ellipsis;
+    }
 
+    .trim-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        /* Limit to 3 lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        white-space: normal;
+        /* Use 'normal' to allow wrapping */
+        text-overflow: ellipsis;
+
+    }
+</style>
 <main class="main">
     <div class="main-content">
         <div class="page-content" id="app">
@@ -15,10 +38,15 @@
                                 <div class="row">
                                     <div class="col-xl-7 col-lg-12">
                                         <div class="block-banner">
-                                            <h1 class="heading-banner wow animate__animated animate__fadeInUp">Finding local businesses near you has never been <span class="color-brand-2">easier!</span>
+                                            <h1 class="heading-banner wow animate__animated animate__fadeInUp">Finding
+                                                local businesses near you has never been <span
+                                                    class="color-brand-2">easier!</span>
                                             </h1>
                                             <div class="banner-description mt-20 wow animate__animated animate__fadeInUp"
-                                                data-wow-delay=".1s"> Every month, Arete welcomes over 3 million users seeking local businesses, with over 140,000 connections made daily. Join the thriving community and discover your next favorite business with our intuitive business directory navigation! </div>
+                                                data-wow-delay=".1s"> Every month, Arete welcomes over 3 million users
+                                                seeking local businesses, with over 140,000 connections made daily. Join
+                                                the thriving community and discover your next favorite business with our
+                                                intuitive business directory navigation! </div>
                                             <div class="form-find position-relative mt-40 wow animate__animated animate__fadeIn"
                                                 data-wow-delay=".2s">
                                                 <form method="GET" action="/job-portal" accept-charset="UTF-8">
@@ -27,7 +55,8 @@
                                                         name="location" data-location-type="state">
                                                         <option value="">Location</option>
                                                         <option value="Abia">Abia</option>
-                                                        <option value="Abuja (FCT)">Abuja - Federal Capital Territory</option>
+                                                        <option value="Abuja (FCT)">Abuja - Federal Capital Territory
+                                                        </option>
                                                         <option value="Adamawa">Adamawa</option>
                                                         <option value="Akwa Ibom">Akwa Ibom</option>
                                                         <option value="Anambra">Anambra</option>
@@ -73,7 +102,8 @@
                                                 </form>
                                             </div>
                                             <img class="img-responsive mt-50 d-none d-lg-block d-xl-block"
-                                                alt="" src="{{ asset('files/pages/arrow.png') }}" style="max-height: 250px">
+                                                alt="" src="{{ asset('files/pages/arrow.png') }}"
+                                                style="max-height: 250px">
                                         </div>
                                     </div>
                                     <div class="col-xl-5 col-lg-12 d-none d-xl-block col-md-6">
@@ -93,7 +123,8 @@
                                     <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp"> Browse
                                         Businesses by Category </h2>
                                     <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">
-                                        Locate Businesses With Ease: Navigate Our Diverse Categories and Uncover Businesses Tailored to Your Interests! </p>
+                                        Locate Businesses With Ease: Navigate Our Diverse Categories and Uncover
+                                        Businesses Tailored to Your Interests! </p>
                                 </div>
                                 <div class="box-swiper mt-50">
                                     <div class="swiper-container swiper-group-5 swiper">
@@ -106,7 +137,8 @@
 
                                                 <a href="/business-categories/{{ $cat->slug }}">
                                                     <div class="item-logo">
-                                                        <div class="image-left"><img src="{{ $cat->category_icon == null ? "https://res.cloudinary.com/soha/image/upload/v1701601099/fvnn5nrxg9m4di9jjrux.png" :  $cat->category_icon}}"
+                                                        <div class="image-left"><img
+                                                                src="{{ $cat->category_icon == null ? 'https://res.cloudinary.com/soha/image/upload/v1701601099/fvnn5nrxg9m4di9jjrux.png' : $cat->category_icon }}"
                                                                 alt="Content Writer"></div>
                                                         <div class="text-info-right">
                                                             <div class="h6">{{ $cat->category_name }}</div>
@@ -158,7 +190,8 @@
                                 <span class="color-brand-2" style="color:#690068">Businesses</span>
                             </h2>
                             <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">
-                                Discover your next favorite business today. Connect, Explore and Transact with local businesses around you</p>
+                                Discover your next favorite business today. Connect, Explore and Transact with local
+                                businesses around you</p>
                         </div>
                     </div>
                     <div class="container">
@@ -173,7 +206,8 @@
                                                         <div class="col-12">
                                                             <div class="card-grid-2-image-left">
                                                                 <div class="image-box"><img
-                                                                        src="{{ $biz->business_logo }}" alt="#">
+                                                                        src="{{ $biz->business_logo }}" alt="#"
+                                                                        style="max-width: 50px">
                                                                 </div>
                                                                 <div class="right-info">
                                                                     <div class="trim-text">

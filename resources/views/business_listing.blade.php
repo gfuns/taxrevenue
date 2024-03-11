@@ -16,7 +16,7 @@
 
     .trim-text {
         display: -webkit-box;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
         /* Limit to 3 lines */
         -webkit-box-orient: vertical;
         overflow: hidden;
