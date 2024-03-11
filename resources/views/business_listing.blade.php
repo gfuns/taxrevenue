@@ -5,7 +5,7 @@
 <style>
     .truncate-text {
         display: -webkit-box;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 4;
         /* Limit to 3 lines */
         -webkit-box-orient: vertical;
         overflow: hidden;
