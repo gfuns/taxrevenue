@@ -54,55 +54,22 @@
                                         </div>
                                     </div>
                                     <div class="col ms-n3">
+                                        <h4 class="mb-0 h5">Business Listing</h4>
+                                        <p class="mb-0 text-body">List your business and products and let the world find you easily. Connect with clients from all over the world and scale your business.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item px-0 pt-0 border-0 pb-6">
+                                <div class="row position-relative">
+                                    <div class="col-auto">
+                                        <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
+                                            <i class="fe fe-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col ms-n3">
                                         <h4 class="mb-0 h5">Unlimited Job Posting</h4>
                                         <p class="mb-0 text-body">Post as many job listings as you need, without any
                                             limitations, and connect with the perfect candidates for your project.</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item px-0 pt-0 border-0 pb-6">
-                                <div class="row position-relative">
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
-                                            <i class="fe fe-check"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col ms-n3">
-                                        <h4 class="mb-0 h5">Custom Contract</h4>
-                                        <p class="mb-0 text-body">Tailor contracts to your unique needs, ensuring
-                                            flexibility and clarity in your agreements with potential hires.</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item px-0 pt-0 border-0 pb-6">
-                                <div class="row position-relative">
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
-                                            <i class="fe fe-check"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col ms-n3">
-                                        <h4 class="mb-0 h5">Milestone Payment</h4>
-                                        <p class="mb-0 text-body">
-                                            Facilitate secure and transparent transactions by breaking down payments
-                                            into milestones, ensuring work is completed to satisfaction.
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item px-0 pt-0 border-0 pb-6">
-                                <div class="row position-relative">
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
-                                            <i class="fe fe-check"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col ms-n3">
-                                        <h4 class="mb-0 h5">Artisan Hiring</h4>
-                                        <p class="mb-0 text-body">
-                                            Discover and hire skilled artisans for your projects, fostering a community
-                                            of talented individuals ready to bring your vision to life
-                                        </p>
                                     </div>
                                 </div>
                             </li>

@@ -95,17 +95,17 @@
                 <div class="row">
                     <div class="col-md-4 col-6" style="margin-left: 0px; padding-left:0px">
                         <!-- First button -->
-                        <a href="{{ route('business.walletAirtimePurchase', [$trx->transaction_id]) }}"><button class="btn btn-primary pr-12" type="button"
+                        <a href="{{ route('business.pointsAirtimePurchase', [$trx->transaction_id]) }}"><button class="btn btn-primary pr-12" type="button"
                             onClick="this.disabled=true; this.innerHTML='Submiting request, please wait...';">Pay
                             With Referral Points
                             &nbsp;<i class="bi bi-p-circle"></i></button></a>
                     </div>
                     <div class="col-md-4 col-6">
                         <!-- Second button floated to the right -->
-                        <a href=""><button class="btn btn-primary" type="button"
+                        <a href="{{ route('business.walletAirtimePurchase', [$trx->transaction_id]) }}"><button class="btn btn-primary" type="button"
                             onClick="this.disabled=true; this.innerHTML='Submiting request, please wait...';">Pay
-                            With Debit Card
-                            &nbsp;<i class="bi bi-credit-card"></i></button></a>
+                            With Wallet Balance
+                            &nbsp;<i class="bi bi-wallet"></i></button></a>
                     </div>
                 </div>
             </div>
