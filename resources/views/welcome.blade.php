@@ -207,7 +207,7 @@
                                                             <div class="card-grid-2-image-left">
                                                                 <div class="image-box"><img
                                                                         src="{{ $biz->business_logo }}" alt="#"
-                                                                        style="max-width: 50px">
+                                                                        style="max-width: 40px">
                                                                 </div>
                                                                 <div class="right-info">
                                                                     <div class="trim-text">

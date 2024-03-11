@@ -86,7 +86,7 @@
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="card-grid-2-image-left">
-                                                    <div class="image-box"><img src="{{ $biz->business_logo }}" style="max-width: 50px" alt="#">
+                                                    <div class="image-box"><img src="{{ $biz->business_logo }}" style="max-width: 40px" alt="#">
                                                     </div>
                                                     <div class="right-info">
                                                         <div class="trim-text">
