@@ -1,4 +1,4 @@
-<nav class="navbar-vertical navbar navbar-dark">
+<nav class="navbar-vertical navbar">
     <div class="vh-100" data-simplebar>
         <!-- Brand logo -->
         <a class="navbar-brand" href="{{ route('business.dashboard') }}">
