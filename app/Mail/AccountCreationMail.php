@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
@@ -20,7 +20,7 @@ class AccountCreationMail extends Mailable
      *
      * @return void
      */
-    public function __construct(protected User $user, $password)
+    public function __construct(protected Customer $user, $password)
     {
         $this->password = $password;
     }

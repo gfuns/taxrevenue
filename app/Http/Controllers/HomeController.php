@@ -11,6 +11,7 @@ use Auth;
 use Carbon\Carbon;
 use Jenssegers\Agent\Facades\Agent;
 use Mail;
+use Stevebauman\Location\Facades\Location;
 
 class HomeController extends Controller
 {
@@ -77,17 +78,19 @@ class HomeController extends Controller
         try {
             $user = Auth::user();
             $platform = Agent::platform();
+            $ip = $request->ip();
+            $location = Location::get($ip);
             $deviceInfo = [
                 "device" => $platform . "-" . Agent::version($platform),
                 "browser" => Agent::browser(),
-                "ip_address" => request()->ip(),
+                "ip_address" => $location->ip,
+                "location" => $location->countryName,
             ];
 
             Mail::to($user)->send(new LoginNotification($user, $deviceInfo));
         } catch (\Exception $e) {
+            dd($e->getMessage());
             report($e);
-        } finally {
-            return redirect()->route("home");
         }
     }
 

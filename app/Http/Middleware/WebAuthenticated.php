@@ -6,8 +6,9 @@ use Auth;
 use Closure;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Session;
+use Symfony\Component\HttpFoundation\Response;
+
 class WebAuthenticated
 {
     /**
@@ -18,9 +19,9 @@ class WebAuthenticated
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            if(Auth::user()->status == "active"){
+            if (Auth::user()->status == "active") {
                 return $next($request);
-            }else{
+            } else {
                 Auth::logout();
                 Session::flash("deletionProcessMessage", "Your Account Is Undergoing Deletion Process");
                 return response()->view("auth.login");

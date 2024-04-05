@@ -2,9 +2,10 @@
 
 namespace App\Mail;
 
+use App\Models\Customer;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -12,13 +13,13 @@ use Illuminate\Queue\SerializesModels;
 class LoginNotification extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $deviceInfo;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(protected Customer $user, $deviceInfo)
     {
-        //
+        $this->deviceInfo = $deviceInfo;
     }
 
     /**
@@ -27,7 +28,8 @@ class LoginNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Login Notification',
+            from: new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
+            subject: 'Successful Login Notification',
         );
     }
 
@@ -37,7 +39,11 @@ class LoginNotification extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.login_notification',
+            with: [
+                'user' => $this->user,
+                'deviceInfo' => $this->deviceInfo,
+            ],
         );
     }
 
