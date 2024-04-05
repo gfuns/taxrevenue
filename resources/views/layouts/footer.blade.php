@@ -19,14 +19,17 @@
                     for businesses like you to elevate your business experience!
                 </div>
                 <div class="footer-social">
-                    <a class="icon-socials" title="Facebook" href="https://facebook.com/" target="_blank"><img
+
+                    <a class="icon-socials" title="Facebook" href="@php echo \App\Models\GeneralSettings::where("setting", "facebook")->first()->setting_value; @endphp" target="_blank"><img
                             src="{{ asset('files/socials/facebook.png') }}" alt="Facebook"></a>
-                    <a class="icon-socials" title="Linkedin" href="https://linkedin.com/" target="_blank"><img
-                            src="{{ asset('files/socials/twitter.png') }}" alt="Linkedin"></a>
-                    <a class="icon-socials" title="Twitter" href="https://twitter.com/" target="_blank"><img
-                            src="{{ asset('files/socials/twitter.png') }}" alt="Twitter"></a>
-                    <a class="icon-socials" title="Twitter" href="https://twitter.com/" target="_blank"><img
-                            src="{{ asset('files/socials/twitter.png') }}" alt="Twitter"></a>
+                    <a class="icon-socials" title="YouTube" href="@php echo \App\Models\GeneralSettings::where("setting", "youtube")->first()->setting_value; @endphp" target="_blank"><img
+                            src="{{ asset('files/socials/youtube.png') }}" alt="YouTube"></a>
+                    <a class="icon-socials" title="X" href="@php echo \App\Models\GeneralSettings::where("setting", "twitter")->first()->setting_value; @endphp" target="_blank"><img
+                            src="{{ asset('files/socials/twitter.png') }}" alt="X"></a>
+                    <a class="icon-socials" title="Instagram" href="@php echo \App\Models\GeneralSettings::where("setting", "instagram")->first()->setting_value; @endphp" target="_blank"><img
+                            src="{{ asset('files/socials/instagram.png') }}" alt="Twitter"></a>
+                    <a class="icon-socials" title="Linkedin" href="@php echo \App\Models\GeneralSettings::where("setting", "linkedin")->first()->setting_value; @endphp" target="_blank"><img
+                            src="{{ asset('files/socials/linkedin.png') }}" alt="Linkedin"></a>
                 </div>
             </div>
 

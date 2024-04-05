@@ -44,8 +44,7 @@
                     <div class="card-body p-4">
                         <span class="text-danger h4">Warning</span>
                         <p>
-                            If you delete your account, all your job listings will be de-listed and you
-                            will lose access forever.
+                            If you delete your account, all your job listings will be de-listed and you will have to recreate your account and pay new subscription fee in order to regain access.
                         </p>
                         <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
                             style="cursor: pointer">Delete My Account</a>
