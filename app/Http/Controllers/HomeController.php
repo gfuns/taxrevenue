@@ -91,6 +91,8 @@ class HomeController extends Controller
         } catch (\Exception $e) {
             dd($e->getMessage());
             report($e);
+        } finally {
+            return redirect()->route("home");
         }
     }
 
