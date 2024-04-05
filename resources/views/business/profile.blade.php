@@ -72,7 +72,7 @@
                                     <label class="form-label">Email<span class="text-danger">*</span></label>
                                     <input type="email" name="email" value="{{ Auth::user()->email }}"
                                         class="form-control @error('email') is-invalid @enderror"
-                                        placeholder="Enter Last Name" required>
+                                        placeholder="Enter Last Name" required readonly>
                                     @error('email')
                                         <span class="" role="alert">
                                             <strong style="color: #b02a37; font-size:12px">{{ $message }}</strong>

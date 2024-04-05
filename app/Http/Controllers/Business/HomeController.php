@@ -102,7 +102,6 @@ class HomeController extends Controller
         $validatedData = $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required',
             'phone' => 'required',
             'gender' => 'required',
             'country' => 'required',
@@ -117,7 +116,6 @@ class HomeController extends Controller
         $user = Auth::user();
         $user->first_name = $request->first_name;
         $user->first_name = $request->first_name;
-        $user->email = $request->email;
         $user->phone = $request->phone;
         $user->gender = $request->gender;
         $user->country = $request->country;
