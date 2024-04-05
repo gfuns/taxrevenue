@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Mail\AuthenticationOTP as AuthenticationOTP;
+use App\Mail\LoginNotification as LoginNotification;
 use App\Models\Business;
 use App\Models\CustomerOtp;
 use App\Models\User;
 use Auth;
 use Carbon\Carbon;
+use Jenssegers\Agent\Facades\Agent;
 use Mail;
 
 class HomeController extends Controller
@@ -67,6 +69,25 @@ class HomeController extends Controller
             return redirect()->route("artisan.dashboard");
         } else {
             return redirect()->route("accountSelection");
+        }
+    }
+
+    public function authy()
+    {
+        try {
+            $user = Auth::user();
+            $platform = Agent::platform();
+            $deviceInfo = [
+                "device" => $platform . "-" . Agent::version($platform),
+                "browser" => Agent::browser(),
+                "ip_address" => request()->ip(),
+            ];
+
+            Mail::to($user)->send(new LoginNotification($user, $deviceInfo));
+        } catch (\Exception $e) {
+            report($e);
+        } finally {
+            return redirect()->route("home");
         }
     }
 
