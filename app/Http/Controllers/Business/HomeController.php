@@ -283,16 +283,17 @@ class HomeController extends Controller
 
     public function businessPage()
     {
-        $business = Business::where("customer_id", Auth::user()->id)->first();
+        $businessExist = Business::where("customer_id", Auth::user()->id)->first();
 
-        if (isset($business)) {
+        if (isset($businessExist->business_name)) {
+            $business = Business::where("customer_id", Auth::user()->id)->first();
             $topBanner = BusinessPage::where("business_id", $business->id)->where("file_position", "banner")->first();
             $sliderBanners = BusinessPage::where("business_id", $business->id)->where("file_position", "slider")->get();
             $catalogues = BusinessPage::where("business_id", $business->id)->where("file_position", "catalogue")->get();
             return view("business.business_page", compact("business", "topBanner", "sliderBanners", "catalogues"));
         } else {
             toast('Please Complete The Business Information Form to be able to setup your business page.', 'error');
-            return back();
+            return redirect()->route("business.businessProfile");
         }
 
     }
