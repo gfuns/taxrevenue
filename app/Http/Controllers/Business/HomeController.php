@@ -717,7 +717,7 @@ class HomeController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'business_id' => 'required',
-            'catalogue_image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048|dimensions:max_width=1500,max_height=450',
+            'catalogue_image' => 'required|image|mimes:jpeg,png,jpg,gif,webp',
         ]);
 
         if ($validator->fails()) {
