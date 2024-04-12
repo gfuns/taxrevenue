@@ -78,7 +78,7 @@ class HomeController extends Controller
         try {
             $user = Auth::user();
             $platform = Agent::platform();
-            $ip = request()->ip();
+            $ip = "172.70.231.54"; //request()->ip();
             $location = Location::get($ip);
             $deviceInfo = [
                 "device" => $platform . "-" . Agent::version($platform),
