@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FrontEndController;
+use App\Http\Controllers\ForumController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,8 +50,6 @@ Route::get('/privacy-policy', [FrontEndController::class, 'privacyPolicy']);
 Route::get('/cookie-policy', [FrontEndController::class, 'cookiePolicy']);
 
 Route::get('/faqs', [FrontEndController::class, 'faqs']);
-
-Route::get('/forum', [FrontEndController::class, 'forum']);
 
 Auth::routes();
 
@@ -245,6 +244,13 @@ Route::group([
 
     });
 
+});
+
+Route::group([
+    'prefix' => 'forum',
+    'middleware' => ['forum'],
+], function ($router) {
+    Route::get('/', [ForumController::class, 'index'])->name("forum");
 });
 
 Route::post('/login/2fa', [App\Http\Controllers\Business\TwofactorController::class, 'verify2FA'])->name('login.2fa');

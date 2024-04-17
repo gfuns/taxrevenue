@@ -63,6 +63,10 @@ class Kernel extends HttpKernel
         'businessprofileupdated' => [
             \App\Http\Middleware\BusinessProfileUpdated::class,
         ],
+
+        'forum' => [
+            \App\Http\Middleware\Forum::class,
+        ],
     ];
 
     /**

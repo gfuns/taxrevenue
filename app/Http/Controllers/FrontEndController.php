@@ -335,11 +335,6 @@ class FrontEndController extends Controller
         return view("faqs", compact("faqList"));
     }
 
-    public function forum()
-    {
-        return Redirect::to("https://preview.wstacks.com/proforum/");
-    }
-
     public function terms()
     {
         return view("terms");

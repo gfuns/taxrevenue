@@ -2,7 +2,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="ATC LMS">
+    <meta name="description" content="Arete Planet">
     <meta name="keywords" content="">
     <meta name="author" content="Gabriel Nwankwo">
 
