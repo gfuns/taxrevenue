@@ -251,6 +251,14 @@ Route::group([
     'middleware' => ['forum'],
 ], function ($router) {
     Route::get('/', [ForumController::class, 'index'])->name("forum");
+
+    Route::get('/popular-posts', [ForumController::class, 'popularPosts']);
+
+    Route::get('/bookmarks', [ForumController::class, 'bookmarks']);
+
+    Route::get('/category/{category}/posts', [ForumController::class, 'categoryPosts']);
+
+    Route::get('/topic/{topic}/posts', [ForumController::class, 'topicPosts']);
 });
 
 Route::post('/login/2fa', [App\Http\Controllers\Business\TwofactorController::class, 'verify2FA'])->name('login.2fa');

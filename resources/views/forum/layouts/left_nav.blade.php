@@ -6,23 +6,23 @@
             <div class="nav-menu">
                 <div class="navmenu-item-wraper">
                     <a href="/forum" class="menu-item">
-                        <i class="fa-solid fa-house active"></i>
-                        <h6 class="menu-name active">Home</h6>
+                        <i id="iconhome" class="fa-solid fa-house"></i>
+                        <h6 id="menuhome" class="menu-name">Home</h6>
                     </a>
                     <a href="/forum/popular-posts" class="menu-item">
-                        <i class="fa-solid fa-star"></i>
-                        <h6 class="menu-name ">Popular</h6>
+                        <i id="iconpopular" class="fa-solid fa-star"></i>
+                        <h6 id="menupopular" class="menu-name ">Popular</h6>
                     </a>
                     @foreach ($forumCategories as $fc)
                         <a href="/forum/category/{{ $fc->id }}/posts" class="menu-item">
-                            <i class="{{ $fc->icon }}"></i>
-                            <h6 class="menu-name ">{{ $fc->category }}</h6>
+                            <i id="iconfc{{ $fc->id }}" class="{{ $fc->icon }}"></i>
+                            <h6 id="menufc{{ $fc->id }}" class="menu-name ">{{ $fc->category }}</h6>
                         </a>
                     @endforeach
 
                     <a href="/forum/bookmarks" class="menu-item">
-                        <i class="fa-solid fa-bookmark"></i>
-                        <h6 class="menu-name ">Bookmarks</h6>
+                        <i id="iconbookmark" class="fa-solid fa-bookmark"></i>
+                        <h6 id="menubookmark" class="menu-name ">Bookmarks</h6>
                     </a>
 
                 </div>
@@ -35,9 +35,8 @@
                     <div class="latest-topics-list">
                         @foreach ($topTopics as $ft)
                             <a href="/forum/topic/{{ $ft->id }}/posts" class="menu-item">
-                                <i class="{{ $ft->icon }}"></i>
-                                <h6 class="menu-name ">
-                                    {{ $ft->topic }}</h6>
+                                <i id="iconft{{ $ft->id }}" class="{{ $ft->icon }}"></i>
+                                <h6 id="menuft{{ $ft->id }}" class="menu-name ">{{ $ft->topic }}</h6>
                             </a>
                         @endforeach
 
@@ -45,8 +44,8 @@
                             <div class="show-all-menu-item">
                                 @foreach ($otherTopics as $oft)
                                     <a href="/forum/topic/{{ $oft->id }}/posts" class="menu-item">
-                                        <i class="{{ $oft->icon }}"></i>
-                                        <h6 class="menu-name">{{ $oft->topic }}</h6>
+                                        <i id="iconft{{ $oft->id }}" class="{{ $oft->icon }}"></i>
+                                        <h6 id="menuft{{ $oft->id }}" class="menu-name">{{ $oft->topic }}</h6>
                                     </a>
                                 @endforeach
                             </div>

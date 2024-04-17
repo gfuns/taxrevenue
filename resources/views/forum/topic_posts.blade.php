@@ -2862,13 +2862,14 @@
 
 
 </section>
-
 @endsection
 
 @section("customjs")
 <script type="text/javascript">
-    document.getElementById("menuhome").classList.add('active');
-    document.getElementById("iconhome").classList.add('active');
+    var icon = "iconft"+{{ Js::from($id) }};
+    var menu = "menuft"+{{ Js::from($id) }};
+    document.getElementById(menu).classList.add('active');
+    document.getElementById(icon).classList.add('active');
 </script>
 
 @endsection

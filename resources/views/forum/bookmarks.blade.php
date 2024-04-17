@@ -2862,13 +2862,12 @@
 
 
 </section>
-
 @endsection
 
 @section("customjs")
 <script type="text/javascript">
-    document.getElementById("menuhome").classList.add('active');
-    document.getElementById("iconhome").classList.add('active');
+    document.getElementById("menubookmark").classList.add('active');
+    document.getElementById("iconbookmark").classList.add('active');
 </script>
 
 @endsection
