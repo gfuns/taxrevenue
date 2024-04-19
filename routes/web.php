@@ -264,9 +264,19 @@ Route::group([
 
     Route::post('/vote-post', [ForumController::class, 'votePost'])->name("forum.votePost");
 
+    Route::post('/vote-comment', [ForumController::class, 'voteComment'])->name("forum.voteComment");
+
     Route::post('/report-post', [ForumController::class, 'reportPost'])->name("forum.reportPost");
 
+    Route::post('/report-comment', [ForumController::class, 'reportComment'])->name("forum.reportComment");
+
     Route::post('/bookmark-post', [ForumController::class, 'bookmarkPost'])->name("forum.bookmarkPost");
+
+    Route::post('/submit-comment', [ForumController::class, 'submitComment'])->name("forum.submitComment");
+
+    Route::post('/update-comment', [ForumController::class, 'updateComment'])->name("forum.updateComment");
+
+    Route::post('/delete-comment', [ForumController::class, 'deleteComment'])->name("forum.deleteComment");
 });
 
 Route::post('/login/2fa', [App\Http\Controllers\Business\TwofactorController::class, 'verify2FA'])->name('login.2fa');

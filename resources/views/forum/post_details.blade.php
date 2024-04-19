@@ -35,11 +35,12 @@
                                             <div class="auth-info">
                                                 <a href="https://preview.wstacks.com/proforum/user-profile/34">
                                                     <div class="user-thumb">
-                                                        <img src="{{ isset($post->customer->photo) ? $post->customer->photo : asset('proforum/images/avatar.png')}}"
+                                                        <img src="{{ isset($post->customer->photo) ? $post->customer->photo : asset('proforum/images/avatar.png') }}"
                                                             alt="avatar">
                                                     </div>
                                                     <p class="post-by">
-                                                        Posted by<span> {{ $post->customer->first_name." ".$post->customer->last_name }}</span>
+                                                        Posted by<span>
+                                                            {{ $post->customer->first_name . ' ' . $post->customer->last_name }}</span>
                                                     </p>
                                                 </a>
                                                 <i class="fa-solid fa-circle"></i>
@@ -121,7 +122,8 @@
                                                             data-post-id="{{ $post->id }}" data-post-vote="1">
                                                             <i class="fa-circle-up  fa-regular "></i>
                                                         </button>
-                                                        <div class="total_post_vote{{ $post->id }}" data-post-id="{{ $post->id }}">
+                                                        <div class="total_post_vote{{ $post->id }}"
+                                                            data-post-id="{{ $post->id }}">
                                                             <h6 class="vote-qty__value">
                                                                 {{ $post->likes }}
                                                             </h6>
@@ -156,8 +158,17 @@
                                                         <div class="actn-dropdown">
                                                             @php
 
-                                                            $postURL = env("APP_URL")."/forum/details/".$post->id."/".$post->slug;
-                                                            $postTitle = preg_replace("/ /", "-", $post->post_title);
+                                                                $postURL =
+                                                                    env('APP_URL') .
+                                                                    '/forum/details/' .
+                                                                    $post->id .
+                                                                    '/' .
+                                                                    $post->slug;
+                                                                $postTitle = preg_replace(
+                                                                    '/ /',
+                                                                    '-',
+                                                                    $post->post_title,
+                                                                );
                                                             @endphp
                                                             <ul>
                                                                 <li>
@@ -188,59 +199,209 @@
                                                     <!--  -->
                                                 </li>
                                             </ul>
-                                            <button class="me-3 report_post_button report_button" data-post-id={{ $post->id }}><i
-                                                    class="fa-regular fa-flag"></i>
+                                            <button class="me-3 report_post_button report_button"
+                                                data-post-id={{ $post->id }}><i class="fa-regular fa-flag"></i>
                                             </button>
                                             <button
-                                                class="bookmark-button @if(Auth::user() && $post->isBookmarked() == 1) active-bookmark @endif"
+                                                class="bookmark-button @if (Auth::user() && $post->isBookmarked() == 1) active-bookmark @endif"
                                                 data-post-id="{{ $post->id }}" type="button">
-                                                <i class="fa-regular fa-bookmark @if(Auth::user() && $post->isBookmarked() == 1) fa-solid @endif"></i>
+                                                <i
+                                                    class="fa-regular fa-bookmark @if (Auth::user() && $post->isBookmarked() == 1) fa-solid @endif"></i>
                                             </button>
+                                        </div>
 
-                                            <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                                                <div class="toast" role="alert" aria-live="assertive"
-                                                    aria-atomic="true">
-                                                    <div class="toast-header">
-                                                        <img src="https://preview.wstacks.com/proforum/assets/images/user/profile/6526cc25c10a11697041445.png"
-                                                            class="rounded me-2" alt="...">
-                                                        <strong class="me-auto">Event Ritual</strong>
-                                                        <button type="button" class="btn-close"
-                                                            data-bs-dismiss="toast" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="toast-body139">
+                                        @foreach ($comments as $com)
+                                            <div class="single-comment">
+                                                <div class="auth-info">
+                                                    <a href="/forum/user-profile/{{ $com->customer_id }}">
+                                                        <div class="user-thumb">
+                                                            <img src="{{ isset($com->customer->photo) ? $com->customer->photo : asset('proforum/images/avatar.png') }}"
+                                                                alt="avatar">
+                                                        </div>
+                                                        <p class="post-by">
+                                                            <span>{{ $com->customer->first_name . ' ' . $com->customer->last_name }}</span>
+                                                        </p>
+                                                    </a>
+                                                    <i class="fa-solid fa-circle"></i>
+                                                    <p class="time-status">
+                                                        {{ date_format($com->created_at, 'j M, Y') }}</p>
+                                                </div>
+                                                <div class="comment-text">
+                                                    <p>{{ $com->comment }}</p>
+                                                    <div class="comment-card-footer">
+                                                        <ul class="user-actn">
+                                                            <li>
+                                                                <div class="comment-voting vote-qty">
+                                                                    <button
+                                                                        class="vote-qty__increment comment_vote  fa-regular "
+                                                                        data-comment-id="{{ $com->id }}"
+                                                                        data-comment-vote="1">
+                                                                        <i class="fa-circle-up  fa-regular "></i>
+                                                                    </button>
+                                                                    <span
+                                                                        class="vote-qty__value total_comment_vote{{ $com->id }}"
+                                                                        data-comment-id="{{ $com->id }}">{{ $com->likes }}</span>
+                                                                    <button class="vote-qty__decrement comment_vote "
+                                                                        data-comment-id="{{ $com->id }}"
+                                                                        data-comment-vote="0">
+                                                                        <i
+                                                                            class="fa-regular fa-circle-down  fa-regular "></i>
+                                                                    </button>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <button class="cmnt-reply-btn"
+                                                                    onclick="replyComment(this, event);">
+                                                                    <i class="las la-comments"></i>
+                                                                    <span class="nestedCommentsCount">0
+                                                                        Reply </span>
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <div class="actn-dropdown-box">
+                                                                    <button class="actn-dropdown-btn">
+                                                                        <i class="fa-solid fa-ellipsis"></i>
+                                                                    </button>
+                                                                    <div class="actn-dropdown option">
+                                                                        <ul>
+                                                                            @if (Auth::user() && Auth::user()->id == $com->customer_id)
+                                                                                <li class="edit_comment"
+                                                                                    style="cursor: pointer;"
+                                                                                    onclick="editComment(this);">
+                                                                                    <button
+                                                                                        class="usr-ctn-btn edit_button">
+                                                                                        <i
+                                                                                            class="fa-solid fa-pencil"></i>
+                                                                                        <span>Edit</span>
+                                                                                    </button>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <button
+                                                                                        class="delete_comment delete_button"
+                                                                                        data-comment="{{ $com->id }}"
+                                                                                        data-post="{{ $post->id }}"
+                                                                                        style="cursor: pointer;">
+                                                                                        <i
+                                                                                            class="fa-solid fa-trash-can"></i>
+                                                                                        <span>Delete</span>
+                                                                                    </button>
 
+                                                                                </li>
+                                                                            @endif
+                                                                            <li>
+                                                                                <button class="me-3 report_comment_button" data-post-id="{{ $post->id}}" data-comment-id="{{ $com->id }}"><i
+                                                                                        class="fa-regular fa-flag"></i>
+                                                                                    <span>Report</span>
+                                                                                </button>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
                                                     </div>
+
+                                                    @if (Auth::user())
+                                                        <div class="replay-comment-field replay-comment-field-reply">
+                                                            <div class="comment-in-replay">
+                                                                <div class="auth-info">
+                                                                    <a href="#">
+                                                                        <div class="user-thumb">
+                                                                            <img src="{{ isset(Auth::user()->photo) ? Auth::user()->photo : asset('proforum/images/avatar.png') }}"
+                                                                                alt="avatar">
+                                                                        </div>
+                                                                        <p class="post-by">
+                                                                            <span>{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</span>
+                                                                        </p>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="comment-text">
+                                                                    <form>
+                                                                        <div class="form-group">
+                                                                            <input type="text" name="post_id"
+                                                                                hidden="" value="1"
+                                                                                id="post_id">
+                                                                            <input type="text" name="comment_id"
+                                                                                hidden="" value="35"
+                                                                                id="comment_id">
+                                                                            <textarea placeholder="" class="form--control comment-replay-field" name="comment"
+                                                                                onkeypress="ReplyCommentSubmit(this,event)" id="comment"></textarea>
+                                                                            <label class="form--label" for="comment">
+                                                                                Write Your Comments
+                                                                            </label>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <div class="replay-comment-field replay-comment-field-edit">
+                                                            <div class="comment-in-replay">
+                                                                <div class="auth-info">
+                                                                    <a href="#">
+                                                                        <div class="user-thumb">
+                                                                            <img src="{{ isset(Auth::user()->photo) ? Auth::user()->photo : asset('proforum/images/avatar.png') }}"
+                                                                                alt="avatar">
+                                                                        </div>
+                                                                        <p class="post-by">
+                                                                            <span>{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</span>
+                                                                        </p>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="comment-text">
+                                                                    <form>
+                                                                        <div class="form-group">
+                                                                            <input type="text" name="post_id"
+                                                                                hidden="" value="{{ $post->id }}"
+                                                                                id="post_id">
+                                                                            <input type="text" name="comment_id"
+                                                                                hidden="" value="{{ $com->id }}"
+                                                                                id="comment_id">
+                                                                            <textarea placeholder="" class="form--control comment-replay-field" name="comment"
+                                                                                onkeypress="editReplyCommentSubmit(this,event)" id="comment"></textarea>
+                                                                            <label class="form--label" for="comment">
+                                                                                Edit Your Comment </label>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endforeach
 
-                                        @if(Auth::user())
-
-                                        <div class="single-comment-replay">
-                                            <div class="auth-info">
-                                                <a href="#">
-                                                    <div class="user-thumb">
-                                                        <img src="{{ isset($post->customer->photo) ? $post->customer->photo : asset('proforum/images/avatar.png')}}" alt="avatar">
-                                                    </div>
-                                                    <p class="post-by">
-                                                        <span>{{ $post->customer->first_name." ".$post->customer->last_name }}</span>
-                                                    </p>
-                                                </a>
+                                        @if (Auth::user())
+                                            <div class="single-comment-replay">
+                                                <div class="auth-info">
+                                                    <a href="#">
+                                                        <div class="user-thumb">
+                                                            <img src="{{ isset(Auth::user()->photo) ? Auth::user()->photo : asset('proforum/images/avatar.png') }}"
+                                                                alt="avatar">
+                                                        </div>
+                                                        <p class="post-by">
+                                                            <span>{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</span>
+                                                        </p>
+                                                    </a>
+                                                </div>
+                                                <div class="comment-text">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <input type="text" name="post_id" hidden
+                                                                value="{{ $post->id }}">
+                                                            <input type="text" name="parent_comment_id" hidden
+                                                                value="">
+                                                            <textarea placeholder="" class="form--control comment-replay-field" id="comment-field" name="comment"
+                                                                onkeypress="singleCommentSubmit(this)"></textarea>
+                                                            <label class="form--label">
+                                                                Write Your Comments </label>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
-                                            <div class="comment-text">
-                                                <form>
-                                                    <div class="form-group">
-                                                        <input type="text" name="post_id" hidden value="139">
-                                                        <input type="text" name="parent_comment_id" hidden
-                                                            value="">
-                                                        <textarea placeholder="" class="form--control comment-replay-field" id="comment-field" name="comment"
-                                                            onkeypress="singleCommentSubmit(this)"></textarea>
-                                                        <label class="form--label">
-                                                            Write Your Comments </label>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
                                         @endif
                                     </div>
                                 </div>
@@ -249,9 +410,9 @@
                     </div>
                 </div>
 
-                 <!-- right side -->
-                 @include("forum.layouts.right_nav")
-                 <!-- right side /-->
+                <!-- right side -->
+                @include('forum.layouts.right_nav')
+                <!-- right side /-->
 
             </div>
         </div>

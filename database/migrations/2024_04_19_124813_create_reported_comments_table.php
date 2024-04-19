@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_comments', function (Blueprint $table) {
-            $table->increments("id");
-            $table->integer("forum_post_id")->unsigned();
+        Schema::create('reported_comments', function (Blueprint $table) {
+            $table->id();
+            $table->integer("post_comment_id")->unsigned();
             $table->integer("customer_id")->unsigned();
-            $table->integer("likes")->default(0);
             $table->longText("comment");
-            $table->string("comment_type")->default("main");
+            $table->string("status")->default("pending");
             $table->timestamps();
-            $table->foreign('forum_post_id')->references('id')->on('forum_posts')->onDelete('cascade');
+            $table->foreign('post_comment_id')->references('id')->on('post_comments')->onDelete('cascade');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('post_comments');
+        Schema::dropIfExists('reported_comments');
     }
 };

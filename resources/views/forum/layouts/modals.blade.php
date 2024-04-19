@@ -27,6 +27,36 @@
     </div>
 
 
+
+    <div class="modal fade comment_report_modal" id="exampleModal1" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="comment_report_form">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Report Comment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <input type="text" class="set-comment-modal_post-id" hidden name="post_id">
+                            <input type="text" class="set-comment-modal_comment-id" hidden name="comment_id">
+
+                            <label for="message-text" class="col-form-label">Provide a reason for reporting comment:</label>
+                            <textarea class="form-control comment_reason" rows="5" name="reason" id="message-text" style="resize:none"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Send</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
     <div class="modal fade" id="postExampleModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
