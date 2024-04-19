@@ -104,7 +104,7 @@
                                     <textarea placeholder="" class="form--control comment-replay-field" name="comment"
                                         onkeypress="ReplyCommentSubmit(this,event)" id="comment"></textarea>
                                     <label class="form--label" for="comment">
-                                        Write Your Comments
+                                        Write Your Reply
                                     </label>
                                 </div>
                             </form>

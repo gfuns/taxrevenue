@@ -451,6 +451,7 @@
 
             var editFormTextarea = $('#cusFrm-' + recordId).find('textarea');
             editFormTextarea.val(comment);
+            editFormTextarea.attr('data-action', 'edit');
 
             // Find the corresponding edit form div based on the record ID
             var editFormDiv = $('#cusFrm-' + recordId);
@@ -661,6 +662,55 @@
 
                     $(object).closest(".replay-comment-field").toggleClass("show-comment-field");
                     $(object).removeAttr('data-edit');
+
+                },
+                error: function(data, status, error) {
+                    $.each(data.responseJSON.errors, function(key,
+                        item) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: item
+                        })
+                    });
+                }
+            });
+        }
+    }
+
+    function editCommentReplySubmit(object, event) {
+        if (event.which == 13 && $(object).data('action') === 'edit') {
+
+            var url = '{{ route('forum.updateComment') }}';
+            var token = '{{ csrf_token() }}';
+            var data = {
+                comment_id: $(object).siblings('input[name=comment_id]').val(),
+                comment: $(object).val(),
+                _token: token
+            }
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(data) {
+                    document.getElementById("custxt-" + data.id).innerHTML = data.comment.comment;
+
+                    var editFormTextarea = $('#cusFrm-' + data.id).find('textarea');
+                    editFormTextarea.val('');
+
+
+                    // Find the corresponding edit form div based on the record ID
+                    var editFormDiv = $('#cusFrm-' + data.id);
+
+                    // Toggle the display of the edit form div
+                    editFormDiv.toggle();
+
+
+
+
+                    // $(object).closest(".replay-comment-field").toggleClass("show-comment-field");
+                    // $(object).removeAttr('data-edit');
+
+
 
                 },
                 error: function(data, status, error) {

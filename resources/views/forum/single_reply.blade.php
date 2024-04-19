@@ -11,10 +11,11 @@
         </a>
         <i class="fa-solid fa-circle"></i>
         <p class="time-status">
-            {{ date_format($com->created_at, 'j M, Y') }}</p>
+            {{ date_format($com->created_at, 'j M, Y') }}
+        </p>
     </div>
     <div class="comment-text">
-        <p>{{ $com->comment }}</p>
+        <p id="custxt-{{ $com->id }}">{{ $com->comment }}</p>
         <div class="comment-card-footer">
             <ul class="user-actn">
                 <li>
@@ -39,7 +40,8 @@
                         <div class="actn-dropdown option">
                             <ul>
                                 @if (Auth::user() && Auth::user()->id == $com->customer_id)
-                                    <li class="edit_comment" style="cursor: pointer;" onclick="editComment(this);">
+                                    <li class="edit_comment editReply" data-reply-id = "{{ $com->id }}"
+                                        data-reply = "{{ $com->comment }}" style="cursor: pointer;">
                                         <button class="usr-ctn-btn edit_button">
                                             <i class="fa-solid fa-pencil"></i>
                                             <span>Edit</span>
@@ -56,7 +58,7 @@
                                 @endif
                                 <li>
                                     <button class="me-3 report_comment_button" data-post-id="{{ $post->id }}"
-                                        data-comment-id="{{ $com->id }}"><i class="fa-regular fa-flag"></i>
+                                        data-comment-id="{{ $reply->id }}"><i class="fa-regular fa-flag"></i>
                                         <span>Report</span>
                                     </button>
                                 </li>
@@ -67,5 +69,39 @@
             </ul>
         </div>
 
+
+
     </div>
 </div>
+
+@if (Auth::user())
+    <div class="">
+        <div id="cusFrm-{{ $reply->id }}" class="reply-in-replay" style="display: none">
+            <div class="auth-info">
+                <a href="#">
+                    <div class="user-thumb">
+                        <img src="{{ isset(Auth::user()->photo) ? Auth::user()->photo : asset('proforum/images/avatar.png') }}"
+                            alt="avatar">
+                    </div>
+                    <p class="post-by">
+                        <span>{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</span>
+                    </p>
+                </a>
+            </div>
+            <div class="comment-text">
+                <form>
+                    <div class="form-group">
+                        <input type="text" name="post_id" hidden="" value="{{ $post->id }}" id="post_id">
+                        <input type="text" name="comment_id" hidden="" value="{{ $reply->id }}"
+                            id="comment_id">
+                        <textarea placeholder="" class="form--control comment-replay-field" name="comment"
+                            onkeypress="editCommentReplySubmit(this,event)" id="comment">{{ $reply->reply }}</textarea>
+                        <label class="form--label" for="comment">
+                            Edit Your Reply
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endif

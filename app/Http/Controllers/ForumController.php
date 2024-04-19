@@ -150,7 +150,7 @@ class ForumController extends Controller
         $comment->comment = $request->comment;
 
         if ($comment->save()) {
-            return response()->json(['status' => "success", "comment" => [
+            return response()->json(['status' => "success", "id" => $comment->id, "comment" => [
                 "comment" => $comment->comment,
             ]], 200);
         } else {

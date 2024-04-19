@@ -21,7 +21,7 @@
                     </p>
                 </div>
                 <div class="comment-text">
-                    <p id="cusTxt-{{ $reply->id }}">{{ $reply->comment }}</p>
+                    <p id="custxt-{{ $reply->id }}">{{ $reply->comment }}</p>
                     <div class="comment-card-footer">
                         <ul class="user-actn">
                             <li>
@@ -31,7 +31,7 @@
                                         <i class="fa-circle-up  fa-regular "></i>
                                     </button>
                                     <span class="vote-qty__value total_comment_vote{{ $reply->id }}"
-                                        data-comment-id="{{ $reply->id }}">{{ $com->likes }}</span>
+                                        data-comment-id="{{ $reply->id }}">{{ $reply->likes }}</span>
                                     <button class="vote-qty__decrement comment_vote "
                                         data-comment-id="{{ $reply->id }}" data-comment-vote="0">
                                         <i class="fa-regular fa-circle-down  fa-regular "></i>
@@ -106,7 +106,7 @@
                                     <input type="text" name="comment_id" hidden="" value="{{ $reply->id }}"
                                         id="comment_id">
                                     <textarea placeholder="" class="form--control comment-replay-field" name="comment"
-                                        onkeypress="editReplyCommentSubmit(this,event)" id="comment">{{ $reply->reply }}</textarea>
+                                        onkeypress="editCommentReplySubmit(this,event)" id="comment">{{ $reply->reply }}</textarea>
                                     <label class="form--label" for="comment">
                                         Edit Your Reply
                                     </label>
