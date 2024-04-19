@@ -438,6 +438,27 @@
             });
         })
 
+
+        // delete reply
+        $(document).on('click', '.editReply', function() {
+            $('[id*=cusFrm]').css('display', 'none');
+            $('.replay-comment-field').removeClass('show-comment-field');
+            $('.actn-dropdown').removeClass('is-open-actn-dropdown');
+
+            var recordId = $(this).data('reply-id');
+            var comment = $(this).data('reply');
+            //alert(comment);
+
+            var editFormTextarea = $('#cusFrm-' + recordId).find('textarea');
+            editFormTextarea.val(comment);
+
+            // Find the corresponding edit form div based on the record ID
+            var editFormDiv = $('#cusFrm-' + recordId);
+
+            // Toggle the display of the edit form div
+            editFormDiv.toggle();
+        })
+
     })(jQuery);
 
 
@@ -495,6 +516,7 @@
     function replyComment(object, event) {
         var auth = {{ Js::from($authStatus) }};
         if (auth) {
+            $('[id*=cusFrm]').css('display', 'none');
             var allReplayCommentField = $('.replay-comment-field').removeClass('show-comment-field');
             var findTextarea = $(object).closest(".comment-card-footer").siblings(".replay-comment-field-reply").find(
                     'form')
@@ -601,6 +623,7 @@
 
     // Edit comment create
     function editComment(object) {
+        $('[id*=cusFrm]').css('display', 'none');
         var allReplayCommentField = $('.replay-comment-field').removeClass('show-comment-field');
 
         const actn_dropdown = $(object).closest('.actn-dropdown').removeClass('is-open-actn-dropdown');
@@ -730,6 +753,7 @@
         }
 
     }
+
 </script>
 <script>
     (function($) {

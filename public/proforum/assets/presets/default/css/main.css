@@ -7298,12 +7298,21 @@ select.form-control.form--control:has(option)~.form--label {
   display: block;
 }
 
+.show-comment-field .reply-in-replay {
+  display: block;
+}
+
 .active-upvote i {
   color: hsl(var(--base)) !important;
 }
 
 .active-downvote i {
   color: hsl(var(--danger)) !important;
+}
+
+.reply-in-replay {
+  padding: 16px 0px 0px 0px;
+  display: none;
 }
 
 .comment-in-replay {
@@ -7315,7 +7324,16 @@ select.form-control.form--control:has(option)~.form--label {
   margin-left: 32px;
 }
 
+.reply-in-replay .comment-text {
+  margin-left: 32px;
+}
+
 .comment-in-replay .comment-text .comment-replay-field {
+  border: 1px solid hsl(var(--base-border-color));
+  height: 68px;
+}
+
+.reply-in-replay .comment-text .comment-replay-field {
   border: 1px solid hsl(var(--base-border-color));
   height: 68px;
 }
