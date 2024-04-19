@@ -39,4 +39,18 @@ class ForumPosts extends Model
             return 0;
         }
     }
+
+    public function truncateText($text, $limit)
+    {
+        $cleanedText = strip_tags($text);
+        // Split the text into an array of words
+        $words = explode(' ', $cleanedText);
+
+        // If the number of words is greater than the limit, slice the array and rejoin it
+        if (count($words) > $limit) {
+            $text = implode(' ', array_slice($words, 0, $limit));
+        }
+
+        return $text;
+    }
 }

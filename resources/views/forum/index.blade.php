@@ -107,12 +107,11 @@
                                         <div class="card-content">
                                             <a
                                                 href="/forum/details/{{  $post->id}}/{{ $post->slug }}">
-                                                <h6 class="card-title ">{{ $post->post_title }} </h6>
+                                                <h6 class="card-title ">{{$post->post_title }} </h6>
                                             </a>
 
-                                            <p class="card-sub-title wyg">Legends In Concert is a live stage show
-                                                featuring impersonators of Elvis Presley, Michael Jackson, and other
-                                                legendary entertainers. See them live in concert in Barcelona!
+                                            <p class="card-sub-title wyg">
+                                                {{  strip_tags($post->truncateText($post->post_body, 30))}} @if(str_word_count($post->post_body) < 30)... @endif
                                             </p>
                                         </div>
                                         <div class="forum-cad-footer">
