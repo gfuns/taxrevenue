@@ -58,7 +58,7 @@
                                 @endif
                                 <li>
                                     <button class="me-3 report_comment_button" data-post-id="{{ $post->id }}"
-                                        data-comment-id="{{ $reply->id }}"><i class="fa-regular fa-flag"></i>
+                                        data-comment-id="{{ $com->id }}"><i class="fa-regular fa-flag"></i>
                                         <span>Report</span>
                                     </button>
                                 </li>
@@ -76,7 +76,7 @@
 
 @if (Auth::user())
     <div class="">
-        <div id="cusFrm-{{ $reply->id }}" class="reply-in-replay" style="display: none">
+        <div id="cusFrm-{{ $com->id }}" class="reply-in-replay" style="display: none">
             <div class="auth-info">
                 <a href="#">
                     <div class="user-thumb">
@@ -92,10 +92,10 @@
                 <form>
                     <div class="form-group">
                         <input type="text" name="post_id" hidden="" value="{{ $post->id }}" id="post_id">
-                        <input type="text" name="comment_id" hidden="" value="{{ $reply->id }}"
+                        <input type="text" name="comment_id" hidden="" value="{{ $com->id }}"
                             id="comment_id">
                         <textarea placeholder="" class="form--control comment-replay-field" name="comment"
-                            onkeypress="editCommentReplySubmit(this,event)" id="comment">{{ $reply->reply }}</textarea>
+                            onkeypress="editCommentReplySubmit(this,event)" id="comment">{{ $com->reply }}</textarea>
                         <label class="form--label" for="comment">
                             Edit Your Reply
                         </label>
