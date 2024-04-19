@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,5 +28,15 @@ class ForumPosts extends Model
     public function comments()
     {
         return $this->hasMany('App\Models\PostComments', "forum_post_id");
+    }
+
+    public function isBookmarked()
+    {
+        $bookmark = ForumBookmarks::where("forum_post_id", $this->id)->where("customer_id", Auth::user()->id)->first();
+        if (isset($bookmark)) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }

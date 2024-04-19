@@ -188,19 +188,13 @@
                                                     <!--  -->
                                                 </li>
                                             </ul>
-                                            <button class="me-3 report_post_button report_button" data-post-id=139><i
+                                            <button class="me-3 report_post_button report_button" data-post-id={{ $post->id }}><i
                                                     class="fa-regular fa-flag"></i>
                                             </button>
                                             <button
-                                                class="bookmark-button
-
-                                                            active-bookmark                                                     "
-                                                data-post-id="139" type="button">
-                                                <i
-                                                    class="fa-regular fa-bookmark
-
-                                                                fa-solid                                                         ">
-                                                </i>
+                                                class="bookmark-button @if(Auth::user() && $post->isBookmarked() == 1) active-bookmark @endif"
+                                                data-post-id="{{ $post->id }}" type="button">
+                                                <i class="fa-regular fa-bookmark @if(Auth::user() && $post->isBookmarked() == 1) fa-solid @endif"></i>
                                             </button>
 
                                             <div class="toast-container position-fixed bottom-0 end-0 p-3">

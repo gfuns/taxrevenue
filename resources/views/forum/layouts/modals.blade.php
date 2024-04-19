@@ -4,7 +4,7 @@
             <form id="report_form">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Report</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Report Post</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
@@ -13,8 +13,8 @@
                         <div class="mb-3">
                             <input type="text" class="set-modal-post-id" hidden="" name="id"
                                 id="id">
-                            <label for="message-text" class="col-form-label">Reason:</label>
-                            <textarea class="form-control reason" name="reason" id="reason"></textarea>
+                            <label for="message-text" class="col-form-label">Provide a reason for reporting post:</label>
+                            <textarea class="form-control reason" name="reason" id="reason" rows="5" style="resize: none" required></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

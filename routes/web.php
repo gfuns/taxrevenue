@@ -263,6 +263,10 @@ Route::group([
     Route::get('/details/{id}/{slug}', [ForumController::class, 'postDetails']);
 
     Route::post('/vote-post', [ForumController::class, 'votePost'])->name("forum.votePost");
+
+    Route::post('/report-post', [ForumController::class, 'reportPost'])->name("forum.reportPost");
+
+    Route::post('/bookmark-post', [ForumController::class, 'bookmarkPost'])->name("forum.bookmarkPost");
 });
 
 Route::post('/login/2fa', [App\Http\Controllers\Business\TwofactorController::class, 'verify2FA'])->name('login.2fa');

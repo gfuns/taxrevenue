@@ -38,18 +38,18 @@
 
                                     <div class="vote-item vote-qty">
                                         <div class="vote-item-wraper">
-                                            <button class="vote-qty__increment post_vote " data-post-id="141"
+                                            <button class="vote-qty__increment post_vote " data-post-id="{{ $post->id }}"
                                                 data-post-vote="1">
                                                 <i class="fa-circle-up  fa-regular "></i>
                                             </button>
 
-                                            <div class="vote-value-container total_post_vote141"
-                                                data-post-id="141">
+                                            <div class="vote-value-container total_post_vote{{ $post->id }}"
+                                                data-post-id="{{ $post->id }}">
                                                 <h6 class="vote-qty__value">
-                                                    0
+                                                    {{ $post->likes }}
                                                 </h6>
                                             </div>
-                                            <button class="vote-qty__decrement post_vote " data-post-id="141"
+                                            <button class="vote-qty__decrement post_vote " data-post-id="{{ $post->id }}"
                                                 data-post-vote="0">
                                                 <i class="fa-circle-down  fa-regular "></i>
                                             </button>
@@ -95,7 +95,7 @@
                                                     <ul>
                                                         <li>
                                                             <button class="report_button report_post_button"
-                                                                data-post-id="141">
+                                                                data-post-id="{{ $post->id }}">
                                                                 <i class="fa-regular fa-flag"></i>
                                                                 <span>Report</span>
                                                             </button>
@@ -176,12 +176,10 @@
                                             </ul>
                                             <div class="d-flex">
                                                 <button class="me-3 report_button report_post_button"
-                                                    data-post-id="141"><i class="fa-regular fa-flag"></i>
+                                                    data-post-id="{{ $post->id }}"><i class="fa-regular fa-flag"></i>
                                                 </button>
-                                                <button class="bookmark-button
-                    "
-                                                    data-post-id="141" type="button">
-                                                    <i class="fa-regular fa-bookmark "></i>
+                                                <button class="bookmark-button @if(Auth::user() && $post->isBookmarked() == 1) active-bookmark @endif" data-post-id="{{ $post->id }}" type="button">
+                                                    <i class="fa-regular fa-bookmark @if(Auth::user() && $post->isBookmarked() == 1) fa-solid @endif"></i>
                                                 </button>
                                             </div>
                                         </div>

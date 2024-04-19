@@ -113,7 +113,6 @@
             $(".post_vote").on('click', function() {
                 var auth = {{Js::from($authStatus)}};
                 if (auth) {
-                    console.log("Authenticated user");
                     var url = '{{ route('forum.votePost') }}';
                     var token = '{{ csrf_token() }}';
                     var id = $(this).data("post-id");
@@ -146,10 +145,10 @@
             });
 
             $(".bookmark-button").on('click', function() {
-                var auth = false;
+                var auth = {{Js::from($authStatus)}};
                 if (auth) {
-                    var url = "https://preview.wstacks.com/proforum/post-bookmark";
-                    var token = 'lNE0tG3JLtarqbnmMDT8ti3UStxbsx2loTKMrNOu';
+                    var url = '{{ route('forum.bookmarkPost') }}';
+                    var token = '{{ csrf_token() }}';
                     var id = $(this).data("post-id");
                     var this_data = $(this);
                     var data = {
@@ -161,7 +160,7 @@
                         url: url,
                         data: data,
                         success: function(data) {
-                            if (data.status && data.status == "saved") {
+                            if (data.status && data.bookmarktype == "saved") {
                                 this_data.addClass("active-bookmark");
                                 var icon = this_data.find("i");
                                 if (icon.hasClass("fa-solid")) {
@@ -202,18 +201,18 @@
                     });
                 } else {
                     $(".toast-container").addClass('d-none');
-                    window.location.href = "https://preview.wstacks.com/proforum/user/login";
+                    window.location.href =  "{{ route("login") }}";
                 }
             });
 
             $(".report_button").on('click', function() {
-                var auth = false;
+                var auth = {{Js::from($authStatus)}};
                 if (auth) {
                     var id = $(this).data("post-id");
                     $(".set-modal-post-id").val(id);
                     $(".report_modal").modal('show');
                 } else {
-                    window.location.href = "https://preview.wstacks.com/proforum/user/login";
+                    window.location.href = "{{ route("login") }}";
                 }
             });
 
@@ -221,8 +220,8 @@
                 event.preventDefault();
                 var reason = $(".reason").val();
                 var id = $(".set-modal-post-id").val();
-                var url = "https://preview.wstacks.com/proforum/post-report";
-                var token = 'lNE0tG3JLtarqbnmMDT8ti3UStxbsx2loTKMrNOu';
+                var url = '{{ route('forum.reportPost') }}';
+                var token = '{{ csrf_token() }}';
                 var this_data = $(this);
                 var data = {
                     reason: reason,

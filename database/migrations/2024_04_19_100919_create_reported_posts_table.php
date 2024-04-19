@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_comments', function (Blueprint $table) {
-            $table->increments("id");
+        Schema::create('reported_posts', function (Blueprint $table) {
+            $table->id();
             $table->integer("forum_post_id")->unsigned();
             $table->integer("customer_id")->unsigned();
-            $table->integer("likes")->default(0);
             $table->longText("comment");
+            $table->string("status")->default("pending");
             $table->timestamps();
             $table->foreign('forum_post_id')->references('id')->on('forum_posts')->onDelete('cascade');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('post_comments');
+        Schema::dropIfExists('reported_posts');
     }
 };
