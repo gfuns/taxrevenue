@@ -111,8 +111,31 @@ class ForumController extends Controller
         $comment->forum_post_id = $request->post_id;
         $comment->comment = $request->comment;
 
-        $html = '';
         if ($comment->save()) {
+            $post = ForumPosts::find($comment->forum_post_id);
+
+            $html = view('forum.single_comment', ['com' => $comment, "post" => $post])->render();
+            return response()->json(['status' => "success", "html" => $html], 200);
+        } else {
+            return response()->json(['status' => "error", "errors" => [
+                "error" => "Unable to comment on this post",
+            ]], 400);
+        }
+    }
+
+    public function replyComment(Request $request)
+    {
+        $comment = new PostComments;
+        $comment->customer_id = Auth::user()->id;
+        $comment->forum_post_id = $request->post_id;
+        $comment->comment_id = $request->comment_id;
+        $comment->comment = $request->comment;
+        $comment->comment_type = "reply";
+
+        if ($comment->save()) {
+            $post = ForumPosts::find($comment->forum_post_id);
+
+            $html = view('forum.single_reply', ['com' => $comment, "post" => $post])->render();
             return response()->json(['status' => "success", "html" => $html], 200);
         } else {
             return response()->json(['status' => "error", "errors" => [
@@ -154,11 +177,25 @@ class ForumController extends Controller
     public function deleteComment(Request $request)
     {
         $comment = PostComments::find($request->comment_id);
+        $replies = PostComments::where("comment_id", $request->comment_id)->delete();
         if ($comment->delete()) {
             return response()->json(['status' => "success", "commentDeleteCount" => 1], 200);
         } else {
             return response()->json(['status' => "error", "commentDeleteCount" => [
-                "error" => "Unable to comment on this post",
+                "error" => "Unable to delete this comment",
+            ]], 400);
+        }
+
+    }
+
+    public function deleteReply(Request $request)
+    {
+        $comment = PostComments::find($request->comment_id);
+        if ($comment->delete()) {
+            return response()->json(['status' => "success", "id" => $request->comment_id, "commentDeleteCount" => 1], 200);
+        } else {
+            return response()->json(['status' => "error", "commentDeleteCount" => [
+                "error" => "Unable to delete this reply",
             ]], 400);
         }
 
@@ -177,5 +214,13 @@ class ForumController extends Controller
                 "error" => "Unable to report selected comment",
             ]], 400);
         }
+    }
+
+    public function testHTMLRendering()
+    {
+        $comment = PostComments::find(3);
+        $post = ForumPosts::find(1);
+        $html = view('forum.single_comment', ['com' => $comment, "post" => $post])->render();
+        dd($html);
     }
 }

@@ -399,6 +399,45 @@
             });
         })
 
+
+        // delete reply
+        $(document).on('click', '.delete_reply', function() {
+            const actn_dropdown = $(this).closest('.actn-dropdown').removeClass(
+                'is-open-actn-dropdown');
+            const dataCommentId = $(this).data('comment');
+            const dataPostId = $(this).data('post');
+            const thisTag = $(this);
+            var url = '{{ route('forum.deleteReply') }}';
+            var token = '{{ csrf_token() }}';
+            var data = {
+                post_id: dataPostId,
+                comment_id: dataCommentId,
+                _token: token
+            }
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(data) {
+                    $('#cusReply-' + data.id).remove();
+                    var type = 'delete';
+                    postCommentCount(data, type);
+
+
+
+                },
+                error: function(data, status, error) {
+                    $.each(data.responseJSON.errors, function(key,
+                        item) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: item
+                        })
+                    });
+                }
+            });
+        })
+
     })(jQuery);
 
 
@@ -478,22 +517,23 @@
     // Reply comment submit
     function ReplyCommentSubmit(object, event) {
         if (event.which == 13 && $(object).data('action') === 'reply') {
+            var url = '{{ route('forum.replyComment') }}';
+            var token = '{{ csrf_token() }}';
             var data = {
                 post_id: $(object).siblings('input[name=post_id]').val(),
                 comment_id: $(object).siblings('input[name=comment_id]').val(),
                 comment: $(object).val(),
-                _token: 'ODQI3NYgY2T1tcYso0BNg84lH18rTsLxNNWYbe7L'
+                _token: token
             }
             $.ajax({
                 type: "POST",
-                url: "https://preview.wstacks.com/proforum/replay-comment",
+                url: url,
                 data: data,
                 success: function(data) {
                     var nestedCommentWrapper = $(object).closest(".replay-comment-field").parents(
                         '.nested-comment-wraper');
                     if (nestedCommentWrapper.length < 4) {
-                        $(object).closest(".replay-comment-field").parent(
-                            '.comment-text').append(`
+                        $(object).closest(".replay-comment-field").append(`
                                     <div class="nested-comment-wraper">
                                         <div class="nested-comment">
                                             ${data.html}
@@ -626,7 +666,7 @@
                     value).children('.comment-text')
                 .children('.comment-card-footer')
                 .children('.user-actn').find(
-                    '.nestedCommentsCount').text()) + 1 + " " + "Reply");
+                    '.nestedCommentsCount').text()) + 1 + " " + "Replies");
         });
 
         // single-comment (comment reply) count create
@@ -638,7 +678,7 @@
                     .children('.comment-card-footer').children(
                         '.user-actn').find('.nestedCommentsCount')
                     .text()) + 1 + " " +
-                "Reply");
+                "Replies");
     }
 
     // Reply-comment (comment count) delete
@@ -655,7 +695,7 @@
                     .children('.user-actn').find(
                         '.nestedCommentsCount').text()
                 ) - data.commentDeleteCount + " " +
-                "Reply");
+                "Replies");
         });
         // single-comment (comment reply) count delete
         thisTag.closest(
@@ -669,7 +709,7 @@
                     .children('.comment-card-footer').children(
                         '.user-actn').find('.nestedCommentsCount')
                     .text()) - data.commentDeleteCount + " " +
-                "Reply");
+                "Replies");
     }
 
 

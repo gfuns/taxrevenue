@@ -277,6 +277,12 @@ Route::group([
     Route::post('/update-comment', [ForumController::class, 'updateComment'])->name("forum.updateComment");
 
     Route::post('/delete-comment', [ForumController::class, 'deleteComment'])->name("forum.deleteComment");
+
+    Route::post('/delete-reply', [ForumController::class, 'deleteReply'])->name("forum.deleteReply");
+
+    Route::post('/reply-comment', [ForumController::class, 'replyComment'])->name("forum.replyComment");
+
+    Route::get('/render-html', [ForumController::class, 'testHTMLRendering']);
 });
 
 Route::post('/login/2fa', [App\Http\Controllers\Business\TwofactorController::class, 'verify2FA'])->name('login.2fa');

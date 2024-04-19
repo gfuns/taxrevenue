@@ -13,4 +13,9 @@ class PostComments extends Model
     {
         return $this->belongsTo('App\Models\Customer', "customer_id");
     }
+
+    public function replies()
+    {
+        return $this->hasMany('App\Models\PostComments', "comment_id");
+    }
 }

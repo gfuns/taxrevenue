@@ -7160,7 +7160,7 @@ select.form-control.form--control:has(option)~.form--label {
 }
 
 .forum-details-card-wraper .forum-details-card .card--body .single-comment {
-  padding: 27px 0px 0px 16px;
+  padding: 0px 0px 0px 16px;
   width: 90%;
 }
 
@@ -7252,7 +7252,7 @@ select.form-control.form--control:has(option)~.form--label {
 }
 
 .forum-details-card-wraper .forum-details-card .card--body .single-comment-replay {
-  padding: 16px 16px 0px 16px;
+  padding: 2px 16px 0px 16px;
 }
 
 .forum-details-card-wraper .forum-details-card .card--body .single-comment-replay .comment-text {
@@ -7338,7 +7338,7 @@ select.form-control.form--control:has(option)~.form--label {
   }
 
   .forum-details-card-wraper .forum-details-card .card--body .single-comment {
-    padding: 16px 0px 0px 13px;
+    padding: 0px 0px 0px 13px;
     width: 90%;
   }
 
