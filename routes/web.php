@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\FrontEndController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -259,6 +259,10 @@ Route::group([
     Route::get('/category/{category}/posts', [ForumController::class, 'categoryPosts']);
 
     Route::get('/topic/{topic}/posts', [ForumController::class, 'topicPosts']);
+
+    Route::get('/details/{id}/{slug}', [ForumController::class, 'postDetails']);
+
+    Route::post('/vote-post', [ForumController::class, 'votePost'])->name("forum.votePost");
 });
 
 Route::post('/login/2fa', [App\Http\Controllers\Business\TwofactorController::class, 'verify2FA'])->name('login.2fa');

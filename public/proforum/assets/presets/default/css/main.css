@@ -3435,6 +3435,17 @@ button:focus {
   font-family: var(--heading-font);
 }
 
+.actn-dropdown ul li .share_button {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  align-items: center;
+  height: 41px;
+  padding: 0px 0px 0px 15px;
+  width: 100%;
+  font-family: var(--heading-font);
+}
+
 .actn-dropdown ul li .edit_button {
   display: inline-flex;
   align-items: center;

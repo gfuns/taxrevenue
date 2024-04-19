@@ -2,11 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\ForumCategories;
+use App\Models\ForumTopics;
+use Auth;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\ForumCategories;
-use App\Models\ForumTopics;
+
 class Forum
 {
     /**
@@ -21,7 +23,12 @@ class Forum
             $topTopics = ForumTopics::orderBy("id", "asc")->limit(4)->get();
             $otherTopics = ForumTopics::orderBy("id", "asc")->skip(4)->take(50)->get();
 
-            $view->with(['forumCategories' => $forumCategories, "topTopics" => $topTopics, "otherTopics" => $otherTopics]);
+            $authStatus = false;
+            if (Auth::user()) {
+                $authStatus = true;
+            }
+
+            $view->with(['forumCategories' => $forumCategories, "topTopics" => $topTopics, "otherTopics" => $otherTopics, "authStatus" => $authStatus]);
         });
 
         return $next($request);

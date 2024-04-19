@@ -111,14 +111,16 @@
         (function($) {
             "use strict"
             $(".post_vote").on('click', function() {
-                var auth = false;
+                var auth = {{Js::from($authStatus)}};
                 if (auth) {
-                    var url = "https://preview.wstacks.com/proforum/post-vote";
-                    var token = 'lNE0tG3JLtarqbnmMDT8ti3UStxbsx2loTKMrNOu';
+                    console.log("Authenticated user");
+                    var url = '{{ route('forum.votePost') }}';
+                    var token = '{{ csrf_token() }}';
                     var id = $(this).data("post-id");
+                    var vote = $(this).data("post-vote");
                     var data = {
                         post_id: id,
-                        vote: $(this).data("post-vote"),
+                        vote: vote,
                         _token: token
                     }
                     $.ajax({
@@ -139,7 +141,7 @@
                         }
                     });
                 } else {
-                    window.location.href = "https://preview.wstacks.com/proforum/user/login";
+                    window.location.href = "{{ route("login") }}";
                 }
             });
 
