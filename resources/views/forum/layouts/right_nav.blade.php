@@ -6,25 +6,25 @@
             <div class="community-item-wraper">
                 <div class="community-item">
                     <div class="item-status mb-3">
-                        <span class="count odometer odometer-auto-theme" data-count="0">
+                        <span class="count odometer odometer-auto-theme" data-count="{{ number_format($postsThisMonth, 0) }}">
                             <div class="odometer-inside"><span class="odometer-digit"><span
                                         class="odometer-digit-spacer">8</span><span
                                         class="odometer-digit-inner"><span
                                             class="odometer-ribbon"><span
                                                 class="odometer-ribbon-inner"><span
-                                                    class="odometer-value">0</span></span></span></span></span>
+                                                    class="odometer-value">{{ number_format($postsThisMonth, 0) }}</span></span></span></span></span>
                             </div>
                         </span>
                         <h6 class="item-status-title">Posts This Month</h6>
                     </div>
                     <div class="item-status">
-                        <span class="count odometer odometer-auto-theme" data-count="7">
+                        <span class="count odometer odometer-auto-theme" data-count="{{ number_format($totalTopics, 0) }}">
                             <div class="odometer-inside"><span class="odometer-digit"><span
                                         class="odometer-digit-spacer">8</span><span
                                         class="odometer-digit-inner"><span
                                             class="odometer-ribbon"><span
                                                 class="odometer-ribbon-inner"><span
-                                                    class="odometer-value">7</span></span></span></span></span>
+                                                    class="odometer-value">{{ number_format($totalTopics, 0) }}</span></span></span></span></span>
                             </div>
                         </span>
                         <h6 class="item-status-title">Total Topics</h6>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="community-item">
                     <div class="item-status mb-3">
-                        <span class="count odometer odometer-auto-theme" data-count="57">
+                        <span class="count odometer odometer-auto-theme" data-count="{{ number_format($conversations, 0) }}">
                             <div class="odometer-inside"><span class="odometer-digit"><span
                                         class="odometer-digit-spacer">8</span><span
                                         class="odometer-digit-inner"><span
@@ -44,19 +44,19 @@
                                         class="odometer-digit-inner"><span
                                             class="odometer-ribbon"><span
                                                 class="odometer-ribbon-inner"><span
-                                                    class="odometer-value">7</span></span></span></span></span>
+                                                    class="odometer-value">{{ number_format($conversations, 0) }}</span></span></span></span></span>
                             </div>
                         </span>
                         <h6 class="item-status-title">Conversations</h6>
                     </div>
                     <div class="item-status">
-                        <span class="count odometer odometer-auto-theme" data-count="1">
+                        <span class="count odometer odometer-auto-theme" data-count="{{ number_format($totalReplies, 0) }}">
                             <div class="odometer-inside"><span class="odometer-digit"><span
                                         class="odometer-digit-spacer">8</span><span
                                         class="odometer-digit-inner"><span
                                             class="odometer-ribbon"><span
                                                 class="odometer-ribbon-inner"><span
-                                                    class="odometer-value">1</span></span></span></span></span>
+                                                    class="odometer-value">{{ number_format($totalReplies, 0) }}</span></span></span></span></span>
                             </div>
                         </span>
                         <h6 class="item-status-title">Total Replies</h6>

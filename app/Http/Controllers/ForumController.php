@@ -9,6 +9,7 @@ use App\Models\ReportedComments;
 use App\Models\ReportedPosts;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ForumController extends Controller
 {
@@ -20,22 +21,38 @@ class ForumController extends Controller
 
     public function bookmarks()
     {
-        return view("forum.bookmarks");
+        if (Auth::user()) {
+
+            $bookmarks = ForumBookmarks::where("customer_id", Auth::user()->id)->pluck("forum_post_id");
+            $posts = ForumPosts::whereIn("id", $bookmarks)->get();
+            return view("forum.bookmarks", compact("posts"));
+        } else {
+            return redirect()->route("login");
+        }
     }
 
     public function popularPosts()
     {
-        return view("forum.popular_posts");
+        $popularPosts = DB::table('forum_posts')
+            ->select('forum_posts.*', DB::raw('COUNT(post_comments.id) as comment_count'))
+            ->leftJoin('post_comments', 'forum_posts.id', '=', 'post_comments.forum_post_id')
+            ->groupBy('forum_posts.id')
+            ->orderByRaw('COUNT(post_comments.id) + forum_posts.views DESC')
+            ->get();
+
+        return view("forum.popular_posts", compact("popularPosts"));
     }
 
     public function categoryPosts($id)
     {
-        return view("forum.category_posts", compact("id"));
+        $posts = ForumPosts::where("forum_category_id", $id)->get();
+        return view("forum.category_posts", compact("id", "posts"));
     }
 
     public function topicPosts($id)
     {
-        return view("forum.topic_posts", compact("id"));
+        $posts = ForumPosts::where("forum_topic_id", $id)->get();
+        return view("forum.topic_posts", compact("id", "posts"));
     }
 
     public function postDetails($id, $slug)
