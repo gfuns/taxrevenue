@@ -20,6 +20,16 @@ class ForumController extends Controller
         return view("forum.index", compact("posts"));
     }
 
+    public function userDetails($id = null)
+    {
+        if (Auth::user()) {
+            $posts = ForumPosts::where("customer_id", Auth::user()->id)->get();
+            return view("forum.user_posts", compact("posts"));
+        } else {
+            return redirect()->route("forum.login");
+        }
+    }
+
     public function bookmarks()
     {
         if (Auth::user()) {
@@ -247,5 +257,10 @@ class ForumController extends Controller
     public function login()
     {
         return view("auth.forum");
+    }
+
+    public function changeLanguage()
+    {
+        return redirect("/forum");
     }
 }

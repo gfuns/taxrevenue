@@ -32,6 +32,20 @@
                     <div class="row justify-content-center">
                         <div class="col-xl-12">
                             <div class="forum-card-wraper">
+
+                                @if (Auth::user())
+                                    <div class="post-feed dashboard--feed">
+                                        <div class="user-info">
+                                            <div class="user-thumb">
+                                                <img src="{{ isset(Auth::user()->photo) ? Auth::user()->photo : asset('proforum/images/avatar.png') }}"
+                                                    alt="avatar">
+                                            </div>
+                                            <input type="text" class="form-control form--control feed-input"
+                                                placeholder="Start a Discussion" onclick="feedInput()">
+                                        </div>
+                                    </div>
+                                @endif
+
                                 @foreach ($popularPosts as $pp)
                                     @php
                                         $post = \App\Models\ForumPosts::find($pp->id);
@@ -73,7 +87,7 @@
                                         <div class="card--body {{ $category }} ">
                                             <div class="card-auth-meta">
                                                 <div class="auth-info">
-                                                    <a href="/forum/user-profile/{{ $post->customer_id }}">
+                                                    <a href="/forum/user/{{ $post->customer_id }}">
                                                         <div class="user-thumb">
                                                             <img src="{{ isset($post->customer->photo) ? $post->customer->photo : asset('proforum/images/avatar.png') }}"
                                                                 alt="avatar">

@@ -253,6 +253,8 @@ Route::group([
 ], function ($router) {
     Route::get('/', [ForumController::class, 'index'])->name("forum");
 
+    Route::get('/user/{id?}', [ForumController::class, 'userDetails'])->name("userDetails");
+
     Route::get('/popular-posts', [ForumController::class, 'popularPosts']);
 
     Route::get('/bookmarks', [ForumController::class, 'bookmarks']);
@@ -262,6 +264,8 @@ Route::group([
     Route::get('/topic/{topic}/posts', [ForumController::class, 'topicPosts']);
 
     Route::get('/details/{id}/{slug}', [ForumController::class, 'postDetails']);
+
+    Route::post('/store-post', [ForumController::class, 'userPostStore'])->name("forum.userPostStore");
 
     Route::post('/vote-post', [ForumController::class, 'votePost'])->name("forum.votePost");
 
@@ -288,6 +292,8 @@ Route::group([
     Route::get('/login', [ForumController::class, 'login'])->name("forum.login");
 
     Route::post('/process-login', [ForumLoginController::class, 'login'])->name("forum.processLogin");
+
+    Route::get('/change/{lang}', [ForumController::class, 'changeLanguage']);
 });
 
 Route::post('/login/2fa', [App\Http\Controllers\Business\TwofactorController::class, 'verify2FA'])->name('login.2fa');
