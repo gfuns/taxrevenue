@@ -243,4 +243,9 @@ class ForumController extends Controller
         $html = view('forum.single_comment', ['com' => $comment, "post" => $post])->render();
         dd($html);
     }
+
+    public function login()
+    {
+        return view("auth.forum");
+    }
 }

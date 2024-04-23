@@ -30,8 +30,7 @@
                                 <h3 class="title mb-4">Edit Post</h3>
                                 <form method="POST" action="https://preview.wstacks.com/proforum/user/post/update/141"
                                     enctype="multipart/form-data">
-                                    <input type="hidden" name="_token"
-                                        value="nU3NSRugSZo36i29swLMuceOoJ202gK1erM5h5ik" autocomplete="off">
+                                    @csrf
                                     <div class="row d-none">
                                         <div class="col-lg-12 mb-4">
                                             <div class="form-group">

@@ -138,7 +138,7 @@
                     }
                 });
             } else {
-                window.location.href = "{{ route('login') }}";
+                window.location.href = "{{ route('forum.login') }}";
             }
         });
 
@@ -173,7 +173,7 @@
                     }
                 });
             } else {
-                window.location.href = "{{ route('login') }}";
+                window.location.href = "{{ route('forum.login') }}";
             }
         })
 
@@ -234,7 +234,7 @@
                 });
             } else {
                 $(".toast-container").addClass('d-none');
-                window.location.href = "{{ route('login') }}";
+                window.location.href = "{{ route('forum.login') }}";
             }
         });
 
@@ -245,7 +245,7 @@
                 $(".set-modal-post-id").val(id);
                 $(".report_modal").modal('show');
             } else {
-                window.location.href = "{{ route('login') }}";
+                window.location.href = "{{ route('forum.login') }}";
             }
         });
 
@@ -298,7 +298,7 @@
                 $(".set-comment-modal_comment-id").val(comment_id);
                 $(".comment_report_modal").modal('show');
             } else {
-                window.location.href = "{{ route('login') }}";
+                window.location.href = "{{ route('forum.login') }}";
             }
 
         });
@@ -532,7 +532,7 @@
                     "show-comment-field");
             }
         } else {
-            window.location.href = "{{ route('login') }}";
+            window.location.href = "{{ route('forum.login') }}";
         }
 
     }

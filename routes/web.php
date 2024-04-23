@@ -283,6 +283,8 @@ Route::group([
     Route::post('/reply-comment', [ForumController::class, 'replyComment'])->name("forum.replyComment");
 
     Route::get('/render-html', [ForumController::class, 'testHTMLRendering']);
+
+    Route::get('/login', [ForumController::class, 'login'])->name("forum.login");
 });
 
 Route::post('/login/2fa', [App\Http\Controllers\Business\TwofactorController::class, 'verify2FA'])->name('login.2fa');
