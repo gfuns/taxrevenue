@@ -65,7 +65,7 @@
 
                                                             </button>
                                                         </li>
-                                                        @if (Auth::user()->id == $post->customer_id)
+                                                        @if (Auth::user() && Auth::user()->id == $post->customer_id)
                                                             <li>
                                                                 <a class="edit_button"
                                                                     href="{{ route('forum.userPostEdit', [$post->id]) }}">

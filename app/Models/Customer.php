@@ -73,6 +73,26 @@ class Customer extends Authenticatable
         }
     }
 
+    public function posts()
+    {
+        return $this->hasMany('App\Models\ForumPosts')->where("customer_id", Auth::user()->id);
+    }
+
+    public function topics()
+    {
+        return $this->hasMany('App\Models\ForumTopics')->where("customer_id", Auth::user()->id);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Models\PostComments')->where("customer_id", Auth::user()->id)->where("comment_type", "main");
+    }
+
+    public function replies()
+    {
+        return $this->hasMany('App\Models\PostComments')->where("customer_id", Auth::user()->id)->where("comment_type", "reply");
+    }
+
     /**
      * The attributes that are mass assignable.
      *

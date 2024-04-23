@@ -25,6 +25,17 @@
                         <h6 id="menubookmark" class="menu-name ">Bookmarks</h6>
                     </a>
 
+                    <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                        class="menu-item">
+                        <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket text-danger"></i></span>
+                        <h6 class="text ">Log Out</h6>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </a>
+
                 </div>
             </div>
             <!-- menu-item-wraper / -->
@@ -87,7 +98,7 @@
             <!-- others-menu /-->
 
             <div class="copy-right-text text-center ps-5 mt-4">
-                <p class="bottom-footer-text"> © Copyright {{ date("Y") }} . All Rights Reserved.</p>
+                <p class="bottom-footer-text"> © Copyright {{ date('Y') }} . All Rights Reserved.</p>
             </div>
         </div>
     </aside>
