@@ -51,6 +51,37 @@
     </div>
 </div>
 
+<div class="modal fade comment_report_modal" id="topicExampleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="createTopic" action="{{ route('forum.userTopicStore') }}" method="POST">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Topic</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group mb-4">
+                        <input type="text" class="form-control form--control" id="forum-topic" name="forum_topic"
+                            placeholder="" required>
+                        <label class="form--label" for="forum-topic">Topic</label>
+                    </div>
+                    <div class="form-group mb-4">
+                        <input type="text" class="form-control form--control" id="topic-icon" name="topic_icon"
+                            placeholder="" required>
+                        <label class="form--label" for="topic-icon">Topic Icon</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Create Topic</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="modal fade" id="postExampleModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

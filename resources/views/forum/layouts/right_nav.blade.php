@@ -43,7 +43,7 @@
                     <div class="col-12">
                         <div class="d-flex justify-content-between mb-3">
                             <h5 class="card-title">My Topics</h5>
-                            <a href="https://preview.wstacks.com/proforum/user/experience" class="btn btn--sm"><i
+                            <a style="cursor:pointer" onclick="addTopic()" class="btn btn--sm"><i
                                     class="fa-solid fa-plus"></i></a>
                         </div>
 
@@ -57,12 +57,8 @@
 
                                 <div class="popular-topics-card">
                                     <div class="topics-card-meta">
-                                        <div class="card-auth-info">
-                                            <a href="/forum/topic/{{ $ut->id }}/posts">
-                                               <p class="post-by">Created On: {{ date_format($ut->created_at, 'jS M, Y') }}</p>
-                                            </a>
-                                        </div>
-                                        <a href="/forum/topic/{{ $ut->id }}/posts">
+                                        <a href="/forum/topic/{{ $ut->id }}/posts" style="display: flex;">
+                                            <i class="{{ $ut->icon }} me-2" style="font-size: 18px"></i>
                                             <h6 class="topics-card-title">{{ $ut->topic }} </h6>
                                         </a>
                                     </div>
@@ -71,6 +67,13 @@
                                             <a href="/forum/topic/{{ $ut->id }}/posts"><i
                                                     class="las la-comments"></i>
                                                 <p>{{ $ut->posts->count() }} Posts</p>
+                                            </a>
+                                        </li>
+
+                                        <li class="text-end">
+                                            <a href="/forum/topic/{{ $ut->id }}/posts"><i
+                                                    class="las la-calendar"></i>
+                                                <p>Created: {{ date_format($ut->created_at, 'jS M, Y') }}</p>
                                             </a>
                                         </li>
                                     </ul>

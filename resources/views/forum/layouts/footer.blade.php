@@ -832,6 +832,10 @@
         $('#postExampleModal').modal('show');
     }
 
+    function addTopic() {
+        $('#topicExampleModal').modal('show');
+    }
+
     function jobFeedInput() {
         $('#jobPostExampleModal').modal('show');
     }

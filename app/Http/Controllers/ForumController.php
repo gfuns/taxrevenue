@@ -380,6 +380,35 @@ class ForumController extends Controller
         }
     }
 
+    public function storeTopic(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'forum_topic' => 'required',
+            'topic_icon' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        try {
+            $topic = new ForumTopics;
+            $topic->customer_id = Auth::user()->id;
+            $topic->topic = $request->forum_topic;
+            $topic->icon = $request->topic_icon;
+            $topic->save();
+            toast('Forum Topic Created Successfully.', 'success');
+            return back();
+        } catch (\Exception $e) {
+            report($e);
+            toast($e->getMessage(), 'error');
+            return back();
+        }
+    }
+
     public function login()
     {
         return view("auth.forum");

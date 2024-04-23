@@ -295,6 +295,8 @@ Route::group([
 
     Route::get('/render-html', [ForumController::class, 'testHTMLRendering']);
 
+    Route::post('/store-topic', [ForumController::class, 'storeTopic'])->name("forum.userTopicStore");
+
     Route::get('/login', [ForumController::class, 'login'])->name("forum.login");
 
     Route::post('/process-login', [ForumLoginController::class, 'login'])->name("forum.processLogin");
