@@ -46,7 +46,7 @@
                     <div class="latest-topics-list">
                         @foreach ($topTopics as $ft)
                             <a href="/forum/topic/{{ $ft->id }}/posts" class="menu-item">
-                                <img src="{{ $ft->icon }}" class="img-fluid" style="max-height: 25px"></i>
+                                <img src="{{ $ft->icon }}" class="img-fluid" style="max-width: 25px"></i>
                                 {{-- <i id="iconft{{ $ft->id }}" class="{{ $ft->icon }}"></i> --}}
                                 <h6 id="menuft{{ $ft->id }}" class="menu-name ">{{ $ft->topic }}</h6>
                             </a>
@@ -56,7 +56,7 @@
                             <div class="show-all-menu-item">
                                 @foreach ($otherTopics as $oft)
                                     <a href="/forum/topic/{{ $oft->id }}/posts" class="menu-item">
-                                        <img src="{{ $oft->icon }}" class="img-fluid me-2" style="max-height: 25px"></i>
+                                        <img src="{{ $oft->icon }}" class="img-fluid" style="max-width: 25px"></i>
                                         {{-- <i id="iconft{{ $oft->id }}" class="{{ $oft->icon }}"></i> --}}
                                         <h6 id="menuft{{ $oft->id }}" class="menu-name">{{ $oft->topic }}</h6>
                                     </a>
