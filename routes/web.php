@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\ForumLoginController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\FrontEndController;
 use Illuminate\Support\Facades\Route;
@@ -285,6 +286,8 @@ Route::group([
     Route::get('/render-html', [ForumController::class, 'testHTMLRendering']);
 
     Route::get('/login', [ForumController::class, 'login'])->name("forum.login");
+
+    Route::post('/process-login', [ForumLoginController::class, 'login'])->name("forum.processLogin");
 });
 
 Route::post('/login/2fa', [App\Http\Controllers\Business\TwofactorController::class, 'verify2FA'])->name('login.2fa');

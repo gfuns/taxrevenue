@@ -33,19 +33,21 @@
     <div class="login_area">
         <div class="login">
             <div class="login__header">
-                <h2>Admin Login</h2>
-                <p>ProForum Dashboard</p>
+                <img class="page-ath-logo-img" src="{{ asset('files/general/logo.png') }}"
+                alt="{{ env('APP_NAME') }}">
+                <h4 class="mt-2">User Login</h4>
+                <p>Login To unlock forum features</p>
             </div>
             <div class="login__body">
                 <!-- <h4>user login</h4> -->
-                <form action="https://preview.wstacks.com/proforum/admin" method="POST">
+                <form action="{{ route("forum.processLogin") }}" method="POST">
                     @csrf
                     <div class="field">
-                        <input type="text" name="username" placeholder="Username">
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="Your Email" required autofocus>
                         <span class="show-pass"><i class="fas fa-user"></i></span>
                     </div>
                     <div class="field">
-                        <input type="password" name="password" placeholder="Password">
+                        <input type="password" name="password" placeholder="Password" required>
                         <span class="show-pass"><i class="fas fa-lock"></i></span>
                     </div>
                     <div class="login__footer">

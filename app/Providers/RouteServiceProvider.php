@@ -29,6 +29,15 @@ class RouteServiceProvider extends ServiceProvider
     public const AUTHY = '/authy';
 
     /**
+     * The path to your application's "home" route.
+     *
+     * Typically, users are redirected here after authentication.
+     *
+     * @var string
+     */
+    public const FORUM = '/forum';
+
+    /**
      * Define your route model bindings, pattern filters, and other route configuration.
      */
     public function boot(): void
