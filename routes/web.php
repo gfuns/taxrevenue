@@ -267,6 +267,12 @@ Route::group([
 
     Route::post('/store-post', [ForumController::class, 'userPostStore'])->name("forum.userPostStore");
 
+    Route::post('/update-post', [ForumController::class, 'userPostUpdate'])->name("forum.userPostUpdate");
+
+    Route::get('/edit-post/{id}', [ForumController::class, 'userPostEdit'])->name("forum.userPostEdit");
+
+    Route::post('/delete-image', [ForumController::class, 'userDeleteImage'])->name("forum.userDeleteImage");
+
     Route::post('/vote-post', [ForumController::class, 'votePost'])->name("forum.votePost");
 
     Route::post('/vote-comment', [ForumController::class, 'voteComment'])->name("forum.voteComment");

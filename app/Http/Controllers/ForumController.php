@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\ForumBookmarks;
+use App\Models\ForumCategories;
 use App\Models\ForumImages;
 use App\Models\ForumPosts;
+use App\Models\ForumTopics;
 use App\Models\PostComments;
 use App\Models\ReportedComments;
 use App\Models\ReportedPosts;
@@ -304,6 +306,78 @@ class ForumController extends Controller
             return back();
         }
 
+    }
+
+    public function userPostEdit($id)
+    {
+        $post = ForumPosts::find($id);
+        $postImages = ForumImages::where("forum_post_id", $id)->get();
+        $forumCategories = ForumCategories::all();
+        $forumTopics = ForumTopics::all();
+        return view("forum.edit_post", compact("post", "postImages", "forumTopics", "forumCategories"));
+    }
+
+    /**
+     * updateForumPost
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function userPostUpdate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'post_id' => 'required',
+            'post_title' => 'required',
+            'post_body' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        try {
+            $post = ForumPosts::find($request->post_id);
+            $post->post_body = $request->post_body;
+            $post->forum_category_id = $request->fcategory;
+            $post->forum_topic_id = $request->ftopic;
+            $post->post_title = $request->post_title;
+            $post->slug = preg_replace("/ /", "-", strtolower($request->post_title));
+            $post->save();
+
+            if ($request->hasFile('post_images')) {
+                foreach ($request->file('post_images') as $image) {
+                    $forumImages = new ForumImages;
+                    $forumImages->forum_post_id = $post->id;
+                    $forumImages->image = Cloudinary::upload($image->getRealPath())->getSecurePath();
+                    $forumImages->save();
+                }
+            }
+
+            toast('Post updated Successfully.', 'success');
+            return back();
+        } catch (\Exception $e) {
+            report($e);
+            toast($e->getMessage(), 'error');
+            return back();
+        }
+
+    }
+
+    public function userDeleteImage(Request $request)
+    {
+        $forumImage = ForumImages::find($request->id);
+        if ($forumImage->delete()) {
+            return response()->json(['status' => "success", "message" => "Image Deleted."], 200);
+        } else {
+            return response()->json(['status' => "error", "errors" => [
+                "error" => "Something Went Wrong",
+            ]], 400);
+
+        }
     }
 
     public function login()

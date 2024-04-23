@@ -975,12 +975,50 @@
     }
 
 
+    function imageDelete(object) {
+        var url = '{{ route('forum.userDeleteImage') }}';
+        var token = '{{ csrf_token() }}';
+        var id = $(object).data("image-id");
+        var data = {
+            id: id,
+            _token: token
+        }
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: function(data) {
+                if (data.status == 'success') {
+                    $(object).parent(".post-img-wrap").parent('.image-card').remove();
+                    $(object).remove();
+                }
+            },
+            error: function(data, status, error) {
+                $.each(data.responseJSON.errors, function(key, item) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: item
+                    })
+                });
+            }
+        });
+    }
+
+
     $('#category').select2({
         dropdownParent: $('#postExampleModal')
     });
 
     $('#topic').select2({
         dropdownParent: $('#postExampleModal')
+    });
+
+    $(document).ready(function() {
+        $('#fcategory').select2();
+    });
+
+    $(document).ready(function() {
+        $('#ftopic').select2();
     });
 </script>
 
