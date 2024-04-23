@@ -53,7 +53,7 @@
 
 <div class="modal fade comment_report_modal" id="topicExampleModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form id="createTopic" action="{{ route('forum.userTopicStore') }}" method="POST">
+        <form id="createTopic" action="{{ route('forum.userTopicStore') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
@@ -68,7 +68,7 @@
                         <label class="form--label" for="forum-topic">Topic</label>
                     </div>
                     <div class="form-group mb-4">
-                        <input type="text" class="form-control form--control" id="topic-icon" name="topic_icon"
+                        <input type="file" class="form-control form--control" id="topic-icon" name="topic_icon"
                             placeholder="" required>
                         <label class="form--label" for="topic-icon">Topic Icon</label>
                     </div>

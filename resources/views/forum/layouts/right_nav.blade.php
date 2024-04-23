@@ -58,7 +58,7 @@
                                 <div class="popular-topics-card">
                                     <div class="topics-card-meta">
                                         <a href="/forum/topic/{{ $ut->id }}/posts" style="display: flex;">
-                                            <i class="{{ $ut->icon }} me-2" style="font-size: 18px"></i>
+                                            <img src="{{ $ut->icon }}" class="img-fluid me-2" style="max-height: 25px"></i>
                                             <h6 class="topics-card-title">{{ $ut->topic }} </h6>
                                         </a>
                                     </div>

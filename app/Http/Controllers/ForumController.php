@@ -398,7 +398,7 @@ class ForumController extends Controller
             $topic = new ForumTopics;
             $topic->customer_id = Auth::user()->id;
             $topic->topic = $request->forum_topic;
-            $topic->icon = $request->topic_icon;
+            $topic->icon = Cloudinary::upload($request->file('topic_icon')->getRealPath())->getSecurePath();
             $topic->save();
             toast('Forum Topic Created Successfully.', 'success');
             return back();
