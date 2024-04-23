@@ -28,7 +28,7 @@ class ForumController extends Controller
             $posts = ForumPosts::whereIn("id", $bookmarks)->get();
             return view("forum.bookmarks", compact("posts"));
         } else {
-            return redirect()->route("login");
+            return redirect()->route("forum.login");
         }
     }
 
