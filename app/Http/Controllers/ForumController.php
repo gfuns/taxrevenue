@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ForumBookmarks;
+use App\Models\ForumImages;
 use App\Models\ForumPosts;
 use App\Models\PostComments;
 use App\Models\ReportedComments;
@@ -63,7 +64,9 @@ class ForumController extends Controller
 
         $comments = PostComments::where("forum_post_id", $id)->where("comment_type", "main")->get();
 
-        return view("forum.post_details", compact("post", "comments"));
+        $postImages = ForumImages::where("forum_post_id", $id)->get();
+
+        return view("forum.post_details", compact("post", "comments", "postImages"));
     }
 
     public function votePost(Request $request)

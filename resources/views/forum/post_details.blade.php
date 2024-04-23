@@ -81,28 +81,18 @@
                                         <div class="card-content">
                                             <h6 class="card-title">{{ $post->post_title }}</h6>
 
-                                            {{-- <div class="gallery-img">
-                                                <div class="main-img">
-                                                    <a href="https://preview.wstacks.com/proforum/assets/images/posts/2023/10/653a25585b68c1698309464.jpg"
-                                                        class="glightbox" data-glightbox="type: image"><img
-                                                            src="https://preview.wstacks.com/proforum/assets/images/posts/2023/10/653a25585b68c1698309464.jpg"
-                                                            alt="image">
-                                                    </a>
+                                            @if (count($postImages) > 0)
+                                                <div class="row col-lg-12 mt-3 mb-5">
+                                                    @foreach ($postImages as $pi)
+                                                        <div class="col-xl-3">
+                                                            <a href="{{ $pi->image }}" class="glightbox"
+                                                                data-glightbox="type: image" class="col-lg-4 img-fluid">
+                                                                <img src="{{ $pi->image }}" alt="image" />
+                                                            </a>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
-                                                <div class="sub-img">
-                                                    <a href="https://preview.wstacks.com/proforum/assets/images/posts/2023/10/653a255885b0d1698309464.jpg"
-                                                        class="glightbox" data-glightbox="type: image"><img
-                                                            src="https://preview.wstacks.com/proforum/assets/images/posts/2023/10/653a255885b0d1698309464.jpg"
-                                                            alt="image" /></a>
-
-                                                    <a href="https://preview.wstacks.com/proforum/assets/images/posts/2023/10/653a25588bbf21698309464.jpg"
-                                                        class="glightbox more--img more--none"
-                                                        data-glightbox="type: image"><img
-                                                            src="https://preview.wstacks.com/proforum/assets/images/posts/2023/10/653a25588bbf21698309464.jpg"
-                                                            alt="image" />
-                                                    </a>
-                                                </div>
-                                            </div> --}}
+                                            @endif
 
 
 
