@@ -26,7 +26,7 @@
 <!-- main js -->
 <script src="{{ asset('proforum/assets/presets/default/js/main.js') }}"></script>
 
-
+@include('sweetalert::alert')
 
 
 
@@ -803,7 +803,6 @@
         }
 
     }
-
 </script>
 <script>
     (function($) {
@@ -974,6 +973,15 @@
         }
         return n_format + suffix + " " + "Comments";
     }
+
+
+    $('#category').select2({
+        dropdownParent: $('#postExampleModal')
+    });
+
+    $('#topic').select2({
+        dropdownParent: $('#postExampleModal')
+    });
 </script>
 
 
@@ -987,102 +995,3 @@
             });
     }
 </script>
-<div class="ck-body-wrapper">
-    <div class="ck ck-reset_all ck-body ck-rounded-corners" dir="ltr">
-        <div class="ck ck-balloon-panel ck-balloon-panel_arrow_nw ck-balloon-panel_with-arrow"
-            style="top: 0px; left: 0px;">
-            <div class="ck ck-balloon-rotator" z-index="-1">
-                <div class="ck-balloon-rotator__navigation ck-hidden"><button class="ck ck-button ck-off" type="button"
-                        tabindex="-1" aria-labelledby="ck-editor__aria-label_e43ec73c6a9d200852d32fe5595c1591a"
-                        data-cke-tooltip-text="Previous" data-cke-tooltip-position="s"><svg
-                            class="ck ck-icon ck-reset_all-excluded ck-icon_inherit-color ck-button__icon"
-                            viewBox="0 0 20 20">
-                            <path
-                                d="M11.463 5.187a.888.888 0 1 1 1.254 1.255L9.16 10l3.557 3.557a.888.888 0 1 1-1.254 1.255L7.26 10.61a.888.888 0 0 1 .16-1.382l4.043-4.042z">
-                            </path>
-                        </svg><span class="ck ck-button__label"
-                            id="ck-editor__aria-label_e43ec73c6a9d200852d32fe5595c1591a">Previous</span></button><span
-                        class="ck-balloon-rotator__counter"></span><button class="ck ck-button ck-off" type="button"
-                        tabindex="-1" aria-labelledby="ck-editor__aria-label_e9fe1c738cd47adc50633287eec36d4cd"
-                        data-cke-tooltip-text="Next" data-cke-tooltip-position="s"><svg
-                            class="ck ck-icon ck-reset_all-excluded ck-icon_inherit-color ck-button__icon"
-                            viewBox="0 0 20 20">
-                            <path
-                                d="M8.537 14.813a.888.888 0 1 1-1.254-1.255L10.84 10 7.283 6.442a.888.888 0 1 1 1.254-1.255L12.74 9.39a.888.888 0 0 1-.16 1.382l-4.043 4.042z">
-                            </path>
-                        </svg><span class="ck ck-button__label"
-                            id="ck-editor__aria-label_e9fe1c738cd47adc50633287eec36d4cd">Next</span></button>
-                </div>
-                <div class="ck-balloon-rotator__content"></div>
-            </div>
-        </div>
-        <div class="ck-fake-panel ck-hidden" style="top: 0px; left: 0px; width: 0px; height: 0px;"></div>
-    </div>
-    <div class="ck ck-reset_all ck-body ck-rounded-corners" dir="ltr">
-        <div class="ck ck-balloon-panel ck-balloon-panel_arrow_nw ck-balloon-panel_with-arrow"
-            style="top: 0px; left: 0px;">
-            <div class="ck ck-balloon-rotator" z-index="-1">
-                <div class="ck-balloon-rotator__navigation ck-hidden"><button class="ck ck-button ck-off" type="button"
-                        tabindex="-1" aria-labelledby="ck-editor__aria-label_e7bc51499500a43ffdaa6150b87d4c0b7"
-                        data-cke-tooltip-text="Previous" data-cke-tooltip-position="s"><svg
-                            class="ck ck-icon ck-reset_all-excluded ck-icon_inherit-color ck-button__icon"
-                            viewBox="0 0 20 20">
-                            <path
-                                d="M11.463 5.187a.888.888 0 1 1 1.254 1.255L9.16 10l3.557 3.557a.888.888 0 1 1-1.254 1.255L7.26 10.61a.888.888 0 0 1 .16-1.382l4.043-4.042z">
-                            </path>
-                        </svg><span class="ck ck-button__label"
-                            id="ck-editor__aria-label_e7bc51499500a43ffdaa6150b87d4c0b7">Previous</span></button><span
-                        class="ck-balloon-rotator__counter"></span><button class="ck ck-button ck-off" type="button"
-                        tabindex="-1" aria-labelledby="ck-editor__aria-label_e4532648fa82a5025f0c9495201c0f477"
-                        data-cke-tooltip-text="Next" data-cke-tooltip-position="s"><svg
-                            class="ck ck-icon ck-reset_all-excluded ck-icon_inherit-color ck-button__icon"
-                            viewBox="0 0 20 20">
-                            <path
-                                d="M8.537 14.813a.888.888 0 1 1-1.254-1.255L10.84 10 7.283 6.442a.888.888 0 1 1 1.254-1.255L12.74 9.39a.888.888 0 0 1-.16 1.382l-4.043 4.042z">
-                            </path>
-                        </svg><span class="ck ck-button__label"
-                            id="ck-editor__aria-label_e4532648fa82a5025f0c9495201c0f477">Next</span></button>
-                </div>
-                <div class="ck-balloon-rotator__content"></div>
-            </div>
-        </div>
-        <div class="ck-fake-panel ck-hidden" style="top: 0px; left: 0px; width: 0px; height: 0px;"></div>
-    </div>
-    <div class="ck ck-reset_all ck-body ck-rounded-corners" dir="ltr">
-        <div class="ck ck-balloon-panel ck-balloon-panel_arrow_nw ck-balloon-panel_with-arrow"
-            style="top: 0px; left: 0px;">
-            <div class="ck ck-balloon-rotator" z-index="-1">
-                <div class="ck-balloon-rotator__navigation ck-hidden"><button class="ck ck-button ck-off" type="button"
-                        tabindex="-1" aria-labelledby="ck-editor__aria-label_e195022c994e5b4c0fadefa745ccf751a"
-                        data-cke-tooltip-text="Previous" data-cke-tooltip-position="s"><svg
-                            class="ck ck-icon ck-reset_all-excluded ck-icon_inherit-color ck-button__icon"
-                            viewBox="0 0 20 20">
-                            <path
-                                d="M11.463 5.187a.888.888 0 1 1 1.254 1.255L9.16 10l3.557 3.557a.888.888 0 1 1-1.254 1.255L7.26 10.61a.888.888 0 0 1 .16-1.382l4.043-4.042z">
-                            </path>
-                        </svg><span class="ck ck-button__label"
-                            id="ck-editor__aria-label_e195022c994e5b4c0fadefa745ccf751a">Previous</span></button><span
-                        class="ck-balloon-rotator__counter"></span><button class="ck ck-button ck-off" type="button"
-                        tabindex="-1" aria-labelledby="ck-editor__aria-label_e3b4a8116d95b640b678757aeedebfd53"
-                        data-cke-tooltip-text="Next" data-cke-tooltip-position="s"><svg
-                            class="ck ck-icon ck-reset_all-excluded ck-icon_inherit-color ck-button__icon"
-                            viewBox="0 0 20 20">
-                            <path
-                                d="M8.537 14.813a.888.888 0 1 1-1.254-1.255L10.84 10 7.283 6.442a.888.888 0 1 1 1.254-1.255L12.74 9.39a.888.888 0 0 1-.16 1.382l-4.043 4.042z">
-                            </path>
-                        </svg><span class="ck ck-button__label"
-                            id="ck-editor__aria-label_e3b4a8116d95b640b678757aeedebfd53">Next</span></button>
-                </div>
-                <div class="ck-balloon-rotator__content"></div>
-            </div>
-        </div>
-        <div class="ck-fake-panel ck-hidden" style="top: 0px; left: 0px; width: 0px; height: 0px;"></div>
-    </div>
-</div>
-
-
-
-
-<div id="tldx-toast-container"></div>
-<style data-styled="active" data-styled-version="5.3.11"></style>
-<div id="tldx-webext-container"></div>

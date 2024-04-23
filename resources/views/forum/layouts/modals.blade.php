@@ -61,36 +61,39 @@
             <form method="POST" action="{{ route('forum.userPostStore') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
-                   <div class="form-group mb-4">
+                    <div class="form-group mb-4">
                         <input type="text" class="form-control form--control" id="create-recipient-name"
-                            name="title" placeholder="">
+                            name="post_title" placeholder="">
                         <label class="form--label" for="create-recipient-name">Title</label>
                     </div>
 
                     <div class="form-group mb-4">
-                        <select class="form-select form--control" name="category" required="" id="category">
-                            <option value="">Select Category</option>
-                            <option value="1">
-                                Sports</option>
-                            <option value="2">
-                                Tecnology</option>
-                            <option value="5">
-                                Animation</option>
-                            <option value="7">
-                                Job</option>
-                            <option value="12">
-                                News</option>
+                        <select class="form-select form--control" name="category" id="category">
+                            <option value="">Select Category (Optional)</option>
+                            @foreach (\App\Models\ForumCategories::all() as $fc)
+                                <option value="{{ $fc->id }}">{{ $fc->category }}</option>
+                            @endforeach
                         </select>
                     </div>
+
+                    <div class="form-group mb-4">
+                        <select class="form-select form--control" name="topic" id="topic">
+                            <option value="">Select Topic (Optional)</option>
+                            @foreach (\App\Models\ForumTopics::all() as $ft)
+                                <option value="{{ $ft->id }}">{{ $ft->topic }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <p class="mb-2">Allowed File Extensions: .jpg, .jpeg, .png (max: <strong> 2MB)</strong></p>
                     <div class="form-group mb-4">
-                        <input class="form--control" type="file" name="images[]" accept=".png, .jpg, .jpeg"
+                        <input class="form--control" type="file" name="post_images[]" accept=".png, .jpg, .jpeg"
                             multiple>
                         <label class="form--label">Image</label>
                     </div>
 
                     <div class="form-group mb-4">
-                        <textarea class="form--control trumEdit" placeholder="" name="content"></textarea>
+                        <textarea class="form--control trumEdit" placeholder="" name="post_body"></textarea>
                     </div>
 
                     <div class="form-group text-end">
