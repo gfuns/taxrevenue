@@ -141,7 +141,11 @@
                                                                 src="{{ $cat->category_icon == null ? 'https://res.cloudinary.com/soha/image/upload/v1701601099/fvnn5nrxg9m4di9jjrux.png' : $cat->category_icon }}"
                                                                 alt="Content Writer"></div>
                                                         <div class="text-info-right">
-                                                            <div class="h6">{{ substr($cat->category_name, 0, 20)  }}@if(strlen($cat->category_name) > 20)...@endif</div>
+                                                            <div class="h6">{{ substr($cat->category_name, 0, 20) }}
+                                                                @if (strlen($cat->category_name) > 20)
+                                                                    ...
+                                                                @endif
+                                                            </div>
                                                             <p class="font-xs"> {{ $cat->businesses }} <span> Listing(s)
                                                                     Available</span>
                                                             </p>
@@ -426,86 +430,35 @@
                             <div class="col-lg-12">
                                 <div class="swiper pb-5" id="testimonial-slider">
                                     <div class="swiper-wrapper pb-70 pt-5">
-                                        <div class="swiper-slide swiper-group-3">
-                                            <div class="card-grid-6 hover-up">
-                                                <div class="card-text-desc mt-10">
-                                                    <p class="font-md color-text-paragraph">Queen of Hearts, who only
-                                                        bowed and smiled in reply. 'Please come back again, and the
-                                                        three gardeners instantly threw themselves flat upon their
-                                                        faces, and the words 'DRINK ME,' but nevertheless she.</p>
-                                                </div>
-                                                <div class="card-image">
-                                                    <div class="image">
-                                                        <figure><img alt="Ellis Kim"
-                                                                src=https://jobbox.archielite.com/storage/testimonials/1-150x150.png>
-                                                        </figure>
+                                        @php
+                                            $testimonials = \App\Models\Testimonial::all();
+                                        @endphp
+                                        @foreach ($testimonials as $testimony)
+                                            <div class="swiper-slide swiper-group-3">
+                                                <div class="card-grid-6 hover-up">
+                                                    <div class="card-text-desc mt-10">
+                                                        <p class="font-md color-text-paragraph">
+                                                            @php
+
+                                                                echo $testimony->testimony;
+
+                                                            @endphp
+                                                        </p>
                                                     </div>
-                                                    <div class="card-profile">
-                                                        <h6>Ellis Kim</h6><span>Digital Artist</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide swiper-group-3">
-                                            <div class="card-grid-6 hover-up">
-                                                <div class="card-text-desc mt-10">
-                                                    <p class="font-md color-text-paragraph">I should think very likely
-                                                        it can talk: at any rate, the Dormouse turned out, and, by the
-                                                        White Rabbit cried out, 'Silence in the lap of her voice, and
-                                                        see how the Dodo said, 'EVERYBODY has won, and.</p>
-                                                </div>
-                                                <div class="card-image">
-                                                    <div class="image">
-                                                        <figure><img alt="John Smith"
-                                                                src=https://jobbox.archielite.com/storage/testimonials/2-150x150.png>
-                                                        </figure>
-                                                    </div>
-                                                    <div class="card-profile">
-                                                        <h6>John Smith</h6><span>Product designer</span>
+                                                    <div class="card-image">
+                                                        <div class="image">
+                                                            <figure><img alt="{{ $testimony->name }}"
+                                                                    src="{{ $testimony->photo }}">
+                                                            </figure>
+                                                        </div>
+                                                        <div class="card-profile">
+                                                            <h6>{{ $testimony->name }}</h6>
+                                                            <span>{{ $testimony->occupation }}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="swiper-slide swiper-group-3">
-                                            <div class="card-grid-6 hover-up">
-                                                <div class="card-text-desc mt-10">
-                                                    <p class="font-md color-text-paragraph">There ought to tell its
-                                                        age, there was a little scream, half of anger, and tried to beat
-                                                        them off, and she soon made out the words: 'Where's the other
-                                                        paw, 'lives a March Hare. 'Then it ought to.</p>
-                                                </div>
-                                                <div class="card-image">
-                                                    <div class="image">
-                                                        <figure><img alt="Sayen Ahmod"
-                                                                src=https://jobbox.archielite.com/storage/testimonials/3-150x150.png>
-                                                        </figure>
-                                                    </div>
-                                                    <div class="card-profile">
-                                                        <h6>Sayen Ahmod</h6><span>Developer</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide swiper-group-3">
-                                            <div class="card-grid-6 hover-up">
-                                                <div class="card-text-desc mt-10">
-                                                    <p class="font-md color-text-paragraph">This question the Dodo
-                                                        managed it.) First it marked out a race-course, in a solemn
-                                                        tone, 'For the Duchess. 'I make you a song?' 'Oh, a song,
-                                                        please, if the Queen had never had fits, my dear, I.</p>
-                                                </div>
-                                                <div class="card-image">
-                                                    <div class="image">
-                                                        <figure><img alt="Tayla Swef"
-                                                                src=https://jobbox.archielite.com/storage/testimonials/4-150x150.png>
-                                                        </figure>
-                                                    </div>
-                                                    <div class="card-profile">
-                                                        <h6>Tayla Swef</h6><span>Graphic designer</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
