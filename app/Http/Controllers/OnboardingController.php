@@ -75,13 +75,15 @@ class OnboardingController extends Controller
                 $referral->bonus_received = $this->getReferralBonus(Auth::user()->account_type);
                 $referral->save();
 
+                $customer = Customer::find($referral->customer_id);
+
                 $transaction = new ReferralTransaction;
                 $transaction->customer_id = $referral->customer_id;
                 $transaction->trx_type = "credit";
                 $transaction->amount = $referral->bonus_received;
                 $transaction->details = "Referral Bonus received for referring " . Auth::user()->first_name . " " . Auth::user()->last_name;
-                $transaction->balance_before = Auth::user()->wallet->referral_points;
-                $transaction->balance_after = (Auth::user()->wallet->referral_points + $referral->bonus_received);
+                $transaction->balance_before = $customer->wallet->referral_points;
+                $transaction->balance_after = ($customer->wallet->referral_points + $referral->bonus_received);
                 $transaction->save();
 
                 $customerWallet = CustomerWallet::where("customer_id", $referral->customer_id)->first();

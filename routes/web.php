@@ -311,3 +311,5 @@ Route::post('/login/validate2fa', [App\Http\Controllers\Business\TwofactorContro
 Route::get('/resolve-bank', [App\Http\Controllers\FrontEndController::class, 'bankList']);
 
 Route::get('/paystack/callback', [App\Http\Controllers\Business\SubscriptionController::class, 'handlePaystackCallback']);
+
+Route::get('/cron/renew-subscription', [App\Http\Controllers\CronController::class, 'renewSubscription']);
