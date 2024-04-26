@@ -85,8 +85,8 @@
 
                 <p>&nbsp;</p>
                 <h4>Select Your Preferred Payment Method</h4>
-                <p>You can choose to pay with your Referral Points Balance or using your Debit Card.</p>
-                <p><b><u>Note:</u> Referral Points Balance is: {{ number_format(Auth::user()->wallet->referral_points, 0) }}.</b></p>
+                <p>You can choose to pay with your Arete Bonus Balance or using your Arete Wallet Balance.</p>
+                <p><b><u>Note:</u> Arete Bonus Balance is: {{ number_format(Auth::user()->wallet->referral_points, 0) }}.</b></p>
                 <hr />
 
             </div>
@@ -97,7 +97,7 @@
                         <!-- First button -->
                         <a href="{{ route('business.pointsAirtimePurchase', [$trx->transaction_id]) }}"><button class="btn btn-primary pr-12" type="button"
                             onClick="this.disabled=true; this.innerHTML='Submiting request, please wait...';">Pay
-                            With Referral Points
+                            With Bonus Balance
                             &nbsp;<i class="bi bi-p-circle"></i></button></a>
                     </div>
                     <div class="col-md-4 col-6">

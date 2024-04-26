@@ -55,12 +55,9 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-12 mb-3 mb-lg-0">
                                 <div class="text-center">
 
-                                    <h4 class="mb-1">Your Arete Referral Points Balance</h4>
+                                    <h4 class="mb-1">Your Arete Bonus Balance</h4>
                                     <h5 class="mb-0 display-5 fw-bold mt-4">
-                                        {{ number_format(Auth::user()->wallet->referral_points, 0) }} Points</h5>
-                                    <p class="px-4 mt-3"><b>Exchange Rate:</b> <span
-                                            style="color:black; font-size: 14px; font-weight:bold">1 Arete Point =
-                                            &#8358;1</span></p>
+                                        &#8358;{{ number_format(Auth::user()->wallet->referral_points, 2) }}</h5>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +86,7 @@
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link" href="{{ route('business.myWalletPoints') }}"
-                                                    role="tab">Referral Points Transactions</a>
+                                                    role="tab">Arete Bonus Transactions</a>
                                             </li>
                                         </ul>
                                     </div>

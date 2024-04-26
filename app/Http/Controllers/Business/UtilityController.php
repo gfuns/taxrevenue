@@ -172,7 +172,7 @@ class UtilityController extends Controller
     public function pointsAirtimePurchase($trxId)
     {
         $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
-        $trx->payment_method = "Referral Points Balance";
+        $trx->payment_method = "Bonus Balance";
         $trx->save();
 
         $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
@@ -182,7 +182,7 @@ class UtilityController extends Controller
             $trx->status = "Failed";
             $trx->save();
 
-            toast("Your referral points balance is insufficient", 'error');
+            toast("Your bonus balance is insufficient", 'error');
             return back();
         }
 
@@ -426,7 +426,7 @@ class UtilityController extends Controller
     {
         try {
             $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
-            $trx->payment_method = "Referral Points Balance";
+            $trx->payment_method = "Bonus Balance";
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
@@ -436,7 +436,7 @@ class UtilityController extends Controller
                 $trx->status = "Failed";
                 $trx->save();
 
-                toast("Your referral points balance is insufficient", 'error');
+                toast("Your bonus balance is insufficient", 'error');
                 return back();
             }
 
@@ -715,7 +715,7 @@ class UtilityController extends Controller
     {
         try {
             $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
-            $trx->payment_method = "Referral Points Balance";
+            $trx->payment_method = "Bonus Balance";
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
@@ -725,7 +725,7 @@ class UtilityController extends Controller
                 $trx->status = "Failed";
                 $trx->save();
 
-                toast("Your referral points balance is insufficient", 'error');
+                toast("Your bonus balance is insufficient", 'error');
                 return back();
             }
 
@@ -994,7 +994,7 @@ class UtilityController extends Controller
         try {
 
             $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
-            $trx->payment_method = "Referral Points Balance";
+            $trx->payment_method = "Bonus Balance";
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
@@ -1004,7 +1004,7 @@ class UtilityController extends Controller
                 $trx->status = "Failed";
                 $trx->save();
 
-                toast("Your referral points balance is insufficient", 'error');
+                toast("Your bonus balance is insufficient", 'error');
                 return back();
             }
 
@@ -1084,7 +1084,6 @@ class UtilityController extends Controller
             return back();
         }
     }
-
 
     public function walletElectricityPurchase($trxId)
     {
