@@ -73,6 +73,9 @@ class CronController extends Controller
                     report($e);
 
                 }
+            } else {
+                $rt->status = "inactive";
+                $rt->save();
             }
         }
 
