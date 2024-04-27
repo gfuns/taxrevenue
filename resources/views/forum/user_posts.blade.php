@@ -135,8 +135,10 @@
                                                 </a>
 
                                                 <p class="card-sub-title wyg">
-                                                    {{ strip_tags($post->truncateText($post->post_body, 30)) }}
-                                                    @if (str_word_count($post->post_body) < 30)
+                                                    @php
+                                                        echo strip_tags($post->truncateText($post->post_body, 30));
+                                                    @endphp
+                                                    @if (str_word_count($post->post_body) > 30)
                                                         ...
                                                     @endif
                                                 </p>
