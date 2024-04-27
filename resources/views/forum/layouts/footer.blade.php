@@ -20,7 +20,7 @@
 <script src="{{ asset('proforum/assets/admin/js/select2.min.js') }}"></script>
 
 
-<script src="{{ asset('proforum/assets/common/js/ckeditor.js') }}"></script>
+<script src="{{ asset('assets/js/vendors/editor.js') }}"></script>
 
 
 <!-- main js -->
@@ -844,6 +844,13 @@
         $('#eventPostExampleModal').modal('show');
     }
 </script>
+
+
+
+<script type="text/javascript">
+    CKEDITOR.replace('editor1');
+</script>
+
 
 <script>
     var ENDPOINT = "localhost:8000/forum";

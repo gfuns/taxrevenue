@@ -109,7 +109,7 @@
                                         <div class="row">
                                             <div class="col-lg-12 mb-4">
                                                 <div class="form-group">
-                                                    <textarea class="form--control trumEdit" placeholder="" name="post_body">@php echo $post->post_body; @endphp</textarea>
+                                                    <textarea id="editor1" class="form--control" placeholder="" name="post_body">@php echo $post->post_body; @endphp</textarea>
                                                     <label class="form--label">Post Body</label>
                                                 </div>
 

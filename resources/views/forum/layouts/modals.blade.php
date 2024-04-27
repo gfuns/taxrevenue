@@ -124,7 +124,7 @@
                     </div>
 
                     <div class="form-group mb-4">
-                        <textarea class="form--control trumEdit" placeholder="" name="post_body"></textarea>
+                        <textarea id="editor1" class="form--control" placeholder="" name="post_body"></textarea>
                     </div>
 
                     <div class="form-group text-end">

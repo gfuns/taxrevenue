@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="{{ asset("proforum/assets/admin/css/select2.min.css") }}?version=123456">
     <link rel="stylesheet" href="{{ asset("proforum/assets/presets/default/css/main.css") }}">
 
-
+    <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 
     <link rel="stylesheet"
         href="https://preview.wstacks.com/proforum/assets/presets/default/css/color.php?color=1877f2&amp;secondColor=060662">
