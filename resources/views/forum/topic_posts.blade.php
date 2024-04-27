@@ -116,6 +116,15 @@
                                                                     <span>Report</span>
                                                                 </button>
                                                             </li>
+                                                            @if (Auth::user() && Auth::user()->id == $post->customer_id)
+                                                                <li>
+                                                                    <a class="edit_button"
+                                                                        href="{{ route('forum.userPostEdit', [$post->id]) }}">
+                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                        <span>Edit</span>
+                                                                    </a>
+                                                                </li>
+                                                            @endif
                                                         </ul>
                                                     </div>
                                                 </div>
