@@ -1,3 +1,70 @@
+ <style type="text/css">
+ .site-navigation {
+         /* Your site navigation styles */
+     }
+
+     .tit:hover{
+        color:#FEBA00;
+     }
+
+     .site-menu {
+         list-style: none !important;
+         margin: 0;
+         padding: 0;
+         color: red;
+         font-family: 'Plus Jakarta Sans', sans-serif;
+     }
+
+     .site-menu-item {
+         display: inline-block;
+         position: relative;
+     }
+
+     .site-menu-item a {
+         display: block;
+         padding: 10px 20px;
+         text-decoration: none;
+         color: black;
+         font-size: 13px;
+         font-weight: bold;
+     }
+
+     .has-dropdown>.sub-menu {
+         display: none;
+         position: absolute;
+         top: 100%;
+         left: 0;
+         background-color: #fff;
+         border: thin solid #b4c0e0;
+         border-radius: 10px;
+     }
+
+     .has-dropdown:hover>.sub-menu {
+         display: block;
+     }
+
+     .sub-menu-item {
+         display: block;
+     }
+
+
+     .otherchild:hover {
+         background-color: #E8E8E7;
+     }
+
+     .firstchild:hover {
+         background-color: #E8E8E7;
+         border-top-left-radius: 10px;
+         border-top-right-radius: 10px;
+     }
+
+     .lastchild:hover {
+         background-color: #E8E8E7;
+         border-bottom-left-radius: 10px;
+         border-bottom-right-radius: 10px;
+     }
+ </style>
+ </style>
  <!--========================== Header section Start ==========================-->
  <div class="header-main-area">
      <div class="header" id="header">
@@ -48,11 +115,7 @@
                      <!-- user actn -->
                      @if (Auth::user())
                          <div class="menu-right-wrapper">
-                             <div class="avatar-thumb">
-                                 <a href="/forum/user/{{ Auth::user()->id }}">
-                                    <img src="{{ isset(Auth::user()->photo) ? Auth::user()->photo : asset('proforum/images/avatar.png')}}" alt="avatar">
-                                </a>
-                             </div>
+
 
                              <ul>
                                  <li class="search-icon">
@@ -73,14 +136,40 @@
                                  <!-- dark option /> -->
 
                                  <li class="language-box">
-                                     <i class="fa-solid fa-globe"></i>
-                                     <div>
-                                         <select class="select langSel">
-                                             <option value="en" selected>
-                                                 En
-                                             </option>
-                                         </select>
+                                     <div class="avatar-thumb">
+                                         <a href="/forum/user/{{ Auth::user()->id }}">
+                                             <img src="{{ isset(Auth::user()->photo) ? Auth::user()->photo : asset('proforum/images/avatar.png') }}"
+                                                 alt="avatar">
+                                         </a>
                                      </div>
+
+                                     {{-- <i class="fa-solid fa-globe"></i> --}}
+                                     <nav class="site-navigation">
+                                         <div class="site-menu">
+                                             <div class="site-menu-item has-dropdown">
+                                                 <a class="tit" href="#" style="font-weight: bold;">Hi,
+                                                     {{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</a>
+                                                 <div class="sub-menu">
+                                                     <div class="sub-menu-item firstchild"><a
+                                                             href="{{ route('business.dashboard') }}">Dashboard</a>
+                                                     </div>
+                                                     <div class="sub-menu-item otherchild"><a
+                                                             href="{{ route('business.viewProfile') }}">Account
+                                                             Settings</a></div>
+                                                     <div class="sub-menu-item otherchild"><a
+                                                             href="{{ route('business.businessProfile') }}">Business
+                                                             Settings</a></div>
+                                                     <div class="sub-menu-item lastchild"><a
+                                                             href="{{ route('logout') }}"
+                                                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                                         <form id="logout-form" action="{{ route('logout') }}"
+                                                             method="POST" style="display: none;">
+                                                             {{ csrf_field() }}</a>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </nav>
                                  </li>
                              </ul>
                          </div>
