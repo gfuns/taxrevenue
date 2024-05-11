@@ -53,4 +53,5 @@ class ForumPosts extends Model
 
         return $text;
     }
+
 }

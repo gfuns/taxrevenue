@@ -21,7 +21,7 @@
                     </p>
                 </div>
                 <div class="comment-text">
-                    <p id="custxt-{{ $reply->id }}">{{ $reply->comment }}</p>
+                    <p id="custxt-{{ $reply->id }}" style="background-color: {{ $reply->generateCommentColor($reply->id) }}; padding:5px; border-radius: 5px">{{ $reply->comment }}</p>
                     <div class="comment-card-footer">
                         <ul class="user-actn">
                             <li>

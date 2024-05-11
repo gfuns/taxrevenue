@@ -15,7 +15,7 @@
                 {{ date_format($com->created_at, 'j M, Y') }}</p>
         </div>
         <div class="comment-text">
-            <p>{{ $com->comment }}</p>
+            <p style="background-color: {{ $com->generateCommentColor($com->id) }}; padding:5px; border-radius: 5px">{{ $com->comment }}</p>
             <div class="comment-card-footer">
                 <ul class="user-actn">
                     <li>

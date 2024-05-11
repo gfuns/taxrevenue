@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="{{ asset("proforum/assets/presets/default/css/glightbox.min.css") }}">
 
     <link rel="stylesheet" href="{{ asset("proforum/assets/admin/css/select2.min.css") }}?version=123456">
-    <link rel="stylesheet" href="{{ asset("proforum/assets/presets/default/css/main.css") }}">
+    <link rel="stylesheet" href="{{ asset("proforum/assets/presets/default/css/main.css") }}?version=123456">
 
     <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 
