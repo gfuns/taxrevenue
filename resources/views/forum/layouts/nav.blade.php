@@ -236,7 +236,7 @@
                     <a href="/register">Sign Up </a>
                 </li>
                 <li>
-                    <a href="/register">Sign In </a>
+                    <a href="/forum/user">Sign In </a>
                 </li>
             @endif
 
