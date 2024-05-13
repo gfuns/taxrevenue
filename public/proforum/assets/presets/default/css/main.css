@@ -12621,3 +12621,9 @@ li.login-registration-list__item .social-list__item .social-list__link i {
 }
 
 
+@media (max-width: 862px) {
+
+    .language-box {
+      display: none;
+    }
+}
