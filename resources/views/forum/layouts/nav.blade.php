@@ -134,17 +134,6 @@
                                         </span>
                                     </a>
                                 </li>
-
-                                <li class="language-box">
-                                    <i class="fa-solid fa-globe"></i>
-                                    <div>
-                                        <select class="select langSel">
-                                            <option value="en" selected="">
-                                                En
-                                            </option>
-                                        </select>
-                                    </div>
-                                </li>
                             </ul>
                         </div>
                     @endif

@@ -9311,9 +9311,7 @@ select.form-control.form--control:has(option)~.form--label {
     display: none;
   }
 
-  .login-icon {
-    display: none;
-  }
+
 
   .msg-icon {
     display: none;
