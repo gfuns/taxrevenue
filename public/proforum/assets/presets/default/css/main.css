@@ -311,6 +311,11 @@
   /** ====================== Random section dark color ========================*/
 }
 
+
+.site-navigation{
+    display: block;
+}
+
 .dark h1,
 .dark h2,
 .dark h3,
@@ -9197,6 +9202,10 @@ select.form-control.form--control:has(option)~.form--label {
     display: none;
   }
 
+  .site-navigation{
+    display: none;
+  }
+
   .header {
     top: 0px;
     padding: 18px 8px;
@@ -12547,3 +12556,70 @@ li.login-registration-list__item .social-list__item .social-list__link i {
 .dark .gfuns{
     color: #ffee00 !important;
 }
+
+.site-navigation {
+    /* Your site navigation styles */
+}
+
+.tit:hover {
+    color: #FEBA00;
+}
+
+.site-menu {
+    list-style: none !important;
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.site-menu-item {
+    display: inline-block;
+    position: relative;
+}
+
+.site-menu-item a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.has-dropdown>.sub-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border: thin solid #b4c0e0;
+    border-radius: 10px;
+    z-index: 100 !important;
+}
+
+.has-dropdown:hover>.sub-menu {
+    display: block;
+    /* min-width: 160px; */
+}
+
+.sub-menu-item {
+    display: block;
+}
+
+
+.otherchild:hover {
+    background-color: #E8E8E7;
+}
+
+.firstchild:hover {
+    background-color: #E8E8E7;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.lastchild:hover {
+    background-color: #E8E8E7;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
