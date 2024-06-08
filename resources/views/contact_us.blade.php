@@ -31,45 +31,26 @@
                         <div class="row">
                             <div class="col-lg-3 col-md-6 col-sm-12">
                                 <h6>Head Office</h6>
-                                <div class="font-sm color-text-paragraph">205 North Michigan Avenue, Suite 810
-                                    Chicago, 60601, US <br> Phone: 0543213336 <br> Email: info@areteplanet.com</a>
+                                <div class="font-sm color-text-paragraph">Flat 6, 1B, Col. k Salisu street phase 5 army
+                                    estate, Gidan mangoro, Abuja <br> Phone: +234 915 120 1577 <br> Email:
+                                    info@areteplanet.com</a>
                                 </div><a class="text-uppercase color-brand-2 link-map"
-                                    href="https://maps.google.com/?q=Army Post Service House Scheme, Kurudu, Abuja"
+                                    href="https://maps.google.com/?q=Post Service Housing Estate Phase 5"
                                     target="_blank">View
                                     map</a>
                             </div>
                             <div class="col-1 mb-4"></div>
                             <div class="col-lg-8 col-md-6 sm-12">
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-6 col-sm-12 ">
-                                        <h6>London Office</h6>
-                                        <p class="font-sm color-text-paragraph mb-20"> 2118 Thornridge Cir.
-                                            Syracuse, Connecticut 35624 </p>
+                                    <div class="col-lg-12 col-md-6 col-sm-12 ">
+                                        <h6>US Office</h6>
+                                        <p class="font-sm color-text-paragraph mb-20"> 2423 Elmhurst Ave Fort Dodge, IA
+                                            50501. </p>
                                     </div>
                                     <div class="col-lg-4 col-md-6 col-sm-12 ">
-                                        <h6>New York Office</h6>
-                                        <p class="font-sm color-text-paragraph mb-20"> 4517 Washington Ave.
-                                            Manchester, Kentucky 39495 </p>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 ">
-                                        <h6>Chicago Office</h6>
-                                        <p class="font-sm color-text-paragraph mb-20"> 3891 Ranchview Dr.
-                                            Richardson, California 62639 </p>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 ">
-                                        <h6>San Francisco Office</h6>
-                                        <p class="font-sm color-text-paragraph mb-20"> 4140 Parker Rd. Allentown,
-                                            New Mexico 31134 </p>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 ">
-                                        <h6>Sydney Office</h6>
-                                        <p class="font-sm color-text-paragraph mb-20"> 3891 Ranchview Dr.
-                                            Richardson, California 62639 </p>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12 ">
-                                        <h6>Singapore Office</h6>
-                                        <p class="font-sm color-text-paragraph mb-20"> 4140 Parker Rd. Allentown,
-                                            New Mexico 31134 </p>
+                                        <h6>Houston Office</h6>
+                                        <p class="font-sm color-text-paragraph mb-20"> 1918 N Thunderwood Circle Fresno,
+                                            TX 77545 </p>
                                     </div>
                                     <div class="col-lg-4 col-md-6 col-sm-12 ">
                                         <h6></h6>

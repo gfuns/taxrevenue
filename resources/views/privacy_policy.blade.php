@@ -24,7 +24,7 @@
 
                         <div class="col-12 col-lg-10 offset-lg-1" style="text-align: justify">
 
-                            <p class="font-md mb-20 color-text-paragraph">Arete Nigeria Limited ("the Company") is
+                            <p class="font-md mb-20 color-text-paragraph">Arete Worldwide Business Concept Ltd ("the Company") is
                                 committed to protecting the privacy and security of your personal information. This
                                 Privacy Policy outlines how we collect, use, and disclose personal information when you
                                 use our business directory platform ("the Platform").</p>

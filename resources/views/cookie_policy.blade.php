@@ -24,7 +24,7 @@
 
                         <div class="col-12 col-lg-10 offset-lg-1" style="text-align: justify">
 
-                            <p class="font-md mb-20 color-text-paragraph">Arete Nigeria Limited ("the Company") uses
+                            <p class="font-md mb-20 color-text-paragraph">Arete Worldwide Business Concept Ltd ("the Company") uses
                                 cookies on our business directory platform ("the Platform"). By using the Platform, you
                                 consent to the use of cookies in accordance with this Cookie Policy.</p>
 

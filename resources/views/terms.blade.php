@@ -25,7 +25,7 @@
                         <div class="col-12 col-lg-10 offset-lg-1" style="text-align: justify">
 
                             <p class="font-md mb-20 color-text-paragraph">These Terms and Conditions ("Terms") govern
-                                your use of Arete Planet ("the Platform"), provided by Arete Nigeria Limited ("the
+                                your use of Arete Planet ("the Platform"), provided by Arete Worldwide Business Concept Ltd ("the
                                 Company"). By accessing or using the Platform, you agree to comply with these Terms. If
                                 you do not agree with any part of these Terms, you may not access the Platform.</p>
 
