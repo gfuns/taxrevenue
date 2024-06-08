@@ -18,8 +18,8 @@
                             <div class="col-lg-6 col-md-12 col-sm-12">
                                 <div
                                     class="card-grid-border hover-up wow animate__ animate__fadeIn animated page_speed_2134450950">
-                                    <h4 class="mb-20">{{ $faq->question }}</h4>
-                                    <p class="font-sm mb-20 color-text-paragraph">{{ $faq->answer }}</p>
+                                    <h5 class="mb-5">{{ $faq->question }}</h5>
+                                    <p class="font-sm mb-10 color-text-paragraph">{{ $faq->answer }}</p>
                                 </div>
                             </div>
                             @endforeach
