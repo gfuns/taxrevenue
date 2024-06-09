@@ -10,6 +10,8 @@ use App\Models\CustomerWallet;
 use App\Models\Referral;
 use App\Models\ReferralTransaction;
 use App\Models\SubscriptionPlan;
+use App\Models\Business;
+use App\Models\JobListing;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +30,15 @@ class CronController extends Controller
             if ($rt->plan_id == 1) {
                 $rt->status = "inactive";
                 $rt->save();
+
+                //We Deactivate All his Job Listings and Deactivate His Business Page
+                Business::where("customer_id", $rt->customer_id)->update([
+                    "visibility" => 0,
+                ]);
+
+                JobListing::where("customer_id", $rt->customer_id)->update([
+                    "status" => "archived",
+                ]);
             } else {
 
                 $activeCard = CustomerCards::where("customer_id", $rt->customer_id)->where("default_card", 1)->first();
@@ -84,6 +95,18 @@ class CronController extends Controller
                 } else {
                     $rt->status = "inactive";
                     $rt->save();
+
+
+                    //We Deactivate All his Job Listings and Deactivate His Business Page
+                    Business::where("customer_id", $rt->customer_id)->update([
+                        "visibility" => 0,
+                    ]);
+
+                    JobListing::where("customer_id", $rt->customer_id)->update([
+                        "status" => "archived",
+                    ]);
+
+
                 }
             }
         }
@@ -97,10 +120,19 @@ class CronController extends Controller
             $et->status = "inactive";
             $et->save();
 
+            //We Deactivate All his Job Listings and Deactivate His Business Page
+            Business::where("customer_id", $et->customer_id)->update([
+                "visibility" => 0,
+            ]);
+
+            JobListing::where("customer_id", $et->customer_id)->update([
+                "status" => "archived",
+            ]);
+
             $activeCard = CustomerCards::where("customer_id", $et->customer_id)->where("default_card", 1)->first();
             $plan = SubscriptionPlan::find($et->plan_id);
 
-            $status = $this->chargeCardWithAuthorization($activeCard->id, $et->plan_id, $et->customer_id);
+            $status = false; //$this->chargeCardWithAuthorization($activeCard->id, $et->plan_id, $et->customer_id);
 
             if ($status === true) {
                 try {
@@ -151,6 +183,15 @@ class CronController extends Controller
             } else {
                 $et->status = "inactive";
                 $et->save();
+
+                //We Deactivate All his Job Listings and Deactivate His Business Page
+                Business::where("customer_id", $et->customer_id)->update([
+                    "visibility" => 0,
+                ]);
+
+                JobListing::where("customer_id", $et->customer_id)->update([
+                    "status" => "archived",
+                ]);
             }
         }
     }

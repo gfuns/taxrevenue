@@ -12,6 +12,7 @@ use App\Models\CustomerSubscription;
 use App\Models\CustomerWallet;
 use App\Models\PaystackTransaction;
 use App\Models\Referral;
+use App\Models\Business;
 use App\Models\ReferralTransaction;
 use App\Models\SubscriptionPlan;
 use Auth;
@@ -176,6 +177,11 @@ class SubscriptionController extends Controller
                     $subscription->status = "active";
                     $subscription->next_due_date = Carbon::now()->addDays($plan->duration);
                     $subscription->save();
+
+                    //We Activate his Business Page
+                    Business::where("customer_id", Auth::user()->id)->update([
+                        "visibility" => 1,
+                    ]);
 
                     $referral = Referral::where("referral_id", Auth::user()->id)->first();
                     if (isset($referral)) {
