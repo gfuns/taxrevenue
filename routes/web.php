@@ -313,3 +313,5 @@ Route::get('/resolve-bank', [App\Http\Controllers\FrontEndController::class, 'ba
 Route::get('/paystack/callback', [App\Http\Controllers\Business\SubscriptionController::class, 'handlePaystackCallback']);
 
 Route::get('/cron/renew-subscription', [App\Http\Controllers\CronController::class, 'renewSubscription']);
+
+Route::get('/cron/expired-subscriptions', [App\Http\Controllers\CronController::class, 'expiredSubscriptions']);

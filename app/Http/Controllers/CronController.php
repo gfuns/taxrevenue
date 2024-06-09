@@ -55,6 +55,75 @@ class CronController extends Controller
 
                         $referral = Referral::where("referral_id", $rt->customer_id)->first();
                         if (isset($referral)) {
+                            $referralSubscribed = CustomerSubscription::where("customer_id", $referral->customer_id)->where("status", "active")->first();
+                            if (isset($referralSubscribed)) {
+                                $bonus = ((5 / 100) * $plan->billing_amount);
+                                $customer = Customer::find($referral->customer_id);
+
+                                $transaction = new ReferralTransaction;
+                                $transaction->customer_id = $referral->customer_id;
+                                $transaction->trx_type = "credit";
+                                $transaction->amount = $bonus;
+                                $transaction->details = "Bonus received from subcription made by " . $referral->customer->first_name . " " . $referral->customer->last_name;
+                                $transaction->balance_before = $customer->wallet->referral_points;
+                                $transaction->balance_after = ($customer->wallet->referral_points + $bonus);
+                                $transaction->save();
+
+                                $customerWallet = CustomerWallet::where("customer_id", $referral->customer_id)->first();
+                                $customerWallet->referral_points = (double) ($customerWallet->referral_points + $bonus);
+                                $customerWallet->save();
+                            }
+                        }
+                        DB::commit();
+
+                    } catch (\Exception $e) {
+                        DB::rollback();
+                        report($e);
+
+                    }
+                } else {
+                    $rt->status = "inactive";
+                    $rt->save();
+                }
+            }
+        }
+    }
+
+    public function expiredSubscriptions()
+    {
+        $today = Carbon::today()->toDateString();
+        $rexpiredSubscriptions = CustomerSubscription::whereDate("next_due_date", "<", $today)->where("status", "active")->get();
+        foreach ($rexpiredSubscriptions as $et) {
+            $et->status = "inactive";
+            $et->save();
+
+            $activeCard = CustomerCards::where("customer_id", $et->customer_id)->where("default_card", 1)->first();
+            $plan = SubscriptionPlan::find($et->plan_id);
+
+            $status = $this->chargeCardWithAuthorization($activeCard->id, $et->plan_id, $et->customer_id);
+
+            if ($status === true) {
+                try {
+                    DB::beginTransaction();
+
+                    CustomerSubscription::where("customer_id", $et->customer_id)->update([
+                        "status" => "inactive",
+                    ]);
+
+                    $subscription = new CustomerSubscription;
+                    $subscription->customer_id = $et->customer_id;
+                    $subscription->plan_id = $plan->id;
+                    $subscription->card_details = ucwords($activeCard->card_brand) . " ending with " . $activeCard->last_four_digits;
+                    $subscription->subscription_amount = $plan->billing_amount;
+                    $subscription->auto_renew = 1;
+                    $subscription->status = "active";
+                    $subscription->next_due_date = Carbon::now()->addDays($plan->duration);
+                    $subscription->save();
+
+                    $referral = Referral::where("referral_id", $et->customer_id)->first();
+                    if (isset($referral)) {
+                        $referralSubscribed = CustomerSubscription::where("customer_id", $referral->customer_id)->where("status", "active")->first();
+                        if (isset($referralSubscribed)) {
                             $bonus = ((5 / 100) * $plan->billing_amount);
                             $customer = Customer::find($referral->customer_id);
 
@@ -71,17 +140,17 @@ class CronController extends Controller
                             $customerWallet->referral_points = (double) ($customerWallet->referral_points + $bonus);
                             $customerWallet->save();
                         }
-                        DB::commit();
-
-                    } catch (\Exception $e) {
-                        DB::rollback();
-                        report($e);
-
                     }
-                } else {
-                    $rt->status = "inactive";
-                    $rt->save();
+                    DB::commit();
+
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    report($e);
+
                 }
+            } else {
+                $et->status = "inactive";
+                $et->save();
             }
         }
     }

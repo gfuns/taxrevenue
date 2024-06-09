@@ -179,21 +179,24 @@ class SubscriptionController extends Controller
 
                     $referral = Referral::where("referral_id", Auth::user()->id)->first();
                     if (isset($referral)) {
-                        $bonus = ((5 / 100) * $plan->billing_amount);
-                        $customer = Customer::find($referral->customer_id);
+                        $referralSubscribed = CustomerSubscription::where("customer_id", $referral->customer_id)->where("status", "active")->first();
+                        if (isset($referralSubscribed)) {
+                            $bonus = ((5 / 100) * $plan->billing_amount);
+                            $customer = Customer::find($referral->customer_id);
 
-                        $transaction = new ReferralTransaction;
-                        $transaction->customer_id = $referral->customer_id;
-                        $transaction->trx_type = "credit";
-                        $transaction->amount = $bonus;
-                        $transaction->details = "Bonus received from subcription made by " . Auth::user()->first_name . " " . Auth::user()->last_name;
-                        $transaction->balance_before = $customer->wallet->referral_points;
-                        $transaction->balance_after = ($customer->wallet->referral_points + $bonus);
-                        $transaction->save();
+                            $transaction = new ReferralTransaction;
+                            $transaction->customer_id = $referral->customer_id;
+                            $transaction->trx_type = "credit";
+                            $transaction->amount = $bonus;
+                            $transaction->details = "Bonus received from subcription made by " . Auth::user()->first_name . " " . Auth::user()->last_name;
+                            $transaction->balance_before = $customer->wallet->referral_points;
+                            $transaction->balance_after = ($customer->wallet->referral_points + $bonus);
+                            $transaction->save();
 
-                        $customerWallet = CustomerWallet::where("customer_id", $referral->customer_id)->first();
-                        $customerWallet->referral_points = (double) ($customerWallet->referral_points + $bonus);
-                        $customerWallet->save();
+                            $customerWallet = CustomerWallet::where("customer_id", $referral->customer_id)->first();
+                            $customerWallet->referral_points = (double) ($customerWallet->referral_points + $bonus);
+                            $customerWallet->save();
+                        }
                     }
                     DB::commit();
 
@@ -207,6 +210,9 @@ class SubscriptionController extends Controller
                     toast('Something went wrong.', 'error');
                     return back();
                 }
+            } else {
+                toast('Something went wrong.', 'error');
+                return back();
             }
         } else {
             toast('Something went wrong.', 'error');
