@@ -67,6 +67,10 @@ class Kernel extends HttpKernel
         'forum' => [
             \App\Http\Middleware\Forum::class,
         ],
+
+        'usersubscribed' => [
+            \App\Http\Middleware\UserSubscribed::class,
+        ],
     ];
 
     /**

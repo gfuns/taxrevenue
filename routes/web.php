@@ -105,21 +105,38 @@ Route::group([
 
         Route::post('/update-password', [App\Http\Controllers\Business\HomeController::class, 'updatePassword'])->name("business.updatePassword");
 
-        Route::get('/business-profile', [App\Http\Controllers\Business\HomeController::class, 'businessProfile'])->name("business.businessProfile");
+        Route::group([
+            'middleware' => ['usersubscribed'],
 
-        Route::post('/update-business-profile', [App\Http\Controllers\Business\HomeController::class, 'updateBusinessProfile'])->name("business.updateBusinessProfile");
+        ], function ($router) {
 
-        Route::get('/business-page-setup', [App\Http\Controllers\Business\HomeController::class, 'businessPage'])->name("business.businessPage");
+            Route::get('/business-profile', [App\Http\Controllers\Business\HomeController::class, 'businessProfile'])->name("business.businessProfile");
 
-        Route::post('/update-page-settings', [App\Http\Controllers\Business\HomeController::class, 'updatePageSettings'])->name("business.updatePageSettings");
+            Route::post('/update-business-profile', [App\Http\Controllers\Business\HomeController::class, 'updateBusinessProfile'])->name("business.updateBusinessProfile");
 
-        Route::post('/update-top-banner', [App\Http\Controllers\Business\HomeController::class, 'updateTopBanner'])->name("business.updateTopBanner");
+            Route::get('/business-page-setup', [App\Http\Controllers\Business\HomeController::class, 'businessPage'])->name("business.businessPage");
 
-        Route::post('/update-slider-banner', [App\Http\Controllers\Business\HomeController::class, 'uploadSliderBanner'])->name("business.uploadSliderBanner");
+            Route::post('/update-page-settings', [App\Http\Controllers\Business\HomeController::class, 'updatePageSettings'])->name("business.updatePageSettings");
 
-        Route::post('/upload-catalogue', [App\Http\Controllers\Business\HomeController::class, 'uploadCatalogue'])->name("business.uploadCatalogue");
+            Route::post('/update-top-banner', [App\Http\Controllers\Business\HomeController::class, 'updateTopBanner'])->name("business.updateTopBanner");
 
-        Route::get('/remove-page-file/{id}', [App\Http\Controllers\Business\HomeController::class, 'removePageFile'])->name("business.removePageFile");
+            Route::post('/update-slider-banner', [App\Http\Controllers\Business\HomeController::class, 'uploadSliderBanner'])->name("business.uploadSliderBanner");
+
+            Route::post('/upload-catalogue', [App\Http\Controllers\Business\HomeController::class, 'uploadCatalogue'])->name("business.uploadCatalogue");
+
+            Route::get('/remove-page-file/{id}', [App\Http\Controllers\Business\HomeController::class, 'removePageFile'])->name("business.removePageFile");
+
+            Route::get('/job-listing', [App\Http\Controllers\Business\JobListingController::class, 'jobListings'])->name("business.jobListing");
+
+            Route::get('/job/details/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobDetails'])->name("business.jobDetails");
+
+            Route::get('/job/delete/{id}', [App\Http\Controllers\Business\JobListingController::class, 'deleteJob'])->name("business.deleteJob");
+
+            Route::get('/job/archive/{id}', [App\Http\Controllers\Business\JobListingController::class, 'archiveJob'])->name("business.archiveJob");
+
+            Route::get('/job/publish/{id}', [App\Http\Controllers\Business\JobListingController::class, 'publishJob'])->name("business.publishJob");
+
+        });
 
         Route::get('/notification-settings', [App\Http\Controllers\Business\HomeController::class, 'notificationSettings'])->name("business.notificationSettings");
 
@@ -140,16 +157,6 @@ Route::group([
         Route::get('/referrals', [App\Http\Controllers\Business\ReferralController::class, 'referrals'])->name("business.referrals");
 
         Route::get('/utility-transactions', [App\Http\Controllers\Business\UtilityController::class, 'utilityTransactions'])->name("business.utilityTransactions");
-
-        Route::get('/job-listing', [App\Http\Controllers\Business\JobListingController::class, 'jobListings'])->name("business.jobListing");
-
-        Route::get('/job/details/{id}', [App\Http\Controllers\Business\JobListingController::class, 'jobDetails'])->name("business.jobDetails");
-
-        Route::get('/job/delete/{id}', [App\Http\Controllers\Business\JobListingController::class, 'deleteJob'])->name("business.deleteJob");
-
-        Route::get('/job/archive/{id}', [App\Http\Controllers\Business\JobListingController::class, 'archiveJob'])->name("business.archiveJob");
-
-        Route::get('/job/publish/{id}', [App\Http\Controllers\Business\JobListingController::class, 'publishJob'])->name("business.publishJob");
 
         Route::get('/buy-airtime', [App\Http\Controllers\Business\UtilityController::class, 'buyAirtime'])->name("business.buyAirtime");
 

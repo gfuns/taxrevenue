@@ -14,29 +14,31 @@
                 </a>
             </li>
 
-            <!-- Nav item -->
-            <li class="nav-item">
-                <div class="nav-divider"></div>
-            </li>
+            @if (Auth::user()->activePlan() != null)
+                <!-- Nav item -->
+                <li class="nav-item">
+                    <div class="nav-divider"></div>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link " id="businessInfo" href="{{ route('business.businessProfile') }}">
-                    <i class="nav-icon fe fe-briefcase me-2"></i>
-                    Business Information
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="businessInfo" href="{{ route('business.businessProfile') }}">
+                        <i class="nav-icon fe fe-briefcase me-2"></i>
+                        Business Information
+                    </a>
+                </li>
 
-            <!-- Nav item -->
-            <li class="nav-item">
-                <div class="nav-divider"></div>
-            </li>
+                <!-- Nav item -->
+                <li class="nav-item">
+                    <div class="nav-divider"></div>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link " id="page" href="{{ route('business.businessPage') }}">
-                    <i class="nav-icon fe fe-layout me-2"></i>
-                    Business Page Setup
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="page" href="{{ route('business.businessPage') }}">
+                        <i class="nav-icon fe fe-layout me-2"></i>
+                        Business Page Setup
+                    </a>
+                </li>
+            @endif
 
             <li class="nav-item">
                 <div class="nav-divider"></div>
@@ -91,7 +93,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="wallet" href="{{ route("business.myWallet") }}">
+                <a class="nav-link " id="wallet" href="{{ route('business.myWallet') }}">
                     <i class="nav-icon bi bi-wallet me-2"></i>
                     Wallet
                 </a>
@@ -147,7 +149,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link " id="academy" href="{{ route("business.academy") }}">
+                <a class="nav-link " id="academy" href="{{ route('business.academy') }}">
                     <i class="nav-icon bi bi-play-btn me-2"></i>
                     Academy
                 </a>
@@ -171,7 +173,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link " id="store" href="{{ route("business.miniStore") }}">
+                <a class="nav-link " id="store" href="{{ route('business.miniStore') }}">
                     <i class="nav-icon bi bi-cart-check me-2"></i>
                     Mini Store
                 </a>
@@ -202,21 +204,19 @@
                 </a>
             </li>
 
+            @if (Auth::user()->activePlan() != null)
+                <!-- Nav item -->
+                <li class="nav-item">
+                    <div class="nav-divider"></div>
+                </li>
 
-
-            <!-- Nav item -->
-            <li class="nav-item">
-                <div class="nav-divider"></div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link " id="jobs" href="{{ route('business.jobListing') }}">
-                    <i class="nav-icon bi bi-briefcase-fill me-2"></i>
-                    Job Listing
-                </a>
-            </li>
-
-
+                <li class="nav-item">
+                    <a class="nav-link " id="jobs" href="{{ route('business.jobListing') }}">
+                        <i class="nav-icon bi bi-briefcase-fill me-2"></i>
+                        Job Listing
+                    </a>
+                </li>
+            @endif
 
             <!-- Nav item -->
             <li class="nav-item">
