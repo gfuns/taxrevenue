@@ -60,13 +60,13 @@
                             </div>
                             <!-- input -->
                             <div class="mb-3 col-md-6 col-12">
-                                <label class="form-label">Business Name </label>
+                                <label class="form-label">Business Name <span class="text-danger">*</span></label>
                                 <input type="text" name="business_name" value="{{ $business->business_name }}"
                                     class="form-control" placeholder="Enter Business Name" required>
                                 <div class="invalid-feedback">Please enter business name</div>
                             </div>
                             <div class="mb-3 col-md-6 col-12">
-                                <label class="form-label">Business Category</label>
+                                <label class="form-label">Business Category <span class="text-danger">*</span></label>
                                 <select id="category" name="business_category"
                                     class="@error('category') is-invalid @enderror" data-width="100%" required
                                     onchange="showHideTextField()">
@@ -87,26 +87,26 @@
                             </div>
                             <!-- input -->
                             <div class="mb-3 col-md-12 col-12">
-                                <label class="form-label">Business Description</label>
+                                <label class="form-label">Business Description <span class="text-danger">*</span></label>
                                 <textarea id="editor1" name="business_description" class="form-control" placeholder="Business Description" required>@php echo $business->business_description; @endphp</textarea>
                                 <div class="invalid-feedback">Please enter business description</div>
                             </div>
 
                             <div class="mb-3 col-md-6 col-12">
-                                <label class="form-label">Business Phone Number</label>
+                                <label class="form-label">Business Phone Number <span class="text-danger">*</span></label>
                                 <input type="text" name="business_phone" value="{{ $business->business_phone }}"
                                     class="form-control" placeholder="Enter Business Phone Number" required>
                                 <div class="invalid-feedback">Please enter business phone number</div>
                             </div>
                             <div class="mb-3 col-md-6 col-12">
-                                <label class="form-label">Business Email Address</label>
+                                <label class="form-label">Business Email Address <span class="text-danger">*</span></label>
                                 <input type="text" name="business_email" value="{{ $business->business_email }}"
                                     class="form-control" placeholder="Enter Business Email Address" required>
                                 <div class="invalid-feedback">Please enter business email</div>
                             </div>
 
                             <div class="mb-3 col-md-6 col-12">
-                                <label for="selectDate" class="form-label">Country</label>
+                                <label for="selectDate" class="form-label">Country <span class="text-danger">*</span></label>
 
                                 <select name="country" class="form-select text-dark" id="country" required>
                                     <option value="">Select Country</option>
@@ -122,7 +122,7 @@
                             </div>
 
                             <div class="mb-3 col-md-6 col-12">
-                                <label for="selectDate" class="form-label">State</label>
+                                <label for="selectDate" class="form-label">State <span class="text-danger">*</span></label>
 
                                 <select name="state" class="form-select text-dark" id="state" required>
                                     <option value="" disabled>Select State</option>
@@ -212,13 +212,13 @@
                             </div>
 
                             <div class="mb-3 col-md-6 col-12">
-                                <label class="form-label">City</label>
+                                <label class="form-label">City <span class="text-danger">*</span></label>
                                 <input type="text" name="city" value="{{ $business->city }}"
                                     class="form-control" placeholder="Enter City" required>
                                 <div class="invalid-feedback">Please enter city</div>
                             </div>
                             <div class="mb-3 col-md-6 col-12">
-                                <label class="form-label">Address</label>
+                                <label class="form-label">Address <span class="text-danger">*</span></label>
                                 <input type="text" name="business_address"
                                     value="{{ $business->business_address }}" class="form-control"
                                     placeholder="Enter Business Address" required>
@@ -258,10 +258,10 @@
                                 <div class="invalid-feedback">Please enter instagram profile</div>
                             </div>
                             <div class="mb-3 col-md-6 col-12">
-                                <label class="form-label">Twitter Profile</label>
+                                <label class="form-label">X (Formerly Twitter) Profile</label>
                                 <input type="text" name="twitter_url" value="{{ $business->twitter_url }}"
-                                    class="form-control" placeholder="Enter Twitter Profile">
-                                <div class="invalid-feedback">Please enter twitter profile</div>
+                                    class="form-control" placeholder="Enter X Profile">
+                                <div class="invalid-feedback">Please enter x profile</div>
                             </div>
                             <div class="mb-3 col-md-6 col-12">
                                 <label class="form-label">LinkedIn Profile</label>
