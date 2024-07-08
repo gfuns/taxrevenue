@@ -323,6 +323,21 @@ class CronController extends Controller
                         $trx->status = "Failed";
                         $trx->save();
 
+                    } elseif ($result->code == "040" && $result->response_description == "TRANSACTION REVERSED") {
+                        $trx = UtilityTransactions::find($trans->id);
+
+                        if ($trx->payment_method == "Bonus Balance") {
+                            $wallet = CustomerWallet::where("customer_id", $trx->customer_id)->first();
+                            $wallet->referral_points = (double) ($wallet->referral_points + $trx->total_amount);
+                            $wallet->save();
+                        } else {
+                            $wallet = CustomerWallet::where("customer_id", $trx->customer_id)->first();
+                            $wallet->arete_balance = (double) ($wallet->arete_balance + $trx->total_amount);
+                            $wallet->save();
+                        }
+
+                        $trx->status = "Reversed";
+                        $trx->save();
                     } else {
                         $trx = UtilityTransactions::find($trans->id);
                         $trx->status = "Pending";
@@ -391,6 +406,21 @@ class CronController extends Controller
 
                         $trx->status = "Failed";
                         $trx->save();
+                    } elseif ($result->code == "040" && $result->response_description == "TRANSACTION REVERSED") {
+                        $trx = UtilityTransactions::find($trans->id);
+
+                        if ($trx->payment_method == "Bonus Balance") {
+                            $wallet = CustomerWallet::where("customer_id", $trx->customer_id)->first();
+                            $wallet->referral_points = (double) ($wallet->referral_points + $trx->total_amount);
+                            $wallet->save();
+                        } else {
+                            $wallet = CustomerWallet::where("customer_id", $trx->customer_id)->first();
+                            $wallet->arete_balance = (double) ($wallet->arete_balance + $trx->total_amount);
+                            $wallet->save();
+                        }
+
+                        $trx->status = "Reversed";
+                        $trx->save();
                     } else {
                         $trx = UtilityTransactions::find($trans->id);
                         $trx->status = "Pending";
@@ -435,8 +465,6 @@ class CronController extends Controller
 
                 $result = json_decode($response);
 
-                dd($result);
-
                 if (isset($result)) {
 
                     if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL") {
@@ -461,6 +489,21 @@ class CronController extends Controller
                         }
 
                         $trx->status = "Failed";
+                        $trx->save();
+                    } elseif ($result->code == "040" && $result->response_description == "TRANSACTION REVERSED") {
+                        $trx = UtilityTransactions::find($trans->id);
+
+                        if ($trx->payment_method == "Bonus Balance") {
+                            $wallet = CustomerWallet::where("customer_id", $trx->customer_id)->first();
+                            $wallet->referral_points = (double) ($wallet->referral_points + $trx->total_amount);
+                            $wallet->save();
+                        } else {
+                            $wallet = CustomerWallet::where("customer_id", $trx->customer_id)->first();
+                            $wallet->arete_balance = (double) ($wallet->arete_balance + $trx->total_amount);
+                            $wallet->save();
+                        }
+
+                        $trx->status = "Reversed";
                         $trx->save();
                     } else {
                         $trx = UtilityTransactions::find($trans->id);
@@ -530,6 +573,21 @@ class CronController extends Controller
                         }
 
                         $trx->status = "Failed";
+                        $trx->save();
+                    } elseif ($result->code == "040" && $result->response_description == "TRANSACTION REVERSED") {
+                        $trx = UtilityTransactions::find($trans->id);
+
+                        if ($trx->payment_method == "Bonus Balance") {
+                            $wallet = CustomerWallet::where("customer_id", $trx->customer_id)->first();
+                            $wallet->referral_points = (double) ($wallet->referral_points + $trx->total_amount);
+                            $wallet->save();
+                        } else {
+                            $wallet = CustomerWallet::where("customer_id", $trx->customer_id)->first();
+                            $wallet->arete_balance = (double) ($wallet->arete_balance + $trx->total_amount);
+                            $wallet->save();
+                        }
+
+                        $trx->status = "Reversed";
                         $trx->save();
                     } else {
                         $trx = UtilityTransactions::find($trans->id);
