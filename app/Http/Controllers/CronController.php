@@ -292,7 +292,6 @@ class CronController extends Controller
                 curl_close($curl);
 
                 $result = json_decode($response);
-                dd($result);
 
                 if (isset($result)) {
                     if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL") {
