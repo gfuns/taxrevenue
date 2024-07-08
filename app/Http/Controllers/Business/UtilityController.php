@@ -12,7 +12,6 @@ use App\Models\CableProvider;
 use App\Models\CustomerWallet;
 use App\Models\DataProvider;
 use App\Models\ElectricityProviders;
-use App\Models\ReferralTransaction;
 use App\Models\UtilityTransactions;
 use Auth;
 use Illuminate\Http\Request;
@@ -216,13 +215,6 @@ class UtilityController extends Controller
                 $trx->status = "Successful";
                 $trx->save();
 
-                $referralTrx = new ReferralTransaction;
-                $referralTrx->customer_id = Auth::user()->id;
-                $referralTrx->trx_type = "debit";
-                $referralTrx->amount = $trx->total_amount;
-                $referralTrx->details = "Airtime Purchase From " . $trx->biller;
-                $referralTrx->save();
-
                 try {
                     $user = Auth::user();
                     Mail::to($user)->send(new AirtimeSuccessful($user, $trx));
@@ -306,13 +298,6 @@ class UtilityController extends Controller
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Successful";
                 $trx->save();
-
-                $referralTrx = new ReferralTransaction;
-                $referralTrx->customer_id = Auth::user()->id;
-                $referralTrx->trx_type = "debit";
-                $referralTrx->amount = $trx->total_amount;
-                $referralTrx->details = "Airtime Purchase From " . $trx->biller;
-                $referralTrx->save();
 
                 try {
                     $user = Auth::user();
@@ -470,13 +455,6 @@ class UtilityController extends Controller
                 $trx->status = "Successful";
                 $trx->save();
 
-                $referralTrx = new ReferralTransaction;
-                $referralTrx->customer_id = Auth::user()->id;
-                $referralTrx->trx_type = "debit";
-                $referralTrx->amount = $trx->total_amount;
-                $referralTrx->details = "Data Subscription Purchase For " . $trx->plan_details;
-                $referralTrx->save();
-
                 try {
                     $user = Auth::user();
                     Mail::to($user)->send(new DataSuccessful($user, $trx));
@@ -562,13 +540,6 @@ class UtilityController extends Controller
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Successful";
                 $trx->save();
-
-                $referralTrx = new ReferralTransaction;
-                $referralTrx->customer_id = Auth::user()->id;
-                $referralTrx->trx_type = "debit";
-                $referralTrx->amount = $trx->total_amount;
-                $referralTrx->details = "Data Subscription Purchase For " . $trx->plan_details;
-                $referralTrx->save();
 
                 try {
                     $user = Auth::user();
@@ -760,13 +731,6 @@ class UtilityController extends Controller
                 $trx->status = "Successful";
                 $trx->save();
 
-                $referralTrx = new ReferralTransaction;
-                $referralTrx->customer_id = Auth::user()->id;
-                $referralTrx->trx_type = "debit";
-                $referralTrx->amount = $trx->total_amount;
-                $referralTrx->details = "Cable Subscription Purchase For " . $trx->plan_details;
-                $referralTrx->save();
-
                 try {
                     $user = Auth::user();
                     Mail::to($user)->send(new CableSuccessful($user, $trx));
@@ -852,13 +816,6 @@ class UtilityController extends Controller
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Successful";
                 $trx->save();
-
-                $referralTrx = new ReferralTransaction;
-                $referralTrx->customer_id = Auth::user()->id;
-                $referralTrx->trx_type = "debit";
-                $referralTrx->amount = $trx->total_amount;
-                $referralTrx->details = "Cable Subscription Purchase For " . $trx->plan_details;
-                $referralTrx->save();
 
                 try {
                     $user = Auth::user();
@@ -1042,13 +999,6 @@ class UtilityController extends Controller
                 $trx->status = "Successful";
                 $trx->save();
 
-                $referralTrx = new ReferralTransaction;
-                $referralTrx->customer_id = Auth::user()->id;
-                $referralTrx->trx_type = "debit";
-                $referralTrx->amount = $trx->total_amount;
-                $referralTrx->details = "Electricity Units Purchase From " . $trx->biller;
-                $referralTrx->save();
-
                 try {
                     $user = Auth::user();
                     Mail::to($user)->send(new ElectricitySuccessful($user, $trx));
@@ -1138,13 +1088,6 @@ class UtilityController extends Controller
                 $trx->recipient_address = isset($result->Address) ? $result->Address : (isset($result->CustomerAddress) ? $result->CustomerAddress : null);
                 $trx->status = "Successful";
                 $trx->save();
-
-                $referralTrx = new ReferralTransaction;
-                $referralTrx->customer_id = Auth::user()->id;
-                $referralTrx->trx_type = "debit";
-                $referralTrx->amount = $trx->total_amount;
-                $referralTrx->details = "Electricity Units Purchase From " . $trx->biller;
-                $referralTrx->save();
 
                 try {
                     $user = Auth::user();
