@@ -112,11 +112,16 @@
             </tr>
             <tr>
               <th>Customer Address</th>
-              <td>{{ $transaction->recipent_address }}</td>
+              <td>{{ $transaction->recipient_address }}</td>
+            </tr>
+            <tr>
+              <th>Recharge Token</th>
+              <td>{{ $transaction->token }}</td>
             </tr>
             <tr>
               <th>Units Purchased</th>
-              <td>{{ \Illuminate\Support\Str::before($transaction->units, 'k') }} Ks/h</td>
+              <td>{{ $transaction->units}}</td>
+              {{-- <td>{{ \Illuminate\Support\Str::before($transaction->units, 'k') }} Ks/h</td> --}}
             </tr>
             <tr>
               <th>Amount</th>

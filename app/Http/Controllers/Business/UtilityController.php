@@ -1034,10 +1034,11 @@ class UtilityController extends Controller
 
             $result = json_decode($response);
 
-            if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL" && isset($result->token)) {
+            if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL") {
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
-                $trx->token = $result->token;
-                $trx->units = isset($result->units) ? $result->units : null;
+                $trx->token = isset($result->Token) ? $result->Token : $result->mainToken;
+                $trx->units = isset($result->TariffRate) ? $result->TariffRate : (isset($result->mainTokenUnits) ? $result->mainTokenUnits : $result->Units);
+                $trx->recipient_address = isset($result->Address) ? $result->Address : (isset($result->CustomerAddress) ? $result->CustomerAddress : null);
                 $trx->status = "Successful";
                 $trx->save();
 
@@ -1130,10 +1131,11 @@ class UtilityController extends Controller
 
             $result = json_decode($response);
 
-            if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL" && isset($result->token)) {
+            if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL") {
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
-                $trx->token = $result->token;
-                $trx->units = isset($result->units) ? $result->units : null;
+                $trx->token = isset($result->Token) ? $result->Token : $result->mainToken;
+                $trx->units = isset($result->TariffRate) ? $result->TariffRate : (isset($result->mainTokenUnits) ? $result->mainTokenUnits : $result->Units);
+                $trx->recipient_address = isset($result->Address) ? $result->Address : (isset($result->CustomerAddress) ? $result->CustomerAddress : null);
                 $trx->status = "Successful";
                 $trx->save();
 

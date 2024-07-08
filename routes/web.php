@@ -322,3 +322,13 @@ Route::get('/paystack/callback', [App\Http\Controllers\Business\SubscriptionCont
 Route::get('/cron/renew-subscription', [App\Http\Controllers\CronController::class, 'renewSubscription']);
 
 Route::get('/cron/expired-subscriptions', [App\Http\Controllers\CronController::class, 'expiredSubscriptions']);
+
+Route::get('/cron/close-transactions', [App\Http\Controllers\CronController::class, 'closeInitiatedTransactions']);
+
+Route::get('/cron/pending-airtime', [App\Http\Controllers\CronController::class, 'checkPendingAirtime']);
+
+Route::get('/cron/pending-data', [App\Http\Controllers\CronController::class, 'checkPendingData']);
+
+Route::get('/cron/pending-electricity', [App\Http\Controllers\CronController::class, 'checkPendingElectricity']);
+
+Route::get('/cron/pending-cable', [App\Http\Controllers\CronController::class, 'checkPendingCable']);
