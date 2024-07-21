@@ -141,7 +141,7 @@
                                                                 src="{{ $cat->category_icon == null ? 'https://res.cloudinary.com/soha/image/upload/v1701601099/fvnn5nrxg9m4di9jjrux.png' : $cat->category_icon }}"
                                                                 alt="Content Writer"></div>
                                                         <div class="text-info-right">
-                                                            <div class="h6">{{ ucwords(strtolower(substr($cat->category_name, 0, 18))) }}@if (strlen($cat->category_name) > 18)...@endif
+                                                            <div class="h6">{{ ucwords(strtolower(substr($cat->category_name, 0, 16))) }}@if (strlen($cat->category_name) > 16)...@endif
                                                             </div>
                                                             <p class="font-xs"> {{ $cat->businesses }} <span> Listing(s)
                                                                     Available</span>
