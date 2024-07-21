@@ -45,20 +45,30 @@
                     <h6 class="menu-title">TOPICS</h6>
                     <div class="latest-topics-list">
                         @foreach ($topTopics as $ft)
+                            @php
+                                $shortenedTopic =
+                                    strlen($ft->topic) > 25 ? substr($ft->topic, 0, 25) . '...' : $ft->topic;
+                            @endphp
                             <a href="/forum/topic/{{ $ft->id }}/posts" class="menu-item">
                                 <img src="{{ $ft->icon }}" class="img-fluid" style="max-width: 25px"></i>
                                 {{-- <i id="iconft{{ $ft->id }}" class="{{ $ft->icon }}"></i> --}}
-                                <h6 id="menuft{{ $ft->id }}" class="menu-name ">{{ $ft->topic }}</h6>
+                                <h6 id="menuft{{ $ft->id }}" class="menu-name ">
+                                    {{ $shortenedTopic }}</h6>
                             </a>
                         @endforeach
 
                         <div class="show-all-menu-wraper">
                             <div class="show-all-menu-item">
                                 @foreach ($otherTopics as $oft)
+                                    @php
+                                        $shortenedTopic =
+                                            strlen($oft->topic) > 25 ? substr($oft->topic, 0, 25) . '...' : $oft->topic;
+                                    @endphp
                                     <a href="/forum/topic/{{ $oft->id }}/posts" class="menu-item">
                                         <img src="{{ $oft->icon }}" class="img-fluid" style="max-width: 25px"></i>
                                         {{-- <i id="iconft{{ $oft->id }}" class="{{ $oft->icon }}"></i> --}}
-                                        <h6 id="menuft{{ $oft->id }}" class="menu-name">{{ $oft->topic }}</h6>
+                                        <h6 id="menuft{{ $oft->id }}" class="menu-name">
+                                            {{ $shortenedTopic }}</h6>
                                     </a>
                                 @endforeach
                             </div>
