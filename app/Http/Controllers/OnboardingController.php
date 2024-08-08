@@ -68,15 +68,18 @@ class OnboardingController extends Controller
             return back();
         }
 
-        $subscription = new CustomerSubscription;
-        $subscription->customer_id = Auth::user()->id;
-        $subscription->plan_id = 1;
-        $subscription->card_details = "N/A for Trial Plan";
-        $subscription->subscription_amount = 0;
-        $subscription->auto_renew = 0;
-        $subscription->status = "active";
-        $subscription->next_due_date = Carbon::now()->addDays(30);
-        $subscription->save();
+        $activateTrial = CustomerSubscription::where("customer_id", Auth::user()->id)->where("plan_id", 1)->first();
+        if (!isset($activateTrial)) {
+            $subscription = new CustomerSubscription;
+            $subscription->customer_id = Auth::user()->id;
+            $subscription->plan_id = 1;
+            $subscription->card_details = "N/A for Trial Plan";
+            $subscription->subscription_amount = 0;
+            $subscription->auto_renew = 0;
+            $subscription->status = "active";
+            $subscription->next_due_date = Carbon::now()->addDays(30);
+            $subscription->save();
+        }
 
         $referral = Referral::where("referral_id", Auth::user()->id)->whereNull("referral_type")->first();
         if (isset($referral)) {

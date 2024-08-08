@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Jobs\SendEmailVerificationCode;
 use App\Models\Business;
 use App\Models\CustomerOtp;
+use App\Models\CustomerSubscription;
 use App\Models\CustomerWallet;
 use App\Models\NotificationSetting;
 use App\Models\Referral;
@@ -176,13 +177,23 @@ class Customer extends Authenticatable
                 }
             }
 
-            $customerWallet = new CustomerWallet;
-            $customerWallet->customer_id = $customer->id;
-            $customerWallet->save();
-
             $business = new Business;
             $business->customer_id = $customer->id;
             $business->save();
+
+            $subscription = new CustomerSubscription;
+            $subscription->customer_id = $customer->id;
+            $subscription->plan_id = 1;
+            $subscription->card_details = "N/A for Trial Plan";
+            $subscription->subscription_amount = 0;
+            $subscription->auto_renew = 0;
+            $subscription->status = "active";
+            $subscription->next_due_date = Carbon::now()->addDays(30);
+            $subscription->save();
+
+            $customerWallet = new CustomerWallet;
+            $customerWallet->customer_id = $customer->id;
+            $customerWallet->save();
 
             $notSet = new NotificationSetting;
             $notSet->customer_id = $customer->id;
