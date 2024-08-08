@@ -32,6 +32,7 @@ class Google2fa
                 if (Session::has("myValid2fa")) {
                     return $next($request);
                 } else {
+                    dd("Shit");
                     return response()->view("google2fa.twofactor");
                 }
             }
