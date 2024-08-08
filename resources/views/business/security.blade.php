@@ -165,12 +165,12 @@
                                 <!-- List group item -->
                                 <li class="list-group-item d-flex align-items-center justify-content-between px-0 py-2">
                                     <div>Receive an authentication code via your registered email address for every new
-                                        sign-in attempt.</div>
+                                        sign-in attempt. {{ Auth::user()->auth_2fa }}</div>
                                     <div>
                                         <div class="form-check form-switch">
                                             <input data-id="email_auth2fa" type="checkbox"
                                                 class="form-check-input emailAuth2FA" id="email2fa"
-                                                @if (Auth::user()->auth_2fa == 'Email') checked @endif>
+                                                @if (Auth::user()->auth_2fa == 'Email') {{ "checked" }} @endif>
                                             <label class="form-check-label" for="email2fa"></label>
                                         </div>
                                     </div>
