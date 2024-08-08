@@ -165,7 +165,7 @@
                                 <!-- List group item -->
                                 <li class="list-group-item d-flex align-items-center justify-content-between px-0 py-2">
                                     <div>Receive an authentication code via your registered email address for every new
-                                        sign-in attempt. {{ Auth::user()->auth_2fa }}</div>
+                                        sign-in attempt.</div>
                                     <div>
                                         <div class="form-check form-switch">
                                             <input data-id="email_auth2fa" type="checkbox"
@@ -223,7 +223,7 @@
                     <!-- card body -->
                     <div class="card-body">
                         <div class="mb-5">
-                            <h4 class="mb-0">Receive Confirmation Code Via Email {{ Auth::user()->withdrawal_confirmation }}</h4>
+                            <h4 class="mb-0">Receive Confirmation Code Via Email</h4>
                             <!-- List group -->
                             <ul class="list-group list-group-flush">
                                 <!-- List group item -->
