@@ -234,7 +234,7 @@
                                     <div>
                                         <div class="form-check form-switch">
                                             <input data-id="email_withdrawal" type="checkbox"
-                                                class="form-check-input emailWithdrawal" id="emailwithdrawal"  @if (Auth::user()->withdrawal_confirmation == 'GoogleAuth') checked @endif>
+                                                class="form-check-input emailWithdrawal" id="emailwithdrawal"  @if (Auth::user()->withdrawal_confirmation == 'Email') checked @endif>
                                             <label class="form-check-label" for="emailwithdrawal"></label>
                                         </div>
                                     </div>
