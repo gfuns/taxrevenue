@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Business;
 use App\Http\Controllers\Controller;
 use App\Mail\TopupSuccessful as TopupSuccessful;
 use App\Models\AreteWalletTransaction;
+use App\Models\Business;
 use App\Models\CardTransactions;
 use App\Models\Customer;
 use App\Models\CustomerCards;
@@ -12,7 +13,6 @@ use App\Models\CustomerSubscription;
 use App\Models\CustomerWallet;
 use App\Models\PaystackTransaction;
 use App\Models\Referral;
-use App\Models\Business;
 use App\Models\ReferralTransaction;
 use App\Models\SubscriptionPlan;
 use Auth;
@@ -253,10 +253,10 @@ class SubscriptionController extends Controller
                 if ($resData["status"] === true && $resData["data"]["status"] == "success") {
                     $cardTrx = new CardTransactions;
                     $cardTrx->customer_id = Auth::user()->id;
-                    $cardTrx->card_id = $cardId;
+                    $cardTrx->card_details = ucwords($card->card_brand) . " ending with " . $card->last_four_digits;
                     $cardTrx->amount = $plan->billing_amount;
                     $cardTrx->paystack_reference = $resData["data"]["reference"];
-                    $cardTrx->description = ucwords($card->card_brand) . " card:  " . $card->last_four_digits . " - Customer Subscription to " . $plan->plan . " Plan (" . $plan->duration . ")";
+                    $cardTrx->description = ucwords($card->card_brand) . " card:  " . $card->last_four_digits . " - Customer Subscription to " . $plan->plan . " Plan (" . $plan->duration . " Days)";
                     if ($cardTrx->save()) {
                         return true;
 

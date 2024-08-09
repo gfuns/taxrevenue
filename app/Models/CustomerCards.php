@@ -34,6 +34,5 @@ class CustomerCards extends Model
         'customer_id',
         'authorization_code',
         'updated_at',
-        'deleted_at',
     ];
 }
