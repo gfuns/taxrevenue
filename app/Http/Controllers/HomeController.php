@@ -89,7 +89,6 @@ class HomeController extends Controller
 
             Mail::to($user)->send(new LoginNotification($user, $deviceInfo));
         } catch (\Exception $e) {
-            dd($e->getMessage());
             report($e);
         } finally {
             return redirect()->route("home");
