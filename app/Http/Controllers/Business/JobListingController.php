@@ -81,7 +81,7 @@ class JobListingController extends Controller
 
     public function newJobListing()
     {
-        $jobCategories = PlatformCategories::all();
+        $jobCategories = PlatformCategories::orderBy("category_name", "asc")->where("category_type", "job")->get();
         return view("business.new_job_listing", compact("jobCategories"));
     }
 
