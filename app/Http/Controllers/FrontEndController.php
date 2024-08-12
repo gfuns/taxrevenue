@@ -18,7 +18,6 @@ use App\Models\Products;
 use App\Models\TutorialVideos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Mail;
 use Session;
@@ -90,7 +89,7 @@ class FrontEndController extends Controller
             }
 
         } else {
-            $lastRecord = Business::count();
+            $lastRecord = Business::where("visibility", 1)->count();
             $marker = $this->pageMarkers($lastRecord, request()->page);
             $businesses = Business::orderBy("id", $filter)->where("visibility", 1)->paginate(16);
         }
