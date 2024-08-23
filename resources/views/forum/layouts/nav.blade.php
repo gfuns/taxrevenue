@@ -214,6 +214,61 @@
                 </li>
             @endforeach
 
+            <p class="pt-4 pb-2 gfuns"><strong>Your Account</strong></p>
+
+            @if (Auth::user())
+                <li>
+                    <a href="{{ route('business.dashboard') }}">Dashboard </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('business.viewProfile') }}">Account
+                        Settings </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('business.businessProfile') }}">Business
+                        Settings </a>
+                </li>
+
+                <li>
+                    <a href="href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }} </a>
+                </li>
+            @else
+                <li>
+                    <a href="/register">Sign Up </a>
+                </li>
+                <li>
+                    <a href="/forum/user">Sign In </a>
+                </li>
+            @endif
+            {{-- <li>
+                <a href="https://preview.wstacks.com/proforum/user/login">
+                    Login </a>
+            </li>
+            <li>
+                <a href="https://preview.wstacks.com/proforum/user/register">
+                    Signup </a>
+            </li> --}}
+            {{-- <li>
+                <a href="/forum/cookie-policy">
+                    Cookie </a>
+            </li>
+            <li>
+            </li>
+            <li>
+                <a href="/forum/policy/terms-of-service">
+                    Terms of Service
+                </a>
+            </li>
+            <li>
+                <a href="/forum/policy/privacy-policy">
+                    Privacy Policy
+                </a>
+            </li> --}}
 
 
         </ul>
