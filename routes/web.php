@@ -311,6 +311,13 @@ Route::group([
     Route::get('/change/{lang}', [ForumController::class, 'changeLanguage']);
 });
 
+Route::group([
+    'prefix' => 'mobile/view',
+
+], function ($router) {
+    Route::get('/business-details/{id}', [App\Http\Controllers\MobileViews::class, 'businessDetails'])->name("rosco");
+});
+
 Route::post('/login/2fa', [App\Http\Controllers\Business\TwofactorController::class, 'verify2FA'])->name('login.2fa');
 
 Route::post('/login/validate2fa', [App\Http\Controllers\Business\TwofactorController::class, 'validate2fa'])->name('login.validate2fa');
