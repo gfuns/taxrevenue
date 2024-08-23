@@ -1,4 +1,4 @@
-@extends('forum.layouts.app')
+@extends('mobile.layouts.app')
 
 @section('content')
 @section('title', env('APP_NAME') . ' | Category Posts')
@@ -16,7 +16,7 @@
 <section>
     <!-- header -->
 
-    @include('forum.layouts.nav')
+    @include('mobile.layouts.nav')
 
 
     <!-- body -->
@@ -24,7 +24,7 @@
         <div class="container-fluid">
             <div class="row m-0">
                 <!-- left side -->
-                @include('forum.layouts.left_nav')
+                @include('mobile.layouts.left_nav')
                 <!-- left side / -->
 
 
@@ -83,7 +83,7 @@
                                         <div class="card--body {{ $category }} ">
                                             <div class="card-auth-meta">
                                                 <div class="auth-info">
-                                                    <a href="/forum/user/{{ $post->customer_id }}">
+                                                    <a href="/mobile/view/forum/user/{{ $post->customer_id }}">
                                                         <div class="user-thumb">
                                                             <img src="{{ isset($post->customer->photo) ? $post->customer->photo : asset('proforum/images/avatar.png') }}"
                                                                 alt="avatar">
@@ -119,7 +119,7 @@
                                                             @if (Auth::user() && Auth::user()->id == $post->customer_id)
                                                                 <li>
                                                                     <a class="edit_button"
-                                                                        href="{{ route('forum.userPostEdit', [$post->id]) }}">
+                                                                        href="{{ route('mobileView.userPostEdit', [$post->id]) }}">
                                                                         <i class="fa-solid fa-pencil"></i>
                                                                         <span>Edit</span>
                                                                     </a>
@@ -130,7 +130,7 @@
                                                 </div>
                                             </div>
                                             <div class="card-content">
-                                                <a href="/forum/details/{{ $post->id }}/{{ $post->slug }}">
+                                                <a href="/mobile/view/forum/details/{{ $post->id }}/{{ $post->slug }}">
                                                     <h6 class="card-title ">{{ $post->post_title }} </h6>
                                                 </a>
 
@@ -147,14 +147,14 @@
                                                 <ul class="footer-item-list">
                                                     <li>
                                                         <a
-                                                            href="/forum/details/{{ $post->id }}/{{ $post->slug }}"><i
+                                                            href="/mobile/view/forum/details/{{ $post->id }}/{{ $post->slug }}"><i
                                                                 class="las la-comments"></i>
                                                             <p>{{ $post->comments->count() }}
                                                                 Comments </p>
                                                         </a>
                                                     </li>
                                                     <li><a
-                                                            href="/forum/details/{{ $post->id }}/{{ $post->slug }}"><i
+                                                            href="/mobile/view/forum/details/{{ $post->id }}/{{ $post->slug }}"><i
                                                                 class="las la-eye"></i>
                                                             <p>{{ $post->views }} Views</p>
                                                         </a></li>
@@ -248,14 +248,14 @@
                 </div>
 
                 <!-- right side -->
-                @include('forum.layouts.right_nav')
+                @include('mobile.layouts.right_nav')
                 <!-- right side /-->
 
             </div>
         </div>
     </div>
 
-    @include('forum.layouts.modals')
+    @include('mobile.layouts.modals')
 
 
 

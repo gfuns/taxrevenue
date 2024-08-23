@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-@include('forum.layouts.header')
+@include('mobile.layouts.header')
 
 <body class="light">
 
@@ -18,7 +18,7 @@
 <section>
     <!-- header -->
 
-    @include('forum.layouts.nav')
+    @include('mobile.layouts.nav')
 
 
     <!-- body -->
@@ -26,7 +26,7 @@
         <div class="container-fluid">
             <div class="row m-0">
                 <!-- left side -->
-                @include('forum.layouts.left_nav')
+                @include('mobile.layouts.left_nav')
                 <!-- left side / -->
 
 
@@ -121,7 +121,7 @@
                                                             @if (Auth::user() && Auth::user()->id == $post->customer_id)
                                                                 <li>
                                                                     <a class="edit_button"
-                                                                        href="{{ route('forum.userPostEdit', [$post->id]) }}">
+                                                                        href="{{ route('mobileView.userPostEdit', [$post->id]) }}">
                                                                         <i class="fa-solid fa-pencil"></i>
                                                                         <span>Edit</span>
                                                                     </a>
@@ -172,7 +172,7 @@
 
                                                                     $postURL =
                                                                         env('APP_URL') .
-                                                                        '/mobile/view/forum/details/' .
+                                                                        '/forum/details/' .
                                                                         $post->id .
                                                                         '/' .
                                                                         $post->slug;
@@ -250,14 +250,14 @@
                 </div>
 
                 <!-- right side -->
-                @include('forum.layouts.right_nav')
+                @include('mobile.layouts.right_nav')
                 <!-- right side /-->
 
             </div>
         </div>
     </div>
 
-    @include('forum.layouts.modals')
+    @include('mobile.layouts.modals')
 
 
 

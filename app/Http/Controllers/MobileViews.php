@@ -343,7 +343,7 @@ class MobileViews extends Controller
         $postImages = ForumImages::where("forum_post_id", $id)->get();
         $forumCategories = ForumCategories::all();
         $forumTopics = ForumTopics::all();
-        return view("forum.edit_post", compact("post", "postImages", "forumTopics", "forumCategories"));
+        return view("mobile.edit_post", compact("post", "postImages", "forumTopics", "forumCategories"));
     }
 
     /**

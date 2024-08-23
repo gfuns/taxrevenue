@@ -262,9 +262,9 @@ Route::group([
 
     Route::get('/user/{id?}', [ForumController::class, 'userDetails'])->name("userDetails");
 
-    Route::get('/popular-posts', [ForumController::class, 'popularPosts']);
+    Route::get('/popular-posts', [ForumController::class, 'popularPosts'])->name("forum.popularPosts");
 
-    Route::get('/bookmarks', [ForumController::class, 'bookmarks']);
+    Route::get('/bookmarks', [ForumController::class, 'bookmarks'])->name("forum.bookmarks");
 
     Route::get('/category/{category}/posts', [ForumController::class, 'categoryPosts']);
 

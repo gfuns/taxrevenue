@@ -33,7 +33,7 @@
                                     <div class="card--body">
                                         <div class="card-auth-meta">
                                             <div class="auth-info">
-                                                <a href="https://preview.wstacks.com/proforum/user-profile/34">
+                                                <a href="#">
                                                     <div class="user-thumb">
                                                         <img src="{{ isset($post->customer->photo) ? $post->customer->photo : asset('proforum/images/avatar.png') }}"
                                                             alt="avatar">

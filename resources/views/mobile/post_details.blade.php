@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-@include('forum.layouts.header')
+@include('mobile.layouts.header')
 
 <!--==================== Preloader Start ====================-->
 <div id="loading">
@@ -14,7 +14,7 @@
 
 <!--==================== Preloader End ====================-->
 <section>
-    @include('forum.layouts.nav')
+    @include('mobile.layouts.nav')
 
 
     <!-- body -->
@@ -22,7 +22,7 @@
         <div class="container-fluid">
             <div class="row m-0">
                 <!-- left side -->
-                @include('forum.layouts.left_nav')
+                @include('mobile.layouts.left_nav')
                 <!-- left side / -->
 
                 <div class="col-lg-6">
@@ -33,7 +33,7 @@
                                     <div class="card--body">
                                         <div class="card-auth-meta">
                                             <div class="auth-info">
-                                                <a href="https://preview.wstacks.com/proforum/user-profile/34">
+                                                <a href="#">
                                                     <div class="user-thumb">
                                                         <img src="{{ isset($post->customer->photo) ? $post->customer->photo : asset('proforum/images/avatar.png') }}"
                                                             alt="avatar">
@@ -68,7 +68,7 @@
                                                         @if (Auth::user() && Auth::user()->id == $post->customer_id)
                                                             <li>
                                                                 <a class="edit_button"
-                                                                    href="{{ route('forum.userPostEdit', [$post->id]) }}">
+                                                                    href="{{ route('mobileView.userPostEdit', [$post->id]) }}">
                                                                     <i class="fa-solid fa-pencil"></i>
                                                                     <span>Edit</span>
                                                                 </a>
@@ -202,7 +202,7 @@
                                             </button>
                                         </div>
 
-                                        @include('forum.layouts.comments')
+                                        @include('mobile.layouts.comments')
 
                                         @if (Auth::user())
                                             <div class="single-comment-replay">
@@ -242,7 +242,7 @@
                 </div>
 
                 <!-- right side -->
-                @include('forum.layouts.right_nav')
+                @include('mobile.layouts.right_nav')
                 <!-- right side /-->
 
             </div>
@@ -253,10 +253,10 @@
 </section>
 
 
-@include('forum.layouts.modals')
+@include('mobile.layouts.modals')
 
 
-@include('forum.layouts.footer')
+@include('mobile.layouts.footer')
 
 <script type="text/javascript">
     document.getElementById("menuhome").classList.add('active');
