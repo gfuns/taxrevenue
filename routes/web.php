@@ -314,8 +314,28 @@ Route::group([
 Route::group([
     'prefix' => 'mobile/view',
 
+    'middleware' => ['forum'],
 ], function ($router) {
-    Route::get('/business-details/{id}', [App\Http\Controllers\MobileViews::class, 'businessDetails'])->name("rosco");
+    Route::get('/business-details/{id}', [App\Http\Controllers\MobileViews::class, 'businessDetails']);
+
+    Route::get('/load-forum/{id}', [App\Http\Controllers\MobileViews::class, 'loadForum']);
+
+    Route::get('/forum', [App\Http\Controllers\MobileViews::class, 'forum'])->name("mobileView.forum");
+
+    Route::get('/forum/popular-posts', [App\Http\Controllers\MobileViews::class, 'popularPosts'])->name("mobileView.popularPosts");
+
+    Route::get('/forum/bookmarks', [App\Http\Controllers\MobileViews::class, 'bookmarks'])->name("mobileView.bookmarks");
+
+    Route::get('/forum/category/{category}/posts', [App\Http\Controllers\MobileViews::class, 'categoryPosts'])->name("mobileView.categoryPosts");
+
+    Route::get('/forum/topic/{topic}/posts', [App\Http\Controllers\MobileViews::class, 'topicPosts'])->name("mobileView.topicPosts");
+
+    Route::get('/forum/details/{id}/{slug}', [App\Http\Controllers\MobileViews::class, 'postDetails'])->name("mobileView.postDetails");
+
+    Route::get('/forum/edit-post/{id}', [App\Http\Controllers\MobileViews::class, 'userPostEdit'])->name("mobileView.userPostEdit");
+
+    Route::get('/forum/render-html', [App\Http\Controllers\MobileViews::class, 'testHTMLRendering'])->name("mobileView.testHTMLRendering");
+
 });
 
 Route::post('/login/2fa', [App\Http\Controllers\Business\TwofactorController::class, 'verify2FA'])->name('login.2fa');

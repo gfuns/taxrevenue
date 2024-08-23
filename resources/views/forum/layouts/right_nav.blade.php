@@ -57,21 +57,21 @@
 
                                 <div class="popular-topics-card">
                                     <div class="topics-card-meta">
-                                        <a href="/forum/topic/{{ $ut->id }}/posts" style="display: flex;">
+                                        <a href="/mobile/view/forum/topic/{{ $ut->id }}/posts" style="display: flex;">
                                             <img src="{{ $ut->icon }}" class="img-fluid me-2" style="max-height: 25px"></i>
                                             <h6 class="topics-card-title">{{ $ut->topic }} </h6>
                                         </a>
                                     </div>
                                     <ul>
                                         <li>
-                                            <a href="/forum/topic/{{ $ut->id }}/posts"><i
+                                            <a href="/mobile/view/forum/topic/{{ $ut->id }}/posts"><i
                                                     class="las la-comments"></i>
                                                 <p>{{ $ut->posts->count() }} Posts</p>
                                             </a>
                                         </li>
 
                                         <li class="text-end">
-                                            <a href="/forum/topic/{{ $ut->id }}/posts"><i
+                                            <a href="/mobile/view/forum/topic/{{ $ut->id }}/posts"><i
                                                     class="las la-calendar"></i>
                                                 <p>Created: {{ date_format($ut->created_at, 'jS M, Y') }}</p>
                                             </a>
@@ -179,7 +179,7 @@
                         <div class="popular-topics-card">
                             <div class="topics-card-meta">
                                 <div class="card-auth-info">
-                                    <a href="/forum/user/{{ $pp->customer_id }}">
+                                    <a href="/mobile/view/forum/user/{{ $pp->customer_id }}">
                                         <img src="{{ isset($pp->customer->photo) ? $pp->customer->photo : asset('proforum/images/avatar.png') }}"
                                             alt="avatar">
                                         <p class="post-by">Posted by
@@ -189,13 +189,13 @@
                                     <i class="fa-solid fa-circle"></i>
                                     <p class="time-status">{{ date_format($pp->created_at, 'j M, Y') }}</p>
                                 </div>
-                                <a href="/forum/details/{{ $pp->id }}/{{ $pp->slug }}">
+                                <a href="/mobile/view/forum/details/{{ $pp->id }}/{{ $pp->slug }}">
                                     <h6 class="topics-card-title">{{ $pp->post_title }} </h6>
                                 </a>
                             </div>
                             <ul>
                                 <li>
-                                    <a href="/forum/details/{{ $pp->id }}/{{ $pp->slug }}"><i
+                                    <a href="/mobile/view/forum/details/{{ $pp->id }}/{{ $pp->slug }}"><i
                                             class="las la-comments"></i>
                                         <p>{{ $pp->comments->count() }} Comments</p>
                                     </a>
