@@ -107,6 +107,11 @@
                 <a href="{{ route("mobileView.popularPosts") }}">
                     Popular </a>
             </li>
+
+            <li>
+                <a href="{{ route("mobileView.bookmarks") }}">
+                    Bookmarks </a>
+            </li>
             <p class="pt-4 pb-2 gfuns"><strong>Categories</strong></p>
             @foreach ($forumCategories as $fc)
                 <li>
