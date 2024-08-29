@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Business;
 use App\Models\BusinessPage;
 use App\Models\BusinessReviews;
+use App\Models\Customer;
 use App\Models\ForumBookmarks;
 use App\Models\ForumCategories;
 use App\Models\ForumImages;
@@ -14,9 +15,9 @@ use App\Models\JobListing;
 use App\Models\PostComments;
 use App\Models\ReportedComments;
 use App\Models\ReportedPosts;
-use App\Models\Customer;
-use Illuminate\Support\Facades\DB;
 use Auth;
+use Illuminate\Support\Facades\DB;
+
 class MobileViews extends Controller
 {
     //
@@ -35,14 +36,14 @@ class MobileViews extends Controller
     public function loadForum($id)
     {
         $user = Customer::find($id);
-        if(isset($user)){
+        if (isset($user)) {
             Auth::login($user);
-            if(Auth::user()){
+            if (Auth::user()) {
                 return redirect()->route("mobileView.forum");
-            }else{
+            } else {
                 return view("mobile.error_page");
             }
-        }else{
+        } else {
             return view("mobile.error_page");
         }
     }
@@ -446,5 +447,15 @@ class MobileViews extends Controller
     public function changeLanguage()
     {
         return redirect("/forum");
+    }
+
+    public function terms()
+    {
+        return view("mobile.terms");
+    }
+
+    public function privacyPolicy()
+    {
+        return view("mobile.privacy_policy");
     }
 }

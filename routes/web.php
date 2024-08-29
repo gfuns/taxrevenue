@@ -336,6 +336,10 @@ Route::group([
 
     Route::get('/forum/render-html', [App\Http\Controllers\MobileViews::class, 'testHTMLRendering'])->name("mobileView.testHTMLRendering");
 
+    Route::get('/terms', [App\Http\Controllers\MobileViews::class, 'terms']);
+
+    Route::get('/privacy', [App\Http\Controllers\MobileViews::class, 'privacyPolicy']);
+
 });
 
 Route::post('/login/2fa', [App\Http\Controllers\Business\TwofactorController::class, 'verify2FA'])->name('login.2fa');

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\CustomerOtp;
-use Session;
 use Auth;
+use Illuminate\Http\Request;
+use Session;
 
 class TwofactorController extends Controller
 {
