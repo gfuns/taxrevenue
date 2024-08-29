@@ -2,7 +2,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title> Home - Arete Planet Forum</title>
+    <title>@yield('title')</title>
     <meta name="title" content="Arete Planet Forum - ProForum">
     <meta name="description" content="">
     <meta name="keywords" content="">

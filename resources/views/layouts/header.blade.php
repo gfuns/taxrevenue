@@ -195,7 +195,7 @@
             --primary-color-rgb: 60, 101, 245;
         }
     </style>
-    <title>Arete Planet</title>
+    <title>@yield('title')</title>
 
     <link href="{{ asset('storage/general/favicon.png') }}" rel="shortcut icon">
 
