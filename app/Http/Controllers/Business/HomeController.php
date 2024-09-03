@@ -412,9 +412,15 @@ class HomeController extends Controller
 
         if ($request->param == "google_auth2fa") {
             if (isset($user->google2fa_secret) && $request->status == 1) {
+                $data = [
+                    'id' => Auth::user()->id,
+                    'time' => now(),
+                ];
+                Session::put('myGoogle2fa', $data);
                 $user->auth_2fa = "GoogleAuth";
             } else if (isset($user->google2fa_secret) && $request->status == 0) {
                 $user->auth_2fa = null;
+                Session::forget('myGoogle2fa');
             } else {
                 return response()->json([
                     'status' => 'error',
@@ -426,8 +432,14 @@ class HomeController extends Controller
         if ($request->param == "email_auth2fa") {
             if ($request->status == 1) {
                 $user->auth_2fa = "Email";
+                $data = [
+                    'id' => Auth::user()->id,
+                    'time' => now(),
+                ];
+                Session::put('myValid2fa', $data);
             } else {
                 $user->auth_2fa = null;
+                Session::forget('myValid2fa');
             }
         }
 
