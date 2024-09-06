@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container my-5">
+    <div class="container my-2">
         <!-- Header -->
         <div class="text-center mb-4">
             <p class="text-muted">Last updated: September 2024</p>
