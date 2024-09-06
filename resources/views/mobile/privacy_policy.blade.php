@@ -1,156 +1,123 @@
-@extends('mobile.layouts.app')
-
-@section('content')
-@section('title', env('APP_NAME') . ' | Privacy Policy ')
-<style>
-    .cont {
-        display: flex;
-    }
-
-    .box {
-        margin: 0 5px;
-        /* For visualization */
-    }
-</style>
-<main class="main">
-    <div class="ck-content">
-
-        <div style="margin-top:50px; margin-bottom:50px">
-            <section class="section-box mt-50 mb-50">
-                <div class="container ">
-                    {{-- <h2 class="text-center mb-15 wow animate__ animate__fadeInUp animated page_speed_1390205606">
-                        Privacy Policy </h2> --}}
-                    <div class="row mt-50">
-
-                        <div class="col-12 col-lg-10 offset-lg-1" style="text-align: justify">
-
-                            <p class="font-md mb-20 color-text-paragraph">Arete Worldwide Business Concept Ltd ("the Company") is
-                                committed to protecting the privacy and security of your personal information. This
-                                Privacy Policy outlines how we collect, use, and disclose personal information when you
-                                use our business directory platform ("the Platform").</p>
-
-                            <h4 class="mb-20">1. Information We Collect</h4>
-
-                            <div class="cont">
-                                <div class="box font-md mb-20 color-text-paragraph">1.1.</div>
-                                <div class="box font-md mb-20 color-text-paragraph"><b>Personal Information:</b> When
-                                    you register for an account on the Platform, we may collect certain personal
-                                    information, such as your name, email address, phone number, and business details.
-                                </div>
-                            </div>
-
-                            <div class="cont">
-                                <div class="box font-md mb-20 color-text-paragraph">1.2.</div>
-                                <div class="box font-md mb-20 color-text-paragraph"><b>Usage Information:</b> We may
-                                    also collect information about how you interact with the Platform, including your
-                                    browsing activity, search queries, and interactions with business listings.</div>
-                            </div>
-
-                            <h4 class="mb-20">2. How We Use Your Information</h4>
-
-                            <div class="cont">
-                                <div class="box font-md mb-20 color-text-paragraph">2.1.</div>
-                                <div class="box font-md mb-20 color-text-paragraph">We may use the information we
-                                    collect to:
-                                    <ul>
-                                        <li>Provide, maintain, and improve the Platform;</li>
-                                        <li>Personalize your experience and customize the content you see;</li>
-                                        <li>Communicate with you about your account and updates to the Platform;</li>
-                                        <li>Analyze usage trends and optimize the Platform's performance;</li>
-                                        <li>Detect, prevent, and address technical issues or security vulnerabilities.
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <h4 class="mb-20">3. Information Sharing and Disclosure</h4>
-
-                            <div class="cont">
-                                <div class="box font-md mb-20 color-text-paragraph">3.1.</div>
-                                <div class="box font-md mb-20 color-text-paragraph">We may share your personal
-                                    information with third-party service providers who assist us in operating the
-                                    Platform and providing related services. These service providers are contractually
-                                    obligated to use your information only as necessary to provide the services on our
-                                    behalf and to maintain the confidentiality and security of your information.</div>
-                            </div>
-
-                            <div class="cont">
-                                <div class="box font-md mb-20 color-text-paragraph">3.2.</div>
-                                <div class="box font-md mb-20 color-text-paragraph">We may also disclose your
-                                    information in response to a legal request, such as a subpoena, court order, or
-                                    other governmental request, or when we believe in good faith that disclosure is
-                                    necessary to protect our rights, protect your safety or the safety of others,
-                                    investigate fraud, or respond to a legal process.</div>
-                            </div>
-
-                            <h4 class="mb-20">4. Data Retention</h4>
-
-                            <div class="cont">
-                                <div class="box font-md mb-20 color-text-paragraph">4.1.</div>
-                                <div class="box font-md mb-20 color-text-paragraph">We will retain your personal
-                                    information for as long as necessary to fulfill the purposes outlined in this
-                                    Privacy Policy, unless a longer retention period is required or permitted by law.
-                                </div>
-                            </div>
-
-                            <h4 class="mb-20">5. Security</h4>
-
-                            <div class="cont">
-                                <div class="box font-md mb-20 color-text-paragraph">5.1.</div>
-                                <div class="box font-md mb-20 color-text-paragraph">We take reasonable measures to
-                                    protect your personal information from unauthorized access, use, or disclosure.
-                                    However, no method of transmission over the Internet or electronic storage is 100%
-                                    secure, and we cannot guarantee absolute security.</div>
-                            </div>
-
-                            <h4 class="mb-20">6. Your Choices</h4>
-
-                            <div class="cont">
-                                <div class="box font-md mb-20 color-text-paragraph">6.1.</div>
-                                <div class="box font-md mb-20 color-text-paragraph">You may update or correct your
-                                    account information at any time by logging into your account settings. You may also
-                                    unsubscribe from marketing communications by following the instructions in the
-                                    communication or contacting us directly.</div>
-                            </div>
-
-                            <h4 class="mb-20">7. Children's Privacy</h4>
-
-                            <div class="cont">
-                                <div class="box font-md mb-20 color-text-paragraph">7.1.</div>
-                                <div class="box font-md mb-20 color-text-paragraph">The Platform is not intended for use
-                                    by children under the age of 13, and we do not knowingly collect personal
-                                    information from children under the age of 13. If we become aware that we have
-                                    collected personal information from a child under the age of 13, we will take steps
-                                    to delete such information from our records.</div>
-                            </div>
-
-                            <h4 class="mb-20">8. Changes to this Privacy Policy</h4>
-
-                            <div class="cont">
-                                <div class="box font-md mb-20 color-text-paragraph">8.1.</div>
-                                <div class="box font-md mb-20 color-text-paragraph">We may update this Privacy Policy
-                                    from time to time to reflect changes in our practices or legal requirements. We will
-                                    notify you of any material changes to this Privacy Policy by posting the updated
-                                    policy on the Platform or by other means of communication.</div>
-                            </div>
-
-                            <h4 class="mb-20">9. Contact Us</h4>
-
-                            <div class="cont">
-                                <div class="box font-md mb-20 color-text-paragraph">9.1.</div>
-                                <div class="box font-md mb-20 color-text-paragraph">If you have any questions or
-                                    concerns about this Privacy Policy or our privacy practices, please contact us at
-                                    info@areteplanet.com.</div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container my-2">
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <p class="text-muted">Last updated: September 2024</p>
         </div>
 
+        <!-- Terms and Conditions Content -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <!-- Section 1 -->
+                <h2 class="h5">1. Introduction</h2>
+                <p class="small text-justify">
+                    Arete Worldwide Business Concept Ltd ("the Company") is committed to protecting the privacy and security of your personal information. This Privacy Policy outlines how we collect, use, and disclose personal information when you
+                    use our business directory platform ("the Platform").
+                </p>
+
+
+                <!-- Section 2 -->
+                <h2 class="h5">2. Information We Collect</h2>
+
+
+                <!-- Sub-sections under Section 2 -->
+                <h3 class="h6">2.1 Personal Information</h3>
+                <p class="small text-justify">
+                    When you register for an account on the Platform, we may collect certain personal information, such as your name, email address, phone number, and business details.
+                </p>
+
+                <h3 class="h6">2.2 Usage Information</h3>
+                <p class="small text-justify">
+                    We may also collect information about how you interact with the Platform, including your browsing activity, search queries, and interactions with business listings.
+                </p>
+
+                <!-- Section 3 -->
+                <h2 class="h5">3. How We Use Your Information</h2>
+
+                <p class="small text-justify">
+                    We may use the information we collect to:
+                    <ul class="">
+                        <li class="list-item small">Provide, maintain, and improve the Platform;</li>
+                        <li class="list-item small">Personalize your experience and customize the content you see;</li>
+                        <li class="list-item small">Communicate with you about your account and updates to the Platform;</li>
+                        <li class="list-item small">Analyze usage trends and optimize the Platform's performance;</li>
+                        <li class="list-item small">Detect, prevent, and address technical issues or security vulnerabilities.</li>
+                    </ul>
+                </p>
+
+                <!-- Section 3 -->
+                <h2 class="h5">4. Information Sharing and Disclosure</h2>
+
+
+                <p class="small text-justify">
+                    4.1 We may share your personal information with third-party service providers who assist us in operating the Platform and providing related services. These service providers are contractually obligated to use your information only as necessary to provide the services on our behalf and to maintain the confidentiality and security of your information.
+                </p>
+
+                <p class="small text-justify">
+                    4.2 We may also disclose your information in response to a legal request, such as a subpoena, court order, or
+                    other governmental request, or when we believe in good faith that disclosure is necessary to protect our rights, protect your safety or the safety of others, investigate fraud, or respond to a legal process.
+                </p>
+
+                <!-- Section 4 -->
+                <h2 class="h5">5. Data Retention</h2>
+
+                <p class="small text-justify">
+                   5.1 We will retain your personal information for as long as necessary to fulfill the purposes outlined in this
+                   Privacy Policy, unless a longer retention period is required or permitted by law.
+                </p>
+
+                <!-- Section 5 -->
+                <h2 class="h5">6. Security</h2>
+
+
+                <!-- Sub-sections under Section 5 -->
+                <p class="small text-justify">
+                    6.1 We take reasonable measures to protect your personal information from unauthorized access, use, or disclosure.
+                    However, no method of transmission over the Internet or electronic storage is 100% secure, and we cannot guarantee absolute security.
+                </p>
+
+                <!-- Section 6 -->
+                <h2 class="h5">7. Your Choices</h2>
+
+                <p class="small text-justify">
+                    7.1 You may update or correct your account information at any time by logging into your account settings. You may also unsubscribe from marketing communications by following the instructions in the communication or contacting us directly.
+                </p>
+
+                <!-- Section 7 -->
+                <h2 class="h5">8. Children's Privacy</h2>
+                <p class="small text-justify">
+                   8.1 The Platform is not intended for use by children under the age of 13, and we do not knowingly collect personal
+                   information from children under the age of 13. If we become aware that we have collected personal information from a child under the age of 13, we will take steps to delete such information from our records.
+                </p>
+
+                <!-- Section 7 -->
+                <h2 class="h5">9. Changes to this Privacy Policy</h2>
+                <p class="small text-justify">
+                  9.1  We may  notify you of any material changes to this Privacy Policy by posting the updated
+                  policy on the Platform or by other means of communication.
+                </p>
+
+                <!-- Section 7 -->
+                <h2 class="h5">10. Contact Information</h2>
+                <p class="small text-justify">
+                   10.1 If you have any questions or concerns about this Privacy Policy or our privacy practices, please contact us at
+                   info@areteplanet.com.
+                </p>
+
+            </div>
+        </div>
     </div>
 
-</main>
-@endsection
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
