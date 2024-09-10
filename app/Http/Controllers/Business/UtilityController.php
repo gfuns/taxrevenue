@@ -172,6 +172,7 @@ class UtilityController extends Controller
     {
         $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
         $trx->payment_method = "Bonus Balance";
+        $trx->description = "Bonus Balance - Airtime Purchase from " . $trx->biller . " to " . $trx->recipient;
         $trx->save();
 
         $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
@@ -256,6 +257,7 @@ class UtilityController extends Controller
     {
         $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
         $trx->payment_method = "Wallet Balance";
+        $trx->description = "Wallet Balance - Airtime Purchase from " . $trx->biller . " to " . $trx->recipient;
         $trx->save();
 
         $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
@@ -412,6 +414,7 @@ class UtilityController extends Controller
         try {
             $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->payment_method = "Bonus Balance";
+            $trx->description = "Bonus Balance - Data Subscription from " . $trx->biller . " to " . $trx->recipient;
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
@@ -498,6 +501,7 @@ class UtilityController extends Controller
         try {
             $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->payment_method = "Wallet Balance";
+            $trx->description = "Wallet Balance - Data Subscription from " . $trx->biller . " to " . $trx->recipient;
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
@@ -687,6 +691,7 @@ class UtilityController extends Controller
         try {
             $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->payment_method = "Bonus Balance";
+            $trx->description = "Wallet Balance - Cable Subscription from " . $trx->biller . " to " . $trx->recipient;
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
@@ -773,6 +778,7 @@ class UtilityController extends Controller
         try {
             $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->payment_method = "Wallet Balance";
+            $trx->description = "Wallet Balance - Cable Subscription from " . $trx->biller . " to " . $trx->recipient;
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
@@ -952,6 +958,7 @@ class UtilityController extends Controller
 
             $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->payment_method = "Bonus Balance";
+            $trx->description = "Bonus Balance - Electricity Units Purchase from " . $trx->biller . " to " . $trx->recipient;
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
@@ -1042,6 +1049,7 @@ class UtilityController extends Controller
 
             $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->payment_method = "Wallet Balance";
+            $trx->description = "Wallet Balance - Electricity Units Purchase from " . $trx->biller . " to " . $trx->recipient;
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
