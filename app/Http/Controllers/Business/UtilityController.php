@@ -604,45 +604,6 @@ class UtilityController extends Controller
         $cableProviders = CableProvider::where("status", "Active")->get();
         $provida = CableProvider::where("service_id", $serviceId)->first();
 
-        try {
-
-            $provida = CableProvider::where("service_id", $serviceId)->first();
-
-            $curl = curl_init();
-
-            curl_setopt_array($curl, array(
-
-                CURLOPT_URL => env('VTPASS_ENDPOINT') . "/api/service-variations?serviceID=" . $provida->service_id,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_TIMEOUT => 30000,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-                CURLOPT_HTTPHEADER => array(
-                    // Set Here Your Requesred Headers
-                    'Content-Type: application/json',
-                ),
-            ));
-            $response = curl_exec($curl);
-            curl_close($curl);
-
-            dd($response);
-
-            $result = json_decode($response);
-
-            if ($result->response_description == "000") {
-                $bouquets = Collect($result->content->varations);
-                return $bouquets;
-
-            } else {
-                return null;
-            }
-
-        } catch (\Exception $e) {
-            report($e);
-            return null;
-        }
-
         return view("business.buy_cable", compact("cableProviders", "provida"));
     }
 
