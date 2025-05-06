@@ -92,7 +92,7 @@ Route::group([
     Route::post('/select-account-type', [OnboardingController::class, 'selectAccountType']);
 
     Route::group([
-        'prefix' => 'business',
+        'prefix'     => 'business',
         'middleware' => ['validatebusiness', 'webauthenticated', 'g2fa'],
 
     ], function ($router) {
@@ -255,7 +255,7 @@ Route::group([
 });
 
 Route::group([
-    'prefix' => 'forum',
+    'prefix'     => 'forum',
     'middleware' => ['forum'],
 ], function ($router) {
     Route::get('/', [ForumController::class, 'index'])->name("forum");
@@ -312,7 +312,7 @@ Route::group([
 });
 
 Route::group([
-    'prefix' => 'mobile/view',
+    'prefix'     => 'mobile/view',
 
     'middleware' => ['forum'],
 ], function ($router) {
@@ -348,7 +348,9 @@ Route::post('/login/validate2fa', [App\Http\Controllers\Business\TwofactorContro
 
 Route::get('/resolve-bank', [App\Http\Controllers\FrontEndController::class, 'bankList']);
 
-Route::get('/paystack/callback', [App\Http\Controllers\Business\SubscriptionController::class, 'handlePaystackCallback']);
+Route::get('/paystack/topup/callback', [App\Http\Controllers\Business\WalletController::class, 'handlePaystackCallback']);
+
+Route::get('/paystack/subscription/callback', [App\Http\Controllers\Business\SubscriptionController::class, 'handlePaystackCallback']);
 
 Route::get('/cron/renew-subscription', [App\Http\Controllers\CronController::class, 'renewSubscription']);
 

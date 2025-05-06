@@ -1,10 +1,7 @@
 <?php
-
 namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
-use App\Mail\TopupSuccessful as TopupSuccessful;
-use App\Models\AreteWalletTransaction;
 use App\Models\Business;
 use App\Models\CardTransactions;
 use App\Models\Customer;
@@ -24,7 +21,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Mail;
 
 class SubscriptionController extends Controller
 {
@@ -41,8 +37,8 @@ class SubscriptionController extends Controller
     public function subscription()
     {
         $activeSubscription = CustomerSubscription::where("customer_id", Auth::user()->id)->where("status", "active")->first();
-        $customerCards = CustomerCards::where("customer_id", Auth::user()->id)->get();
-        $transactions = CustomerSubscription::orderBy("id", "desc")->where("customer_id", Auth::user()->id)->get();
+        $customerCards      = CustomerCards::where("customer_id", Auth::user()->id)->get();
+        $transactions       = CustomerSubscription::orderBy("id", "desc")->where("customer_id", Auth::user()->id)->get();
         return view("business.subscription", compact("activeSubscription", "customerCards", "transactions"));
 
         if (isset($activeSubscription)) {
@@ -112,12 +108,12 @@ class SubscriptionController extends Controller
     public function initiateSubscription()
     {
         $subscriptionPlans = SubscriptionPlan::where("id", ">", 1)->get();
-        $customerCards = CustomerCards::where("customer_id", Auth::user()->id)->get();
+        $customerCards     = CustomerCards::where("customer_id", Auth::user()->id)->get();
         if (count($customerCards) > 0) {
 
             $primaryCard = CustomerCards::where("customer_id", Auth::user()->id)->where("default_card", 1)->first();
 
-            if (!isset($primaryCard)) {
+            if (! isset($primaryCard)) {
                 $primaryCard = CustomerCards::where("customer_id", Auth::user()->id)->first();
             }
 
@@ -168,14 +164,14 @@ class SubscriptionController extends Controller
                         "status" => "inactive",
                     ]);
 
-                    $subscription = new CustomerSubscription;
-                    $subscription->customer_id = Auth::user()->id;
-                    $subscription->plan_id = $plan->id;
-                    $subscription->card_details = ucwords($card->card_brand) . " ending with " . $card->last_four_digits;
+                    $subscription                      = new CustomerSubscription;
+                    $subscription->customer_id         = Auth::user()->id;
+                    $subscription->plan_id             = $plan->id;
+                    $subscription->card_details        = ucwords($card->card_brand) . " ending with " . $card->last_four_digits;
                     $subscription->subscription_amount = $plan->billing_amount;
-                    $subscription->auto_renew = 1;
-                    $subscription->status = "active";
-                    $subscription->next_due_date = Carbon::now()->addDays($plan->duration);
+                    $subscription->auto_renew          = 1;
+                    $subscription->status              = "active";
+                    $subscription->next_due_date       = Carbon::now()->addDays($plan->duration);
                     $subscription->save();
 
                     //We Activate his Business Page
@@ -187,19 +183,19 @@ class SubscriptionController extends Controller
                     if (isset($referral)) {
                         $referralSubscribed = CustomerSubscription::where("customer_id", $referral->customer_id)->where("status", "active")->first();
                         if (isset($referralSubscribed)) {
-                            $bonus = ((5 / 100) * $plan->billing_amount);
+                            $bonus    = ((5 / 100) * $plan->billing_amount);
                             $customer = Customer::find($referral->customer_id);
 
-                            $transaction = new ReferralTransaction;
-                            $transaction->customer_id = $referral->customer_id;
-                            $transaction->trx_type = "credit";
-                            $transaction->amount = $bonus;
-                            $transaction->details = "Bonus received from subcription made by " . Auth::user()->first_name . " " . Auth::user()->last_name;
+                            $transaction                 = new ReferralTransaction;
+                            $transaction->customer_id    = $referral->customer_id;
+                            $transaction->trx_type       = "credit";
+                            $transaction->amount         = $bonus;
+                            $transaction->details        = "Bonus received from subcription made by " . Auth::user()->first_name . " " . Auth::user()->last_name;
                             $transaction->balance_before = $customer->wallet->referral_points;
-                            $transaction->balance_after = ($customer->wallet->referral_points + $bonus);
+                            $transaction->balance_after  = ($customer->wallet->referral_points + $bonus);
                             $transaction->save();
 
-                            $customerWallet = CustomerWallet::where("customer_id", $referral->customer_id)->first();
+                            $customerWallet                  = CustomerWallet::where("customer_id", $referral->customer_id)->first();
                             $customerWallet->referral_points = (double) ($customerWallet->referral_points + $bonus);
                             $customerWallet->save();
                         }
@@ -244,19 +240,19 @@ class SubscriptionController extends Controller
                     'Authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
                 ])->post("https://api.paystack.co/transaction/charge_authorization", [
                     "authorization_code" => $card->authorization_code,
-                    "email" => Auth::user()->email,
-                    "amount" => ($plan->billing_amount * 100),
+                    "email"              => Auth::user()->email,
+                    "amount"             => ($plan->billing_amount * 100),
                 ]);
 
                 $resData = $response->json();
 
                 if ($resData["status"] === true && $resData["data"]["status"] == "success") {
-                    $cardTrx = new CardTransactions;
-                    $cardTrx->customer_id = Auth::user()->id;
-                    $cardTrx->card_details = ucwords($card->card_brand) . " ending with " . $card->last_four_digits;
-                    $cardTrx->amount = $plan->billing_amount;
+                    $cardTrx                     = new CardTransactions;
+                    $cardTrx->customer_id        = Auth::user()->id;
+                    $cardTrx->card_details       = ucwords($card->card_brand) . " ending with " . $card->last_four_digits;
+                    $cardTrx->amount             = $plan->billing_amount;
                     $cardTrx->paystack_reference = $resData["data"]["reference"];
-                    $cardTrx->description = ucwords($card->card_brand) . " card:  " . $card->last_four_digits . " - Customer Subscription to " . $plan->plan . " Plan (" . $plan->duration . " Days)";
+                    $cardTrx->description        = ucwords($card->card_brand) . " card:  " . $card->last_four_digits . " - Customer Subscription to " . $plan->plan . " Plan (" . $plan->duration . " Days)";
                     if ($cardTrx->save()) {
                         return true;
 
@@ -292,18 +288,18 @@ class SubscriptionController extends Controller
 
     public function initiateCardAddition(Request $request)
     {
-        $transaction = new PaystackTransaction;
+        $transaction              = new PaystackTransaction;
         $transaction->customer_id = Auth::user()->id;
-        $transaction->trx_type = "paymentmethod";
-        $transaction->reference = "pm_rf" . Str::random(11);
-        $transaction->amount = 100;
+        $transaction->trx_type    = "paymentmethod";
+        $transaction->reference   = "pm_rf" . Str::random(11);
+        $transaction->amount      = 100;
         if ($transaction->save()) {
             $response = Http::accept('application/json')->withHeaders([
                 'authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
-                'content_type' => "Content-Type: application/json",
+                'content_type'  => "Content-Type: application/json",
             ])->post("https://api.paystack.co/transaction/initialize", [
-                "email" => Auth::user()->email,
-                "amount" => ($transaction->amount * 100),
+                "email"     => Auth::user()->email,
+                "amount"    => ($transaction->amount * 100),
                 "reference" => $transaction->reference,
             ]);
 
@@ -327,12 +323,12 @@ class SubscriptionController extends Controller
         $payment = PaystackMirror::run(env('PAYSTACK_SECRET_KEY'), new VerifyTransaction($request->reference))
             ->getResponse()->asObject();
 
-        if (!isset($payment->data)) {
+        if (! isset($payment->data)) {
             toast("Something Went Wrong", 'error');
             return redirect()->route("business.subscription");
         }
 
-        $paystack = PaystackTransaction::where("reference", $payment->data->reference)->where('processed', 0)->first();
+        $paystack    = PaystackTransaction::where("reference", $payment->data->reference)->where('processed', 0)->first();
         $cardDetails = $payment->data->authorization;
         if (isset($paystack) && isset($cardDetails)) {
 
@@ -340,23 +336,23 @@ class SubscriptionController extends Controller
                 DB::beginTransaction();
 
                 $paystack->processed = 1;
-                $paystack->status = $payment->data->status == "success" ? "Successful" : "Failed";
+                $paystack->status    = $payment->data->status == "success" ? "Successful" : "Failed";
                 $paystack->save();
 
                 if ($paystack->trx_type == "paymentmethod") {
 
                     $defaultMethod = CustomerCards::where("customer_id", Auth::user()->id)->where("default_card", 1)->first();
 
-                    $newCard = new CustomerCards;
-                    $newCard->customer_id = Auth::user()->id;
+                    $newCard                     = new CustomerCards;
+                    $newCard->customer_id        = Auth::user()->id;
                     $newCard->authorization_code = encrypt($cardDetails->authorization_code);
-                    $newCard->last_four_digits = $cardDetails->last4;
-                    $newCard->expiry_month = $cardDetails->exp_month;
-                    $newCard->expiry_year = $cardDetails->exp_year;
-                    $newCard->card_brand = $cardDetails->brand;
-                    $newCard->issuing_bank = $cardDetails->bank;
-                    $newCard->card_holder = $cardDetails->account_name;
-                    $newCard->default_card = isset($defaultMethod) ? 0 : 1;
+                    $newCard->last_four_digits   = $cardDetails->last4;
+                    $newCard->expiry_month       = $cardDetails->exp_month;
+                    $newCard->expiry_year        = $cardDetails->exp_year;
+                    $newCard->card_brand         = $cardDetails->brand;
+                    $newCard->issuing_bank       = $cardDetails->bank;
+                    $newCard->card_holder        = $cardDetails->account_name;
+                    $newCard->default_card       = isset($defaultMethod) ? 0 : 1;
                     $newCard->save();
 
                     DB::commit();
@@ -364,34 +360,6 @@ class SubscriptionController extends Controller
                     toast("Payment Method Added Successfully", 'success');
                     return redirect()->route("business.subscription");
 
-                } else if ($paystack->trx_type == "topup") {
-                    $trx = new AreteWalletTransaction;
-                    $trx->customer_id = Auth::user()->id;
-                    $trx->trx_type = "credit";
-                    $trx->payment_method = ucwords($cardDetails->brand) . " ending with " . $cardDetails->last4;
-                    $trx->amount = $paystack->amount;
-                    $trx->description = "Customer Wallet Balance Topup";
-                    $trx->reference = $paystack->reference;
-                    $trx->balance_before = Auth::user()->wallet->arete_balance;
-                    $trx->balance_after = (Auth::user()->wallet->arete_balance + $paystack->amount);
-                    $trx->status = $payment->data->status == "success" ? "Successful" : "Failed";
-                    $trx->save();
-
-                    $wallet = Auth::user()->wallet;
-                    $wallet->arete_balance = (Auth::user()->wallet->arete_balance + $paystack->amount);
-                    $wallet->save();
-
-                    DB::commit();
-
-                    try {
-                        $user = Auth::user();
-                        Mail::to($user)->send(new TopupSuccessful($user, $trx));
-                    } catch (\Exception $e) {
-                        report($e);
-                    }
-
-                    toast("Wallet Topup Successful", 'success');
-                    return redirect()->route("business.myWallet");
                 }
 
             } catch (\Exception $e) {
@@ -399,16 +367,12 @@ class SubscriptionController extends Controller
                 report($e);
 
                 toast("Something Went Wrong", 'error');
-                if ($paystack->trx_type == "paymentmethod") {
-                    return redirect()->route("business.subscription");
-                } else if ($paystack->trx_type == "topup") {
-                    return redirect()->route("business.myWallet");
-                }
+                return redirect()->route("business.subscription");
             }
 
         } else {
             toast("This transaction has already been processed", 'error');
-            return redirect()->route("business.dashboard");
+            return redirect()->route("business.subscription");
         }
     }
 

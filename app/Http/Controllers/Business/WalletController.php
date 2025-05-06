@@ -1,8 +1,8 @@
 <?php
-
 namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TopupSuccessful as TopupSuccessful;
 use App\Mail\WithdrawalSuccessful as WithdrawalSuccessful;
 use App\Models\AreteWalletTransaction;
 use App\Models\BankList;
@@ -32,27 +32,27 @@ class WalletController extends Controller
     public function myWallet()
     {
         $lastRecord = AreteWalletTransaction::where("customer_id", Auth::user()->id)->where("trx_type", "credit")->count();
-        $marker = $this->getMarkers($lastRecord, request()->page);
-        $topUps = AreteWalletTransaction::orderBy("id", "desc")->where("customer_id", Auth::user()->id)->where("trx_type", "credit")->paginate(50);
-        $bankList = BankList::all();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+        $topUps     = AreteWalletTransaction::orderBy("id", "desc")->where("customer_id", Auth::user()->id)->where("trx_type", "credit")->paginate(50);
+        $bankList   = BankList::all();
         return view("business.wallet", compact("topUps", "lastRecord", "marker", "bankList"));
     }
 
     public function withdrawals()
     {
-        $lastRecord = AreteWalletTransaction::where("customer_id", Auth::user()->id)->where("trx_type", "debit")->count();
-        $marker = $this->getMarkers($lastRecord, request()->page);
+        $lastRecord  = AreteWalletTransaction::where("customer_id", Auth::user()->id)->where("trx_type", "debit")->count();
+        $marker      = $this->getMarkers($lastRecord, request()->page);
         $withdrawals = AreteWalletTransaction::orderBy("id", "desc")->where("customer_id", Auth::user()->id)->where("trx_type", "debit")->paginate(50);
-        $bankList = BankList::all();
+        $bankList    = BankList::all();
         return view("business.wallet_withdrawals", compact("withdrawals", "lastRecord", "marker", "bankList"));
     }
 
     public function pointsTransaction()
     {
-        $lastRecord = ReferralTransaction::where("customer_id", Auth::user()->id)->count();
-        $marker = $this->getMarkers($lastRecord, request()->page);
+        $lastRecord   = ReferralTransaction::where("customer_id", Auth::user()->id)->count();
+        $marker       = $this->getMarkers($lastRecord, request()->page);
         $transactions = ReferralTransaction::orderBy("id", "desc")->where("customer_id", Auth::user()->id)->paginate(50);
-        $bankList = BankList::all();
+        $bankList     = BankList::all();
         return view("business.wallet_points", compact("transactions", "lastRecord", "marker", "bankList"));
     }
 
@@ -70,18 +70,18 @@ class WalletController extends Controller
         }
 
         try {
-            $transaction = new PaystackTransaction;
+            $transaction              = new PaystackTransaction;
             $transaction->customer_id = Auth::user()->id;
-            $transaction->trx_type = "topup";
-            $transaction->reference = "pm_rf" . Str::random(11);
-            $transaction->amount = $request->topup_amount;
+            $transaction->trx_type    = "topup";
+            $transaction->reference   = "pm_rf" . Str::random(11);
+            $transaction->amount      = $request->topup_amount;
             if ($transaction->save()) {
                 $response = Http::accept('application/json')->withHeaders([
-                    'authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
-                    'content_type' => "Content-Type: application/json",
+                    'authorization' => "Bearer " . env('ALT_PAYSTACK_SECRET_KEY'),
+                    'content_type'  => "Content-Type: application/json",
                 ])->post("https://api.paystack.co/transaction/initialize", [
-                    "email" => Auth::user()->email,
-                    "amount" => ($transaction->amount * 100),
+                    "email"     => Auth::user()->email,
+                    "amount"    => ($transaction->amount * 100),
                     "reference" => $transaction->reference,
                 ]);
 
@@ -109,10 +109,10 @@ class WalletController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'bank' => 'required',
+            'bank'           => 'required',
             'account_number' => 'required',
-            'account_name' => 'required',
-            'amount' => 'required',
+            'account_name'   => 'required',
+            'amount'         => 'required',
         ]);
 
         if (Auth::user()->withdrawal_confirmation == 'GoogleAuth') {
@@ -132,9 +132,9 @@ class WalletController extends Controller
 
         if (Auth::user()->withdrawal_confirmation == 'GoogleAuth') {
             $google2fa = app('pragmarx.google2fa');
-            $valid = $google2fa->verify($request->google_authenticator_code, Auth::user()->google2fa_secret);
+            $valid     = $google2fa->verify($request->google_authenticator_code, Auth::user()->google2fa_secret);
 
-            if (!$valid) {
+            if (! $valid) {
                 toast('Invalid Google Authenticator Code Provided.', 'error');
                 return back();
             }
@@ -147,13 +147,13 @@ class WalletController extends Controller
 
             try {
                 $response = Http::accept('application/json')->withHeaders([
-                    'Authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
+                    'Authorization' => "Bearer " . env('ALT_PAYSTACK_SECRET_KEY'),
                 ])->post("https://api.paystack.co/transferrecipient", [
-                    "type" => "nuban",
-                    "name" => $request->account_name,
+                    "type"           => "nuban",
+                    "name"           => $request->account_name,
                     "account_number" => $request->account_number,
-                    "bank_code" => $request->bank,
-                    "currency" => "NGN",
+                    "bank_code"      => $request->bank,
+                    "currency"       => "NGN",
                 ]);
 
                 $result = $response->json();
@@ -168,11 +168,11 @@ class WalletController extends Controller
                     //Initiate the Actual Transfer
 
                     $response = Http::accept('application/json')->withHeaders([
-                        'Authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
+                        'Authorization' => "Bearer " . env('ALT_PAYSTACK_SECRET_KEY'),
                     ])->post("https://api.paystack.co/transfer", [
-                        "source" => "balance",
-                        "reason" => "Customer Funds Withdrawal from Arete Nigeria",
-                        "amount" => (abs($request->amount) * 100),
+                        "source"    => "balance",
+                        "reason"    => "Customer Funds Withdrawal from Arete Nigeria",
+                        "amount"    => (abs($request->amount) * 100),
                         "recipient" => $recipient,
                         "reference" => $reference,
                     ]);
@@ -186,22 +186,22 @@ class WalletController extends Controller
 
                         DB::beginTransaction();
 
-                        $trx = new AreteWalletTransaction;
-                        $trx->customer_id = Auth::user()->id;
-                        $trx->trx_type = "debit";
+                        $trx                 = new AreteWalletTransaction;
+                        $trx->customer_id    = Auth::user()->id;
+                        $trx->trx_type       = "debit";
                         $trx->payment_method = "Direct Transfer";
-                        $trx->amount = $withdrawalAmount;
-                        $trx->description = "Customer Wallet Withdrawal";
-                        $trx->reference = $transferData["reference"];
-                        $trx->bank = $bankName;
+                        $trx->amount         = $withdrawalAmount;
+                        $trx->description    = "Customer Wallet Withdrawal";
+                        $trx->reference      = $transferData["reference"];
+                        $trx->bank           = $bankName;
                         $trx->account_number = $request->account_number;
-                        $trx->account_name = $request->account_name;
+                        $trx->account_name   = $request->account_name;
                         $trx->balance_before = Auth::user()->wallet->arete_balance;
-                        $trx->balance_after = (Auth::user()->wallet->arete_balance - $withdrawalAmount);
-                        $trx->status = "Successful";
+                        $trx->balance_after  = (Auth::user()->wallet->arete_balance - $withdrawalAmount);
+                        $trx->status         = "Successful";
                         $trx->save();
 
-                        $wallet = Auth::user()->wallet;
+                        $wallet                = Auth::user()->wallet;
                         $wallet->arete_balance = (Auth::user()->wallet->arete_balance - $withdrawalAmount);
                         $wallet->save();
 
@@ -238,7 +238,7 @@ class WalletController extends Controller
     public function validateBankAccount(Request $request)
     {
         $response = Http::accept('application/json')->withHeaders([
-            'Authorization' => "Bearer " . env('PAYSTACK_SECRET_KEY'),
+            'Authorization' => "Bearer " . env('ALT_PAYSTACK_SECRET_KEY'),
         ])->get("https://api.paystack.co/bank/resolve", ["account_number" => $request->accountnumber, "bank_code" => $request->bank]);
 
         $accountInfo = $response->json();
@@ -256,6 +256,71 @@ class WalletController extends Controller
         }
     }
 
+    public function handlePaystackCallback(Request $request)
+    {
+        $payment = PaystackMirror::run(env('ALT_PAYSTACK_SECRET_KEY'), new VerifyTransaction($request->reference))
+            ->getResponse()->asObject();
+
+        if (! isset($payment->data)) {
+            toast("Something Went Wrong", 'error');
+            return redirect()->route("business.myWallet");
+        }
+
+        $paystack    = PaystackTransaction::where("reference", $payment->data->reference)->where('processed', 0)->first();
+        $cardDetails = $payment->data->authorization;
+        if (isset($paystack) && isset($cardDetails)) {
+
+            try {
+                DB::beginTransaction();
+
+                $paystack->processed = 1;
+                $paystack->status    = $payment->data->status == "success" ? "Successful" : "Failed";
+                $paystack->save();
+
+                if ($paystack->trx_type == "topup") {
+                    $trx                 = new AreteWalletTransaction;
+                    $trx->customer_id    = Auth::user()->id;
+                    $trx->trx_type       = "credit";
+                    $trx->payment_method = ucwords($cardDetails->brand) . " ending with " . $cardDetails->last4;
+                    $trx->amount         = $paystack->amount;
+                    $trx->description    = "Customer Wallet Balance Topup";
+                    $trx->reference      = $paystack->reference;
+                    $trx->balance_before = Auth::user()->wallet->arete_balance;
+                    $trx->balance_after  = (Auth::user()->wallet->arete_balance + $paystack->amount);
+                    $trx->status         = $payment->data->status == "success" ? "Successful" : "Failed";
+                    $trx->save();
+
+                    $wallet                = Auth::user()->wallet;
+                    $wallet->arete_balance = (Auth::user()->wallet->arete_balance + $paystack->amount);
+                    $wallet->save();
+
+                    DB::commit();
+
+                    try {
+                        $user = Auth::user();
+                        Mail::to($user)->send(new TopupSuccessful($user, $trx));
+                    } catch (\Exception $e) {
+                        report($e);
+                    }
+
+                    toast("Wallet Topup Successful", 'success');
+                    return redirect()->route("business.myWallet");
+                }
+
+            } catch (\Exception $e) {
+                DB::rollback();
+                report($e);
+
+                toast("Something Went Wrong", 'error');
+                return redirect()->route("business.myWallet");
+            }
+
+        } else {
+            toast("This transaction has already been processed", 'error');
+            return redirect()->route("business.myWallet");
+        }
+    }
+
     /**
      * getMarkers Helper Function
      *
@@ -269,8 +334,8 @@ class WalletController extends Controller
         if ($pageNum == null) {
             $pageNum = 1;
         }
-        $end = (50 * ((int) $pageNum));
-        $marker = array();
+        $end    = (50 * ((int) $pageNum));
+        $marker = [];
         if ((int) $pageNum == 1) {
             $marker["begin"] = (int) $pageNum;
             $marker["index"] = (int) $pageNum;
