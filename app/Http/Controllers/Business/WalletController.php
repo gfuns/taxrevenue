@@ -9,6 +9,8 @@ use App\Models\BankList;
 use App\Models\PaystackTransaction;
 use App\Models\ReferralTransaction;
 use Auth;
+use Coderatio\PaystackMirror\Actions\Transactions\VerifyTransaction;
+use Coderatio\PaystackMirror\PaystackMirror;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
