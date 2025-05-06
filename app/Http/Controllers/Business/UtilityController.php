@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
@@ -35,53 +34,53 @@ class UtilityController extends Controller
     public function utilityTransactions(Request $request)
     {
         $service = request()->service;
-        $status = request()->status;
-        $search = request()->search;
-        if (isset(request()->search) && !isset(request()->service) && !isset(request()->status)) {
+        $status  = request()->status;
+        $search  = request()->search;
+        if (isset(request()->search) && ! isset(request()->service) && ! isset(request()->status)) {
             //Only Search has a value
-            $lastRecord = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->whereLike(["transaction_id"], $search)->count();
-            $marker = $this->getMarkers($lastRecord, request()->page);
+            $lastRecord   = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->whereLike(["transaction_id"], $search)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
             $transactions = UtilityTransactions::query()->orderBy("id", "desc")->where("customer_id", Auth::user()->id)->whereLike(["transaction_id"], $search)->paginate(50);
 
-        } else if (isset(request()->search) && isset(request()->service) && !isset(request()->status)) {
+        } else if (isset(request()->search) && isset(request()->service) && ! isset(request()->status)) {
             //Search and service has a value
-            $lastRecord = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->where("trx_type", $service)->whereLike(["transaction_id"], $search)->count();
-            $marker = $this->getMarkers($lastRecord, request()->page);
+            $lastRecord   = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->where("trx_type", $service)->whereLike(["transaction_id"], $search)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
             $transactions = UtilityTransactions::query()->orderBy("id", "desc")->where("customer_id", Auth::user()->id)->where("trx_type", $service)->whereLike(["transaction_id"], $search)->paginate(50);
 
-        } else if (isset(request()->search) && !isset(request()->service) && isset(request()->status)) {
+        } else if (isset(request()->search) && ! isset(request()->service) && isset(request()->status)) {
             //Search and status has a value
-            $lastRecord = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->where("status", $status)->whereLike(["transaction_id"], $search)->count();
-            $marker = $this->getMarkers($lastRecord, request()->page);
+            $lastRecord   = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->where("status", $status)->whereLike(["transaction_id"], $search)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
             $transactions = UtilityTransactions::query()->orderBy("id", "desc")->where("customer_id", Auth::user()->id)->where("status", $status)->whereLike(["transaction_id"], $search)->paginate(50);
 
         } else if (isset(request()->search) && isset(request()->service) && isset(request()->status)) {
             //Search, service and status has a value
-            $lastRecord = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->where("trx_type", $service)->where("status", $status)->whereLike(["transaction_id"], $search)->count();
-            $marker = $this->getMarkers($lastRecord, request()->page);
+            $lastRecord   = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->where("trx_type", $service)->where("status", $status)->whereLike(["transaction_id"], $search)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
             $transactions = UtilityTransactions::query()->orderBy("id", "desc")->where("customer_id", Auth::user()->id)->where("trx_type", $service)->where("status", $status)->whereLike(["transaction_id"], $search)->paginate(50);
 
-        } else if (!isset(request()->search) && isset(request()->service) && isset(request()->status)) {
+        } else if (! isset(request()->search) && isset(request()->service) && isset(request()->status)) {
             //Service and status has a value
-            $lastRecord = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->where("trx_type", $service)->where("status", $status)->count();
-            $marker = $this->getMarkers($lastRecord, request()->page);
+            $lastRecord   = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->where("trx_type", $service)->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
             $transactions = UtilityTransactions::query()->orderBy("id", "desc")->where("customer_id", Auth::user()->id)->where("trx_type", $service)->where("status", $status)->paginate(50);
 
-        } else if (!isset(request()->search) && isset(request()->service) && !isset(request()->status)) {
+        } else if (! isset(request()->search) && isset(request()->service) && ! isset(request()->status)) {
             //Only Service has a value
-            $lastRecord = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->where("trx_type", $service)->count();
-            $marker = $this->getMarkers($lastRecord, request()->page);
+            $lastRecord   = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->where("trx_type", $service)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
             $transactions = UtilityTransactions::query()->orderBy("id", "desc")->where("customer_id", Auth::user()->id)->where("trx_type", $service)->paginate(50);
 
-        } else if (!isset(request()->search) && !isset(request()->service) && isset(request()->status)) {
+        } else if (! isset(request()->search) && ! isset(request()->service) && isset(request()->status)) {
             //Only Status has a value
-            $lastRecord = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->where("status", $status)->count();
-            $marker = $this->getMarkers($lastRecord, request()->page);
+            $lastRecord   = UtilityTransactions::query()->where("customer_id", Auth::user()->id)->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
             $transactions = UtilityTransactions::query()->orderBy("id", "desc")->where("customer_id", Auth::user()->id)->where("status", $status)->paginate(50);
 
         } else {
-            $lastRecord = UtilityTransactions::where("customer_id", Auth::user()->id)->count();
-            $marker = $this->getMarkers($lastRecord, request()->page);
+            $lastRecord   = UtilityTransactions::where("customer_id", Auth::user()->id)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
             $transactions = UtilityTransactions::orderBy("id", "desc")->where("customer_id", Auth::user()->id)->paginate(50);
         }
         return view("business.utility_transactions", compact("transactions", "lastRecord", "marker", "search", "service", "status"));
@@ -101,8 +100,8 @@ class UtilityController extends Controller
         if ($pageNum == null) {
             $pageNum = 1;
         }
-        $end = (50 * ((int) $pageNum));
-        $marker = array();
+        $end    = (50 * ((int) $pageNum));
+        $marker = [];
         if ((int) $pageNum == 1) {
             $marker["begin"] = (int) $pageNum;
             $marker["index"] = (int) $pageNum;
@@ -129,9 +128,9 @@ class UtilityController extends Controller
     public function airtimePurchasePreview(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone_number' => 'required',
+            'phone_number'    => 'required',
             'recharge_amount' => 'required|numeric',
-            'biller' => 'required',
+            'biller'          => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -141,19 +140,19 @@ class UtilityController extends Controller
             return back();
         }
 
-        $provider = AirtimeProviders::where("biller", $request->biller)->first();
+        $provider    = AirtimeProviders::where("biller", $request->biller)->first();
         $topupAmount = abs(preg_replace("/,/", "", $request->recharge_amount));
 
-        $transaction = new UtilityTransactions;
-        $transaction->customer_id = Auth::user()->id;
+        $transaction                 = new UtilityTransactions;
+        $transaction->customer_id    = Auth::user()->id;
         $transaction->transaction_id = $this->genTrxId();
-        $transaction->reference = $this->generateVTPassReference();
-        $transaction->trx_type = "Airtime";
-        $transaction->biller = $provider->biller;
-        $transaction->recipient = $request->phone_number;
-        $transaction->amount = $topupAmount;
-        $transaction->fee = $provider->fee;
-        $transaction->total_amount = (double) ($topupAmount + $provider->fee);
+        $transaction->reference      = $this->generateVTPassReference();
+        $transaction->trx_type       = "Airtime";
+        $transaction->biller         = $provider->biller;
+        $transaction->recipient      = $request->phone_number;
+        $transaction->amount         = $topupAmount;
+        $transaction->fee            = $provider->fee;
+        $transaction->total_amount   = (double) ($topupAmount + $provider->fee);
         if ($transaction->save()) {
             return redirect()->route("business.airtimePreview", [$transaction->transaction_id]);
         } else {
@@ -170,15 +169,15 @@ class UtilityController extends Controller
 
     public function pointsAirtimePurchase($trxId)
     {
-        $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+        $trx                 = UtilityTransactions::where("transaction_id", $trxId)->first();
         $trx->payment_method = "Bonus Balance";
-        $trx->description = "Bonus Balance - Airtime Purchase from " . $trx->biller . " to " . $trx->recipient;
+        $trx->description    = "Bonus Balance - Airtime Purchase from " . $trx->biller . " to " . $trx->recipient;
         $trx->save();
 
         $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
 
         if ($customerWallet->referral_points < $trx->total_amount) {
-            $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+            $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->status = "Failed";
             $trx->save();
 
@@ -186,17 +185,17 @@ class UtilityController extends Controller
             return back();
         }
 
-        $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+        $wallet                  = CustomerWallet::where("customer_id", Auth::user()->id)->first();
         $wallet->referral_points = (double) ($wallet->referral_points - $trx->total_amount);
         $wallet->save();
 
         try {
-            $data = array(
-                'serviceID' => $trx->biller == "9Mobile" ? 'etisalat' : strtolower($trx->biller),
-                'amount' => (int) $trx->amount,
-                'phone' => $trx->recipient,
+            $data = [
+                'serviceID'  => $trx->biller == "9Mobile" ? 'etisalat' : strtolower($trx->biller),
+                'amount'     => (int) $trx->amount,
+                'phone'      => $trx->recipient,
                 'request_id' => $trx->reference,
-            );
+            ];
 
             $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/pay");
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -212,7 +211,7 @@ class UtilityController extends Controller
             $result = json_decode($response);
 
             if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL") {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Successful";
                 $trx->save();
 
@@ -227,7 +226,7 @@ class UtilityController extends Controller
                 }
 
             } else if ($result->code == "000" && $result->response_description == "TRANSACTION PROCESSING - PENDING") {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Pending";
                 $trx->save();
 
@@ -236,7 +235,7 @@ class UtilityController extends Controller
             } else {
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
 
-                $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+                $wallet                  = CustomerWallet::where("customer_id", Auth::user()->id)->first();
                 $wallet->referral_points = (double) ($wallet->referral_points + $trx->total_amount);
                 $wallet->save();
 
@@ -255,15 +254,15 @@ class UtilityController extends Controller
 
     public function walletAirtimePurchase($trxId)
     {
-        $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+        $trx                 = UtilityTransactions::where("transaction_id", $trxId)->first();
         $trx->payment_method = "Wallet Balance";
-        $trx->description = "Wallet Balance - Airtime Purchase from " . $trx->biller . " to " . $trx->recipient;
+        $trx->description    = "Wallet Balance - Airtime Purchase from " . $trx->biller . " to " . $trx->recipient;
         $trx->save();
 
         $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
 
         if ($customerWallet->arete_balance < $trx->total_amount) {
-            $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+            $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->status = "Failed";
             $trx->save();
 
@@ -271,17 +270,17 @@ class UtilityController extends Controller
             return back();
         }
 
-        $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+        $wallet                = CustomerWallet::where("customer_id", Auth::user()->id)->first();
         $wallet->arete_balance = (double) ($wallet->arete_balance - $trx->total_amount);
         $wallet->save();
 
         try {
-            $data = array(
-                'serviceID' => $trx->biller == "9Mobile" ? 'etisalat' : strtolower($trx->biller),
-                'amount' => (int) $trx->amount,
-                'phone' => $trx->recipient,
+            $data = [
+                'serviceID'  => $trx->biller == "9Mobile" ? 'etisalat' : strtolower($trx->biller),
+                'amount'     => (int) $trx->amount,
+                'phone'      => $trx->recipient,
                 'request_id' => $trx->reference,
-            );
+            ];
 
             $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/pay");
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -297,7 +296,7 @@ class UtilityController extends Controller
             $result = json_decode($response);
 
             if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL") {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Successful";
                 $trx->save();
 
@@ -312,7 +311,7 @@ class UtilityController extends Controller
                 }
 
             } else if ($result->code == "000" && $result->response_description == "TRANSACTION PROCESSING - PENDING") {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Pending";
                 $trx->save();
 
@@ -321,7 +320,7 @@ class UtilityController extends Controller
             } else {
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
 
-                $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+                $wallet                = CustomerWallet::where("customer_id", Auth::user()->id)->first();
                 $wallet->arete_balance = (double) ($wallet->arete_balance + $trx->total_amount);
                 $wallet->save();
 
@@ -357,7 +356,7 @@ class UtilityController extends Controller
     {
 
         $dataProviders = DataProvider::where("status", "Active")->get();
-        $provida = DataProvider::where("service_id", $serviceId)->first();
+        $provida       = DataProvider::where("service_id", $serviceId)->first();
 
         return view("business.buy_data", compact("dataProviders", "provida"));
     }
@@ -365,10 +364,10 @@ class UtilityController extends Controller
     public function dataPurchasePreview(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'biller' => 'required',
-            'phone_number' => 'required',
-            'data_plan' => 'required',
-            'variation' => 'required',
+            'biller'           => 'required',
+            'phone_number'     => 'required',
+            'data_plan'        => 'required',
+            'variation'        => 'required',
             'subscription_fee' => 'required|numeric',
         ]);
 
@@ -379,22 +378,22 @@ class UtilityController extends Controller
             return back();
         }
 
-        $provider = DataProvider::find($request->biller);
+        $provider    = DataProvider::find($request->biller);
         $topupAmount = abs(preg_replace("/,/", "", $request->subscription_fee));
 
-        $transaction = new UtilityTransactions;
-        $transaction->customer_id = Auth::user()->id;
+        $transaction                 = new UtilityTransactions;
+        $transaction->customer_id    = Auth::user()->id;
         $transaction->transaction_id = $this->genTrxId();
-        $transaction->reference = $this->generateVTPassReference();
-        $transaction->trx_type = "Data";
-        $transaction->biller = $provider->biller;
-        $transaction->service_id = $provider->service_id;
-        $transaction->recipient = $request->phone_number;
+        $transaction->reference      = $this->generateVTPassReference();
+        $transaction->trx_type       = "Data";
+        $transaction->biller         = $provider->biller;
+        $transaction->service_id     = $provider->service_id;
+        $transaction->recipient      = $request->phone_number;
         $transaction->variation_code = $request->variation;
-        $transaction->plan_details = $request->data_plan;
-        $transaction->amount = $topupAmount;
-        $transaction->fee = $provider->fee;
-        $transaction->total_amount = (double) ($topupAmount + $provider->fee);
+        $transaction->plan_details   = $request->data_plan;
+        $transaction->amount         = $topupAmount;
+        $transaction->fee            = $provider->fee;
+        $transaction->total_amount   = (double) ($topupAmount + $provider->fee);
         if ($transaction->save()) {
             return redirect()->route("business.dataPreview", [$transaction->transaction_id]);
         } else {
@@ -412,15 +411,15 @@ class UtilityController extends Controller
     public function pointsDataPurchase($trxId)
     {
         try {
-            $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+            $trx                 = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->payment_method = "Bonus Balance";
-            $trx->description = "Bonus Balance - Data Subscription from " . $trx->biller . " to " . $trx->recipient;
+            $trx->description    = "Bonus Balance - Data Subscription from " . $trx->biller . " to " . $trx->recipient;
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
 
             if ($customerWallet->referral_points < $trx->total_amount) {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Failed";
                 $trx->save();
 
@@ -428,17 +427,17 @@ class UtilityController extends Controller
                 return back();
             }
 
-            $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+            $wallet                  = CustomerWallet::where("customer_id", Auth::user()->id)->first();
             $wallet->referral_points = (double) ($wallet->referral_points - $trx->total_amount);
             $wallet->save();
 
-            $data = array(
-                'serviceID' => $trx->service_id,
-                'amount' => (int) $trx->amount,
-                'phone' => $trx->recipient, //"08011111111",
+            $data = [
+                'serviceID'      => $trx->service_id,
+                'amount'         => (int) $trx->amount,
+                'phone'          => $trx->recipient, //"08011111111",
                 'variation_code' => $trx->variation_code,
-                'request_id' => $trx->reference,
-            );
+                'request_id'     => $trx->reference,
+            ];
 
             $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/pay");
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -454,7 +453,7 @@ class UtilityController extends Controller
             $result = json_decode($response);
 
             if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL") {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Successful";
                 $trx->save();
 
@@ -471,7 +470,7 @@ class UtilityController extends Controller
             } else if ($result->code == "016" && $result->response_description == "TRANSACTION FAILED") {
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
 
-                $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+                $wallet                  = CustomerWallet::where("customer_id", Auth::user()->id)->first();
                 $wallet->referral_points = (double) ($wallet->referral_points + $trx->total_amount);
                 $wallet->save();
 
@@ -481,7 +480,7 @@ class UtilityController extends Controller
                 Session::flash("dataStatus", "failed");
                 return redirect()->route("business.buyData");
             } else {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Pending";
                 $trx->save();
 
@@ -499,15 +498,15 @@ class UtilityController extends Controller
     public function walletDataPurchase($trxId)
     {
         try {
-            $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+            $trx                 = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->payment_method = "Wallet Balance";
-            $trx->description = "Wallet Balance - Data Subscription from " . $trx->biller . " to " . $trx->recipient;
+            $trx->description    = "Wallet Balance - Data Subscription from " . $trx->biller . " to " . $trx->recipient;
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
 
             if ($customerWallet->arete_balance < $trx->total_amount) {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Failed";
                 $trx->save();
 
@@ -515,17 +514,17 @@ class UtilityController extends Controller
                 return back();
             }
 
-            $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+            $wallet                = CustomerWallet::where("customer_id", Auth::user()->id)->first();
             $wallet->arete_balance = (double) ($wallet->arete_balance - $trx->total_amount);
             $wallet->save();
 
-            $data = array(
-                'serviceID' => $trx->service_id,
-                'amount' => (int) $trx->amount,
-                'phone' => $trx->recipient, //"08011111111",
+            $data = [
+                'serviceID'      => $trx->service_id,
+                'amount'         => (int) $trx->amount,
+                'phone'          => $trx->recipient, //"08011111111",
                 'variation_code' => $trx->variation_code,
-                'request_id' => $trx->reference,
-            );
+                'request_id'     => $trx->reference,
+            ];
 
             $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/pay");
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -541,7 +540,7 @@ class UtilityController extends Controller
             $result = json_decode($response);
 
             if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL") {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Successful";
                 $trx->save();
 
@@ -558,7 +557,7 @@ class UtilityController extends Controller
             } else if ($result->code == "016" && $result->response_description == "TRANSACTION FAILED") {
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
 
-                $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+                $wallet                = CustomerWallet::where("customer_id", Auth::user()->id)->first();
                 $wallet->arete_balance = (double) ($wallet->arete_balance + $trx->total_amount);
                 $wallet->save();
 
@@ -568,7 +567,7 @@ class UtilityController extends Controller
                 Session::flash("dataStatus", "failed");
                 return redirect()->route("business.buyData");
             } else {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Pending";
                 $trx->save();
 
@@ -602,7 +601,7 @@ class UtilityController extends Controller
     {
 
         $cableProviders = CableProvider::where("status", "Active")->get();
-        $provida = CableProvider::where("service_id", $serviceId)->first();
+        $provida        = CableProvider::where("service_id", $serviceId)->first();
 
         return view("business.buy_cable", compact("cableProviders", "provida"));
     }
@@ -610,10 +609,10 @@ class UtilityController extends Controller
     public function cablePurchasePreview(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'biller' => 'required',
-            'iuc_number' => 'required',
-            'bouquet' => 'required',
-            'variation' => 'required',
+            'biller'           => 'required',
+            'iuc_number'       => 'required',
+            'bouquet'          => 'required',
+            'variation'        => 'required',
             'subscription_fee' => 'required|numeric',
         ]);
 
@@ -624,14 +623,14 @@ class UtilityController extends Controller
             return back();
         }
 
-        $provider = CableProvider::where("biller", $request->biller)->first();
+        $provider    = CableProvider::where("biller", $request->biller)->first();
         $topupAmount = abs(preg_replace("/,/", "", $request->subscription_fee));
 
         try {
-            $data = array(
-                'serviceID' => $provider->service_id,
+            $data = [
+                'serviceID'   => $provider->service_id,
                 'billersCode' => $request->iuc_number, //"1212121212",
-            );
+            ];
 
             $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/merchant-verify");
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -647,21 +646,21 @@ class UtilityController extends Controller
             $result = json_decode($response);
 
             if ($result->code == "000" && isset($result->content->Customer_Name)) {
-                $transaction = new UtilityTransactions;
-                $transaction->customer_id = Auth::user()->id;
+                $transaction                 = new UtilityTransactions;
+                $transaction->customer_id    = Auth::user()->id;
                 $transaction->transaction_id = $this->genTrxId();
-                $transaction->reference = $this->generateVTPassReference();
-                $transaction->trx_type = "Cable";
-                $transaction->biller = $provider->biller;
-                $transaction->service_id = $provider->service_id;
-                $transaction->recipient = $request->iuc_number;
+                $transaction->reference      = $this->generateVTPassReference();
+                $transaction->trx_type       = "Cable";
+                $transaction->biller         = $provider->biller;
+                $transaction->service_id     = $provider->service_id;
+                $transaction->recipient      = $request->iuc_number;
                 $transaction->recipient_name = $result->content->Customer_Name;
                 $transaction->variation_code = $request->variation;
-                $transaction->plan_details = $request->bouquet;
-                $transaction->amount = $topupAmount;
-                $transaction->fee = $provider->fee;
-                $transaction->total_amount = (double) ($topupAmount + $provider->fee);
-                $transaction->status = "Initiated";
+                $transaction->plan_details   = $request->bouquet;
+                $transaction->amount         = $topupAmount;
+                $transaction->fee            = $provider->fee;
+                $transaction->total_amount   = (double) ($topupAmount + $provider->fee);
+                $transaction->status         = "Initiated";
                 if ($transaction->save()) {
                     return redirect()->route("business.cablePreview", [$transaction->transaction_id]);
                 } else {
@@ -689,15 +688,15 @@ class UtilityController extends Controller
     public function pointsCablePurchase($trxId)
     {
         try {
-            $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+            $trx                 = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->payment_method = "Bonus Balance";
-            $trx->description = "Wallet Balance - Cable Subscription from " . $trx->biller . " to " . $trx->recipient;
+            $trx->description    = "Wallet Balance - Cable Subscription from " . $trx->biller . " to " . $trx->recipient;
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
 
             if ($customerWallet->referral_points < $trx->total_amount) {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Failed";
                 $trx->save();
 
@@ -705,18 +704,18 @@ class UtilityController extends Controller
                 return back();
             }
 
-            $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+            $wallet                  = CustomerWallet::where("customer_id", Auth::user()->id)->first();
             $wallet->referral_points = (double) ($wallet->referral_points - $trx->total_amount);
             $wallet->save();
 
-            $data = array(
-                'serviceID' => $trx->service_id,
-                'amount' => (int) $trx->amount,
-                'phone' => Auth::user()->phone == null ? '08188664322' : Auth::user()->phone,
-                'billersCode' => $trx->recipient, //"1212121212",
+            $data = [
+                'serviceID'      => $trx->service_id,
+                'amount'         => (int) $trx->amount,
+                'phone'          => Auth::user()->phone == null ? '08188664322' : Auth::user()->phone,
+                'billersCode'    => $trx->recipient, //"1212121212",
                 'variation_code' => $trx->variation_code,
-                'request_id' => $trx->reference,
-            );
+                'request_id'     => $trx->reference,
+            ];
 
             $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/pay");
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -732,7 +731,7 @@ class UtilityController extends Controller
             $result = json_decode($response);
 
             if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL") {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Successful";
                 $trx->save();
 
@@ -749,7 +748,7 @@ class UtilityController extends Controller
             } else if ($result->code == "016" && $result->response_description == "TRANSACTION FAILED") {
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
 
-                $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+                $wallet                  = CustomerWallet::where("customer_id", Auth::user()->id)->first();
                 $wallet->referral_points = (double) ($wallet->referral_points + $trx->total_amount);
                 $wallet->save();
 
@@ -759,7 +758,7 @@ class UtilityController extends Controller
                 Session::flash("cableStatus", "failed");
                 return redirect()->route("business.buyCable");
             } else {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Pending";
                 $trx->save();
 
@@ -776,15 +775,15 @@ class UtilityController extends Controller
     public function walletCablePurchase($trxId)
     {
         try {
-            $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+            $trx                 = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->payment_method = "Wallet Balance";
-            $trx->description = "Wallet Balance - Cable Subscription from " . $trx->biller . " to " . $trx->recipient;
+            $trx->description    = "Wallet Balance - Cable Subscription from " . $trx->biller . " to " . $trx->recipient;
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
 
             if ($customerWallet->arete_balance < $trx->total_amount) {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Failed";
                 $trx->save();
 
@@ -792,18 +791,18 @@ class UtilityController extends Controller
                 return back();
             }
 
-            $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+            $wallet                = CustomerWallet::where("customer_id", Auth::user()->id)->first();
             $wallet->arete_balance = (double) ($wallet->arete_balance - $trx->total_amount);
             $wallet->save();
 
-            $data = array(
-                'serviceID' => $trx->service_id,
-                'amount' => (int) $trx->amount,
-                'phone' => Auth::user()->phone == null ? '08188664322' : Auth::user()->phone,
-                'billersCode' => $trx->recipient, //"1212121212",
+            $data = [
+                'serviceID'      => $trx->service_id,
+                'amount'         => (int) $trx->amount,
+                'phone'          => Auth::user()->phone == null ? '08188664322' : Auth::user()->phone,
+                'billersCode'    => $trx->recipient, //"1212121212",
                 'variation_code' => $trx->variation_code,
-                'request_id' => $trx->reference,
-            );
+                'request_id'     => $trx->reference,
+            ];
 
             $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/pay");
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -819,7 +818,7 @@ class UtilityController extends Controller
             $result = json_decode($response);
 
             if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL") {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Successful";
                 $trx->save();
 
@@ -836,7 +835,7 @@ class UtilityController extends Controller
             } else if ($result->code == "016" && $result->response_description == "TRANSACTION FAILED") {
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
 
-                $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+                $wallet                = CustomerWallet::where("customer_id", Auth::user()->id)->first();
                 $wallet->arete_balance = (double) ($wallet->arete_balance + $trx->total_amount);
                 $wallet->save();
 
@@ -846,7 +845,7 @@ class UtilityController extends Controller
                 Session::flash("cableStatus", "failed");
                 return redirect()->route("business.buyCable");
             } else {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Pending";
                 $trx->save();
 
@@ -863,15 +862,15 @@ class UtilityController extends Controller
     public function buyElectricity()
     {
         $electricityProviders = ElectricityProviders::where("status", "Active")->get();
-        $provida = ElectricityProviders::where("status", "Active")->first();
+        $provida              = ElectricityProviders::where("status", "Active")->first();
         return view("business.buy_electricity", compact("electricityProviders", "provida"));
     }
 
     public function electricityPurchasePreview(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'service_id' => 'required',
-            'meter_number' => 'required',
+            'service_id'      => 'required',
+            'meter_number'    => 'required',
             'recharge_amount' => 'required|numeric',
         ]);
 
@@ -882,7 +881,7 @@ class UtilityController extends Controller
             return back();
         }
 
-        $provider = ElectricityProviders::where("service_id", $request->service_id)->first();
+        $provider    = ElectricityProviders::where("service_id", $request->service_id)->first();
         $topupAmount = abs(preg_replace("/,/", "", $request->recharge_amount));
 
         if ($topupAmount < 1000) {
@@ -895,11 +894,11 @@ class UtilityController extends Controller
         }
 
         try {
-            $data = array(
-                'serviceID' => $provider->service_id,
+            $data = [
+                'serviceID'   => $provider->service_id,
                 'billersCode' => $request->meter_number, //"1111111111111",
-                'type' => "prepaid",
-            );
+                'type'        => "prepaid",
+            ];
 
             $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/merchant-verify");
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -915,20 +914,20 @@ class UtilityController extends Controller
             $result = json_decode($response);
 
             if ($result->code == "000" && isset($result->content->Customer_Name)) {
-                $transaction = new UtilityTransactions;
-                $transaction->customer_id = Auth::user()->id;
-                $transaction->transaction_id = $this->genTrxId();
-                $transaction->reference = $this->generateVTPassReference();
-                $transaction->trx_type = "Electricity";
-                $transaction->biller = $provider->biller . " (" . $provider->acronym . ")";
-                $transaction->service_id = $provider->service_id;
-                $transaction->recipient = $request->meter_number;
-                $transaction->recipient_name = $result->content->Customer_Name;
+                $transaction                    = new UtilityTransactions;
+                $transaction->customer_id       = Auth::user()->id;
+                $transaction->transaction_id    = $this->genTrxId();
+                $transaction->reference         = $this->generateVTPassReference();
+                $transaction->trx_type          = "Electricity";
+                $transaction->biller            = $provider->biller . " (" . $provider->acronym . ")";
+                $transaction->service_id        = $provider->service_id;
+                $transaction->recipient         = $request->meter_number;
+                $transaction->recipient_name    = $result->content->Customer_Name;
                 $transaction->recipient_address = isset($result->content->Address) ? $result->content->Address : null;
-                $transaction->amount = $topupAmount;
-                $transaction->fee = $provider->fee;
-                $transaction->total_amount = (double) ($topupAmount + $provider->fee);
-                $transaction->status = "Initiated";
+                $transaction->amount            = $topupAmount;
+                $transaction->fee               = $provider->fee;
+                $transaction->total_amount      = (double) ($topupAmount + $provider->fee);
+                $transaction->status            = "Initiated";
                 if ($transaction->save()) {
                     return redirect()->route("business.electricityPreview", [$transaction->transaction_id]);
                 } else {
@@ -956,15 +955,15 @@ class UtilityController extends Controller
     {
         try {
 
-            $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+            $trx                 = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->payment_method = "Bonus Balance";
-            $trx->description = "Bonus Balance - Electricity Units Purchase from " . $trx->biller . " to " . $trx->recipient;
+            $trx->description    = "Bonus Balance - Electricity Units Purchase from " . $trx->biller . " to " . $trx->recipient;
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
 
             if ($customerWallet->referral_points < $trx->total_amount) {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Failed";
                 $trx->save();
 
@@ -972,18 +971,18 @@ class UtilityController extends Controller
                 return back();
             }
 
-            $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+            $wallet                  = CustomerWallet::where("customer_id", Auth::user()->id)->first();
             $wallet->referral_points = (double) ($wallet->referral_points - $trx->total_amount);
             $wallet->save();
 
-            $data = array(
-                'serviceID' => $trx->service_id,
-                'amount' => (int) $trx->amount,
-                'billersCode' => $trx->recipient, //"1111111111111",
+            $data = [
+                'serviceID'      => $trx->service_id,
+                'amount'         => (int) $trx->amount,
+                'billersCode'    => $trx->recipient, //"1111111111111",
                 'variation_code' => "prepaid",
-                'phone' => Auth::user()->phone == null ? '08188664322' : Auth::user()->phone,
-                'request_id' => $trx->reference,
-            );
+                'phone'          => Auth::user()->phone == null ? '08188664322' : Auth::user()->phone,
+                'request_id'     => $trx->reference,
+            ];
 
             $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/pay");
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -999,11 +998,11 @@ class UtilityController extends Controller
             $result = json_decode($response);
 
             if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL") {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
-                $trx->token = isset($result->token) ? $result->token : (isset($result->Token) ? $result->Token : $result->mainToken);
-                $trx->units = isset($result->units) ? $result->units : (isset($result->TariffRate) ? $result->TariffRate : (isset($result->mainTokenUnits) ? $result->mainTokenUnits : $result->Units));
+                $trx                    = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx->token             = isset($result->token) ? $result->token : (isset($result->Token) ? $result->Token : $result->mainToken);
+                $trx->units             = isset($result->units) ? $result->units : (isset($result->TariffRate) ? $result->TariffRate : (isset($result->mainTokenUnits) ? $result->mainTokenUnits : $result->Units));
                 $trx->recipient_address = isset($result->Address) ? $result->Address : (isset($result->CustomerAddress) ? $result->CustomerAddress : null);
-                $trx->status = "Successful";
+                $trx->status            = "Successful";
                 $trx->save();
 
                 try {
@@ -1019,7 +1018,7 @@ class UtilityController extends Controller
             } else if ($result->code == "016" && $result->response_description == "TRANSACTION FAILED") {
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
 
-                $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+                $wallet                  = CustomerWallet::where("customer_id", Auth::user()->id)->first();
                 $wallet->referral_points = (double) ($wallet->referral_points + $trx->total_amount);
                 $wallet->save();
 
@@ -1029,7 +1028,7 @@ class UtilityController extends Controller
                 toast("Electricity Purchase Failed", 'error');
                 return redirect()->route("business.buyElectricity");
             } else {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Pending";
                 $trx->save();
 
@@ -1047,15 +1046,15 @@ class UtilityController extends Controller
     {
         try {
 
-            $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+            $trx                 = UtilityTransactions::where("transaction_id", $trxId)->first();
             $trx->payment_method = "Wallet Balance";
-            $trx->description = "Wallet Balance - Electricity Units Purchase from " . $trx->biller . " to " . $trx->recipient;
+            $trx->description    = "Wallet Balance - Electricity Units Purchase from " . $trx->biller . " to " . $trx->recipient;
             $trx->save();
 
             $customerWallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
 
             if ($customerWallet->arete_balance < $trx->total_amount) {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Failed";
                 $trx->save();
 
@@ -1063,18 +1062,18 @@ class UtilityController extends Controller
                 return back();
             }
 
-            $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+            $wallet                = CustomerWallet::where("customer_id", Auth::user()->id)->first();
             $wallet->arete_balance = (double) ($wallet->arete_balance - $trx->total_amount);
             $wallet->save();
 
-            $data = array(
-                'serviceID' => $trx->service_id,
-                'amount' => (int) $trx->amount,
-                'billersCode' => $trx->recipient, //"1111111111111",
+            $data = [
+                'serviceID'      => $trx->service_id,
+                'amount'         => (int) $trx->amount,
+                'billersCode'    => $trx->recipient, //"1111111111111",
                 'variation_code' => "prepaid",
-                'phone' => Auth::user()->phone == null ? '08188664322' : Auth::user()->phone,
-                'request_id' => $trx->reference,
-            );
+                'phone'          => Auth::user()->phone == null ? '08188664322' : Auth::user()->phone,
+                'request_id'     => $trx->reference,
+            ];
 
             $curl = curl_init(env('VTPASS_ENDPOINT') . "/api/pay");
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -1090,11 +1089,11 @@ class UtilityController extends Controller
             $result = json_decode($response);
 
             if ($result->code == "000" && $result->response_description == "TRANSACTION SUCCESSFUL") {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
-                $trx->token = isset($result->token) ? $result->token : (isset($result->Token) ? $result->Token : $result->mainToken);
-                $trx->units = isset($result->units) ? $result->units : (isset($result->TariffRate) ? $result->TariffRate : (isset($result->mainTokenUnits) ? $result->mainTokenUnits : $result->Units));
+                $trx                    = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx->token             = isset($result->token) ? $result->token : (isset($result->Token) ? $result->Token : $result->mainToken);
+                $trx->units             = isset($result->units) ? $result->units : (isset($result->TariffRate) ? $result->TariffRate : (isset($result->mainTokenUnits) ? $result->mainTokenUnits : $result->Units));
                 $trx->recipient_address = isset($result->Address) ? $result->Address : (isset($result->CustomerAddress) ? $result->CustomerAddress : null);
-                $trx->status = "Successful";
+                $trx->status            = "Successful";
                 $trx->save();
 
                 try {
@@ -1110,7 +1109,7 @@ class UtilityController extends Controller
             } else if ($result->code == "016" && $result->response_description == "TRANSACTION FAILED") {
                 $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
 
-                $wallet = CustomerWallet::where("customer_id", Auth::user()->id)->first();
+                $wallet                = CustomerWallet::where("customer_id", Auth::user()->id)->first();
                 $wallet->arete_balance = (double) ($wallet->arete_balance + $trx->total_amount);
                 $wallet->save();
 
@@ -1120,7 +1119,7 @@ class UtilityController extends Controller
                 toast("Electricity Purchase Failed", 'error');
                 return redirect()->route("business.buyElectricity");
             } else {
-                $trx = UtilityTransactions::where("transaction_id", $trxId)->first();
+                $trx         = UtilityTransactions::where("transaction_id", $trxId)->first();
                 $trx->status = "Pending";
                 $trx->save();
 
@@ -1136,8 +1135,8 @@ class UtilityController extends Controller
 
     public function genTrxId()
     {
-        $pin = range(0, 12);
-        $set = shuffle($pin);
+        $pin  = range(0, 12);
+        $set  = shuffle($pin);
         $code = "";
         for ($i = 0; $i < 12; $i++) {
             $code = $code . "" . $pin[$i];
@@ -1148,9 +1147,9 @@ class UtilityController extends Controller
 
     public function generateVTPassReference()
     {
-        $date = date('Ymd');
+        $date    = date('Ymd');
         $seconds = date('i');
-        $hour = date('H') + 1;
+        $hour    = date('H') + 1;
         if ($hour < 10) {
             $hour = "0" . $hour;
         }
