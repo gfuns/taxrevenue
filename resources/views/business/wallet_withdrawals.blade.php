@@ -46,9 +46,9 @@
                                         &#8358;{{ number_format(Auth::user()->wallet->arete_balance, 2) }}</h5>
                                     <div class="mt-4">
                                         <button class="btn btn-success" data-bs-toggle="modal"
-                                        data-bs-target="#topupModal">Top Up</button>
+                                            data-bs-target="#topupModal">Top Up</button>
                                         <button class="btn btn-danger ms-5" data-bs-toggle="modal"
-                                        data-bs-target="#withdrawalModal">Withdraw</button>
+                                            data-bs-target="#withdrawalModal">Withdraw</button>
                                     </div>
                                 </div>
                             </div>
@@ -329,8 +329,9 @@
                         @if (Auth::user()->withdrawal_confirmation == 'GoogleAuth')
                             <div class="mb-3 col-12">
                                 <label for="gacode" class="form-label">Google Authenticator Code</label>
-                                <input id="gacode" type="text" class="form-control" name="google_authenticator_code"
-                                    placeholder="Google Authenticator Code" required/>
+                                <input id="gacode" type="text" class="form-control"
+                                    name="google_authenticator_code" placeholder="Google Authenticator Code"
+                                    required />
                                 <div class="invalid-feedback">Please enter google authenticator code.</div>
                             </div>
                         @endif

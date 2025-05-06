@@ -191,8 +191,8 @@
                                         <div class="col-xl-12 col-12 job-items job-empty">
                                             <div class="text-center mt-4"><i class="bi bi-emoji-frown"
                                                     style="font-size: 48px"></i>
-                                                <h3 class="mt-2">No Withdrawal Transaction</h3>
-                                                <div class="mt-2 text-muted"> There are no withdrawal
+                                                <h3 class="mt-2">No Arete Bonus Transaction</h3>
+                                                <div class="mt-2 text-muted"> There are no arete bonus
                                                     transactions found with your
                                                     queries. </div>
                                             </div>
