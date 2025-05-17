@@ -17,6 +17,13 @@ return new class extends Migration
             $table->enum('trx_type', ['credit', 'debit']);
             $table->double('amount', 12, 2);
             $table->text('details');
+            $table->double('balance_before', 12, 2)->default(0.00);
+            $table->double('balance_after', 12, 2)->default(0.00);
+            $table->string('reference')->nullable();
+            $table->string('bank')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('account_name')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });

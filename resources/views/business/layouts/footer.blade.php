@@ -70,6 +70,10 @@
             dropdownParent: $('#withdrawalModal')
         });
 
+        $('#bank2').select2({
+            dropdownParent: $('#bonusWithdrawalModal')
+        });
+
         $('#editRole').on('show.bs.offcanvas', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var myid = button.data('myid') // Extract info from data-* attributes

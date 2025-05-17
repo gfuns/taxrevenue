@@ -250,6 +250,8 @@ Route::group([
 
         Route::post('reviewBusiness', [App\Http\Controllers\Business\HomeController::class, 'reviewBusiness'])->name("business.reviewBusiness");
 
+        Route::post('initiateBonusWithdrawal', [App\Http\Controllers\Business\WalletController::class, 'initiateBonusWithdrawal'])->name("business.initiateBonusWithdrawal");
+
     });
 
 });

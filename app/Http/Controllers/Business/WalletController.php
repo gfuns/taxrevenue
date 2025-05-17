@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
+use App\Mail\BonusWithdrawalSuccessful as BonusWithdrawalSuccessful;
 use App\Mail\TopupSuccessful as TopupSuccessful;
 use App\Mail\WithdrawalSuccessful as WithdrawalSuccessful;
 use App\Models\AreteWalletTransaction;
@@ -217,6 +218,137 @@ class WalletController extends Controller
                         }
 
                         toast("Funds Withdrawal Successful", 'success');
+                        return redirect()->route("business.myWallet");
+                    } else {
+                        toast($transferRes["message"], 'error');
+                        return redirect()->route("business.myWallet");
+                    }
+                } else {
+                    toast($result["message"], 'error');
+                    return redirect()->route("business.myWallet");
+                }
+            } catch (\Exception $e) {
+                DB::rollback();
+                report($e);
+
+                toast("Something Went Wrong", 'error');
+                return redirect()->route("business.myWallet");
+            }
+        }
+
+    }
+
+    public function initiateBonusWithdrawal(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'bank'           => 'required',
+            'account_number' => 'required',
+            'account_name'   => 'required',
+            'amount'         => 'required',
+        ]);
+
+        if (Auth::user()->withdrawal_confirmation == 'GoogleAuth') {
+            $validator = Validator::make($request->all(), [
+                'google_authenticator_code' => 'required',
+            ]);
+        }
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $withdrawalAmount = abs(preg_replace("/,/", "", $request->amount));
+
+        if (Auth::user()->withdrawal_confirmation == 'GoogleAuth') {
+            $google2fa = app('pragmarx.google2fa');
+            $valid     = $google2fa->verify($request->google_authenticator_code, Auth::user()->google2fa_secret);
+
+            if (! $valid) {
+                toast('Invalid Google Authenticator Code Provided.', 'error');
+                return back();
+            }
+        }
+
+        if (Auth::user()->wallet->referral_points < 10000) {
+            toast('You can only withdraw when you have accummulated a bonus of 10,000 Naira.', 'error');
+            return back();
+        } else if ($withdrawalAmount > Auth::user()->wallet->referral_points) {
+            toast('Insufficient Bonus Balance.', 'error');
+            return back();
+        } else {
+            try {
+                $response = Http::accept('application/json')->withHeaders([
+                    'Authorization' => "Bearer " . env('ALT_PAYSTACK_SECRET_KEY'),
+                ])->post("https://api.paystack.co/transferrecipient", [
+                    "type"           => "nuban",
+                    "name"           => $request->account_name,
+                    "account_number" => $request->account_number,
+                    "bank_code"      => $request->bank,
+                    "currency"       => "NGN",
+                ]);
+
+                $result = $response->json();
+
+                if ($result["status"] === true) {
+
+                    $data = $response->collect("data");
+
+                    $recipient = $data["recipient_code"];
+                    $reference = Uuid::uuid4();
+
+                    //Initiate the Actual Transfer
+
+                    $response = Http::accept('application/json')->withHeaders([
+                        'Authorization' => "Bearer " . env('ALT_PAYSTACK_SECRET_KEY'),
+                    ])->post("https://api.paystack.co/transfer", [
+                        "source"    => "balance",
+                        "reason"    => "Customer Funds Withdrawal from Arete Nigeria",
+                        "amount"    => (abs($request->amount) * 100),
+                        "recipient" => $recipient,
+                        "reference" => $reference,
+                    ]);
+
+                    $transferRes = $response->json();
+
+                    if ($transferRes["status"] === true) {
+                        $transferData = $response->collect("data");
+
+                        $bankName = BankList::where("bank_code", $request->bank)->first()->bank_name;
+
+                        DB::beginTransaction();
+
+                        $trx                 = new ReferralTransaction;
+                        $trx->customer_id    = Auth::user()->id;
+                        $trx->trx_type       = "debit";
+                        $trx->amount         = $withdrawalAmount;
+                        $trx->description    = "Customer Bonus Withdrawal";
+                        $trx->reference      = $transferData["reference"];
+                        $trx->bank           = $bankName;
+                        $trx->account_number = $request->account_number;
+                        $trx->account_name   = $request->account_name;
+                        $trx->balance_before = Auth::user()->wallet->referral_points;
+                        $trx->balance_after  = (Auth::user()->wallet->referral_points - $withdrawalAmount);
+                        $trx->status         = "Successful";
+                        $trx->save();
+
+                        $wallet                  = Auth::user()->referral_points;
+                        $wallet->referral_points = (Auth::user()->wallet->referral_points - $withdrawalAmount);
+                        $wallet->save();
+
+                        DB::commit();
+
+                        try {
+                            $user = Auth::user();
+                            Mail::to($user)->send(new BonusWithdrawalSuccessful($user, $trx));
+                        } catch (\Exception $e) {
+                            report($e);
+                        }
+
+                        toast("Bonus Withdrawal Successful", 'success');
                         return redirect()->route("business.myWallet");
                     } else {
                         toast($transferRes["message"], 'error');
