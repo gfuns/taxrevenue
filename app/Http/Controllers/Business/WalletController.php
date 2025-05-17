@@ -325,7 +325,7 @@ class WalletController extends Controller
                         $trx->customer_id    = Auth::user()->id;
                         $trx->trx_type       = "debit";
                         $trx->amount         = $withdrawalAmount;
-                        $trx->description    = "Customer Bonus Withdrawal";
+                        $trx->details        = "Customer Bonus Withdrawal";
                         $trx->reference      = $transferData["reference"];
                         $trx->bank           = $bankName;
                         $trx->account_number = $request->account_number;
@@ -335,7 +335,7 @@ class WalletController extends Controller
                         $trx->status         = "Successful";
                         $trx->save();
 
-                        $wallet                  = Auth::user()->referral_points;
+                        $wallet                  = Auth::user()->wallet;
                         $wallet->referral_points = (Auth::user()->wallet->referral_points - $withdrawalAmount);
                         $wallet->save();
 

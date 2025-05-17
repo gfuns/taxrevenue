@@ -58,10 +58,12 @@
                                     <h4 class="mb-1">Your Arete Bonus Balance</h4>
                                     <h5 class="mb-0 display-5 fw-bold mt-4">
                                         &#8358;{{ number_format(Auth::user()->wallet->referral_points, 2) }}</h5>
-                                    <div class="mt-4">
-                                        <button class="btn btn-danger ms-5" data-bs-toggle="modal"
-                                            data-bs-target="#bonusWithdrawalModal">Withdraw</button>
-                                    </div>
+                                    @if (Auth::user()->wallet->referral_points >= 10000)
+                                        <div class="mt-4">
+                                            <button class="btn btn-danger ms-5" data-bs-toggle="modal"
+                                                data-bs-target="#bonusWithdrawalModal">Withdraw</button>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -346,8 +348,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="bonusWithdrawalModal" tabindex="-1" role="dialog" aria-labelledby="withdrawalModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="bonusWithdrawalModal" tabindex="-1" role="dialog"
+    aria-labelledby="withdrawalModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header align-items-center d-flex">
