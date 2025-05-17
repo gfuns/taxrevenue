@@ -30,9 +30,9 @@ Route::get('/job-portal', [FrontEndController::class, 'jobPortal']);
 
 Route::get('/job/details/{slug}', [FrontEndController::class, 'jobDetails']);
 
-Route::get('/shop-now', [FrontEndController::class, 'shop']);
+// Route::get('/shop-now', [FrontEndController::class, 'shop']);
 
-Route::get('/academy', [FrontEndController::class, 'academy']);
+// Route::get('/academy', [FrontEndController::class, 'academy']);
 
 Route::get('/blog', [FrontEndController::class, 'blogPosts']);
 

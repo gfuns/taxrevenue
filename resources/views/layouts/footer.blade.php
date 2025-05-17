@@ -39,15 +39,16 @@
                     <li><a href="/about-us" class="text-white">About Us</a></li>
                     <li><a href="/about-us#team" class="text-white">Our Team</a></li>
                     <li><a href="/faqs" class="text-white">FAQs</a></li>
-                    <li><a href="/contact-us" class="text-white">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-col-2 col-md-2 col-sm-6 col-xs-6 text-white">
                 <div class="h6 mb-20">Community</div>
                 <ul class="menu-footer text-white">
                     <li><a href="/forum" class="text-white">Forum</a></li>
-                    <li><a href="/academy" class="text-white">Academy</a></li>
-                    <li><a href="/shop-now" class="text-white">Shop</a></li>
+                    {{-- <li><a href="/academy" class="text-white">Academy</a></li> --}}
+                    {{-- <li><a href="/shop-now" class="text-white">Shop</a></li> --}}
+
+                    <li><a href="/contact-us" class="text-white">Contact</a></li>
                     <li><a href="/blog" class="text-white">News & Updates</a></li>
                 </ul>
             </div>
@@ -57,7 +58,6 @@
                 <ul class="menu-footer text-white">
                     <li><a href="#" class="text-white">iOS</a></li>
                     <li><a href="#" class="text-white">Android</a></li>
-                    <li><a href="#" class="text-white">Microsoft</a></li>
                     <li><a href="#" class="text-white">Desktop</a></li>
                 </ul>
             </div>
