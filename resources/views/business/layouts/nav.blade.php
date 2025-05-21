@@ -147,35 +147,10 @@
                 <div class="nav-divider"></div>
             </li>
 
-
-            <li class="nav-item">
-                <a class="nav-link " id="academy" href="{{ route('business.academy') }}">
-                    <i class="nav-icon bi bi-play-btn me-2"></i>
-                    Academy
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <div class="nav-divider"></div>
-            </li>
-
-
             <li class="nav-item">
                 <a class="nav-link " id="forum" href="/forum">
                     <i class="nav-icon bi bi-chat-left-dots me-2"></i>
                     Forum
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <div class="nav-divider"></div>
-            </li>
-
-
-            <li class="nav-item">
-                <a class="nav-link " id="store" href="{{ route('business.miniStore') }}">
-                    <i class="nav-icon bi bi-cart-check me-2"></i>
-                    Mini Store
                 </a>
             </li>
 

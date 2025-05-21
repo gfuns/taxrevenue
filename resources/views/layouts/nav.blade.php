@@ -11,10 +11,8 @@
                         <li><a id="home" href="/"> Home </a></li>
                         <li><a id="businesses" href="/business-listing" class=" "> Business Directory </a></li>
                         <li><a id="jobportal" href="/job-portal" class=" "> Job Portal </a></li>
-                        {{-- <li><a id="academy" href="/academy" class=" "> Academy </a></li> --}}
                         <li><a id="blog" href="/blog" class=" "> Blog </a></li>
                         <li><a id="forum" href="/forum" class=" "> Forum </a></li>
-                        {{-- <li><a id="shop" href="/shop-now" class=" "> Shop Now </a></li> --}}
                     </ul>
                 </nav>
                 <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
@@ -71,11 +69,8 @@
                             <li class=" "><a href="/"> Home </a></li>
                             <li class=" "><a href="/business-listing"> Business Directory </a></li>
                             <li class=" "><a href="/job-portal"> Job Portal </a></li>
-                            <li class=" "><a href="/academy"> Academy </a></li>
                             <li class=" "><a href="/blog"> Blog </a></li>
                             <li class=" "><a href="/forum"> Forum </a></li>
-                            <li class=" "><a href="/shop-now"> Shop Now </a></li>
-
                         </ul>
                     </nav>
                 </div>
