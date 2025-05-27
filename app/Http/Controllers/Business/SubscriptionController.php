@@ -246,8 +246,6 @@ class SubscriptionController extends Controller
 
                 $resData = $response->json();
 
-                dd($resData);
-
                 if ($resData["status"] === true && $resData["data"]["status"] == "success") {
                     $cardTrx                     = new CardTransactions;
                     $cardTrx->customer_id        = Auth::user()->id;
