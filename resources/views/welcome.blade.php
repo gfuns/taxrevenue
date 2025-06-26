@@ -169,7 +169,8 @@
                 <div class="section-box mb-30">
                     <div class="container">
                         <div class="box-we-hiring">
-                            <div class="box-we-hiring-before page_speed_1341285398"></div>
+                            <img src="{{ asset("images/coza_advert.jpg") }}"/>
+                            {{-- <div class="box-we-hiring-before page_speed_1341285398"></div>
                             <div class="text-1"><span class="text-we-are">We are</span><span
                                     class="text-hiring">HIRING</span></div>
                             <div class="text-2"> Let’s <span class="color-brand-1">Work</span> Together
@@ -178,7 +179,7 @@
                             <div class="text-3"><a href="#">
                                     <div class="btn btn-apply btn-apply-icon">Apply</div>
                                 </a></div>
-                            <div class="box-we-hiring-after page_speed_200008368"></div>
+                            <div class="box-we-hiring-after page_speed_200008368"></div> --}}
                         </div>
                     </div>
                 </div>
@@ -190,7 +191,7 @@
                             <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp">Top
                                 <span class="color-brand-2" style="color:#690068">Businesses</span>
                             </h2>
-                            <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">
+                             <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">
                                 Discover your next favorite business today. Connect, Explore and Transact with local
                                 businesses around you</p>
                         </div>
