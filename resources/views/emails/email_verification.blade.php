@@ -22,15 +22,15 @@
       margin-bottom: 20px;
     }
     .logo img {
-      max-width: 150px;
+      max-width: 345px;
     }
     h1 {
-      color: #333333;
+      /* color: #333333; */
       font-size: 24px;
       margin-top: 0;
     }
     p {
-      color: #555555;
+      /* color: #555555; */
       font-size: 16px;
       line-height: 1.5;
     }
@@ -48,14 +48,14 @@
 <body>
   <div class="container">
     <div class="logo">
-      <img src="{{ $message->embed(public_path("images/logo.png"))}}" alt="PaySlack Logo">
+      <img src="{{ $message->embed(public_path("images/logo_mail.png"))}}" alt="PaySlack Logo">
     </div>
     <h1>Verify your email address</h1>
-    <p>Dear {{ $name }},</p>
+    <p>Dear {{ $user->last_name . ', ' . $user->other_names }}</p>
     <p>Your email verification code is below - enter it on the provided screen on the application.</p>
     <div class="code">{{ $otp }}</div>
     <p>If you didn't request this email, there's nothing to worry about - you can safely ignore it.</p>
-    <p>Thank you,<br>Arete Support Team</p>
+    <p>Thank you,<br>{{ env("APP_NAME") }} Support Team</p>
   </div>
 </body>
 </html>

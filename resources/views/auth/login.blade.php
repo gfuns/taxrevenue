@@ -35,16 +35,15 @@
         <div class="page-ath-content">
             <div class="page-ath-header">
                 <a href="/" class="page-ath-logo">
-                    <img class="page-ath-logo-img" src="{{ asset('files/general/logo.png') }}"
-                        alt="{{ env('APP_NAME') }}">
+                    <img class="page-ath-logo-imgsss" src="{{ asset('images/logo.png') }}"
+                        alt="BPP Logo"  style="max-width: 345px">
                 </a>
             </div>
 
 
             <div class="page-ath-form">
                 <h2 class="page-ath-heading">Sign In
-                    <small>with your {{ env('APP_NAME') }}
-                        account credentials</small>
+                    <small>With Your Account Credentials</small>
                 </h2>
 
                 @if ($errors->any())
@@ -123,7 +122,7 @@
                         </div>
                     </li>
                 </ul>
-                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Right Reserved.
+                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. <br/>All Right Reserved.
                 </div>
             </div>
         </div>
@@ -137,8 +136,8 @@
                     </div>
 
                     <div style="margin-top: 450px; margin-bottom: 50px">
-                        <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
-                        <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
+                        <span style="color:white; font-size: 72px; font-weight:bolder">Content A</span>
+                        <span style="color:#FEBA00; font-size: 42px; font-weight:bolder"> &nbsp; Content B</span>
 
                         <p class="text-white">The No. 1 world class cutting-edge business directory designed for
                             businesses

@@ -43,8 +43,8 @@
         <div class="page-ath-content" style="pading:0px; margin:0px">
             <div class="page-ath-header">
                 <a href="/" class="page-ath-logo">
-                    <img class="page-ath-logo-img" src="{{ asset('files/general/logo.png') }}"
-                        alt="{{ env('APP_NAME') }}">
+                    <img class="page-ath-logo-img" src="{{ asset('images/logo.png') }}"
+                        alt="BPP Logo" style="max-width: 345px">
                 </a>
             </div>
 
@@ -52,7 +52,7 @@
             <div class="page-ath-form">
 
                 <h2 class="page-ath-heading">Sign Up
-                    <small>Create Your {{ env('APP_NAME') }} Account</small>
+                    <small>Create Your Account</small>
                 </h2>
                 @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -69,19 +69,23 @@
                 <form class="validate validate-modern" method="POST" action="{{ route('register') }}" id="register">
                     @csrf
                     <div class="input-item">
-                        <input type="text" placeholder="First Name" class="input-bordered" name="first_name"
-                            value="{{ old('first_name') }}" minlength="3" data-msg-required="Required."
+                        <input type="text" placeholder="Last Name" class="input-bordered" name="last_name"
+                            value="{{ old('last_name') }}" minlength="3" data-msg-required="Required."
                             data-msg-minlength="At least 3 chars." required>
                     </div>
                     <div class="input-item">
-                        <input type="text" placeholder="Last Name" class="input-bordered" name="last_name"
-                            value="{{ old('last_name') }}" minlength="3" data-msg-required="Required."
+                        <input type="text" placeholder="Other Names" class="input-bordered" name="other_names"
+                            value="{{ old('other_names') }}" minlength="3" data-msg-required="Required."
                             data-msg-minlength="At least 3 chars." required>
                     </div>
                     <div class="input-item">
                         <input type="email" placeholder="Your Email" class="input-bordered" name="email"
                             value="{{ old('email') }}" data-msg-required="Required."
                             data-msg-email="Enter valid email." required>
+                    </div>
+                    <div class="input-item">
+                        <input type="text" placeholder="Your Phone Number" class="input-bordered" name="phone_number"
+                            value="{{ old('phone_number') }}" data-msg-required="Required." required>
                     </div>
                     <div class="input-item password-toggle">
                         <input type="password" placeholder="Password" class="input-bordered" name="password"
@@ -94,17 +98,11 @@
                     <div class="input-item password-toggle">
                         <input type="password" placeholder="Repeat Password" class="input-bordered"
                             name="password_confirmation" data-rule-equalTo="#password" id="password2" minlength="6"
-                            data-msg-required="Required." data-msg-equalTo="Enter the same value."
+                            data-msg-required="Required." data-msg-equalTo="Enter the same value with the password above."
                             data-msg-minlength="At least 6 chars." required>
                             <span class="toggle-password-2" onclick="togglePassword2Visibility()">
                                 <i class="fa fa-eye"></i>
                             </span>
-                    </div>
-                    <div class="input-item">
-                        <input type="text" placeholder="Referral ID"
-                            value="{{ request()->ref == null ? old('referral_code') : request()->ref }}"
-                            class="input-bordered" name="referral_code"
-                            @if (isset(request()->ref)) readonly @endif>
                     </div>
 
                     <div class="input-item text-left">
@@ -127,30 +125,9 @@
             </div>
 
             <div class="page-ath-footer">
-                <ul class="socials mb-3">
-                    <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
-                    <li><a href="#"><em class="fab fa-twitter"></em></a></li>
-                    <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
-                    <li><a href="#"><em class="fab fa-github-alt"></em></a></li>
-                    <li><a href="#"><em class="fab fa-youtube"></em></a></li>
-                    <li><a href="#"><em class="fab fa-medium-m"></em></a></li>
-                    <li><a href="#"><em class="fab fa-telegram-plane"></em></a></li>
-                </ul>
-                <ul class="footer-links guttar-20px align-items-center">
-                    <li><a href="/privacy-policy" target="_blank">Privacy Policy</a></li>
-                    <li><a href="/terms-and-conditions" target="_blank">Terms and Condition</a></li>
-                    <li>
-                        <div class="lang-switch relative"><a href="javascript:void(0)"
-                                class="lang-switch-btn toggle-tigger">EN<em class="ti ti-angle-up"></em></a>
-                            <div class="toggle-class dropdown-content dropdown-content-up">
-                                <ul class="lang-list">
-                                    <li><a href="?lang=en">English</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Right Reserved.
+
+
+                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. <br/>All Right Reserved.
                 </div>
             </div>
         </div>
@@ -163,9 +140,9 @@
                                     to Home</strong></span></a>
                     </div>
 
-                    <div style="margin-top: 400px; margin-bottom: 150px">
-                        <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
-                        <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
+                    <div style="margin-top:350px; margin-bottom: 150px">
+                        <span style="color:white; font-size: 72px; font-weight:bolder">Content A</span>
+                        <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Content B</span>
 
                         <p class="text-white">The No. 1 world class cutting-edge business directory designed for
                             businesses

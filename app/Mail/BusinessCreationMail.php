@@ -9,39 +9,45 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class VerificationMail extends Mailable
+class BusinessCreationMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $otp;
+    public $password;
+
     /**
      * Create a new message instance.
+     *
+     * @return void
      */
-    public function __construct(protected User $user, $otp)
+    public function __construct(protected User $user)
     {
-        $this->otp = $otp;
+
     }
 
     /**
      * Get the message envelope.
+     *
+     * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function envelope(): Envelope
+    public function envelope()
     {
         return new Envelope(
             from: new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
-            subject: 'Arete Verification Code: Use the code ' . $this->otp . ' to proceed',
+            subject: 'Notification of Account Creation',
         );
     }
 
     /**
      * Get the message content definition.
+     *
+     * @return \Illuminate\Mail\Mailables\Content
      */
-    public function content(): Content
+    public function content()
     {
         return new Content(
-            view: 'emails.email_verification',
+            view: 'emails.business_creation',
             with: [
                 'user' => $this->user,
-                'otp'  => $this->otp,
             ],
         );
     }
@@ -49,9 +55,9 @@ class VerificationMail extends Mailable
     /**
      * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return array
      */
-    public function attachments(): array
+    public function attachments()
     {
         return [];
     }

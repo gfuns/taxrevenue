@@ -30,7 +30,7 @@
                             <img alt="avatar" src="{{ Auth::user()->photo == null ? asset('assets/images/avatar/avatar.webp') : Auth::user()->photo }}" class="rounded-circle" >
                         </div>
                         <div class="ms-3 lh-1">
-                            <h5 class="mb-1">{{ Auth::user()->first_name." ". Auth::user()->last_name }}</h5>
+                            <h5 class="mb-1">{{ Auth::user()->last_name." ". Auth::user()->other_names}}</h5>
                             <p class="mb-0 text-muted">{{ Auth::user()->email }}</p>
                         </div>
                     </div>
@@ -39,12 +39,12 @@
                 <ul class="list-unstyled">
 
                     <li>
-                        <a class="dropdown-item" href="{{ route("business.viewProfile") }}">
+                        <a class="dropdown-item" href="">
                             <i class="fe fe-user me-2"></i> Profile
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ route("business.security") }}">
+                        <a class="dropdown-item" href="">
                             <i class="fe fe-lock me-2"></i> Security
                         </a>
                     </li>

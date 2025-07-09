@@ -1,10 +1,8 @@
 <?php
-
 namespace App\Http\Middleware;
 
 use Auth;
 use Closure;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Session;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,17 +21,11 @@ class WebAuthenticated
                 return $next($request);
             } else {
                 Auth::logout();
-                Session::flash("deletionProcessMessage", "Your Account Is Undergoing Deletion Process");
+                Session::flash("deletionProcessMessage", "Your Account Is Currentky Suspended.");
                 return response()->view("auth.login");
             }
         } else {
-            return new JsonResponse([
-                'response' => [
-                    'status_code' => (int) 401,
-                    'status' => "Failed",
-                    'message' => 'User is not authenticated',
-                ],
-            ], 401);
+            return response()->view("auth.login");
         }
     }
 }

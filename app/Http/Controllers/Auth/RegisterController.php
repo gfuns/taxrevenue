@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -32,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = RouteServiceProvider::WELCOME;
 
     /**
      * Create a new controller instance.
@@ -52,14 +51,6 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
-
-        if (request()->input('referral_code') != null) {
-            $refereeExist = Customer::where("referral_code", request()->input('referral_code'))->first();
-            if ($refereeExist == null) {
-                // dd("Referee Does Not Exist");
-                return back()->withErrors("Invalid Referral Code Provided")->withInput();
-            }
-        }
 
         $this->validator($request->all())->validate();
 
@@ -85,10 +76,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:customers'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'last_name'    => ['required', 'string', 'max:255'],
+            'other_names'  => ['required', 'string', 'max:255'],
+            'email'        => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone_number' => ['required', 'string', 'max:255', 'unique:users'],
+            'password'     => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 
@@ -101,12 +93,14 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
-        return Customer::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+        return User::create([
+            'last_name'    => $data['last_name'],
+            'other_names'  => $data['other_names'],
+            'email'        => $data['email'],
+            'role'         => "Business",
+            'role_id'      => 2,
+            'phone_number' => $data['phone_number'],
+            'password'     => Hash::make($data['password']),
         ]);
 
     }

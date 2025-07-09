@@ -43,22 +43,18 @@
         <div class="col-lg-3 col-12">
             <div class="col-lg-12 col-12">
                 <!-- Card -->
-                <div class="card mb-4 @if (isset($param['activeSubscription'])) bg-light-success @else  bg-light-danger @endif">
+                <div class="card mb-4">
                     <!-- Card body -->
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-2 lh-1">
                             <h4 class="fs-6 text-uppercase fw-bold ls-md">Current Subscription</h4>
                             <div>
                                 <span
-                                    class="bi bi-award-fill fs-3 @if (isset($param['activeSubscription'])) text-success @else  text-danger @endif"></span>
+                                    class="bi bi-award-fill fs-3"></span>
                             </div>
                         </div>
                         <h4 class="fw-bold mb-1">
-                            @if (isset($param['activeSubscription']))
-                                &#8358;{{ number_format($param['activeSubscription']->subscription_amount, 2) }}/{{ $param['activeSubscription']->plan->plan }}
-                            @else
-                                <span class="fs-5">No Active Subscription Found</span>
-                            @endif
+                            <span class="fs-5">No Active Subscription Found</span>
                         </h4>
                     </div>
                 </div>
@@ -74,7 +70,7 @@
                                 <span class="bi bi-wallet fs-3 text-primary"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-1">&#8358;{{ number_format($param['areteBalance'], 2) }}</h4>
+                        <h4 class="fw-bold mb-1">&#8358;</h4>
                     </div>
                 </div>
             </div>
@@ -89,7 +85,7 @@
                                 <span class="bi bi-balloon-heart-fill fs-3 text-primary"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-1">{{ number_format($param['referralPoints'], 0) }} Points</h4>
+                        <h4 class="fw-bold mb-1"></h4>
                     </div>
                 </div>
             </div>
@@ -104,7 +100,7 @@
                                 <span class="bi bi-briefcase-fill fs-3 text-primary"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-1">{{ number_format($param['jobsPosted'], 0) }} Job Listing(s)</h4>
+                        <h4 class="fw-bold mb-1"></h4>
                     </div>
                 </div>
             </div>

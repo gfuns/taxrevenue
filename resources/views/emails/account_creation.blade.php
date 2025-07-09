@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Creation</title>
+    <title>Account Creation Notification</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -56,7 +56,7 @@
 <body>
     <div class="container">
         <div class="logo">
-            <img src="{{ $message->embed(public_path('images/logo.png')) }}" alt="PaySlack Logo">
+            <img src="{{ $message->embed(public_path('images/logo.png')) }}" alt="BPP Logo">
         </div>
         <h1>Account Creation</h1>
         <p>Dear {{ $name }},</p>

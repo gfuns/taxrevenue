@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('customer_otps', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->unsigned();
-            $table->text("thumbnail");
-            $table->text("product_name");
-            $table->double("original_price", 12, 2);
-            $table->double("discounted_price", 12, 2);
-            $table->text("affiliate_link");
+            $table->enum('otp_type', ["phone", "email", "reset", "pin"]);
+            $table->string('otp');
+            $table->timestamp('otp_expiration')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('customer_otps');
     }
 };

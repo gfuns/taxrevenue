@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Mail\AuthenticationOTP as AuthenticationOTP;
+use App\Mail\BusinessCreationMail as BusinessCreationMail;
 use App\Mail\LoginNotification as LoginNotification;
-use App\Models\Business;
+use App\Mail\VerificationMail as VerificationMail;
 use App\Models\CustomerOtp;
 use App\Models\User;
 use Auth;
@@ -32,29 +32,22 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->account_type == "business") {
-            $businessExist = Business::where("customer_id", Auth::user()->id)->first();
-            if (!isset($businessExist)) {
-                $business = new Business;
-                $business->customer_id = Auth::user()->id;
-                $business->save();
-            }
+        if (Auth::user()->role == "Business") {
 
             try {
                 if (Auth::user()->auth_2fa == "Email") {
                     if ($otp = CustomerOtp::updateOrCreate(
                         [
                             'customer_id' => Auth::user()->id,
-                            'otp_type' => Auth::user()->auth_2fa,
+                            'otp_type'    => Auth::user()->auth_2fa,
                         ], [
-                            'otp' => $this->generateOtp(),
+                            'otp'            => $this->generateOtp(),
                             'otp_expiration' => Carbon::now()->addMinutes(10),
                         ])) {
 
-                        if (Auth::user()->auth_2fa == "Email") {
-                            $user = Auth::user();
-                            Mail::to($user)->send(new AuthenticationOTP($user, $otp));
-                        }
+                        $user = Auth::user();
+                        Mail::to($user)->send(new AuthenticationOTP($user, $otp));
+
                     }
 
                 }
@@ -66,25 +59,49 @@ class HomeController extends Controller
             }
 
             return redirect()->route("business.dashboard");
-        } else if (Auth::user()->account_type == "artisan") {
-            return redirect()->route("artisan.dashboard");
         } else {
-            return redirect()->route("accountSelection");
+            return redirect()->route("admin.dashboard");
+        }
+    }
+
+    public function welcome()
+    {
+        try {
+
+            if ($otp = CustomerOtp::updateOrCreate(
+                [
+                    'user_id'  => Auth::user()->id,
+                    'otp_type' => "email",
+                ], [
+                    'otp'            => $this->generateOtp(),
+                    'otp_expiration' => Carbon::now()->addMinutes(10),
+                ])) {
+
+                $user = Auth::user();
+                Mail::to($user)->send(new BusinessCreationMail($user));
+                Mail::to($user)->send(new VerificationMail($user, $otp->otp));
+
+            }
+
+        } catch (\Exception $e) {
+            report($e);
+        } finally {
+            return redirect()->route("home");
         }
     }
 
     public function authy()
     {
         try {
-            $user = Auth::user();
-            $platform = Agent::platform();
-            $ip = "172.70.231.54"; //request()->ip();
-            $location = Location::get($ip);
+            $user       = Auth::user();
+            $platform   = Agent::platform();
+            $ip         = "172.70.231.54"; //request()->ip();
+            $location   = Location::get($ip);
             $deviceInfo = [
-                "device" => $platform . "-" . Agent::version($platform),
-                "browser" => Agent::browser(),
+                "device"     => $platform . "-" . Agent::version($platform),
+                "browser"    => Agent::browser(),
                 "ip_address" => $location->ip,
-                "location" => $location->countryName,
+                "location"   => $location->countryName,
             ];
 
             Mail::to($user)->send(new LoginNotification($user, $deviceInfo));
@@ -107,7 +124,7 @@ class HomeController extends Controller
         $pin = range(0, 9);
         $set = shuffle($pin);
         $otp = "";
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 4; $i++) {
             $otp = $otp . "" . $pin[$i];
         }
 

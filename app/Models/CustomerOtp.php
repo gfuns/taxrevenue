@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +14,7 @@ class CustomerOtp extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'customer_id',
+        'user_id',
         'otp',
         'otp_expiration',
         'otp_type',
