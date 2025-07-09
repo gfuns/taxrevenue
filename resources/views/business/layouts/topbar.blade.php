@@ -39,12 +39,12 @@
                 <ul class="list-unstyled">
 
                     <li>
-                        <a class="dropdown-item" href="">
+                        <a class="dropdown-item" href="{{ route("business.viewProfile") }}">
                             <i class="fe fe-user me-2"></i> Profile
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="">
+                        <a class="dropdown-item" href="{{ route("business.security") }}">
                             <i class="fe fe-lock me-2"></i> Security
                         </a>
                     </li>

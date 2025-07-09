@@ -38,10 +38,10 @@ class HomeController extends Controller
                 if (Auth::user()->auth_2fa == "Email") {
                     if ($otp = CustomerOtp::updateOrCreate(
                         [
-                            'customer_id' => Auth::user()->id,
-                            'otp_type'    => Auth::user()->auth_2fa,
+                            'user_id'  => Auth::user()->id,
+                            'otp_type' => Auth::user()->auth_2fa,
                         ], [
-                            'otp'            => $this->generateOtp(),
+                            'otp'            => $this->generateTFA(),
                             'otp_expiration' => Carbon::now()->addMinutes(10),
                         ])) {
 
@@ -58,9 +58,18 @@ class HomeController extends Controller
                 return redirect()->route("business.dashboard");
             }
 
-            return redirect()->route("business.dashboard");
+            if (Auth::user()->profile_updated == 1) {
+                return redirect()->route("business.dashboard");
+            } else {
+                return redirect()->route("business.viewProfile");
+            }
+
         } else {
-            return redirect()->route("admin.dashboard");
+            if (Auth::user()->profile_updated == 1) {
+                return redirect()->route("admin.dashboard");
+            } else {
+                return redirect()->route("business.viewProfile");
+            }
         }
     }
 
@@ -125,6 +134,18 @@ class HomeController extends Controller
         $set = shuffle($pin);
         $otp = "";
         for ($i = 0; $i < 4; $i++) {
+            $otp = $otp . "" . $pin[$i];
+        }
+
+        return $otp;
+    }
+
+    public function generateTFA()
+    {
+        $pin = range(0, 9);
+        $set = shuffle($pin);
+        $otp = "";
+        for ($i = 0; $i < 6; $i++) {
             $otp = $otp . "" . $pin[$i];
         }
 

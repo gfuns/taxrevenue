@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Mail;
 
 use App\Models\CustomerOtp;
-use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
@@ -18,7 +17,7 @@ class AuthenticationOTP extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(protected Customer $user, protected CustomerOtp $otp)
+    public function __construct(protected User $user, protected CustomerOtp $otp)
     {
         //
     }
@@ -30,7 +29,7 @@ class AuthenticationOTP extends Mailable
     {
         return new Envelope(
             from: new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
-            subject: 'Use This Code '. $this->otp->otp .' To Complete Your Authentication',
+            subject: 'Use This Code ' . $this->otp->otp . ' To Complete Your Authentication',
         );
     }
 
@@ -43,7 +42,7 @@ class AuthenticationOTP extends Mailable
             view: 'emails.authentication_confirmation',
             with: [
                 'user' => $this->user,
-                'otp' => $this->otp,
+                'otp'  => $this->otp,
             ],
         );
     }

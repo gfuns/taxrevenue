@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
@@ -15,13 +14,13 @@ class TwofactorController extends Controller
 
         $gaCode = $request->google2fa_code;
 
-        $user = Auth::user();
+        $user      = Auth::user();
         $google2fa = app('pragmarx.google2fa');
-        $valid = $google2fa->verify($gaCode, Auth::user()->google2fa_secret);
+        $valid     = $google2fa->verify($gaCode, Auth::user()->google2fa_secret);
 
         if ($valid) {
             $data = [
-                'id' => Auth::user()->id,
+                'id'   => Auth::user()->id,
                 'time' => now(),
             ];
             Session::put('myGoogle2fa', $data);
@@ -37,11 +36,11 @@ class TwofactorController extends Controller
         $code = $request->confirmation_code;
 
         if (Auth::user()->auth_2fa == "Email") {
-            $codeIsValid = CustomerOtp::where("customer_id", Auth::user()->id)->where("otp", $code)->where("otp_type", "Email")->first();
+            $codeIsValid = CustomerOtp::where("user_id", Auth::user()->id)->where("otp", $code)->where("otp_type", "Email")->first();
             if (isset($codeIsValid)) {
                 $codeIsValid->delete();
                 $data = [
-                    'id' => Auth::user()->id,
+                    'id'   => Auth::user()->id,
                     'time' => now(),
                 ];
                 Session::put('myValid2fa', $data);

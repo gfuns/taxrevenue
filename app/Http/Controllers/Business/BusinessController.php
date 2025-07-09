@@ -5,12 +5,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\BusinessPage;
 use App\Models\BusinessReviews;
-use App\Models\Customer;
 use App\Models\JobListing;
 use App\Models\NotificationSetting;
 use App\Models\PlatformCategories;
 use App\Models\Products;
 use App\Models\TutorialVideos;
+use App\Models\User;
 use Auth;
 use Cloudinary;
 use Illuminate\Http\Request;
@@ -39,7 +39,11 @@ class BusinessController extends Controller
     public function dashboard()
     {
 
-        return view("business.dashboard");
+        if (Auth::user()->profile_updated == 1) {
+            return view("business.dashboard");
+        } else {
+            return redirect()->route("business.viewProfile");
+        }
     }
 
     /**
@@ -62,28 +66,41 @@ class BusinessController extends Controller
     public function updateProfile(Request $request)
     {
         $validatedData = $request->validate([
-            'first_name' => 'required',
-            'last_name'  => 'required',
-            'phone'      => 'required',
-            'gender'     => 'required',
-            'country'    => 'required',
+            'last_name'       => 'required',
+            'other_names'     => 'required',
+            'phone_number'    => 'required',
+            'gender'          => 'required',
+            'nationality'     => 'required',
+            'marital_status'  => 'required',
+            'dob'             => 'required',
+            'contact_address' => 'required',
         ]);
 
-        $parseEmail = Customer::where("email", $request->email)->where("id", "!=", Auth::user()->id)->count();
+        $parseEmail = User::where("email", $request->email)->where("id", "!=", Auth::user()->id)->count();
         if ($parseEmail > 0) {
-            toast('Email already taken by someone else.', 'error');
+            toast('Email already used by someone else.', 'error');
             return back();
         }
 
-        $user             = Auth::user();
-        $user->first_name = $request->first_name;
-        $user->first_name = $request->first_name;
-        $user->phone      = $request->phone;
-        $user->gender     = $request->gender;
-        $user->country    = $request->country;
+        $parsePhone = User::where("email", $request->phone_number)->where("id", "!=", Auth::user()->id)->count();
+        if ($parsePhone > 0) {
+            toast('Phone number already used by someone else.', 'error');
+            return back();
+        }
+
+        $user                  = Auth::user();
+        $user->last_name       = $request->last_name;
+        $user->other_names     = $request->other_names;
+        $user->phone_number    = $request->phone_number;
+        $user->gender          = $request->gender;
+        $user->nationality     = $request->nationality;
+        $user->dob             = $request->dob;
+        $user->marital_status  = $request->marital_status;
+        $user->contact_address = $request->contact_address;
+        $user->profile_updated = 1;
         if ($request->has('profile_photo')) {
-            $uploadedFileUrl = Cloudinary::upload($request->file('profile_photo')->getRealPath())->getSecurePath();
-            $user->photo     = $uploadedFileUrl;
+            $uploadedFileUrl     = Cloudinary::upload($request->file('profile_photo')->getRealPath())->getSecurePath();
+            $user->profile_photo = $uploadedFileUrl;
         }
 
         if ($user->save()) {

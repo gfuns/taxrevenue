@@ -2,7 +2,8 @@
     <div class="vh-100" data-simplebar>
         <!-- Brand logo -->
         <a class="navbar-brand" href="{{ route('business.dashboard') }}">
-            <h3 class="fw-bold"><img src="{{ asset('images/logo_mail.png') }}" style="min-width: 185px; height: 50px" alt="BPP Logo">
+            <h3 class="fw-bold"><img src="{{ asset('images/logo_mail.png') }}" style="min-width: 185px; height: 50px"
+                    alt="BPP Logo">
             </h3>
         </a>
         <!-- Navbar nav -->
@@ -14,105 +15,106 @@
                 </a>
             </li>
 
-            @if (Auth::user()->profile_updated == 0)
-                <!-- Nav item -->
-                <li class="nav-item">
-                    <div class="nav-divider"></div>
-                </li>
 
-                <li class="nav-item">
-                    <a class="nav-link " id="businessInfo" href="">
-                        <i class="nav-icon fe fe-briefcase me-2"></i>
-                        Business Information
-                    </a>
-                </li>
+            <!-- Nav item -->
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
 
-                <!-- Nav item -->
-                <li class="nav-item">
-                    <div class="nav-divider"></div>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link " id="wallet" href="">
+                    <i class="nav-icon bi bi-pencil-square me-2"></i>
+                    Company Registration
+                </a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link " id="page" href="">
-                        <i class="nav-icon fe fe-layout me-2"></i>
-                        Business Page Setup
-                    </a>
-                </li>
-            @else
-                <li class="nav-item">
-                    <div class="nav-divider"></div>
-                </li>
+             <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
 
+            <li class="nav-item">
+                <a class="nav-link " id="wallet" href="">
+                    <i class="nav-icon bi bi-arrow-clockwise me-2"></i>
+                    Registration Renewal
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
 
 
-                <li class="nav-item">
-                    <a class="nav-link " id="wallet" href="">
-                        <i class="nav-icon bi bi-wallet me-2"></i>
-                        Renew Registration
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link " id="forum" href="">
+                    <i class="nav-icon fa fa-gavel me-2"></i>
+                    Power of Attorney
+                </a>
+            </li>
 
-                <li class="nav-item">
-                    <div class="nav-divider"></div>
-                </li>
+            <!-- Nav item -->
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
 
+            <li class="nav-item">
+                <a class="nav-link " id="referrals" href="">
+                    <i class="nav-icon bi bi-award-fill me-2"></i>
+                    Award Leter Request
+                </a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link " id="forum" href="">
-                        <i class="nav-icon bi bi-chat-left-dots me-2"></i>
-                        Power of Attorney
-                    </a>
-                </li>
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
 
-                <!-- Nav item -->
-                <li class="nav-item">
-                    <div class="nav-divider"></div>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link " id="referrals" href="">
+                    <i class="nav-icon bi bi-cash-coin me-2"></i>
+                    Processing Fee
+                </a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link " id="referrals" href="">
-                        <i class="nav-icon bi bi-diagram-3-fill me-2"></i>
-                        Award Leter
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <div class="nav-divider"></div>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link " id="referrals" href="">
-                        <i class="nav-icon bi bi-diagram-3-fill me-2"></i>
-                        Processing Fee Remittance
-                    </a>
-                </li>
+            <!-- Nav item -->
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
 
 
-                <!-- Nav item -->
-                <li class="nav-item">
-                    <div class="nav-divider"></div>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link " id="help" href="#">
+                    <i class="nav-icon bi bi-question-octagon-fill me-2"></i>
+                    Help Desk
+                </a>
+            </li>
 
 
-                <li class="nav-item">
-                    <a class="nav-link " id="help" href="#">
-                        <i class="nav-icon bi bi-question-octagon-fill me-2"></i>
-                        Help Desk
-                    </a>
-                </li>
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
 
-                <li class="nav-item">
-                    <div class="nav-divider"></div>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse" data-bs-target="#navSettings"
+                    aria-expanded="false" aria-controls="navSettings">
+                    <i class="nav-icon bi bi-gear-wide-connected me-2"></i> Account Settings
+                </a>
+                <div id="navSettings" class="collapse " data-bs-parent="#sideNavbar">
+                    <ul class="nav flex-column">
 
+                        <li class="nav-item">
+                            <a class="nav-link " id="profile" href="{{ route('business.viewProfile') }}">
+                                Profile Information
+                            </a>
+                        </li>
 
-                <li class="nav-item">
-                    <a class="nav-link " id="help" href="#">
-                        <i class="nav-icon bi bi-question-octagon-fill me-2"></i>
-                        Settings
-                    </a>
-                </li>
-            @endif
+                        <li class="nav-item">
+                            <a class="nav-link " id="security" href="{{ route('business.security') }}">
+                                Security
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
 
             <li class="nav-item">
                 <div class="nav-divider"></div>

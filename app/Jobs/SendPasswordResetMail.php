@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Jobs;
 
 use App\Mail\PasswordResetMail as PasswordResetMail;
-use App\Models\Customer;
 use App\Models\CustomerOtp;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -28,11 +27,11 @@ class SendPasswordResetMail
      */
     public function handle(): void
     {
-        $otp = $this->otp;
-        $customer = Customer::find($otp->customer_id);
+        $otp  = $this->otp;
+        $user = User::find($otp->user_id);
 
         try {
-            Mail::to($customer)->send(new PasswordResetMail($customer, $otp->otp));
+            Mail::to($user)->send(new PasswordResetMail($user, $otp->otp));
         } catch (\Exception $e) {
             report($e);
         }

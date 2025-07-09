@@ -22,15 +22,15 @@
       margin-bottom: 20px;
     }
     .logo img {
-      max-width: 150px;
+      max-width: 345px;
     }
     h1 {
-      color: #333333;
+      /* color: #333333; */
       font-size: 24px;
       margin-top: 0;
     }
     p {
-      color: #555555;
+      /* color: #555555; */
       font-size: 16px;
       line-height: 1.5;
     }
@@ -51,7 +51,7 @@
       <img src="{{ $message->embed(public_path("images/logo.png"))}}" alt="PaySlack Logo">
     </div>
     <h1>Password Reset</h1>
-    <p>Dear {{ $name }},</p>
+    <p>Dear {{ $user->last_name . ', ' . $user->other_names }}</p>
     <p>We have received a request to reset your password. Please use the following code to proceed:</p>
     <div class="code">{{ $otp }}</div>
     <p>If you didn't request a password reset, you can safely ignore this email.</p>

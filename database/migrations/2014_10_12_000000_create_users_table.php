@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('dob')->nullable();
             $table->text('contact_address')->nullable();
             $table->text('profile_photo')->nullable();
+            $table->string('nationality')->nullable();
             $table->string('role');
             $table->integer('role_id')->nullable();
             $table->string('password');

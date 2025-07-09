@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Mail;
 
-use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
@@ -18,7 +17,7 @@ class PasswordResetMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(protected Customer $customer, $otp)
+    public function __construct(protected User $user, $otp)
     {
         $this->otp = $otp;
     }
@@ -42,8 +41,8 @@ class PasswordResetMail extends Mailable
         return new Content(
             view: 'emails.password_reset',
             with: [
-                'name' => $this->customer->first_name,
-                'otp' => $this->otp,
+                'user' => $this->user,
+                'otp'  => $this->otp,
             ],
         );
     }

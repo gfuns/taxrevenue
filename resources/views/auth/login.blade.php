@@ -91,37 +91,14 @@
                 </form>
 
                 <div class="gaps-4x"></div>
-                <div class="form-note">
+                <div class="form-note text-center">
                     Don’t have an account? <a href="/register"> <strong>Sign up
                             here</strong></a>
                 </div>
             </div>
 
 
-            <div class="page-ath-footer">
-                <ul class="socials mb-3">
-                    <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
-                    <li><a href="#"><em class="fab fa-twitter"></em></a></li>
-                    <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
-                    <li><a href="#"><em class="fab fa-github-alt"></em></a></li>
-                    <li><a href="#"><em class="fab fa-youtube"></em></a></li>
-                    <li><a href="#"><em class="fab fa-medium-m"></em></a></li>
-                    <li><a href="#"><em class="fab fa-telegram-plane"></em></a></li>
-                </ul>
-                <ul class="footer-links guttar-20px align-items-center">
-                    <li><a href="/privacy-policy" target="_blank">Privacy Policy</a></li>
-                    <li><a href="/terms-and-conditions" target="_blank">Terms and Condition</a></li>
-                    <li>
-                        <div class="lang-switch relative"><a href="javascript:void(0)"
-                                class="lang-switch-btn toggle-tigger">EN<em class="ti ti-angle-up"></em></a>
-                            <div class="toggle-class dropdown-content dropdown-content-up">
-                                <ul class="lang-list">
-                                    <li><a href="?lang=en">English</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+            <div class="page-ath-footer text-center">
                 <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. <br/>All Right Reserved.
                 </div>
             </div>

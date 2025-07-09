@@ -30,7 +30,7 @@
         }
 
         .logo {
-            max-width: 150px;
+            max-width: 345px;
         }
 
         h2 {
@@ -75,7 +75,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <img class="logo" src="{{ $message->embed(public_path('images/logo.png')) }}"
+            <img class="logo" src="{{ $message->embed(public_path('images/logo_mail.png')) }}"
                 alt="{{ env('APP_NAME') }} Logo">
         </div>
 

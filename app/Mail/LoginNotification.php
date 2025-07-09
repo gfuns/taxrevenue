@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Mail;
 
-use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
@@ -17,7 +16,7 @@ class LoginNotification extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(protected Customer $user, $deviceInfo)
+    public function __construct(protected User $user, $deviceInfo)
     {
         $this->deviceInfo = $deviceInfo;
     }
@@ -41,7 +40,7 @@ class LoginNotification extends Mailable
         return new Content(
             view: 'emails.login_notification',
             with: [
-                'user' => $this->user,
+                'user'       => $this->user,
                 'deviceInfo' => $this->deviceInfo,
             ],
         );

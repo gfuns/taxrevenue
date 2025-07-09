@@ -53,15 +53,15 @@
             <div class="page-ath-header text-center">
                 <a href="/" class="page-ath-logo">
                     <img class="page-ath-logo-img" src="{{ asset('files/general/logo.png') }}"
-                        alt="{{ env('APP_NAME') }}">
+                        alt="BPP Logo"  style="max-width: 345px">
                 </a>
             </div>
 
 
             <div class="page-ath-form">
                 <h2 class="page-ath-heading text-center">Reset Your Password
-                    <small style="font-size: 16px; line-height: 25px">A confirmation code was sent to your email
-                        <strong>{{ $email }}</strong>. Please input the code to confirm your password reset request</small>
+                    <small style="font-size: 16px; line-height: 25px">A One Time code was sent to your registered email
+                        <strong>{{ $email }}</strong>. Please input the 4 digit code to confirm your password reset request.</small>
                 </h2>
                 <form class="validate" action="{{ route('passwordResetVerification') }}" method="POST">
                     @csrf
@@ -81,7 +81,7 @@
                 </form>
 
                 <div class="gaps-4x"></div>
-                <div class="form-note">
+                <div class="form-note text-center">
                     <a href="/login">
                         <em class="fas fa-arrow-alt-circle-left"></em> <strong>Go Back To Login</strong>
                     </a>
@@ -89,31 +89,8 @@
             </div>
 
 
-            <div class="page-ath-footer">
-                <ul class="socials mb-3">
-                    <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
-                    <li><a href="#"><em class="fab fa-twitter"></em></a></li>
-                    <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
-                    <li><a href="#"><em class="fab fa-github-alt"></em></a></li>
-                    <li><a href="#"><em class="fab fa-youtube"></em></a></li>
-                    <li><a href="#"><em class="fab fa-medium-m"></em></a></li>
-                    <li><a href="#"><em class="fab fa-telegram-plane"></em></a></li>
-                </ul>
-                <ul class="footer-links guttar-20px align-items-center">
-                    <li><a href="/privacy-policy" target="_blank">Privacy Policy</a></li>
-                    <li><a href="/terms-and-conditions" target="_blank">Terms and Condition</a></li>
-                    <li>
-                        <div class="lang-switch relative"><a href="javascript:void(0)"
-                                class="lang-switch-btn toggle-tigger">EN<em class="ti ti-angle-up"></em></a>
-                            <div class="toggle-class dropdown-content dropdown-content-up">
-                                <ul class="lang-list">
-                                    <li><a href="?lang=en">English</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Right Reserved.
+            <div class="page-ath-footer text-center">
+                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. <br/>All Right Reserved.
                 </div>
             </div>
         </div>
@@ -126,9 +103,9 @@
                                     to Home</strong></span></a>
                     </div>
 
-                    <div style="margin-top: 450px; margin-bottom: 50px">
-                        <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
-                        <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
+                    <div style="margin-top: 350px; margin-bottom: 50px">
+                        <span style="color:white; font-size: 72px; font-weight:bolder">Content A</span>
+                        <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Content B</span>
 
                         <p class="text-white">The No. 1 world class cutting-edge business directory designed for businesses
                             like you to elevate your business experience!</p>

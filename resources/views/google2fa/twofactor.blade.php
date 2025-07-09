@@ -20,49 +20,38 @@
             <center>
                 <div class="page-ath-header"><a href="/" class="page-ath-logo"
                         style="font-weight:bold; font-size: 30px"><img class="page-ath-logo-img"
-                            src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 50px">
+                            src="{{ asset('images/logo.png') }}" alt="BPP Logo"  style="max-width: 345px">
                     </a></div>
             </center>
 
             <div class="page-ath-form" style="width: 500px">
                 <h2 class="page-ath-heading">2FA Authentication</h2>
-                <p>Hello <strong>{{ Auth::user()->first_name." ".Auth::user()->last_name }}</strong>,
-                    <br>Enter the Authentication Confirmation Code sent to your registered {{Auth::user()->auth_2fa}}.
+                <p>Hello <strong>{{ Auth::user()->last_name." ".Auth::user()->other_names }}</strong>,
+                    <br>Enter the Two Factor Authentication Code Sent To Your {{Auth::user()->auth_2fa}}.
                 </p>
                 @if(Session::has('error'))
-                <div class="alert alert-warning">Invalid Authentication Confirmation Code.</div>
+                <div class="alert alert-danger">Invalid Authentication Code.</div>
                 @endif
                 <form id="active" action="{{ route('login.validate2fa') }}" method="POST"
                     autocomplete="off" class="validate-modern">
                     @csrf
                     <div class="input-item">
                         <input name="confirmation_code" type="text" required="required" data-msg-required="Required."
-                            data-msg-maxlength="Maximum 6 chars." placeholder="Enter your authentication confirmation code"
+                            data-msg-maxlength="Maximum 6 chars." placeholder="Enter your two factor authentication code"
                             class="input-bordered" autofocus="" maxlength="6">
                     </div>
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="">
                         <div>
-                            <button type="submit" class="btn btn-primary btn-block">Authenticate</button>
+                            <button type="submit" class="btn btn-primary btn-block w-100">Authenticate</button>
                         </div>
                     </div>
                 </form>
                 <div class="gaps-2x"></div>
             </div>
 
-            <div class="page-ath-footer">
-                <ul class="socials mb-3">
-                    <li><a href="#" title="Facebook"><em class="fab fa-facebook-f"></em></a></li>
-                    <li><a href="#" title="Twitter"><em class="fab fa-twitter"></em></a></li>
-                    <li><a href="#" title="Slack"><em class="fab fa-slack"></em></a></li>
-                    <li><a href="#" title="Instagram"><em class="fab fa-instagram"></em></a></li>
-                    <li><a href="#" title="LinkedIn"><em class="fab fa-linkedin"></em></a></li>
-                    <li><a href="#" title="Medium"><em class="fab fa-medium"></em></a></li>
-                </ul>
-                <ul class="footer-links guttar-20px align-items-center">
-                    <li><a href="/privacy-policy" target="_blank">Privacy and Policy</a></li>
-                    <li><a href="/terms-and-conditions" target="_blank">Terms and Condition</a></li>
-                </ul>
-                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Right Reserved.
+            <div class="page-ath-footer text-center">
+
+                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. <br/>All Right Reserved.
                 </div>
             </div>
         </div>

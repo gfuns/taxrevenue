@@ -44,12 +44,12 @@
                             @csrf
                             <div class="row">
                                 <!-- form group -->
-                                <div class="mb-3 col-md-6 col-12">
-                                    <label class="form-label">First Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="first_name" value="{{ Auth::user()->first_name }}"
-                                        class="form-control @error('first_name') is-invalid @enderror"
-                                        placeholder="Enter First Name" required>
-                                    @error('first_name')
+                                  <div class="mb-3 col-md-6 col-12">
+                                    <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                                    <input type="text" name="last_name" value="{{ Auth::user()->last_name }}"
+                                        class="form-control @error('last_name') is-invalid @enderror"
+                                        placeholder="Enter Last Name" required>
+                                    @error('last_name')
                                         <span class="" role="alert">
                                             <strong style="color: #b02a37; font-size:12px">{{ $message }}</strong>
                                         </span>
@@ -57,11 +57,11 @@
                                 </div>
 
                                 <div class="mb-3 col-md-6 col-12">
-                                    <label class="form-label">Last Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="last_name" value="{{ Auth::user()->last_name }}"
-                                        class="form-control @error('first_name') is-invalid @enderror"
-                                        placeholder="Enter Last Name" required>
-                                    @error('last_name')
+                                    <label class="form-label">Other Names <span class="text-danger">*</span></label>
+                                    <input type="text" name="other_names" value="{{ Auth::user()->other_names }}"
+                                        class="form-control @error('other_names') is-invalid @enderror"
+                                        placeholder="Enter Other Names" required>
+                                    @error('other_names')
                                         <span class="" role="alert">
                                             <strong style="color: #b02a37; font-size:12px">{{ $message }}</strong>
                                         </span>
@@ -81,10 +81,10 @@
                                 </div>
                                 <div class="mb-3 col-md-6 col-12">
                                     <label class="form-label">Phone Number<span class="text-danger">*</span></label>
-                                    <input type="text" name="phone" value="{{ Auth::user()->phone }}"
-                                        class="form-control @error('phone') is-invalid @enderror"
+                                    <input type="text" name="phone_number" value="{{ Auth::user()->phone_number }}"
+                                        class="form-control @error('phone_number') is-invalid @enderror"
                                         placeholder="Enter Phone Number" required>
-                                    @error('phone')
+                                    @error('phone_number')
                                         <span class="" role="alert">
                                             <strong style="color: #b02a37; font-size:12px">{{ $message }}</strong>
                                         </span>
@@ -93,7 +93,7 @@
                                 <div class="mb-3 col-md-6 col-12">
                                     <label class="form-label">Gender<span class="text-danger">*</span></label>
                                     <select id="gender" name="gender"
-                                        class="selectpicker @error('gender') is-invalid @enderror" data-width="100%"
+                                        class="@error('gender') is-invalid @enderror" data-width="100%"
                                         required>
                                         <option value="">Select Gender</option>
                                         <option value="Male" @if (Auth::user()->gender == 'Male') selected @endif>Male
@@ -108,634 +108,678 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3 col-md-6 col-12">
-                                    <label class="form-label">Country<span class="text-danger">*</span></label>
-                                    <select id="country" name="country" class="@error('country') is-invalid @enderror"
+                                    <label class="form-label">Marital Status<span class="text-danger">*</span></label>
+                                    <select id="maritalStatus" name="marital_status"
+                                        class="@error('marital_status') is-invalid @enderror" data-width="100%"
+                                        required>
+                                        <option value="">Select Marital Status</option>
+                                        <option value="Single" @if (Auth::user()->marital_status == 'Single') selected @endif>Single
+                                        </option>
+                                        <option value="Married" @if (Auth::user()->marital_status == 'Married') selected @endif>Married
+                                        </option>
+                                        <option value="Divorced" @if (Auth::user()->marital_status == 'Divorced') selected @endif>Divorced
+                                        </option>
+                                        <option value="Widow/Widower" @if (Auth::user()->marital_status == 'Widow/Widower') selected @endif>Widow/Widower
+                                        </option>
+                                    </select>
+                                    @error('marital_status')
+                                        <span class="" role="alert">
+                                            <strong style="color: #b02a37; font-size:12px">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="mb-3 col-md-6 col-12">
+                                    <label class="form-label">Date of Birth<span class="text-danger">*</span></label>
+                                    <input type="date" name="dob" value="{{ Auth::user()->dob }}"
+                                        class="form-control @error('dob') is-invalid @enderror"
+                                        placeholder="Enter Date of Birth" required>
+                                    @error('dob')
+                                        <span class="" role="alert">
+                                            <strong style="color: #b02a37; font-size:12px">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="mb-3 col-md-6 col-12">
+                                    <label class="form-label">nationality<span class="text-danger">*</span></label>
+                                    <select id="nationality" name="nationality" class="@error('nationality') is-invalid @enderror"
                                         data-width="100%" required>
-                                        <option value="">Select Country</option>
-                                        <option value="Afghanistan" @if (Auth::user()->country == 'Afghanistan') selected @endif>
+                                        <option value="">Select nationality</option>
+                                        <option value="Afghanistan" @if (Auth::user()->nationality == 'Afghanistan') selected @endif>
                                             Afghanistan</option>
-                                        <option value="Albania" @if (Auth::user()->country == 'Albania') selected @endif>
+                                        <option value="Albania" @if (Auth::user()->nationality == 'Albania') selected @endif>
                                             Albania</option>
-                                        <option value="Algeria" @if (Auth::user()->country == 'Algeria') selected @endif>
+                                        <option value="Algeria" @if (Auth::user()->nationality == 'Algeria') selected @endif>
                                             Algeria</option>
                                         <option value="American Samoa"
-                                            @if (Auth::user()->country == 'American Samoa') selected @endif>
+                                            @if (Auth::user()->nationality == 'American Samoa') selected @endif>
                                             American Samoa</option>
-                                        <option value="Andorra" @if (Auth::user()->country == 'Andorra') selected @endif>
+                                        <option value="Andorra" @if (Auth::user()->nationality == 'Andorra') selected @endif>
                                             Andorra</option>
-                                        <option value="Angola" @if (Auth::user()->country == 'Angola') selected @endif>
+                                        <option value="Angola" @if (Auth::user()->nationality == 'Angola') selected @endif>
                                             Angola
                                         </option>
-                                        <option value="Anguilla" @if (Auth::user()->country == 'Anguilla') selected @endif>
+                                        <option value="Anguilla" @if (Auth::user()->nationality == 'Anguilla') selected @endif>
                                             Anguilla</option>
-                                        <option value="Antarctica" @if (Auth::user()->country == 'Antarctica') selected @endif>
+                                        <option value="Antarctica" @if (Auth::user()->nationality == 'Antarctica') selected @endif>
                                             Antarctica</option>
                                         <option value="Antigua and Barbuda"
-                                            @if (Auth::user()->country == 'Antigua and Barbuda') selected @endif>
+                                            @if (Auth::user()->nationality == 'Antigua and Barbuda') selected @endif>
                                             Antigua and Barbuda
                                         </option>
-                                        <option value="Argentina" @if (Auth::user()->country == 'Argentina') selected @endif>
+                                        <option value="Argentina" @if (Auth::user()->nationality == 'Argentina') selected @endif>
                                             Argentina</option>
-                                        <option value="Armenia" @if (Auth::user()->country == 'Armenia') selected @endif>
+                                        <option value="Armenia" @if (Auth::user()->nationality == 'Armenia') selected @endif>
                                             Armenia</option>
-                                        <option value="Aruba" @if (Auth::user()->country == 'Aruba') selected @endif>
+                                        <option value="Aruba" @if (Auth::user()->nationality == 'Aruba') selected @endif>
                                             Aruba</option>
-                                        <option value="Australia" @if (Auth::user()->country == 'Australia') selected @endif>
+                                        <option value="Australia" @if (Auth::user()->nationality == 'Australia') selected @endif>
                                             Australia</option>
-                                        <option value="Austria" @if (Auth::user()->country == 'Austria') selected @endif>
+                                        <option value="Austria" @if (Auth::user()->nationality == 'Austria') selected @endif>
                                             Austria</option>
-                                        <option value="Azerbaijan" @if (Auth::user()->country == 'Azerbaijan') selected @endif>
+                                        <option value="Azerbaijan" @if (Auth::user()->nationality == 'Azerbaijan') selected @endif>
                                             Azerbaijan</option>
-                                        <option value="Bahamas" @if (Auth::user()->country == 'Bahamas') selected @endif>
+                                        <option value="Bahamas" @if (Auth::user()->nationality == 'Bahamas') selected @endif>
                                             Bahamas</option>
-                                        <option value="Bahrain" @if (Auth::user()->country == 'Bahrain') selected @endif>
+                                        <option value="Bahrain" @if (Auth::user()->nationality == 'Bahrain') selected @endif>
                                             Bahrain</option>
-                                        <option value="Bangladesh" @if (Auth::user()->country == 'Bangladesh') selected @endif>
+                                        <option value="Bangladesh" @if (Auth::user()->nationality == 'Bangladesh') selected @endif>
                                             Bangladesh</option>
-                                        <option value="Barbados" @if (Auth::user()->country == 'Barbados') selected @endif>
+                                        <option value="Barbados" @if (Auth::user()->nationality == 'Barbados') selected @endif>
                                             Barbados</option>
-                                        <option value="Belarus" @if (Auth::user()->country == 'Belarus') selected @endif>
+                                        <option value="Belarus" @if (Auth::user()->nationality == 'Belarus') selected @endif>
                                             Belarus</option>
-                                        <option value="Belgium" @if (Auth::user()->country == 'Belgium') selected @endif>
+                                        <option value="Belgium" @if (Auth::user()->nationality == 'Belgium') selected @endif>
                                             Belgium</option>
-                                        <option value="Belize" @if (Auth::user()->country == 'Belize') selected @endif>
+                                        <option value="Belize" @if (Auth::user()->nationality == 'Belize') selected @endif>
                                             Belize</option>
-                                        <option value="Benin" @if (Auth::user()->country == 'Benin') selected @endif>
+                                        <option value="Benin" @if (Auth::user()->nationality == 'Benin') selected @endif>
                                             Benin</option>
-                                        <option value="Bermuda" @if (Auth::user()->country == 'Bermuda') selected @endif>
+                                        <option value="Bermuda" @if (Auth::user()->nationality == 'Bermuda') selected @endif>
                                             Bermuda</option>
-                                        <option value="Bhutan" @if (Auth::user()->country == 'Bhutan') selected @endif>
+                                        <option value="Bhutan" @if (Auth::user()->nationality == 'Bhutan') selected @endif>
                                             Bhutan</option>
-                                        <option value="Bolivia" @if (Auth::user()->country == 'Bolivia') selected @endif>
+                                        <option value="Bolivia" @if (Auth::user()->nationality == 'Bolivia') selected @endif>
                                             Bolivia</option>
                                         <option value="Bosnia and Herzegowina"
-                                            @if (Auth::user()->country == 'Bosnia and Herzegowina') selected @endif>
+                                            @if (Auth::user()->nationality == 'Bosnia and Herzegowina') selected @endif>
                                             Bosnia and
                                             Herzegowina</option>
-                                        <option value="Botswana" @if (Auth::user()->country == 'Botswana') selected @endif>
+                                        <option value="Botswana" @if (Auth::user()->nationality == 'Botswana') selected @endif>
                                             Botswana</option>
                                         <option value="Bouvet Island"
-                                            @if (Auth::user()->country == 'Bouvet Island') selected @endif>
+                                            @if (Auth::user()->nationality == 'Bouvet Island') selected @endif>
                                             Bouvet Island</option>
-                                        <option value="Brazil" @if (Auth::user()->country == 'Brazil') selected @endif>
+                                        <option value="Brazil" @if (Auth::user()->nationality == 'Brazil') selected @endif>
                                             Brazil</option>
                                         <option value="British Indian Ocean Territory"
-                                            @if (Auth::user()->country == 'British Indian Ocean Territory') selected @endif>
+                                            @if (Auth::user()->nationality == 'British Indian Ocean Territory') selected @endif>
                                             British
                                             Indian Ocean Territory</option>
                                         <option value="Brunei Darussalam"
-                                            @if (Auth::user()->country == 'Brunei Darussalam') selected @endif>
+                                            @if (Auth::user()->nationality == 'Brunei Darussalam') selected @endif>
                                             Brunei Darussalam
                                         </option>
-                                        <option value="Bulgaria" @if (Auth::user()->country == 'Bulgaria') selected @endif>
+                                        <option value="Bulgaria" @if (Auth::user()->nationality == 'Bulgaria') selected @endif>
                                             Bulgaria</option>
                                         <option value="Burkina Faso"
-                                            @if (Auth::user()->country == 'Burkina Faso') selected @endif>
+                                            @if (Auth::user()->nationality == 'Burkina Faso') selected @endif>
                                             Burkina Faso</option>
-                                        <option value="Burundi" @if (Auth::user()->country == 'Burundi') selected @endif>
+                                        <option value="Burundi" @if (Auth::user()->nationality == 'Burundi') selected @endif>
                                             Burundi</option>
-                                        <option value="Cambodia" @if (Auth::user()->country == 'Cambodia') selected @endif>
+                                        <option value="Cambodia" @if (Auth::user()->nationality == 'Cambodia') selected @endif>
                                             Cambodia</option>
-                                        <option value="Cameroon" @if (Auth::user()->country == 'Cameroon') selected @endif>
+                                        <option value="Cameroon" @if (Auth::user()->nationality == 'Cameroon') selected @endif>
                                             Cameroon</option>
-                                        <option value="Canada" @if (Auth::user()->country == 'Canada') selected @endif>
+                                        <option value="Canada" @if (Auth::user()->nationality == 'Canada') selected @endif>
                                             Canada</option>
-                                        <option value="Cape Verde" @if (Auth::user()->country == 'Cape Verde') selected @endif>
+                                        <option value="Cape Verde" @if (Auth::user()->nationality == 'Cape Verde') selected @endif>
                                             Cape
                                             Verde</option>
                                         <option value="Cayman Islands"
-                                            @if (Auth::user()->country == 'Cayman Islands') selected @endif>
+                                            @if (Auth::user()->nationality == 'Cayman Islands') selected @endif>
                                             Cayman Islands</option>
                                         <option value="Central African Republic"
-                                            @if (Auth::user()->country == 'Central African Republic') selected @endif>
+                                            @if (Auth::user()->nationality == 'Central African Republic') selected @endif>
                                             Central African
                                             Republic</option>
-                                        <option value="Chad" @if (Auth::user()->country == 'Chad') selected @endif>
+                                        <option value="Chad" @if (Auth::user()->nationality == 'Chad') selected @endif>
                                             Chad
                                         </option>
-                                        <option value="Chile" @if (Auth::user()->country == 'Chile') selected @endif>
+                                        <option value="Chile" @if (Auth::user()->nationality == 'Chile') selected @endif>
                                             Chile</option>
-                                        <option value="China" @if (Auth::user()->country == 'China') selected @endif>
+                                        <option value="China" @if (Auth::user()->nationality == 'China') selected @endif>
                                             China</option>
                                         <option value="Christmas Island"
-                                            @if (Auth::user()->country == 'Christmas Island') selected @endif>
+                                            @if (Auth::user()->nationality == 'Christmas Island') selected @endif>
                                             Christmas Island</option>
                                         <option value="Cocos (Keeling) Islands"
-                                            @if (Auth::user()->country == 'Cocos (Keeling) Islands') selected @endif>
+                                            @if (Auth::user()->nationality == 'Cocos (Keeling) Islands') selected @endif>
                                             Cocos (Keeling)
                                             Islands</option>
-                                        <option value="Colombia" @if (Auth::user()->country == 'Colombia') selected @endif>
+                                        <option value="Colombia" @if (Auth::user()->nationality == 'Colombia') selected @endif>
                                             Colombia</option>
-                                        <option value="Comoros" @if (Auth::user()->country == 'Comoros') selected @endif>
+                                        <option value="Comoros" @if (Auth::user()->nationality == 'Comoros') selected @endif>
                                             Comoros</option>
-                                        <option value="Congo" @if (Auth::user()->country == 'Congo') selected @endif>
+                                        <option value="Congo" @if (Auth::user()->nationality == 'Congo') selected @endif>
                                             Congo</option>
                                         <option value="The Democratic Republic of the Congo"
-                                            @if (Auth::user()->country == 'The Democratic Republic of the Congo') selected @endif>
+                                            @if (Auth::user()->nationality == 'The Democratic Republic of the Congo') selected @endif>
                                             The Democratic Republic of the Congo</option>
                                         <option value="Cook Islands"
-                                            @if (Auth::user()->country == 'the Democratic Republic of the Congo') selected @endif>
+                                            @if (Auth::user()->nationality == 'the Democratic Republic of the Congo') selected @endif>
                                             Cook
                                             Islands</option>
-                                        <option value="Costa Rica" @if (Auth::user()->country == 'Costa Rica') selected @endif>
+                                        <option value="Costa Rica" @if (Auth::user()->nationality == 'Costa Rica') selected @endif>
                                             Costa Rica</option>
                                         <option value="Cote d'Ivoire"
-                                            @if (Auth::user()->country == "Cote d'Ivoire") selected @endif>
+                                            @if (Auth::user()->nationality == "Cote d'Ivoire") selected @endif>
                                             Cote
                                             d'Ivoire
                                         </option>
                                         <option value="Croatia (Hrvatska)"
-                                            @if (Auth::user()->country == 'Croatia (Hrvatska)') selected @endif>
+                                            @if (Auth::user()->nationality == 'Croatia (Hrvatska)') selected @endif>
                                             Croatia (Hrvatska)
                                         </option>
-                                        <option value="Cuba" @if (Auth::user()->country == 'Cuba') selected @endif>
+                                        <option value="Cuba" @if (Auth::user()->nationality == 'Cuba') selected @endif>
                                             Cuba
                                         </option>
-                                        <option value="Cyprus" @if (Auth::user()->country == 'Cyprus') selected @endif>
+                                        <option value="Cyprus" @if (Auth::user()->nationality == 'Cyprus') selected @endif>
                                             Cyprus</option>
                                         <option value="Czech Republic"
-                                            @if (Auth::user()->country == 'Czech Republic') selected @endif>
+                                            @if (Auth::user()->nationality == 'Czech Republic') selected @endif>
                                             Czech Republic</option>
-                                        <option value="Denmark" @if (Auth::user()->country == 'Denmark') selected @endif>
+                                        <option value="Denmark" @if (Auth::user()->nationality == 'Denmark') selected @endif>
                                             Denmark</option>
-                                        <option value="Djibouti" @if (Auth::user()->country == 'Djibouti') selected @endif>
+                                        <option value="Djibouti" @if (Auth::user()->nationality == 'Djibouti') selected @endif>
                                             Djibouti</option>
-                                        <option value="Dominica" @if (Auth::user()->country == 'Dominica') selected @endif>
+                                        <option value="Dominica" @if (Auth::user()->nationality == 'Dominica') selected @endif>
                                             Dominica</option>
                                         <option value="Dominican Republic"
-                                            @if (Auth::user()->country == 'Dominican Republic') selected @endif>
+                                            @if (Auth::user()->nationality == 'Dominican Republic') selected @endif>
                                             Dominican Republic
                                         </option>
-                                        <option value="East Timor" @if (Auth::user()->country == 'East Timor') selected @endif>
+                                        <option value="East Timor" @if (Auth::user()->nationality == 'East Timor') selected @endif>
                                             East
                                             Timor</option>
-                                        <option value="Ecuador" @if (Auth::user()->country == 'Ecuador') selected @endif>
+                                        <option value="Ecuador" @if (Auth::user()->nationality == 'Ecuador') selected @endif>
                                             Ecuador</option>
-                                        <option value="Egypt" @if (Auth::user()->country == 'Egypt') selected @endif>
+                                        <option value="Egypt" @if (Auth::user()->nationality == 'Egypt') selected @endif>
                                             Egypt</option>
                                         <option value="El Salvador"
-                                            @if (Auth::user()->country == 'El Salvador') selected @endif>
+                                            @if (Auth::user()->nationality == 'El Salvador') selected @endif>
                                             El
                                             Salvador</option>
                                         <option value="Equatorial Guinea"
-                                            @if (Auth::user()->country == 'Equatorial Guinea') selected @endif>
+                                            @if (Auth::user()->nationality == 'Equatorial Guinea') selected @endif>
                                             Equatorial Guinea
                                         </option>
-                                        <option value="Eritrea" @if (Auth::user()->country == 'Eritrea') selected @endif>
+                                        <option value="Eritrea" @if (Auth::user()->nationality == 'Eritrea') selected @endif>
                                             Eritrea</option>
-                                        <option value="Estonia" @if (Auth::user()->country == 'Estonia') selected @endif>
+                                        <option value="Estonia" @if (Auth::user()->nationality == 'Estonia') selected @endif>
                                             Estonia</option>
-                                        <option value="Ethiopia" @if (Auth::user()->country == 'Ethiopia') selected @endif>
+                                        <option value="Ethiopia" @if (Auth::user()->nationality == 'Ethiopia') selected @endif>
                                             Ethiopia</option>
                                         <option value="Falkland Islands (Malvinas)"
-                                            @if (Auth::user()->country == 'Falkland Islands (Malvinas)') selected @endif>
+                                            @if (Auth::user()->nationality == 'Falkland Islands (Malvinas)') selected @endif>
                                             Falkland
                                             Islands (Malvinas)</option>
                                         <option value="Faroe Islands"
-                                            @if (Auth::user()->country == 'Faroe Islands') selected @endif>
+                                            @if (Auth::user()->nationality == 'Faroe Islands') selected @endif>
                                             Faroe Islands</option>
-                                        <option value="Fiji" @if (Auth::user()->country == 'Fiji') selected @endif>
+                                        <option value="Fiji" @if (Auth::user()->nationality == 'Fiji') selected @endif>
                                             Fiji
                                         </option>
-                                        <option value="Finland" @if (Auth::user()->country == 'Finland') selected @endif>
+                                        <option value="Finland" @if (Auth::user()->nationality == 'Finland') selected @endif>
                                             Finland</option>
-                                        <option value="France" @if (Auth::user()->country == 'France') selected @endif>
+                                        <option value="France" @if (Auth::user()->nationality == 'France') selected @endif>
                                             France</option>
                                         <option value="France Metropolitan"
-                                            @if (Auth::user()->country == 'France Metropolitan') selected @endif>
+                                            @if (Auth::user()->nationality == 'France Metropolitan') selected @endif>
                                             France Metropolitan
                                         </option>
                                         <option value="French Guiana"
-                                            @if (Auth::user()->country == 'French Guiana') selected @endif>
+                                            @if (Auth::user()->nationality == 'French Guiana') selected @endif>
                                             French Guiana</option>
                                         <option value="French Polynesia"
-                                            @if (Auth::user()->country == 'French Polynesia') selected @endif>
+                                            @if (Auth::user()->nationality == 'French Polynesia') selected @endif>
                                             French Polynesia</option>
                                         <option value="French Southern Territories"
-                                            @if (Auth::user()->country == 'French Southern Territories') selected @endif>
+                                            @if (Auth::user()->nationality == 'French Southern Territories') selected @endif>
                                             French Southern
                                             Territories</option>
-                                        <option value="Gabon" @if (Auth::user()->country == 'Gabon') selected @endif>
+                                        <option value="Gabon" @if (Auth::user()->nationality == 'Gabon') selected @endif>
                                             Gabon</option>
-                                        <option value="Gambia" @if (Auth::user()->country == 'Gambia') selected @endif>
+                                        <option value="Gambia" @if (Auth::user()->nationality == 'Gambia') selected @endif>
                                             Gambia</option>
-                                        <option value="Georgia" @if (Auth::user()->country == 'Georgia') selected @endif>
+                                        <option value="Georgia" @if (Auth::user()->nationality == 'Georgia') selected @endif>
                                             Georgia</option>
-                                        <option value="Germany" @if (Auth::user()->country == 'Germany') selected @endif>
+                                        <option value="Germany" @if (Auth::user()->nationality == 'Germany') selected @endif>
                                             Germany</option>
-                                        <option value="Ghana" @if (Auth::user()->country == 'Ghana') selected @endif>
+                                        <option value="Ghana" @if (Auth::user()->nationality == 'Ghana') selected @endif>
                                             Ghana</option>
-                                        <option value="Gibraltar" @if (Auth::user()->country == 'Gibraltar') selected @endif>
+                                        <option value="Gibraltar" @if (Auth::user()->nationality == 'Gibraltar') selected @endif>
                                             Gibraltar</option>
-                                        <option value="Greece" @if (Auth::user()->country == 'Greece') selected @endif>
+                                        <option value="Greece" @if (Auth::user()->nationality == 'Greece') selected @endif>
                                             Greece</option>
-                                        <option value="Greenland" @if (Auth::user()->country == 'Greenland') selected @endif>
+                                        <option value="Greenland" @if (Auth::user()->nationality == 'Greenland') selected @endif>
                                             Greenland</option>
-                                        <option value="Grenada" @if (Auth::user()->country == 'Grenada') selected @endif>
+                                        <option value="Grenada" @if (Auth::user()->nationality == 'Grenada') selected @endif>
                                             Grenada</option>
-                                        <option value="Guadeloupe" @if (Auth::user()->country == 'Guadeloupe') selected @endif>
+                                        <option value="Guadeloupe" @if (Auth::user()->nationality == 'Guadeloupe') selected @endif>
                                             Guadeloupe</option>
-                                        <option value="Guam" @if (Auth::user()->country == 'Guam') selected @endif>
+                                        <option value="Guam" @if (Auth::user()->nationality == 'Guam') selected @endif>
                                             Guam
                                         </option>
-                                        <option value="Guatemala" @if (Auth::user()->country == 'Guatemala') selected @endif>
+                                        <option value="Guatemala" @if (Auth::user()->nationality == 'Guatemala') selected @endif>
                                             Guatemala</option>
-                                        <option value="Guinea" @if (Auth::user()->country == 'Guinea') selected @endif>
+                                        <option value="Guinea" @if (Auth::user()->nationality == 'Guinea') selected @endif>
                                             Guinea</option>
                                         <option value="Guinea-Bissau"
-                                            @if (Auth::user()->country == 'Guinea-Bissau') selected @endif>
+                                            @if (Auth::user()->nationality == 'Guinea-Bissau') selected @endif>
                                             Guinea-Bissau</option>
-                                        <option value="Guyana" @if (Auth::user()->country == 'Guyana') selected @endif>
+                                        <option value="Guyana" @if (Auth::user()->nationality == 'Guyana') selected @endif>
                                             Guyana</option>
-                                        <option value="Haiti" @if (Auth::user()->country == 'Haiti') selected @endif>
+                                        <option value="Haiti" @if (Auth::user()->nationality == 'Haiti') selected @endif>
                                             Haiti</option>
                                         <option value="Heard and Mc Donald Islands"
-                                            @if (Auth::user()->country == 'Heard and Mc Donald Islands') selected @endif>
+                                            @if (Auth::user()->nationality == 'Heard and Mc Donald Islands') selected @endif>
                                             Heard and Mc
                                             Donald Islands</option>
                                         <option value="Holy See (Vatican City State)"
-                                            @if (Auth::user()->country == 'Holy See (Vatican City State)') selected @endif>
+                                            @if (Auth::user()->nationality == 'Holy See (Vatican City State)') selected @endif>
                                             Holy
                                             See
                                             (Vatican City State)</option>
-                                        <option value="Honduras" @if (Auth::user()->country == 'Honduras') selected @endif>
+                                        <option value="Honduras" @if (Auth::user()->nationality == 'Honduras') selected @endif>
                                             Honduras</option>
-                                        <option value="Hong Kong" @if (Auth::user()->country == 'Hong Kong') selected @endif>
+                                        <option value="Hong Kong" @if (Auth::user()->nationality == 'Hong Kong') selected @endif>
                                             Hong
                                             Kong</option>
-                                        <option value="Hungary" @if (Auth::user()->country == 'Hungary') selected @endif>
+                                        <option value="Hungary" @if (Auth::user()->nationality == 'Hungary') selected @endif>
                                             Hungary</option>
-                                        <option value="Iceland" @if (Auth::user()->country == 'Iceland') selected @endif>
+                                        <option value="Iceland" @if (Auth::user()->nationality == 'Iceland') selected @endif>
                                             Iceland</option>
-                                        <option value="India" @if (Auth::user()->country == 'India') selected @endif>
+                                        <option value="India" @if (Auth::user()->nationality == 'India') selected @endif>
                                             India</option>
                                         <option value="Indonesia"
-                                            @if (Auth::user()->country == 'Indonesia') selected @endif>
+                                            @if (Auth::user()->nationality == 'Indonesia') selected @endif>
                                             Indonesia</option>
-                                        <option value="Iran" @if (Auth::user()->country == 'Iran') selected @endif>
+                                        <option value="Iran" @if (Auth::user()->nationality == 'Iran') selected @endif>
                                             Iran</option>
-                                        <option value="Iraq" @if (Auth::user()->country == 'Iraq') selected @endif>
+                                        <option value="Iraq" @if (Auth::user()->nationality == 'Iraq') selected @endif>
                                             Iraq</option>
-                                        <option value="Ireland" @if (Auth::user()->country == 'Ireland') selected @endif>
+                                        <option value="Ireland" @if (Auth::user()->nationality == 'Ireland') selected @endif>
                                             Ireland</option>
-                                        <option value="Israel" @if (Auth::user()->country == 'Israel') selected @endif>
+                                        <option value="Israel" @if (Auth::user()->nationality == 'Israel') selected @endif>
                                             Israel</option>
-                                        <option value="Italy" @if (Auth::user()->country == 'Italy') selected @endif>
+                                        <option value="Italy" @if (Auth::user()->nationality == 'Italy') selected @endif>
                                             Italy</option>
-                                        <option value="Jamaica" @if (Auth::user()->country == 'Jamaica') selected @endif>
+                                        <option value="Jamaica" @if (Auth::user()->nationality == 'Jamaica') selected @endif>
                                             Jamaica</option>
-                                        <option value="Japan" @if (Auth::user()->country == 'Japan') selected @endif>
+                                        <option value="Japan" @if (Auth::user()->nationality == 'Japan') selected @endif>
                                             Japan</option>
-                                        <option value="Jordan" @if (Auth::user()->country == 'Jordan') selected @endif>
+                                        <option value="Jordan" @if (Auth::user()->nationality == 'Jordan') selected @endif>
                                             Jordan</option>
                                         <option value="Kazakhstan"
-                                            @if (Auth::user()->country == 'Kazakhstan') selected @endif>
+                                            @if (Auth::user()->nationality == 'Kazakhstan') selected @endif>
                                             Kazakhstan</option>
-                                        <option value="Kenya" @if (Auth::user()->country == 'Kenya') selected @endif>
+                                        <option value="Kenya" @if (Auth::user()->nationality == 'Kenya') selected @endif>
                                             Kenya</option>
-                                        <option value="Kiribati" @if (Auth::user()->country == 'Kiribati') selected @endif>
+                                        <option value="Kiribati" @if (Auth::user()->nationality == 'Kiribati') selected @endif>
                                             Kiribati</option>
                                         <option value="North Korea"
-                                            @if (Auth::user()->country == 'North Korea') selected @endif>
+                                            @if (Auth::user()->nationality == 'North Korea') selected @endif>
                                             North Korea</option>
                                         <option value="South Korea"
-                                            @if (Auth::user()->country == 'South Korea') selected @endif>
+                                            @if (Auth::user()->nationality == 'South Korea') selected @endif>
                                             South Korea
                                         </option>
-                                        <option value="Kuwait" @if (Auth::user()->country == 'Kuwait') selected @endif>
+                                        <option value="Kuwait" @if (Auth::user()->nationality == 'Kuwait') selected @endif>
                                             Kuwait</option>
                                         <option value="Kyrgyzstan"
-                                            @if (Auth::user()->country == 'Kyrgyzstan') selected @endif>
+                                            @if (Auth::user()->nationality == 'Kyrgyzstan') selected @endif>
                                             Kyrgyzstan</option>
-                                        <option value="Lao" @if (Auth::user()->country == 'Lao') selected @endif>
+                                        <option value="Lao" @if (Auth::user()->nationality == 'Lao') selected @endif>
                                             Lao</option>
-                                        <option value="Latvia" @if (Auth::user()->country == 'Latvia') selected @endif>
+                                        <option value="Latvia" @if (Auth::user()->nationality == 'Latvia') selected @endif>
                                             Latvia</option>
-                                        <option value="Lebanon" @if (Auth::user()->country == 'Lebanon') selected @endif>
+                                        <option value="Lebanon" @if (Auth::user()->nationality == 'Lebanon') selected @endif>
                                             Lebanon</option>
-                                        <option value="Lesotho" @if (Auth::user()->country == 'Lesotho') selected @endif>
+                                        <option value="Lesotho" @if (Auth::user()->nationality == 'Lesotho') selected @endif>
                                             Lesotho</option>
-                                        <option value="Liberia" @if (Auth::user()->country == 'Liberia') selected @endif>
+                                        <option value="Liberia" @if (Auth::user()->nationality == 'Liberia') selected @endif>
                                             Liberia</option>
                                         <option value="Libyan Arab Jamahiriya"
-                                            @if (Auth::user()->country == 'Libyan Arab Jamahiriya') selected @endif>
+                                            @if (Auth::user()->nationality == 'Libyan Arab Jamahiriya') selected @endif>
                                             Libyan Arab
                                             Jamahiriya</option>
                                         <option value="Liechtenstein"
-                                            @if (Auth::user()->country == 'Liechtenstein') selected @endif>
+                                            @if (Auth::user()->nationality == 'Liechtenstein') selected @endif>
                                             Liechtenstein</option>
                                         <option value="Lithuania"
-                                            @if (Auth::user()->country == 'Lithuania') selected @endif>
+                                            @if (Auth::user()->nationality == 'Lithuania') selected @endif>
                                             Lithuania</option>
                                         <option value="Luxembourg"
-                                            @if (Auth::user()->country == 'Luxembourg') selected @endif>
+                                            @if (Auth::user()->nationality == 'Luxembourg') selected @endif>
                                             Luxembourg</option>
-                                        <option value="Macau" @if (Auth::user()->country == 'Macau') selected @endif>
+                                        <option value="Macau" @if (Auth::user()->nationality == 'Macau') selected @endif>
                                             Macau</option>
                                         <option value="Macedonia"
-                                            @if (Auth::user()->country == 'Macedonia') selected @endif>
+                                            @if (Auth::user()->nationality == 'Macedonia') selected @endif>
                                             Macedonia</option>
                                         <option value="Madagascar"
-                                            @if (Auth::user()->country == 'Madagascar') selected @endif>
+                                            @if (Auth::user()->nationality == 'Madagascar') selected @endif>
                                             Madagascar</option>
-                                        <option value="Malawi" @if (Auth::user()->country == 'Malawi') selected @endif>
+                                        <option value="Malawi" @if (Auth::user()->nationality == 'Malawi') selected @endif>
                                             Malawi</option>
-                                        <option value="Malaysia" @if (Auth::user()->country == 'Malaysia') selected @endif>
+                                        <option value="Malaysia" @if (Auth::user()->nationality == 'Malaysia') selected @endif>
                                             Malaysia</option>
-                                        <option value="Maldives" @if (Auth::user()->country == 'Maldives') selected @endif>
+                                        <option value="Maldives" @if (Auth::user()->nationality == 'Maldives') selected @endif>
                                             Maldives</option>
-                                        <option value="Mali" @if (Auth::user()->country == 'Mali') selected @endif>
+                                        <option value="Mali" @if (Auth::user()->nationality == 'Mali') selected @endif>
                                             Mali</option>
-                                        <option value="Malta" @if (Auth::user()->country == 'Malta') selected @endif>
+                                        <option value="Malta" @if (Auth::user()->nationality == 'Malta') selected @endif>
                                             Malta</option>
                                         <option value="Marshall Islands"
-                                            @if (Auth::user()->country == 'Marshall Islands') selected @endif>
+                                            @if (Auth::user()->nationality == 'Marshall Islands') selected @endif>
                                             Marshall Islands</option>
                                         <option value="Martinique"
-                                            @if (Auth::user()->country == 'Martinique') selected @endif>
+                                            @if (Auth::user()->nationality == 'Martinique') selected @endif>
                                             Martinique</option>
                                         <option value="Mauritania"
-                                            @if (Auth::user()->country == 'Mauritania') selected @endif>
+                                            @if (Auth::user()->nationality == 'Mauritania') selected @endif>
                                             Mauritania</option>
                                         <option value="Mauritius"
-                                            @if (Auth::user()->country == 'Mauritius') selected @endif>
+                                            @if (Auth::user()->nationality == 'Mauritius') selected @endif>
                                             Mauritius</option>
-                                        <option value="Mayotte" @if (Auth::user()->country == 'Mayotte') selected @endif>
+                                        <option value="Mayotte" @if (Auth::user()->nationality == 'Mayotte') selected @endif>
                                             Mayotte</option>
-                                        <option value="Mexico" @if (Auth::user()->country == 'Mexico') selected @endif>
+                                        <option value="Mexico" @if (Auth::user()->nationality == 'Mexico') selected @endif>
                                             Mexico</option>
                                         <option value="Micronesia"
-                                            @if (Auth::user()->country == 'Micronesia') selected @endif>
+                                            @if (Auth::user()->nationality == 'Micronesia') selected @endif>
                                             Micronesia</option>
-                                        <option value="Moldova" @if (Auth::user()->country == 'Moldova') selected @endif>
+                                        <option value="Moldova" @if (Auth::user()->nationality == 'Moldova') selected @endif>
                                             Moldova
                                         </option>
-                                        <option value="Monaco" @if (Auth::user()->country == 'Monaco') selected @endif>
+                                        <option value="Monaco" @if (Auth::user()->nationality == 'Monaco') selected @endif>
                                             Monaco</option>
-                                        <option value="Mongolia" @if (Auth::user()->country == 'Mongolia') selected @endif>
+                                        <option value="Mongolia" @if (Auth::user()->nationality == 'Mongolia') selected @endif>
                                             Mongolia</option>
                                         <option value="Montserrat"
-                                            @if (Auth::user()->country == 'Montserrat') selected @endif>
+                                            @if (Auth::user()->nationality == 'Montserrat') selected @endif>
                                             Montserrat</option>
-                                        <option value="Morocco" @if (Auth::user()->country == 'Morocco') selected @endif>
+                                        <option value="Morocco" @if (Auth::user()->nationality == 'Morocco') selected @endif>
                                             Morocco</option>
                                         <option value="Mozambique"
-                                            @if (Auth::user()->country == 'Mozambique') selected @endif>
+                                            @if (Auth::user()->nationality == 'Mozambique') selected @endif>
                                             Mozambique</option>
-                                        <option value="Myanmar" @if (Auth::user()->country == 'Myanmar') selected @endif>
+                                        <option value="Myanmar" @if (Auth::user()->nationality == 'Myanmar') selected @endif>
                                             Myanmar</option>
-                                        <option value="Namibia" @if (Auth::user()->country == 'Namibia') selected @endif>
+                                        <option value="Namibia" @if (Auth::user()->nationality == 'Namibia') selected @endif>
                                             Namibia</option>
-                                        <option value="Nauru" @if (Auth::user()->country == 'Nauru') selected @endif>
+                                        <option value="Nauru" @if (Auth::user()->nationality == 'Nauru') selected @endif>
                                             Nauru</option>
-                                        <option value="Nepal" @if (Auth::user()->country == 'Nepal') selected @endif>
+                                        <option value="Nepal" @if (Auth::user()->nationality == 'Nepal') selected @endif>
                                             Nepal</option>
                                         <option value="Netherlands"
-                                            @if (Auth::user()->country == 'Netherlands') selected @endif>
+                                            @if (Auth::user()->nationality == 'Netherlands') selected @endif>
                                             Netherlands</option>
                                         <option value="Netherlands Antilles"
-                                            @if (Auth::user()->country == 'Netherlands Antilles') selected @endif>
+                                            @if (Auth::user()->nationality == 'Netherlands Antilles') selected @endif>
                                             Netherlands Antilles
                                         </option>
                                         <option value="New Caledonia"
-                                            @if (Auth::user()->country == 'New Caledonia') selected @endif>
+                                            @if (Auth::user()->nationality == 'New Caledonia') selected @endif>
                                             New Caledonia</option>
                                         <option value="New Zealand"
-                                            @if (Auth::user()->country == 'New Zealand') selected @endif>
+                                            @if (Auth::user()->nationality == 'New Zealand') selected @endif>
                                             New Zealand</option>
                                         <option value="Nicaragua"
-                                            @if (Auth::user()->country == 'Nicaragua') selected @endif>
+                                            @if (Auth::user()->nationality == 'Nicaragua') selected @endif>
                                             Nicaragua</option>
-                                        <option value="Niger" @if (Auth::user()->country == 'Niger') selected @endif>
+                                        <option value="Niger" @if (Auth::user()->nationality == 'Niger') selected @endif>
                                             Niger</option>
-                                        <option value="Nigeria" @if (Auth::user()->country == 'Nigeria') selected @endif>
+                                        <option value="Nigeria" @if (Auth::user()->nationality == 'Nigeria') selected @endif>
                                             Nigeria</option>
-                                        <option value="Niue" @if (Auth::user()->country == 'Niue') selected @endif>
+                                        <option value="Niue" @if (Auth::user()->nationality == 'Niue') selected @endif>
                                             Niue</option>
                                         <option value="Norfolk Island"
-                                            @if (Auth::user()->country == 'Norfolk Island') selected @endif>
+                                            @if (Auth::user()->nationality == 'Norfolk Island') selected @endif>
                                             Norfolk Island</option>
                                         <option value="Northern Mariana Islands"
-                                            @if (Auth::user()->country == 'Northern Mariana Islands') selected @endif>
+                                            @if (Auth::user()->nationality == 'Northern Mariana Islands') selected @endif>
                                             Northern Mariana
                                             Islands</option>
-                                        <option value="Norway" @if (Auth::user()->country == 'Norway') selected @endif>
+                                        <option value="Norway" @if (Auth::user()->nationality == 'Norway') selected @endif>
                                             Norway</option>
-                                        <option value="Oman" @if (Auth::user()->country == 'Oman') selected @endif>
+                                        <option value="Oman" @if (Auth::user()->nationality == 'Oman') selected @endif>
                                             Oman</option>
-                                        <option value="Pakistan" @if (Auth::user()->country == 'Pakistan') selected @endif>
+                                        <option value="Pakistan" @if (Auth::user()->nationality == 'Pakistan') selected @endif>
                                             Pakistan</option>
-                                        <option value="Palau" @if (Auth::user()->country == 'Palau') selected @endif>
+                                        <option value="Palau" @if (Auth::user()->nationality == 'Palau') selected @endif>
                                             Palau</option>
-                                        <option value="Panama" @if (Auth::user()->country == 'Panama') selected @endif>
+                                        <option value="Panama" @if (Auth::user()->nationality == 'Panama') selected @endif>
                                             Panama</option>
                                         <option value="Papua New Guinea"
-                                            @if (Auth::user()->country == 'Papua New Guinea') selected @endif>
+                                            @if (Auth::user()->nationality == 'Papua New Guinea') selected @endif>
                                             Papua New Guinea</option>
-                                        <option value="Paraguay" @if (Auth::user()->country == 'Paraguay') selected @endif>
+                                        <option value="Paraguay" @if (Auth::user()->nationality == 'Paraguay') selected @endif>
                                             Paraguay</option>
-                                        <option value="Peru" @if (Auth::user()->country == 'Peru') selected @endif>
+                                        <option value="Peru" @if (Auth::user()->nationality == 'Peru') selected @endif>
                                             Peru</option>
                                         <option value="Philippines"
-                                            @if (Auth::user()->country == 'Philippines') selected @endif>
+                                            @if (Auth::user()->nationality == 'Philippines') selected @endif>
                                             Philippines</option>
-                                        <option value="Pitcairn" @if (Auth::user()->country == 'Pitcairn') selected @endif>
+                                        <option value="Pitcairn" @if (Auth::user()->nationality == 'Pitcairn') selected @endif>
                                             Pitcairn</option>
-                                        <option value="Poland" @if (Auth::user()->country == 'Poland') selected @endif>
+                                        <option value="Poland" @if (Auth::user()->nationality == 'Poland') selected @endif>
                                             Poland</option>
-                                        <option value="Portugal" @if (Auth::user()->country == 'Portugal') selected @endif>
+                                        <option value="Portugal" @if (Auth::user()->nationality == 'Portugal') selected @endif>
                                             Portugal</option>
                                         <option value="Puerto Rico"
-                                            @if (Auth::user()->country == 'Puerto Rico') selected @endif>
+                                            @if (Auth::user()->nationality == 'Puerto Rico') selected @endif>
                                             Puerto Rico</option>
-                                        <option value="Qatar" @if (Auth::user()->country == 'Qatar') selected @endif>
+                                        <option value="Qatar" @if (Auth::user()->nationality == 'Qatar') selected @endif>
                                             Qatar</option>
-                                        <option value="Reunion" @if (Auth::user()->country == 'Reunion') selected @endif>
+                                        <option value="Reunion" @if (Auth::user()->nationality == 'Reunion') selected @endif>
                                             Reunion</option>
-                                        <option value="Romania" @if (Auth::user()->country == 'Romania') selected @endif>
+                                        <option value="Romania" @if (Auth::user()->nationality == 'Romania') selected @endif>
                                             Romania</option>
                                         <option value="Russian Federation"
-                                            @if (Auth::user()->country == 'Russian Federation') selected @endif>
+                                            @if (Auth::user()->nationality == 'Russian Federation') selected @endif>
                                             Russian Federation
                                         </option>
-                                        <option value="Rwanda" @if (Auth::user()->country == 'Rwanda') selected @endif>
+                                        <option value="Rwanda" @if (Auth::user()->nationality == 'Rwanda') selected @endif>
                                             Rwanda</option>
                                         <option value="Saint Kitts and Nevis"
-                                            @if (Auth::user()->country == 'Saint Kitts and Nevis') selected @endif>
+                                            @if (Auth::user()->nationality == 'Saint Kitts and Nevis') selected @endif>
                                             Saint Kitts and Nevis
                                         </option>
                                         <option value="Saint Lucia"
-                                            @if (Auth::user()->country == 'Saint Lucia') selected @endif>
+                                            @if (Auth::user()->nationality == 'Saint Lucia') selected @endif>
                                             Saint Lucia</option>
                                         <option value="Saint Vincent and the Grenadines"
-                                            @if (Auth::user()->country == 'Saint Vincent and the Grenadines') selected @endif>
+                                            @if (Auth::user()->nationality == 'Saint Vincent and the Grenadines') selected @endif>
                                             Saint
                                             Vincent and the Grenadines</option>
-                                        <option value="Samoa" @if (Auth::user()->country == 'Samoa') selected @endif>
+                                        <option value="Samoa" @if (Auth::user()->nationality == 'Samoa') selected @endif>
                                             Samoa</option>
                                         <option value="San Marino"
-                                            @if (Auth::user()->country == 'San Marino') selected @endif>
+                                            @if (Auth::user()->nationality == 'San Marino') selected @endif>
                                             San Marino</option>
                                         <option value="Sao Tome and Principe"
-                                            @if (Auth::user()->country == 'Sao Tome and Principe') selected @endif>
+                                            @if (Auth::user()->nationality == 'Sao Tome and Principe') selected @endif>
                                             Sao Tome and Principe
                                         </option>
                                         <option value="Saudi Arabia"
-                                            @if (Auth::user()->country == 'Saudi Arabia') selected @endif>
+                                            @if (Auth::user()->nationality == 'Saudi Arabia') selected @endif>
                                             Saudi Arabia</option>
-                                        <option value="Senegal" @if (Auth::user()->country == 'Senegal') selected @endif>
+                                        <option value="Senegal" @if (Auth::user()->nationality == 'Senegal') selected @endif>
                                             Senegal</option>
                                         <option value="Seychelles"
-                                            @if (Auth::user()->country == 'Seychelles') selected @endif>
+                                            @if (Auth::user()->nationality == 'Seychelles') selected @endif>
                                             Seychelles</option>
                                         <option value="Sierra Leone"
-                                            @if (Auth::user()->country == 'Sierra Leone') selected @endif>
+                                            @if (Auth::user()->nationality == 'Sierra Leone') selected @endif>
                                             Sierra Leone</option>
                                         <option value="Singapore"
-                                            @if (Auth::user()->country == 'Singapore') selected @endif>
+                                            @if (Auth::user()->nationality == 'Singapore') selected @endif>
                                             Singapore</option>
                                         <option value="Slovakia (Slovak Republic)"
-                                            @if (Auth::user()->country == 'Slovakia (Slovak Republic)') selected @endif>
+                                            @if (Auth::user()->nationality == 'Slovakia (Slovak Republic)') selected @endif>
                                             Slovakia (Slovak
                                             Republic)</option>
-                                        <option value="Slovenia" @if (Auth::user()->country == 'Slovenia') selected @endif>
+                                        <option value="Slovenia" @if (Auth::user()->nationality == 'Slovenia') selected @endif>
                                             Slovenia</option>
                                         <option value="Solomon Islands"
-                                            @if (Auth::user()->country == 'Solomon Islands') selected @endif>
+                                            @if (Auth::user()->nationality == 'Solomon Islands') selected @endif>
                                             Solomon Islands</option>
-                                        <option value="Somalia" @if (Auth::user()->country == 'Somalia') selected @endif>
+                                        <option value="Somalia" @if (Auth::user()->nationality == 'Somalia') selected @endif>
                                             Somalia</option>
                                         <option value="South Africa"
-                                            @if (Auth::user()->country == 'South Africa') selected @endif>
+                                            @if (Auth::user()->nationality == 'South Africa') selected @endif>
                                             South Africa</option>
                                         <option value="South Georgia and the South Sandwich Islands"
-                                            @if (Auth::user()->country == 'South Georgia and the South Sandwich Islands') selected @endif>
+                                            @if (Auth::user()->nationality == 'South Georgia and the South Sandwich Islands') selected @endif>
                                             South Georgia and the South Sandwich Islands
                                         </option>
-                                        <option value="Spain" @if (Auth::user()->country == 'Spain') selected @endif>
+                                        <option value="Spain" @if (Auth::user()->nationality == 'Spain') selected @endif>
                                             Spain</option>
                                         <option value="Sri Lanka"
-                                            @if (Auth::user()->country == 'Sri Lanka') selected @endif>
+                                            @if (Auth::user()->nationality == 'Sri Lanka') selected @endif>
                                             Sri Lanka</option>
                                         <option value="St. Helena"
-                                            @if (Auth::user()->country == 'St. Helena') selected @endif>
+                                            @if (Auth::user()->nationality == 'St. Helena') selected @endif>
                                             St. Helena</option>
                                         <option value="St. Pierre and Miquelon"
-                                            @if (Auth::user()->country == 'St. Pierre and Miquelon') selected @endif>
+                                            @if (Auth::user()->nationality == 'St. Pierre and Miquelon') selected @endif>
                                             St. Pierre and
                                             Miquelon</option>
-                                        <option value="Sudan" @if (Auth::user()->country == 'Sudan') selected @endif>
+                                        <option value="Sudan" @if (Auth::user()->nationality == 'Sudan') selected @endif>
                                             Sudan</option>
-                                        <option value="Suriname" @if (Auth::user()->country == 'Suriname') selected @endif>
+                                        <option value="Suriname" @if (Auth::user()->nationality == 'Suriname') selected @endif>
                                             Suriname</option>
                                         <option value="Svalbard and Jan Mayen Islands"
-                                            @if (Auth::user()->country == 'Svalbard and Jan Mayen Islands') selected @endif>
+                                            @if (Auth::user()->nationality == 'Svalbard and Jan Mayen Islands') selected @endif>
                                             Svalbard and
                                             Jan Mayen Islands</option>
                                         <option value="Swaziland"
-                                            @if (Auth::user()->country == 'Swaziland') selected @endif>
+                                            @if (Auth::user()->nationality == 'Swaziland') selected @endif>
                                             Swaziland</option>
-                                        <option value="Sweden" @if (Auth::user()->country == 'Sweden') selected @endif>
+                                        <option value="Sweden" @if (Auth::user()->nationality == 'Sweden') selected @endif>
                                             Sweden</option>
                                         <option value="Switzerland"
-                                            @if (Auth::user()->country == 'Switzerland') selected @endif>
+                                            @if (Auth::user()->nationality == 'Switzerland') selected @endif>
                                             Switzerland</option>
                                         <option value="Syrian Arab Republic"
-                                            @if (Auth::user()->country == 'Syrian Arab Republic') selected @endif>
+                                            @if (Auth::user()->nationality == 'Syrian Arab Republic') selected @endif>
                                             Syrian Arab Republic
                                         </option>
                                         <option value="Taiwan, Province of China"
-                                            @if (Auth::user()->country == 'Taiwan, Province of China') selected @endif>
+                                            @if (Auth::user()->nationality == 'Taiwan, Province of China') selected @endif>
                                             Taiwan, Province
                                             of China</option>
                                         <option value="Tajikistan"
-                                            @if (Auth::user()->country == 'Tajikistan') selected @endif>
+                                            @if (Auth::user()->nationality == 'Tajikistan') selected @endif>
                                             Tajikistan</option>
                                         <option value="Tanzania, United Republic of"
-                                            @if (Auth::user()->country == 'Tanzania, United Republic of') selected @endif>
+                                            @if (Auth::user()->nationality == 'Tanzania, United Republic of') selected @endif>
                                             Tanzania,
                                             United Republic of</option>
-                                        <option value="Thailand" @if (Auth::user()->country == 'Thailand') selected @endif>
+                                        <option value="Thailand" @if (Auth::user()->nationality == 'Thailand') selected @endif>
                                             Thailand</option>
-                                        <option value="Togo" @if (Auth::user()->country == 'Togo') selected @endif>
+                                        <option value="Togo" @if (Auth::user()->nationality == 'Togo') selected @endif>
                                             Togo</option>
-                                        <option value="Tokelau" @if (Auth::user()->country == 'Tokelau') selected @endif>
+                                        <option value="Tokelau" @if (Auth::user()->nationality == 'Tokelau') selected @endif>
                                             Tokelau</option>
-                                        <option value="Tonga" @if (Auth::user()->country == 'Tonga') selected @endif>
+                                        <option value="Tonga" @if (Auth::user()->nationality == 'Tonga') selected @endif>
                                             Tonga</option>
                                         <option value="Trinidad and Tobago"
-                                            @if (Auth::user()->country == 'Trinidad and Tobago') selected @endif>
+                                            @if (Auth::user()->nationality == 'Trinidad and Tobago') selected @endif>
                                             Trinidad and Tobago
                                         </option>
-                                        <option value="Tunisia" @if (Auth::user()->country == 'Tunisia') selected @endif>
+                                        <option value="Tunisia" @if (Auth::user()->nationality == 'Tunisia') selected @endif>
                                             Tunisia</option>
-                                        <option value="Turkey" @if (Auth::user()->country == 'Turkey') selected @endif>
+                                        <option value="Turkey" @if (Auth::user()->nationality == 'Turkey') selected @endif>
                                             Turkey</option>
                                         <option value="Turkmenistan"
-                                            @if (Auth::user()->country == 'Turkmenistan') selected @endif>
+                                            @if (Auth::user()->nationality == 'Turkmenistan') selected @endif>
                                             Turkmenistan</option>
                                         <option value="Turks and Caicos Islands"
-                                            @if (Auth::user()->country == 'Turks and Caicos Islands') selected @endif>
+                                            @if (Auth::user()->nationality == 'Turks and Caicos Islands') selected @endif>
                                             Turks and Caicos
                                             Islands</option>
-                                        <option value="Tuvalu" @if (Auth::user()->country == 'Tuvalu') selected @endif>
+                                        <option value="Tuvalu" @if (Auth::user()->nationality == 'Tuvalu') selected @endif>
                                             Tuvalu</option>
-                                        <option value="Uganda" @if (Auth::user()->country == 'Uganda') selected @endif>
+                                        <option value="Uganda" @if (Auth::user()->nationality == 'Uganda') selected @endif>
                                             Uganda</option>
-                                        <option value="Ukraine" @if (Auth::user()->country == 'Ukraine') selected @endif>
+                                        <option value="Ukraine" @if (Auth::user()->nationality == 'Ukraine') selected @endif>
                                             Ukraine</option>
                                         <option value="United Arab Emirates"
-                                            @if (Auth::user()->country == 'United Arab Emirates') selected @endif>
+                                            @if (Auth::user()->nationality == 'United Arab Emirates') selected @endif>
                                             United Arab Emirates
                                         </option>
                                         <option value="United Kingdom"
-                                            @if (Auth::user()->country == 'United Kingdom') selected @endif>
+                                            @if (Auth::user()->nationality == 'United Kingdom') selected @endif>
                                             United Kingdom</option>
                                         <option value="United States"
-                                            @if (Auth::user()->country == 'United States') selected @endif>
+                                            @if (Auth::user()->nationality == 'United States') selected @endif>
                                             United States</option>
                                         <option value="United States Minor Outlying Islands"
-                                            @if (Auth::user()->country == 'United States Minor Outlying Islands') selected @endif>
+                                            @if (Auth::user()->nationality == 'United States Minor Outlying Islands') selected @endif>
                                             United
                                             States Minor Outlying Islands</option>
-                                        <option value="Uruguay" @if (Auth::user()->country == 'Uruguay') selected @endif>
+                                        <option value="Uruguay" @if (Auth::user()->nationality == 'Uruguay') selected @endif>
                                             Uruguay</option>
                                         <option value="Uzbekistan"
-                                            @if (Auth::user()->country == 'Uzbekistan') selected @endif>
+                                            @if (Auth::user()->nationality == 'Uzbekistan') selected @endif>
                                             Uzbekistan</option>
-                                        <option value="Vanuatu" @if (Auth::user()->country == 'Vanuatu') selected @endif>
+                                        <option value="Vanuatu" @if (Auth::user()->nationality == 'Vanuatu') selected @endif>
                                             Vanuatu</option>
                                         <option value="Venezuela"
-                                            @if (Auth::user()->country == 'Venezuela') selected @endif>
+                                            @if (Auth::user()->nationality == 'Venezuela') selected @endif>
                                             Venezuela</option>
-                                        <option value="Vietnam" @if (Auth::user()->country == 'Vietnam') selected @endif>
+                                        <option value="Vietnam" @if (Auth::user()->nationality == 'Vietnam') selected @endif>
                                             Vietnam</option>
                                         <option value="Virgin Islands (British)"
-                                            @if (Auth::user()->country == 'Virgin Islands (British)') selected @endif>
+                                            @if (Auth::user()->nationality == 'Virgin Islands (British)') selected @endif>
                                             Virgin Islands
                                             (British)</option>
                                         <option value="Virgin Islands (U.S.)"
-                                            @if (Auth::user()->country == 'Virgin Islands (U.S.)') selected @endif>
+                                            @if (Auth::user()->nationality == 'Virgin Islands (U.S.)') selected @endif>
                                             Virgin Islands (U.S.)
                                         </option>
                                         <option value="Wallis and Futuna Islands"
-                                            @if (Auth::user()->country == 'Wallis and Futuna Islands') selected @endif>
+                                            @if (Auth::user()->nationality == 'Wallis and Futuna Islands') selected @endif>
                                             Wallis and Futuna
                                             Islands</option>
                                         <option value="Western Sahara"
-                                            @if (Auth::user()->country == 'Western Sahara') selected @endif>
+                                            @if (Auth::user()->nationality == 'Western Sahara') selected @endif>
                                             Western Sahara</option>
-                                        <option value="Yemen" @if (Auth::user()->country == 'Yemen') selected @endif>
+                                        <option value="Yemen" @if (Auth::user()->nationality == 'Yemen') selected @endif>
                                             Yemen</option>
                                         <option value="Yugoslavia"
-                                            @if (Auth::user()->country == 'Yugoslavia') selected @endif>
+                                            @if (Auth::user()->nationality == 'Yugoslavia') selected @endif>
                                             Yugoslavia</option>
-                                        <option value="Zambia" @if (Auth::user()->country == 'Zambia') selected @endif>
+                                        <option value="Zambia" @if (Auth::user()->nationality == 'Zambia') selected @endif>
                                             Zambia</option>
-                                        <option value="Zimbabwe" @if (Auth::user()->country == 'Zimbabwe') selected @endif>
+                                        <option value="Zimbabwe" @if (Auth::user()->nationality == 'Zimbabwe') selected @endif>
                                             Zimbabwe</option>
                                     </select>
-                                    @error('country')
+                                    @error('nationality')
+                                        <span class="" role="alert">
+                                            <strong style="color: #b02a37; font-size:12px">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3 col-md-12 col-12">
+                                    <label class="form-label">Contact Address<span class="text-danger">*</span></label>
+                                    <input type="text" name="contact_address" value="{{ Auth::user()->contact_address }}"
+                                        class="form-control @error('contact_address') is-invalid @enderror"
+                                        placeholder="Enter Contact Addresss" required>
+                                    @error('contact_address')
                                         <span class="" role="alert">
                                             <strong style="color: #b02a37; font-size:12px">{{ $message }}</strong>
                                         </span>
@@ -749,7 +793,7 @@
                                         <div class="icon-shape icon-xxl border rounded position-relative">
                                             <span class="position-absolute">
                                                 <img alt="avatar"
-                                                    src="{{ Auth::user()->photo == null ? asset('assets/images/avatar/avatar.webp') : Auth::user()->photo }}"
+                                                    src="{{ Auth::user()->profile_photo == null ? asset('assets/images/avatar/avatar.webp') : Auth::user()->profile_photo }}"
                                                     style="max-height:140px; max-width: 150px">
                                             </span>
 
@@ -790,7 +834,19 @@
 @section('customjs')
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#country').select2();
+        $('#nationality').select2();
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#gender').select2();
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#maritalStatus').select2();
     });
 </script>
 

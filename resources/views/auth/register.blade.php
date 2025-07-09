@@ -118,14 +118,13 @@
 
 
                 <div class="gaps-2x"></div>
-                <div class="form-note">
+                <div class="form-note text-center">
                     Already have an account ? <a href="/login"> <strong>Sign in
                             instead</strong></a>
                 </div>
             </div>
 
-            <div class="page-ath-footer">
-
+            <div class="page-ath-footer text-center">
 
                 <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. <br/>All Right Reserved.
                 </div>

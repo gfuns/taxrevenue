@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentication Confirmation</title>
+    <title>Two Factor Authentication</title>
     <style>
         /* CSS Styles */
         body {
@@ -30,11 +30,11 @@
         }
 
         .logo {
-            max-width: 150px;
+            max-width: 345px;
         }
 
         h2 {
-            color: #333;
+            /* color: #333; */
             margin-bottom: 20px;
         }
 
@@ -57,15 +57,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <img class="logo" src="{{ $message->embed(public_path('images/logo.png')) }}"
+            <img class="logo" src="{{ $message->embed(public_path('images/logo_mail.png')) }}"
                 alt="{{ env('APP_NAME') }} Logo">
         </div>
 
-        <h2>Authentication Confirmation</h2>
+        <h2>Two Factor Authentication</h2>
 
-        <p>Dear {{ $user->first_name . ' ' . $user->last_name }},</p>
+        <p>Dear {{ $user->last_name . ' ' . $user->other_names }},</p>
 
-        <p>To confirm your authentication attempt, please use the confirmation code below:</p>
+        <p>To confirm your authentication attempt, please use the code below:</p>
 
         <div class="verification-code">
             {{ $otp->otp }}

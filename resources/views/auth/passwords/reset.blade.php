@@ -25,15 +25,14 @@
             <div class="page-ath-header">
                 <a href="/" class="page-ath-logo">
                     <img class="page-ath-logo-img" src="{{ asset('files/general/logo.png') }}"
-                        alt="{{ env('APP_NAME') }}">
+                        alt="BPP Logo"  style="max-width: 345px">
                 </a>
             </div>
 
 
             <div class="page-ath-form">
                 <h2 class="page-ath-heading">Create New Password
-                    <small style="font-size: 14px">Select a new password for your {{ env('APP_NAME') }}
-                        account</small>
+                    <small style="font-size: 17px">Select a new password for your account</small>
                 </h2>
 
                 @if ($errors->any())
@@ -47,13 +46,13 @@
                 <form class="validate validate-modern" action="{{ route('createNewPassword') }}" method="POST">
                     @csrf
                     <div class="input-item">
-                        <input type="password" placeholder="Select New Password" data-msg-required="Required."
+                        <input id="password" type="password" placeholder="Select New Password" data-msg-required="Required."
                             class="input-bordered" name="password" value="" required autofocus>
                     </div>
                     <div class="input-item">
                         <input type="password" placeholder="Password Confirmation" minlength="6"
                             data-msg-required="Required." data-msg-minlength="At least 6 chars." class="input-bordered"
-                            name="password_confirmation" value="" required>
+                            name="password_confirmation" data-rule-equalTo="#password"  data-msg-equalTo="Enter the same value with the password above." value="" required>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="input-item text-left">
@@ -68,31 +67,8 @@
             </div>
 
 
-            <div class="page-ath-footer">
-                <ul class="socials mb-3">
-                    <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
-                    <li><a href="#"><em class="fab fa-twitter"></em></a></li>
-                    <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
-                    <li><a href="#"><em class="fab fa-github-alt"></em></a></li>
-                    <li><a href="#"><em class="fab fa-youtube"></em></a></li>
-                    <li><a href="#"><em class="fab fa-medium-m"></em></a></li>
-                    <li><a href="#"><em class="fab fa-telegram-plane"></em></a></li>
-                </ul>
-                <ul class="footer-links guttar-20px align-items-center">
-                    <li><a href="/privacy-policy" target="_blank">Privacy Policy</a></li>
-                    <li><a href="/terms-and-conditions" target="_blank">Terms and Condition</a></li>
-                    <li>
-                        <div class="lang-switch relative"><a href="javascript:void(0)"
-                                class="lang-switch-btn toggle-tigger">EN<em class="ti ti-angle-up"></em></a>
-                            <div class="toggle-class dropdown-content dropdown-content-up">
-                                <ul class="lang-list">
-                                    <li><a href="?lang=en">English</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. All Right Reserved.</div>
+            <div class="page-ath-footer text-center">
+                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. <br/>All Right Reserved.</div>
             </div>
         </div>
         <div class="page-ath-gfx" style="background-image: url({{ asset('auth/images/ath-gfx.png') }});">
@@ -104,9 +80,9 @@
                                     to Home</strong></span></a>
                     </div>
 
-                    <div style="margin-top: 450px; margin-bottom: 50px">
-                        <span style="color:white; font-size: 72px; font-weight:bolder">Welcome to</span>
-                        <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Arete</span>
+                    <div style="margin-top: 350px; margin-bottom: 50px">
+                        <span style="color:white; font-size: 72px; font-weight:bolder">Content A</span>
+                        <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Content B</span>
 
                         <p class="text-white">The No. 1 world class cutting-edge business directory designed for businesses
                             like you to elevate your business experience!</p>
