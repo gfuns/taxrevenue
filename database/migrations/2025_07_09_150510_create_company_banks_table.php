@@ -11,18 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('processing_fees', function (Blueprint $table) {
+        Schema::create('company_banks', function (Blueprint $table) {
             $table->id();
             $table->integer("company_id")->unsigned();
-            $table->string("reference_number");
-            $table->text("company_name");
-            $table->text("contract_name");
-            $table->double("contract_amount", 12, 2);
-            $table->date("award_date");
-            $table->string("contract_duration");
-            $table->text("mda");
-            $table->double("amount_paid", 12, 2);
-            $table->enum("status", ["pending", "paid", "failed"])->default("pending");
+            $table->string("bank_name");
+            $table->string("account_name");
+            $table->string("account_number");
+            $table->string("bank_branch");
+            $table->string("postal_address")->nullable();
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('processing_fees');
+        Schema::dropIfExists('company_banks');
     }
 };

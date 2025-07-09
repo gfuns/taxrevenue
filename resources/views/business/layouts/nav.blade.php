@@ -22,7 +22,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="wallet" href="">
+                <a class="nav-link " id="wallet" href="{{ route("business.companyRegistration") }}">
                     <i class="nav-icon bi bi-pencil-square me-2"></i>
                     Company Registration
                 </a>
@@ -33,7 +33,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="wallet" href="">
+                <a class="nav-link " id="wallet" href="{{ route("business.companyRenewals") }}">
                     <i class="nav-icon bi bi-arrow-clockwise me-2"></i>
                     Registration Renewal
                 </a>
@@ -45,7 +45,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link " id="forum" href="">
+                <a class="nav-link " id="forum" href="{{ route("business.powerOfAttorney") }}">
                     <i class="nav-icon fa fa-gavel me-2"></i>
                     Power of Attorney
                 </a>
@@ -57,9 +57,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="referrals" href="">
+                <a class="nav-link " id="referrals" href="{{ route("business.awardLetters") }}">
                     <i class="nav-icon bi bi-award-fill me-2"></i>
-                    Award Leter Request
+                    Award Letter Request
                 </a>
             </li>
 
@@ -68,9 +68,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="referrals" href="">
+                <a class="nav-link " id="referrals" href="{{ route("business.processingFees") }}">
                     <i class="nav-icon bi bi-cash-coin me-2"></i>
-                    Processing Fee
+                    Processing Fees
                 </a>
             </li>
 

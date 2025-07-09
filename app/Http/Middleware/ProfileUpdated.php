@@ -1,14 +1,12 @@
 <?php
-
 namespace App\Http\Middleware;
 
 use Auth;
 use Closure;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MobileAuthenticated
+class ProfileUpdated
 {
     /**
      * Handle an incoming request.
@@ -18,14 +16,14 @@ class MobileAuthenticated
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            return $next($request);
+            if (Auth::user()->profile_updated == 1) {
+                return $next($request);
+            } else {
+                return response()->view("business.profile");
+            }
         } else {
-            return new JsonResponse([
-                'response' => [
-                    'message' => 'Request Failed',
-                    'details' => 'User is not authenticated',
-                ],
-            ], 401);
+            return response()->view("auth.login");
         }
+
     }
 }

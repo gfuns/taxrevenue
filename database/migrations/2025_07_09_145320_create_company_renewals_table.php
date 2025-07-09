@@ -13,7 +13,19 @@ return new class extends Migration
     {
         Schema::create('company_renewals', function (Blueprint $table) {
             $table->id();
+            $table->integer("company_id")->unsigned();
+            $table->string("reference_number");
+            $table->string("company_name");
+            $table->string("company_address");
+            $table->string("expiry_date");
+            $table->string("phone_number");
+            $table->string("email");
+            $table->integer("period");
+            $table->text("bsppc_cert");
+            $table->double("amount_paid", 12, 2);
+            $table->enum("status", ["pending", "paid", "failed"])->default("pending");
             $table->timestamps();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 

@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_items', function (Blueprint $table) {
-            $table->increments("id");
-            $table->string("item");
+        Schema::create('company_projects', function (Blueprint $table) {
+            $table->id();
+            $table->integer("company_id")->unsigned();
+            $table->string("awarding_body");
+            $table->longText("contract_description");
             $table->double("amount", 12, 2);
-            $table->enum("fee_config", ["fixed", "percentage"]);
-            $table->double("fee", 12, 2);
             $table->timestamps();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_items');
+        Schema::dropIfExists('company_projects');
     }
 };

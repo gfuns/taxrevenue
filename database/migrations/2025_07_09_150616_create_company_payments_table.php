@@ -11,22 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('award_letters', function (Blueprint $table) {
+        Schema::create('company_payments', function (Blueprint $table) {
             $table->id();
-            $table->integer("company_id")->unsigned();
+            $table->integer("user_id")->unsigned();
+            $table->integer("company_id")->unsigned()->nullable();
+            $table->integer("payment_item_id")->unsigned();
             $table->string("reference_number");
-            $table->text("company_name");
-            $table->text("contract_name");
-            $table->double("contract_amount", 12, 2);
-            $table->date("award_date");
-            $table->string("contract_duration");
-            $table->text("mda");
-            $table->text("tcc_cert");
-            $table->text("cac_cert");
-            $table->text("bsppc_cert");
             $table->double("amount_paid", 12, 2);
+            $table->double("fee_charged", 12, 2);
+            $table->double("total", 12, 2);
             $table->enum("status", ["pending", "paid", "failed"])->default("pending");
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
@@ -36,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('award_letters');
+        Schema::dropIfExists('company_payments');
     }
 };

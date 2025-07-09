@@ -76,6 +76,8 @@ class BusinessController extends Controller
             'contact_address' => 'required',
         ]);
 
+        $state = Auth::user()->profile_updated;
+
         $parseEmail = User::where("email", $request->email)->where("id", "!=", Auth::user()->id)->count();
         if ($parseEmail > 0) {
             toast('Email already used by someone else.', 'error');
@@ -104,8 +106,14 @@ class BusinessController extends Controller
         }
 
         if ($user->save()) {
-            toast('Profile Information Successfully Updated.', 'success');
-            return back();
+            if ($state == 1) {
+                toast('Profile Information Successfully Updated.', 'success');
+                return back();
+            } else {
+                toast('Profile Information Successfully Updated.', 'success');
+                return redirect()->route("business.dashboard");
+            }
+
         } else {
             toast('Something went wrong. Please try again', 'error');
             return back();
@@ -160,6 +168,11 @@ class BusinessController extends Controller
             toast('Something went wrong. Please try again', 'error');
             return back();
         }
+
+    }
+
+    public function companyRegistration()
+    {
 
     }
 

@@ -67,4 +67,17 @@ Route::group([
     Route::post('/select2FA', [BusinessController::class, 'select2FA'])->name("business.select2FA");
 
     Route::post('/enableGA', [BusinessController::class, 'enableGA'])->name("business.enableGA");
+
+    Route::get('/company-registration', [BusinessController::class, 'companyRegistration'])->name("business.companyRegistration")->middleware(["profileupdated"]);
+
+    Route::group([
+        'prefix'     => 'portal',
+        'middleware' => ['profileupdated', 'companyreg'],
+
+    ], function ($router) {
+        Route::get('/company-renewals', [BusinessController::class, 'companyRenewals'])->name("business.companyRenewals");
+        Route::get('/power-of-attorney', [BusinessController::class, 'powerOfAttorney'])->name("business.powerOfAttorney");
+        Route::get('/award-letters', [BusinessController::class, 'awardLetters'])->name("business.awardLetters");
+        Route::get('/processing-fees', [BusinessController::class, 'processingFees'])->name("business.processingFees");
+    });
 });

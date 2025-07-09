@@ -34,6 +34,9 @@
         <!-- row -->
         <div class="row">
             <div class="offset-xl-2 col-xl-8 col-md-12 col-12">
+                @if (Auth::user()->profile_updated == 0)
+                    <div class="alert alert-danger">Please Update Your Profile Information.</div>
+                @endif
                 <!-- card -->
                 <div class="card">
                     <!-- card body -->
@@ -44,7 +47,7 @@
                             @csrf
                             <div class="row">
                                 <!-- form group -->
-                                  <div class="mb-3 col-md-6 col-12">
+                                <div class="mb-3 col-md-6 col-12">
                                     <label class="form-label">Last Name <span class="text-danger">*</span></label>
                                     <input type="text" name="last_name" value="{{ Auth::user()->last_name }}"
                                         class="form-control @error('last_name') is-invalid @enderror"
@@ -92,9 +95,8 @@
                                 </div>
                                 <div class="mb-3 col-md-6 col-12">
                                     <label class="form-label">Gender<span class="text-danger">*</span></label>
-                                    <select id="gender" name="gender"
-                                        class="@error('gender') is-invalid @enderror" data-width="100%"
-                                        required>
+                                    <select id="gender" name="gender" class="@error('gender') is-invalid @enderror"
+                                        data-width="100%" required>
                                         <option value="">Select Gender</option>
                                         <option value="Male" @if (Auth::user()->gender == 'Male') selected @endif>Male
                                         </option>
@@ -115,11 +117,14 @@
                                         <option value="">Select Marital Status</option>
                                         <option value="Single" @if (Auth::user()->marital_status == 'Single') selected @endif>Single
                                         </option>
-                                        <option value="Married" @if (Auth::user()->marital_status == 'Married') selected @endif>Married
+                                        <option value="Married" @if (Auth::user()->marital_status == 'Married') selected @endif>
+                                            Married
                                         </option>
-                                        <option value="Divorced" @if (Auth::user()->marital_status == 'Divorced') selected @endif>Divorced
+                                        <option value="Divorced" @if (Auth::user()->marital_status == 'Divorced') selected @endif>
+                                            Divorced
                                         </option>
-                                        <option value="Widow/Widower" @if (Auth::user()->marital_status == 'Widow/Widower') selected @endif>Widow/Widower
+                                        <option value="Widow/Widower"
+                                            @if (Auth::user()->marital_status == 'Widow/Widower') selected @endif>Widow/Widower
                                         </option>
                                     </select>
                                     @error('marital_status')
@@ -141,8 +146,9 @@
                                 </div>
                                 <div class="mb-3 col-md-6 col-12">
                                     <label class="form-label">nationality<span class="text-danger">*</span></label>
-                                    <select id="nationality" name="nationality" class="@error('nationality') is-invalid @enderror"
-                                        data-width="100%" required>
+                                    <select id="nationality" name="nationality"
+                                        class="@error('nationality') is-invalid @enderror" data-width="100%"
+                                        required>
                                         <option value="">Select nationality</option>
                                         <option value="Afghanistan" @if (Auth::user()->nationality == 'Afghanistan') selected @endif>
                                             Afghanistan</option>
@@ -365,7 +371,8 @@
                                             Greenland</option>
                                         <option value="Grenada" @if (Auth::user()->nationality == 'Grenada') selected @endif>
                                             Grenada</option>
-                                        <option value="Guadeloupe" @if (Auth::user()->nationality == 'Guadeloupe') selected @endif>
+                                        <option value="Guadeloupe"
+                                            @if (Auth::user()->nationality == 'Guadeloupe') selected @endif>
                                             Guadeloupe</option>
                                         <option value="Guam" @if (Auth::user()->nationality == 'Guam') selected @endif>
                                             Guam
@@ -392,7 +399,8 @@
                                             (Vatican City State)</option>
                                         <option value="Honduras" @if (Auth::user()->nationality == 'Honduras') selected @endif>
                                             Honduras</option>
-                                        <option value="Hong Kong" @if (Auth::user()->nationality == 'Hong Kong') selected @endif>
+                                        <option value="Hong Kong"
+                                            @if (Auth::user()->nationality == 'Hong Kong') selected @endif>
                                             Hong
                                             Kong</option>
                                         <option value="Hungary" @if (Auth::user()->nationality == 'Hungary') selected @endif>
@@ -775,8 +783,10 @@
                                 </div>
 
                                 <div class="mb-3 col-md-12 col-12">
-                                    <label class="form-label">Contact Address<span class="text-danger">*</span></label>
-                                    <input type="text" name="contact_address" value="{{ Auth::user()->contact_address }}"
+                                    <label class="form-label">Contact Address<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" name="contact_address"
+                                        value="{{ Auth::user()->contact_address }}"
                                         class="form-control @error('contact_address') is-invalid @enderror"
                                         placeholder="Enter Contact Addresss" required>
                                     @error('contact_address')

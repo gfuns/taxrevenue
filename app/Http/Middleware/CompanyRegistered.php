@@ -1,13 +1,12 @@
 <?php
-
 namespace App\Http\Middleware;
+
 use Auth;
 use Closure;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserSubscribed
+class CompanyRegistered
 {
     /**
      * Handle an incoming request.
@@ -16,11 +15,14 @@ class UserSubscribed
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->activePlan() != null) {
-            return $next($request);
+        if (Auth::check()) {
+            if (Auth::user()->profile_updated == 1) {
+                return $next($request);
+            } else {
+                return response()->view("business.profile");
+            }
         } else {
-            toast("You do not have an active subscription. Please subscribe to an Arete Plan.", 'error');
-            return redirect()->route("business.dashboard");
+            return response()->view("auth.login");
         }
     }
 }

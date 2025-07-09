@@ -13,7 +13,19 @@ return new class extends Migration
     {
         Schema::create('power_of_attorneys', function (Blueprint $table) {
             $table->id();
+            $table->integer("company_id")->unsigned();
+            $table->string("reference_number");
+            $table->text("donor_company");
+            $table->text("contract_name");
+            $table->double("contract_amount", 12, 2);
+            $table->date("award_date");
+            $table->date("poa_date");
+            $table->string("contract_duration");
+            $table->text("mda");
+            $table->double("amount_paid", 12, 2);
+            $table->enum("status", ["pending", "paid", "failed"])->default("pending");
             $table->timestamps();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 
