@@ -2,22 +2,21 @@
 namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
-use App\Models\Business;
-use App\Models\BusinessPage;
-use App\Models\BusinessReviews;
-use App\Models\JobListing;
-use App\Models\NotificationSetting;
-use App\Models\PlatformCategories;
-use App\Models\Products;
-use App\Models\TutorialVideos;
+use App\Models\AwardLetter;
+use App\Models\CompanyPayments;
+use App\Models\CompanyRenewals;
+use App\Models\Mda;
+use App\Models\PaymentItem;
+use App\Models\PowerOfAttorney;
+use App\Models\ProcessingFee;
 use App\Models\User;
 use Auth;
 use Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Session;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class BusinessController extends Controller
 {
@@ -177,390 +176,336 @@ class BusinessController extends Controller
     }
 
     /**
-     * businessProfile
+     * companyRenewals
      *
      * @return void
      */
-    public function businessProfile()
+    public function companyRenewals()
     {
-        $business   = Business::where("customer_id", Auth::user()->id)->first();
-        $categories = PlatformCategories::orderBy("category_name", "asc")->where("category_type", "business")->get();
-        return view("business.business_information", compact("business", "categories"));
+        $status = request()->status;
+        $search = request()->search;
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord = CompanyRenewals::query()->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+
+            $transactions = CompanyRenewals::query()->orderBy("id", "desc")->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord = CompanyRenewals::query()->where("company_id", Auth::user()->company->id)->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+
+            $transactions = CompanyRenewals::query()->orderBy("id", "desc")->where("company_id", Auth::user()->company->id)->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord = CompanyRenewals::query()->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+
+            $transactions = CompanyRenewals::query()->orderBy("id", "desc")->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->where("status", $status)->paginate(50);
+        } else {
+            $lastRecord   = CompanyRenewals::where("company_id", Auth::user()->company->id)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = CompanyRenewals::orderBy("id", "desc")->where('company_id', Auth::user()->company->id)->paginate(50);
+        }
+        return view("business.company_renewals", compact("transactions", "search", "status", "lastRecord", "marker"));
     }
 
-    public function updateBusinessProfile(Request $request)
+    /**
+     * initiateCompanyRenewal
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function initiateCompanyRenewal(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'business_name'        => 'required',
-            'business_category'    => 'required',
-            'business_description' => 'required',
-            'business_phone'       => 'required',
-            'business_email'       => 'required',
-            'country'              => 'required',
-            'state'                => 'required',
-            'city'                 => 'required',
-            'business_address'     => 'required',
+        $validatedData = $request->validate([
+            'registration_number' => 'required',
+            'period'              => 'required',
+            'company_email'       => 'required',
+            'phone_number'        => 'required',
+            'expiry_date'         => 'required',
         ]);
 
-        if ($request->business_category == "Others") {
-            $validator = Validator::make($request->all(), [
-                'category_name' => 'required|unique:platform_categories',
-            ]);
-        }
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
         try {
+            $reference = $this->genTrxReference();
+
+            $item = PaymentItem::find(1);
 
             DB::beginTransaction();
 
-            if ($request->business_category == "Others") {
-                $platformCat                = new PlatformCategories;
-                $platformCat->category_name = $request->category_name;
-                $platformCat->slug          = preg_replace("/ /", "-", strtolower($request->category_name));
-                $platformCat->save();
-                $businessCategoryId   = $platformCat->id;
-                $businessCategoryName = PlatformCategories::find($platformCat->id)->category_name;
-            } else {
+            $trx                   = new CompanyRenewals;
+            $trx->reference_number = $reference;
+            $trx->company_id       = Auth::user()->company->id;
+            $trx->company_name     = Auth::user()->company->company_name;
+            $trx->company_address  = Auth::user()->company->company_address;
+            $trx->bsppc_number     = $request->registration_number;
+            $trx->expiry_date      = $request->expiry_date;
+            $trx->phone_number     = $request->phone_number;
+            $trx->email            = $request->company_email;
+            $trx->period           = $request->period;
+            $trx->amount_paid      = ($item->amount * $request->period);
+            $trx->save();
 
-                $businessCategoryId   = $request->business_category;
-                $businessCategoryName = PlatformCategories::find($request->business_category)->category_name;
-            }
+            $fee = $this->getFee($item->id, $trx->amount_paid);
 
-            $business                       = Business::where("customer_id", Auth::user()->id)->first();
-            $business->business_name        = $request->business_name;
-            $business->slug                 = preg_replace("/ /", "-", strtolower($request->business_name));
-            $business->category_id          = $businessCategoryId;
-            $business->business_category    = $businessCategoryName;
-            $business->country              = $request->country;
-            $business->state                = $request->state;
-            $business->city                 = $request->city;
-            $business->street               = $request->business_address;
-            $business->business_address     = $request->business_address;
-            $business->business_description = $request->business_description;
-            $business->business_phone       = $request->business_phone;
-            $business->business_email       = $request->business_email;
-            $business->website_url          = $request->website_url;
-            $business->facebook_url         = $request->facebook_url;
-            $business->twitter_url          = $request->twitter_url;
-            $business->instagram_url        = $request->instagram_url;
-            $business->linkedin_url         = $request->linkedin_url;
-            $business->latitude             = $request->latitude;
-            $business->longitude            = $request->longitude;
-            $business->visibility           = 1;
-            if ($request->has('business_logo')) {
-                $uploadedFileUrl         = Cloudinary::upload($request->file('business_logo')->getRealPath())->getSecurePath();
-                $business->business_logo = $uploadedFileUrl;
-            }
-
-            $business->save();
+            $paymentLog                   = new CompanyPayments;
+            $paymentLog->user_id          = Auth::user()->id;
+            $paymentLog->company_id       = $trx->company_id;
+            $paymentLog->payment_item_id  = $item->id;
+            $paymentLog->reference_number = $trx->reference_number;
+            $paymentLog->amount_paid      = $trx->amount_paid;
+            $paymentLog->fee_charged      = $fee;
+            $paymentLog->total            = ($trx->amount_paid + $fee);
+            $paymentLog->save();
 
             DB::commit();
-
-            toast('Business Information Successfully Updated.', 'success');
-            return back();
-
+            return redirect()->route("business.companyRenewalPreview", [$trx->reference_number]);
         } catch (\Exception $e) {
-            DB::rollback();
             report($e);
-            toast('Something went wrong. Please try again', 'error');
+            DB::rollback();
+            toast("Something Went Wrong", 'error');
             return back();
         }
-    }
 
-    public function businessPage()
-    {
-        $businessExist = Business::where("customer_id", Auth::user()->id)->first();
-
-        if (isset($businessExist->business_name)) {
-            $business      = Business::where("customer_id", Auth::user()->id)->first();
-            $topBanner     = BusinessPage::where("business_id", $business->id)->where("file_position", "banner")->first();
-            $sliderBanners = BusinessPage::where("business_id", $business->id)->where("file_position", "slider")->get();
-            $catalogues    = BusinessPage::where("business_id", $business->id)->where("file_position", "catalogue")->get();
-            return view("business.business_page", compact("business", "topBanner", "sliderBanners", "catalogues"));
-        } else {
-            toast('Please Complete The Business Information Form to be able to setup your business page.', 'error');
-            return redirect()->route("business.businessProfile");
-        }
-
-    }
-
-    public function notificationSettings()
-    {
-        $notifications = NotificationSetting::where("customer_id", Auth::user()->id)->first();
-        return view("business.notification_settings", compact("notifications"));
     }
 
     /**
-     * toggleAllNotificationSettings
+     * companyRenewalPreview
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function companyRenewalPreview($reference)
+    {
+        $trx     = CompanyRenewals::where("reference_number", $reference)->first();
+        $payment = CompanyPayments::where("reference_number", $reference)->first();
+        return view("business.company_renewal_preview", compact("trx", "payment"));
+    }
+
+    public function powerOfAttorney()
+    {
+        $status = request()->status;
+        $search = request()->search;
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord = PowerOfAttorney::query()->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+
+            $transactions = PowerOfAttorney::query()->orderBy("id", "desc")->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord = PowerOfAttorney::query()->where("company_id", Auth::user()->company->id)->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+
+            $transactions = PowerOfAttorney::query()->orderBy("id", "desc")->where("company_id", Auth::user()->company->id)->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord = PowerOfAttorney::query()->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+
+            $transactions = PowerOfAttorney::query()->orderBy("id", "desc")->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->where("status", $status)->paginate(50);
+        } else {
+            $lastRecord   = PowerOfAttorney::where("company_id", Auth::user()->company->id)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = PowerOfAttorney::orderBy("id", "desc")->where('company_id', Auth::user()->company->id)->paginate(50);
+        }
+
+        $mdas = Mda::all();
+        return view("business.poa", compact("transactions", "search", "status", "lastRecord", "marker", "mdas"));
+    }
+
+    /**
+     * initiatePOAApplication
      *
      * @param Request request
      *
      * @return void
      */
-    public function toggleAllNotificationSettings(Request $request)
+    public function initiatePOAApplication(Request $request)
     {
-
-        NotificationSetting::where('customer_id', Auth::user()->id)->update([
-            'unusual_activity'   => $request->status,
-            'new_browser_signin' => $request->status,
-            'latest_news'        => $request->status,
-            'features_updates'   => $request->status,
-            'account_tips'       => $request->status,
-            'all_not'            => $request->status,
+        $validatedData = $request->validate([
+            'donor_company'     => 'required',
+            'contract_name'     => 'required',
+            'contract_sum'      => 'required',
+            'date_of_award'     => 'required',
+            'date_of_poa'       => 'required',
+            'contract_duration' => 'required',
+            'mda'               => 'required',
         ]);
 
-        return response()->json(['status' => 'Notification status changed successfully.']);
+        try {
+            $reference = $this->genTrxReference();
+
+            $item = PaymentItem::find(2);
+
+            DB::beginTransaction();
+
+            $trx                    = new PowerOfAttorney;
+            $trx->reference_number  = $reference;
+            $trx->company_id        = Auth::user()->company->id;
+            $trx->donor_company     = $request->donor_company;
+            $trx->contract_name     = $request->contract_name;
+            $trx->contract_amount   = $request->contract_sum;
+            $trx->award_date        = $request->date_of_award;
+            $trx->poa_date          = $request->date_of_poa;
+            $trx->contract_duration = $request->contract_duration;
+            $trx->mda               = $request->mda;
+            $trx->amount_paid       = $item->amount;
+            $trx->save();
+
+            $fee = $this->getFee($item->id, $trx->amount_paid);
+
+            $paymentLog                   = new CompanyPayments;
+            $paymentLog->user_id          = Auth::user()->id;
+            $paymentLog->company_id       = $trx->company_id;
+            $paymentLog->payment_item_id  = $item->id;
+            $paymentLog->reference_number = $trx->reference_number;
+            $paymentLog->amount_paid      = $trx->amount_paid;
+            $paymentLog->fee_charged      = $fee;
+            $paymentLog->total            = ($trx->amount_paid + $fee);
+            $paymentLog->save();
+
+            DB::commit();
+            return redirect()->route("business.powerOfAttorneyPreview", [$trx->reference_number]);
+        } catch (\Exception $e) {
+            report($e);
+            DB::rollback();
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+
+    }
+
+    public function powerOfAttorneyPreview($reference)
+    {
+        $trx     = PowerOfAttorney::where("reference_number", $reference)->first();
+        $payment = CompanyPayments::where("reference_number", $reference)->first();
+        return view("business.poa_preview", compact("trx", "payment"));
     }
 
     /**
-     * toggleSpecificNotificationSettings
+     * processPayment
      *
-     * @param Request request
+     * @param Request reference
      *
      * @return void
      */
-    public function toggleSpecificNotificationSettings(Request $request)
+    public function processPayment(Request $request)
     {
-
-        NotificationSetting::where('customer_id', Auth::user()->id)->update([
-            $request->param => $request->status,
+        $validatedData = $request->validate([
+            'reference' => 'required',
         ]);
 
-        return response()->json(['status' => 'Notification status changed successfully.']);
+        $email       = null;
+        $callbackUrl = null;
+        $trx         = null;
 
-    }
+        $payment = CompanyPayments::where("reference_number", $request->reference)->first();
 
-    public function unsubscribeAllNotifications()
-    {
-        $notifications                     = NotificationSetting::where("customer_id", Auth::user()->id)->first();
-        $notifications->unusual_activity   = 0;
-        $notifications->new_browser_signin = 0;
-        $notifications->latest_news        = 0;
-        $notifications->features_updates   = 0;
-        $notifications->account_tips       = 0;
-        if ($notifications->save()) {
-            toast('You have unsubscribed from all notifications.', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
-        }
-    }
-
-    public function security()
-    {
-        $google2fa       = app('pragmarx.google2fa');
-        $google2faSecret = $google2fa->generateSecretKey();
-        $QRImage         = $google2fa->getQRCodeInline(
-            env('APP_NAME'),
-            Auth::user()->email,
-            $google2faSecret
-        );
-        return view("business.security", compact("google2faSecret", "QRImage"));
-    }
-
-    public function enableGA(Request $request)
-    {
-        $gaCode   = $request->google2fa_code;
-        $gaSecret = $request->google2fa_secret;
-
-        if ($gaCode == null || $gaSecret == null) {
-            toast('Please enter a valid Google 2FA Code.', 'error');
-            return back();
+        if ($payment->payment_item_id == 1) {
+            $trx         = CompanyRenewals::where("reference_number", $request->reference)->first();
+            $email       = Auth::user()->email;
+            $callbackUrl = route("etranzact.renewal.callBack");
+            $narration   = "Company Registration Renewal";
+        } else if ($payment->payment_item_id == 2) {
+            $email       = Auth::user()->email;
+            $callbackUrl = route("etranzact.poa.callBack");
+            $trx         = PowerOfAttorney::where("reference_number", $request->reference)->first();
+            $narration   = "Power Of Attorney Application";
+        } else if ($payment->payment_item_id == 3) {
+            $email       = Auth::user()->email;
+            $callbackUrl = route("etranzact.award.callBack");
+            $trx         = AwardLetter::where("reference_number", $request->reference)->first();
+            $narration   = "Award Letter Application";
+        } else if ($payment->payment_item_id == 4) {
+            $email       = Auth::user()->email;
+            $callbackUrl = route("etranzact.prf.callBack");
+            $trx         = ProcessingFee::where("reference_number", $request->reference)->first();
+            $narration   = "Processing Fee Remittance";
         }
 
-        $user      = Auth::user();
-        $google2fa = app('pragmarx.google2fa');
-        $valid     = $google2fa->verifyKey($gaSecret, $gaCode);
-
-        if ($valid) {
-            $user->google2fa_secret = $gaSecret;
-            if ($user->save()) {
-                toast('Successfully Enabled Google Authenticator on your account', 'success');
-                return back();
-            } else {
-                toast('Something went wrong.', 'error');
-                return back();
-            }
-
-        } else {
-            toast('Invalid Google 2FA Code.', 'error');
-            return back();
-
-        }
-
-    }
-
-    public function select2FA(Request $request)
-    {
-
-        $user = Auth::user();
-
-        if ($request->param == "google_auth2fa") {
-            if (isset($user->google2fa_secret) && $request->status == 1) {
-                $data = [
-                    'id'   => Auth::user()->id,
-                    'time' => now(),
-                ];
-                Session::put('myGoogle2fa', $data);
-                $user->auth_2fa = "GoogleAuth";
-            } else if (isset($user->google2fa_secret) && $request->status == 0) {
-                $user->auth_2fa = null;
-                Session::forget('myGoogle2fa');
-            } else {
-                return response()->json([
-                    'status'  => 'error',
-                    'message' => 'Please Setup Google Authenticator to be able to enable this option.',
-                ]);
-            }
-        }
-
-        if ($request->param == "email_auth2fa") {
-            if ($request->status == 1) {
-                $user->auth_2fa = "Email";
-                $data           = [
-                    'id'   => Auth::user()->id,
-                    'time' => now(),
-                ];
-                Session::put('myValid2fa', $data);
-            } else {
-                $user->auth_2fa = null;
-                Session::forget('myValid2fa');
-            }
-        }
-
-        if ($user->save()) {
-            return response()->json([
-                'status'  => 'success',
-                'message' => 'Authentication 2FA Method Updated Successfully',
-            ]);
-        } else {
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Something went wrong! Please try again',
-            ]);
-        }
-
-    }
-
-    public function selectWithdrawalConfirmation(Request $request)
-    {
-
-        $user = Auth::user();
-
-        if ($request->param == "google_withdrawal") {
-            if (isset($user->google2fa_secret) && $request->status == 1) {
-                $user->withdrawal_confirmation = "GoogleAuth";
-            } else if (isset($user->google2fa_secret) && $request->status == 0) {
-                $user->withdrawal_confirmation = null;
-            } else {
-                return response()->json([
-                    'status'  => 'error',
-                    'message' => 'Please Setup Google Authenticator to be able to enable this option.',
-                ]);
-            }
-        }
-
-        if ($request->param == "email_withdrawal") {
-            if ($request->status == 1) {
-                $user->withdrawal_confirmation = "Email";
-            } else {
-                $user->withdrawal_confirmation = null;
-            }
-        }
-
-        if ($user->save()) {
-            return response()->json([
-                'status'  => 'success',
-                'message' => 'Withdrawal Confirmation Method Updated Successfully',
-            ]);
-        } else {
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Something went wrong! Please try again',
-            ]);
-        }
-
-    }
-
-    public function deleteAccount()
-    {
-        return view("business.delete_account");
-    }
-
-    public function processAccountDeletion()
-    {
-        $customer         = Auth::user();
-        $customer->status = "deleted";
-        if ($customer->save()) {
-            $jobs = JobListing::where("customer_id", Auth::user()->id)->update([
-                'status' => "deleted",
+        try {
+            $response = Http::accept('application/json')->withHeaders([
+                'authorization' => env('CREDO_PUBLIC_KEY'),
+                'content_type'  => "Content-Type: application/json",
+            ])->post(env("CREDO_URL") . "/transaction/initialize", [
+                "email"       => $email,
+                "amount"      => ($payment->total * 100),
+                "reference"   => str_replace("BSPPC-REN-", "", $request->reference),
+                "narration"   => $narration,
+                "callbackUrl" => $callbackUrl,
+                "bearer"      => 0,
             ]);
 
-            toast('Account Deleted Successfully.', 'success');
+            $responseData = $response->collect("data");
+
+            if (isset($responseData['authorizationUrl'])) {
+                return redirect($responseData['authorizationUrl']);
+            }
+
+            toast("Credo E-Tranzact gateway service took too long to respond.", 'error');
             return back();
-        } else {
-            toast('Something Went Wrong.', 'error');
+        } catch (\Exception $e) {
+            report($e);
+            toast('Error initializing payment gateway. Please try again', 'error');
             return back();
         }
     }
 
-    public function miniStore()
+    /**
+     * genTrxReference
+     *
+     * @return void
+     */
+    public function genTrxReference()
     {
-        $search = request()->q;
-        $filter = request()->filter == null ? 'asc' : request()->filter;
-        if (isset($search)) {
-            $lastRecord = Products::where("product_name", "LIKE", "%" . $search . "%")->count();
-            $marker     = $this->shopMarkers($lastRecord, request()->page);
-            $products   = Products::orderBy("id", $filter)->where("product_name", "LIKE", "%" . $search . "%")->paginate(12);
+        $uuid      = Str::uuid()->toString();
+        $hash      = substr(abs(crc32($uuid)), 0, 3); // 32-bit numeric hash
+        $timestamp = strtotime(now());                // Add timestamp for more uniqueness
+        $random    = Auth::user()->id . "" . Auth::user()->company->id;
+
+        $reference = 'BSPPC-REN-' . $random . $timestamp . $hash;
+
+        return $reference;
+    }
+
+    /**
+     * getFee
+     *
+     * @param mixed id
+     * @param mixed amount
+     *
+     * @return void
+     */
+    public function getFee($id, $amount)
+    {
+        $item = PaymentItem::find(1);
+        if ($item->fee_config == "percentage") {
+            $fee = (($item->fee / 100) * $amount);
+            return $fee;
         } else {
-            $lastRecord = Products::count();
-            $marker     = $this->shopMarkers($lastRecord, request()->page);
-            $products   = Products::orderBy("id", $filter)->paginate(12);
+            return $item->fee;
         }
-        return view("business.mini_store", compact("products", "search", "lastRecord", "marker", "filter"));
+
     }
 
-    public function academy()
-    {
-        $search = request()->q;
-        $filter = request()->filter == null ? 'asc' : request()->filter;
-        if (isset($search)) {
-            $lastRecord     = TutorialVideos::where("video_title", "LIKE", "%" . $search . "%")->count();
-            $marker         = $this->academyMarkers($lastRecord, request()->page);
-            $tutorialVideos = TutorialVideos::orderBy("id", $filter)->where("video_title", "LIKE", "%" . $search . "%")->paginate(9);
-        } else {
-            $lastRecord     = TutorialVideos::count();
-            $marker         = $this->academyMarkers($lastRecord, request()->page);
-            $tutorialVideos = TutorialVideos::orderBy("id", $filter)->paginate(9);
-        }
-        return view("business.academy", compact("tutorialVideos", "search", "lastRecord", "marker", "filter"));
-    }
-
-    public function WalletTransactions()
-    {
-        return view("business.payment_methods");
-    }
-
-    public function shopMarkers($lastRecord, $pageNum)
+    /**
+     * getMarkers Helper Function
+     *
+     * @param mixed lastRecord
+     * @param mixed pageNum
+     *
+     * @return void
+     */
+    public function getMarkers($lastRecord, $pageNum)
     {
         if ($pageNum == null) {
             $pageNum = 1;
         }
-        $end    = (12 * ((int) $pageNum));
+        $end    = (50 * ((int) $pageNum));
         $marker = [];
         if ((int) $pageNum == 1) {
             $marker["begin"] = (int) $pageNum;
             $marker["index"] = (int) $pageNum;
         } else {
-            $marker["begin"] = number_format(((12 * ((int) $pageNum)) - 11), 0);
-            $marker["index"] = number_format(((12 * ((int) $pageNum)) - 11), 0);
+            $marker["begin"] = number_format(((50 * ((int) $pageNum)) - 49), 0);
+            $marker["index"] = number_format(((50 * ((int) $pageNum)) - 49), 0);
         }
 
         if ($end > $lastRecord) {
@@ -572,259 +517,4 @@ class BusinessController extends Controller
         return $marker;
     }
 
-    public function academyMarkers($lastRecord, $pageNum)
-    {
-        if ($pageNum == null) {
-            $pageNum = 1;
-        }
-        $end    = (9 * ((int) $pageNum));
-        $marker = [];
-        if ((int) $pageNum == 1) {
-            $marker["begin"] = (int) $pageNum;
-            $marker["index"] = (int) $pageNum;
-        } else {
-            $marker["begin"] = number_format(((9 * ((int) $pageNum)) - 8), 0);
-            $marker["index"] = number_format(((9 * ((int) $pageNum)) - 8), 0);
-        }
-
-        if ($end > $lastRecord) {
-            $marker["end"] = number_format($lastRecord, 0);
-        } else {
-            $marker["end"] = number_format($end, 0);
-        }
-
-        return $marker;
-    }
-
-    public function updatePageSettings(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'business_id'       => 'required',
-            'banner_type'       => 'required',
-            'catalogue_display' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
-        $business                    = Business::find($request->business_id);
-        $business->page_banner       = $request->banner_type;
-        $business->catalogue_display = $request->catalogue_display;
-        if ($business->save()) {
-            toast('Page Settings Updated Successfully.', 'success');
-            return back();
-        } else {
-            toast('Something Went Wrong.', 'error');
-            return back();
-        }
-
-    }
-
-    public function updateTopBanner(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'business_id' => 'required',
-            'top_banner'  => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048|dimensions:max_width=1920,max_height=360',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-        try {
-
-            $fileName      = $request->file('top_banner')->getClientOriginalName();
-            $byteSize      = $request->file('top_banner')->getSize();
-            $fileSize      = $this->formatFileSize($byteSize);
-            $fileExtension = $request->file('top_banner')->getClientOriginalExtension();
-            $fileURL       = Cloudinary::uploadFile($request->file('top_banner')->getRealPath())->getSecurePath();
-
-            $bannerExist = BusinessPage::where("business_id", $request->business_id)->where("file_position", "banner")->first();
-            if (isset($bannerExist)) {
-                $bannerExist->file_url       = $fileURL;
-                $bannerExist->file_url       = $fileURL;
-                $bannerExist->file_name      = $fileName;
-                $bannerExist->file_size      = $fileSize;
-                $bannerExist->file_extension = $fileExtension;
-                if ($bannerExist->save()) {
-                    toast('Static Page Banner Updated Successfully.', 'success');
-                    return back();
-                } else {
-                    toast('Something Went Wrong.', 'error');
-                    return back();
-                }
-            } else {
-                $banner                 = new BusinessPage;
-                $banner->business_id    = $request->business_id;
-                $banner->file_position  = "banner";
-                $banner->file_type      = "image";
-                $banner->file_url       = $fileURL;
-                $banner->file_name      = $fileName;
-                $banner->file_size      = $fileSize;
-                $banner->file_extension = $fileExtension;
-                if ($banner->save()) {
-                    toast('Static Page Banner Updated Successfully.', 'success');
-                    return back();
-                } else {
-                    toast('Something Went Wrong.', 'error');
-                    return back();
-                }
-            }
-        } catch (\Exception $e) {
-            toast('We are having issues connecting to our cloud file management server. Please try again later.', 'error');
-            return back();
-        }
-    }
-
-    public function uploadSliderBanner(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'business_id'   => 'required',
-            'slider_banner' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048|dimensions:max_width=1500,max_height=450',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
-        try {
-            $fileName      = $request->file('slider_banner')->getClientOriginalName();
-            $byteSize      = $request->file('slider_banner')->getSize();
-            $fileSize      = $this->formatFileSize($byteSize);
-            $fileExtension = $request->file('slider_banner')->getClientOriginalExtension();
-            $fileURL       = Cloudinary::uploadFile($request->file('slider_banner')->getRealPath())->getSecurePath();
-
-            $banner                 = new BusinessPage;
-            $banner->business_id    = $request->business_id;
-            $banner->file_position  = "slider";
-            $banner->file_type      = "image";
-            $banner->file_url       = $fileURL;
-            $banner->file_name      = $fileName;
-            $banner->file_size      = $fileSize;
-            $banner->file_extension = $fileExtension;
-            if ($banner->save()) {
-                toast('Slider Banner Uploaded Successfully.', 'success');
-                return back();
-            } else {
-                toast('Something Went Wrong.', 'error');
-                return back();
-            }
-        } catch (\Exception $e) {
-            toast('We are having issues connecting to our cloud file management server. Please try again later.', 'error');
-            return back();
-        }
-
-    }
-
-    public function uploadCatalogue(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'business_id'     => 'required',
-            'catalogue_image' => 'required|image|mimes:jpeg,png,jpg,gif,webp',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-        try {
-
-            $fileName      = $request->file('catalogue_image')->getClientOriginalName();
-            $byteSize      = $request->file('catalogue_image')->getSize();
-            $fileSize      = $this->formatFileSize($byteSize);
-            $fileExtension = $request->file('catalogue_image')->getClientOriginalExtension();
-            $fileURL       = Cloudinary::uploadFile($request->file('catalogue_image')->getRealPath())->getSecurePath();
-
-            $banner                 = new BusinessPage;
-            $banner->business_id    = $request->business_id;
-            $banner->file_position  = "catalogue";
-            $banner->file_type      = "image";
-            $banner->file_url       = $fileURL;
-            $banner->file_name      = $fileName;
-            $banner->file_size      = $fileSize;
-            $banner->file_extension = $fileExtension;
-            if ($banner->save()) {
-                toast('Business Catalogue Image Uploaded Successfully.', 'success');
-                return back();
-            } else {
-                toast('Something Went Wrong.', 'error');
-                return back();
-            }
-        } catch (\Exception $e) {
-            toast('We are having issues connecting to our cloud file management server. Please try again later.', 'error');
-            return back();
-        }
-
-    }
-
-    public function removePageFile($id)
-    {
-        $pageFile = BusinessPage::find($id);
-        if (isset($pageFile)) {
-            if ($pageFile->delete()) {
-                toast('File Deleted Successfully.', 'success');
-                return back();
-            } else {
-                toast('Something Went Wrong.', 'error');
-                return back();
-            }
-        } else {
-            toast('Something Went Wrong.', 'error');
-            return back();
-        }
-    }
-
-    public function formatFileSize($size)
-    {
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-        $i     = 0;
-
-        while ($size > 1024) {
-            $size /= 1024;
-            $i++;
-        }
-
-        return round($size, 2) . ' ' . $units[$i];
-    }
-
-    public function reviewBusiness(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'business_id' => 'required',
-            'rating'      => 'required',
-            'review'      => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            Session::flash("alert-type", "error");
-            Session::flash("message", "Please fill the review form");
-            return back();
-        }
-
-        $review              = new BusinessReviews;
-        $review->business_id = $request->business_id;
-        $review->customer_id = Auth::user()->id;
-        $review->rating      = $request->rating;
-        $review->review      = $request->review;
-        if ($review->save()) {
-            Session::flash("alert-type", "success");
-            Session::flash("message", "Review Submitted Successfully.");
-            return back();
-        } else {
-            Session::flash("alert-type", "error");
-            Session::flash("message", "Something Went Wrong.");
-            return back();
-        }
-    }
 }

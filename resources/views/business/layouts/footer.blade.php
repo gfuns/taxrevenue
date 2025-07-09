@@ -10,7 +10,7 @@
     <script src="{{ asset('assets/libs/jsvectormap/dist/js/jsvectormap.min.js') }}"></script>
     <script src="{{ asset('assets/libs/jsvectormap/dist/maps/world.js') }}"></script>
     <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
-    @include("business.layouts.chart")
+    @include('business.layouts.chart')
     <script src="{{ asset('assets/libs/flatpickr/dist/flatpickr.min.js') }}"></script>
     <script src="{{ asset('assets/js/vendors/flatpickr.js') }}"></script>
     <script src="{{ asset('assets/libs/quill/dist/quill.min.js') }}"></script>
@@ -25,9 +25,9 @@
     <script src="{{ asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/libs/yaireo/tagify/dist/tagify.min.js') }}"></script>
-    <script src="{{ asset("assets/libs/imask/dist/imask.min.js") }}"></script>
-    <script src="{{ asset("assets/js/vendors/inputmask.js") }}"></script>
-    <script src="{{ asset("assets/js/vendors/validation.js") }}"></script>
+    <script src="{{ asset('assets/libs/imask/dist/imask.min.js') }}"></script>
+    <script src="{{ asset('assets/js/vendors/inputmask.js') }}"></script>
+    <script src="{{ asset('assets/js/vendors/validation.js') }}"></script>
 
 
     @include('sweetalert::alert')
@@ -38,6 +38,16 @@
     <script src="{{ asset('assets/js/vendors/sweetalert2.all.min.js') }}"></script>
 
     <script type="text/javascript">
+        $(document).ready(function() {
+            $('#status').select2();
+        });
+
+
+        $('#mda').select2({
+            dropdownParent: $('#offcanvasRight')
+        });
+
+
         $('#subscriptionDetails').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var planDetails = button.data('plandetails') // Extract info from data-* attributes
@@ -56,11 +66,6 @@
 
 
 
-
-
-        $('#coursecatsel').select2({
-            dropdownParent: $('#offcanvasRight')
-        });
 
         $('#userrole').select2({
             dropdownParent: $('#offcanvasRight')

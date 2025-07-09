@@ -33,9 +33,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="wallet" href="{{ route("business.companyRenewals") }}">
+                <a class="nav-link " id="renewals" href="{{ route("business.companyRenewals") }}">
                     <i class="nav-icon bi bi-arrow-clockwise me-2"></i>
-                    Registration Renewal
+                    Registration Renewals
                 </a>
             </li>
 
@@ -45,7 +45,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link " id="forum" href="{{ route("business.powerOfAttorney") }}">
+                <a class="nav-link " id="poa" href="{{ route("business.powerOfAttorney") }}">
                     <i class="nav-icon fa fa-gavel me-2"></i>
                     Power of Attorney
                 </a>

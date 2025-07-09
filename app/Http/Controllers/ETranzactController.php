@@ -1,0 +1,105 @@
+<?php
+namespace App\Http\Controllers;
+
+use App\Models\CompanyPayments;
+use App\Models\CompanyRenewals;
+use App\Models\PowerOfAttorney;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+
+class ETranzactController extends Controller
+{
+
+    public function handleRenewalCallback(Request $request)
+    {
+        $reference = "BSPPC-REN-" . $request->reference;
+
+        $response = Http::accept('application/json')->withHeaders([
+            'authorization' => env('CREDO_SECRET_KEY'),
+            'content_type'  => "Content-Type: application/json",
+        ])->get(env("CREDO_URL") . "/transaction/{$request->reference}/verify");
+
+        $payment = $response->collect("data");
+
+        $status  = $payment["status"];
+        $message = $payment["statusMessage"] == "Successfully processed" ? "paid" : "failed";
+
+        $paymentData = CompanyPayments::where("reference_number", $reference)->first();
+
+        if (isset($paymentData)) {
+
+            try {
+                DB::beginTransaction();
+
+                $paymentData->status = $message;
+                $paymentData->save();
+
+                $trx         = CompanyRenewals::where("reference_number", $reference)->first();
+                $trx->status = $message;
+                $trx->save();
+
+                DB::commit();
+
+                toast("Payment Received Successfully", 'success');
+                return redirect()->route("business.companyRenewals", [$reference]);
+
+            } catch (\Exception $e) {
+                DB::rollback();
+                report($e);
+
+                toast("We Could Not Settle This Transaction.", 'error');
+                return redirect()->route("business.companyRenewalPreview", [$reference]);
+            }
+        } else {
+            toast("Something Went Wrong.", 'error');
+            return redirect()->route("business.companyRenewalPreview", [$reference]);
+        }
+    }
+
+    public function handlePOACallback(Request $request)
+    {
+        $reference = "BSPPC-REN-" . $request->reference;
+
+        $response = Http::accept('application/json')->withHeaders([
+            'authorization' => env('CREDO_SECRET_KEY'),
+            'content_type'  => "Content-Type: application/json",
+        ])->get(env("CREDO_URL") . "/transaction/{$request->reference}/verify");
+
+        $payment = $response->collect("data");
+
+        $status  = $payment["status"];
+        $message = $payment["statusMessage"] == "Successfully processed" ? "paid" : "failed";
+
+        $paymentData = CompanyPayments::where("reference_number", $reference)->first();
+
+        if (isset($paymentData)) {
+
+            try {
+                DB::beginTransaction();
+
+                $paymentData->status = $message;
+                $paymentData->save();
+
+                $trx         = PowerOfAttorney::where("reference_number", $reference)->first();
+                $trx->status = $message;
+                $trx->save();
+
+                DB::commit();
+
+                toast("Payment Received Successfully", 'success');
+                return redirect()->route("business.powerOfAttorney", [$reference]);
+
+            } catch (\Exception $e) {
+                DB::rollback();
+                report($e);
+
+                toast("We Could Not Settle This Transaction.", 'error');
+                return redirect()->route("business.powerOfAttorneyPreview", [$reference]);
+            }
+        } else {
+            toast("Something Went Wrong.", 'error');
+            return redirect()->route("business.powerOfAttorneyPreview", [$reference]);
+        }
+    }
+}

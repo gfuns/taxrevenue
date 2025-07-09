@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string("phone_number");
             $table->string("email");
             $table->integer("period");
-            $table->text("bsppc_cert");
+            $table->string("bsppc_number");
             $table->double("amount_paid", 12, 2);
             $table->enum("status", ["pending", "paid", "failed"])->default("pending");
             $table->timestamps();

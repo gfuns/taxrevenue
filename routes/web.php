@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\TwofactorController;
+use App\Http\Controllers\ETranzactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OnboardingController;
 use Illuminate\Support\Facades\Route;
@@ -71,13 +72,29 @@ Route::group([
     Route::get('/company-registration', [BusinessController::class, 'companyRegistration'])->name("business.companyRegistration")->middleware(["profileupdated"]);
 
     Route::group([
-        'prefix'     => 'portal',
         'middleware' => ['profileupdated', 'companyreg'],
-
     ], function ($router) {
         Route::get('/company-renewals', [BusinessController::class, 'companyRenewals'])->name("business.companyRenewals");
+
+        Route::get('/company-renewals/preview/{reference}', [BusinessController::class, 'companyRenewalPreview'])->name("business.companyRenewalPreview");
+
+        Route::post('/initiateCompanyRenewal', [BusinessController::class, 'initiateCompanyRenewal'])->name("business.initiateCompanyRenewal");
+
         Route::get('/power-of-attorney', [BusinessController::class, 'powerOfAttorney'])->name("business.powerOfAttorney");
+
+        Route::get('/power-of-attorney/preview/{reference}', [BusinessController::class, 'powerOfAttorneyPreview'])->name("business.powerOfAttorneyPreview");
+
+        Route::post('/initiatePOAApplication', [BusinessController::class, 'initiatePOAApplication'])->name("business.initiatePOAApplication");
+
         Route::get('/award-letters', [BusinessController::class, 'awardLetters'])->name("business.awardLetters");
+
         Route::get('/processing-fees', [BusinessController::class, 'processingFees'])->name("business.processingFees");
+
+        Route::post('/processPayment', [BusinessController::class, 'processPayment'])->name("business.processPayment");
     });
 });
+
+Route::get('/etranzact/renewal/callback', [ETranzactController::class, 'handleRenewalCallback'])->name("etranzact.renewal.callBack");
+Route::get('/etranzact/poa/callback', [ETranzactController::class, 'handlePOACallback'])->name("etranzact.poa.callBack");
+Route::get('/etranzact/award/callback', [ETranzactController::class, 'handleAwardCallback'])->name("etranzact.award.callBack");
+Route::get('/etranzact/prf/callback', [ETranzactController::class, 'handlePRFCallback'])->name("etranzact.prf.callBack");
