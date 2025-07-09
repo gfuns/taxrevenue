@@ -106,7 +106,7 @@ class ETranzactController extends Controller
 
     public function handlePRFCallback(Request $request)
     {
-        $reference = "BSPPC-REN-" . $request->reference;
+        $reference = "BSPPC-" . $request->reference;
 
         $response = Http::accept('application/json')->withHeaders([
             'authorization' => env('CREDO_SECRET_KEY'),
