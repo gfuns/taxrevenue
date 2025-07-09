@@ -1,7 +1,7 @@
 @extends('business.layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Registration Renewals')
+@section('title', env('APP_NAME') . ' | Processing Fee Remittance')
 
 
 <!-- Container fluid -->
@@ -11,7 +11,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-3 mb-3 d-lg-flex align-items-center justify-content-between">
                 <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-0 h3 fw-bold">Registration Renewals</h1>
+                    <h1 class="mb-0 h3 fw-bold">Processing Fee Remittance</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -19,7 +19,7 @@
                                 <a href="{{ route('business.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Registration Renewals</a>
+                                <a href="#">Processing Fee Remittance</a>
                             </li>
                         </ol>
                     </nav>
@@ -28,7 +28,7 @@
                 <!-- button -->
                 <div>
                     <a href="#" class="btn btn-primary btn-sm me-2" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasRight">Renew Registration</a>
+                        data-bs-target="#offcanvasRight">Remit Processing Fee</a>
                 </div>
             </div>
         </div>
@@ -83,8 +83,9 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Reference Number</th>
-                                            <th>Company Name</th>
-                                            <th>Period/Duration</th>
+                                            {{-- <th>Donor Company</th> --}}
+                                            <th>Contract Name</th>
+                                            <th>Award Date</th>
                                             <th>Amount Payable</th>
                                             <th>Status</th>
                                             <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
@@ -96,8 +97,9 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $trx->reference_number }}</td>
-                                                <td>{{ $trx->company_name }}</td>
-                                                <td>{{ $trx->period }} Year(s)</td>
+                                                {{-- <td>{{ $trx->donor_company }}</td> --}}
+                                                <td>{{ $trx->contract_name }}</td>
+                                                <td>{{ date_format(new DateTime($trx->award_date), 'jS M, Y') }}</td>
                                                 <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
                                                 <td>
                                                     @if ($trx->status == 'pending')
@@ -108,8 +110,6 @@
                                                         <span class="badge text-danger bg-light-danger">Failed</span>
                                                     @endif
                                                 </td>
-
-
                                                 <td class="align-middle">
                                                     <div class="hstack gap-4">
                                                         <span class="dropdown dropstart">
@@ -120,7 +120,7 @@
                                                                     class="dropdown-header">Action</span>
                                                                 @if ($trx->status == 'pending')
                                                                     <a class="dropdown-item"
-                                                                        href="{{ route('business.companyRenewalPreview', [$trx->reference_number]) }}"><i
+                                                                        href="{{ route('business.powerOfAttorneyPreview', [$trx->reference_number]) }}"><i
                                                                             class="fe fe-trash dropdown-item-icon"></i>Make
                                                                         Payment</a>
                                                                 @endif
@@ -186,17 +186,17 @@
     style="width: 600px;">
     <div class="offcanvas-body" data-simplebar>
         <div class="offcanvas-header px-2 pt-0">
-            <h3 class="offcanvas-title" id="offcanvasExampleLabel">Company Registration Renewal Application</h3>
+            <h3 class="offcanvas-title" id="offcanvasExampleLabel">Power Of Attorney Application</h3>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <!-- card body -->
         <div class="container">
             <!-- form -->
             <form class="needs-validation" novalidate method="post"
-                action="{{ route('business.initiateCompanyRenewal') }}">
+                action="{{ route('business.initiatePRFRemittance') }}">
                 @csrf
                 <div class="row">
-
+                    <!-- form group -->
                     <div class="mb-3 col-12">
                         <label class="form-label">Company Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="company_name"
@@ -205,55 +205,43 @@
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Company Address <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="company_address"
-                            placeholder="Company Address" value="{{ Auth::user()->company->company_address }}" required readonly>
-                        <div class="invalid-feedback">Please Provide Company Address.</div>
-                    </div>
-
-                    <!-- form group -->
-                    <div class="mb-3 col-12">
-                        <label class="form-label">BSPPC Registration Number <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="registration_number"
-                            placeholder="BSPPC Registration Number" required>
-                        <div class="invalid-feedback">Please Provide BSPPC Registration Number.</div>
+                        <label class="form-label">Contract Name/LOT <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="contract_name"
+                            placeholder="Contract Name/LOT" required>
+                        <div class="invalid-feedback">Please Provide Contract Name/LOT.</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Number of Years To Renew <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="period"
-                            placeholder="Number of Years To Renew" required>
-                        <div class="invalid-feedback">Please Provide Number of Years To Renew.</div>
+                        <label class="form-label">Contract Sum <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="contract_sum" placeholder="Contract Sum"
+                            required oninput="validateInput(event)">
+                        <div class="invalid-feedback">Please Provide Contract Sum.</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Expiry Date <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control" name="expiry_date" placeholder="Expiry Date"
+                        <label class="form-label">Date of Award<span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" name="date_of_award" placeholder="Date of Award"
                             required>
-                        <div class="invalid-feedback">Please Provide Expiry Date.</div>
+                        <div class="invalid-feedback">Please Provide Date of Award.</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Company Email <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" name="company_email" placeholder="Company Email"
-                            required>
-                        <div class="invalid-feedback">Please Provide Company Email</div>
+                        <label class="form-label">Contract Duration <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="contract_duration"
+                            placeholder="Contract Duration" required>
+                        <div class="invalid-feedback">Please Provide Contract Duration</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Director's Phone Number <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="phone_number"
-                            placeholder="Director's Phone Number" required>
-                        <div class="invalid-feedback">Please Provide Director's Phone Number</div>
+                        <label class="form-label">MDA <span class="text-danger">*</span></label>
+                        <select id="mda" name="mda" class="form-select">
+                            <option value="">Select MDA</option>
+                            @foreach ($mdas as $mda)
+                                <option value="{{ $mda->mda }}">{{ $mda->mda }}</option>
+                            @endforeach
+                        </select>
+                        <div class="invalid-feedback">Please Select MDA</div>
                     </div>
-
-                    {{-- <div id="paymentNote" class="mb-3 col-12" style="color: black; display:none">
-                        <u><b>Note:</b></u> You will be redirected to our payment gateway to pay the sum of
-                        <b>&#8358;<span></span></b> to cover for your renewal fees for the provide period/duration.
-                        <br />&nbsp;
-                        <p>Click the <b>Submit Application</b> button only if you are ready to make the required
-                            payment.</p>
-                    </div> --}}
 
                     <div class="col-md-12 border-bottom"></div>
                     <!-- button -->
@@ -269,7 +257,36 @@
 </div>
 
 <script type="text/javascript">
-    document.getElementById("renewals").classList.add('active');
+    document.getElementById("processingfee").classList.add('active');
 </script>
 
+@endsection
+
+@section('customjs')
+<script type="text/javascript">
+    function validateInput(event) {
+        const input = event.target;
+        let value = input.value;
+
+        // Remove commas from the input value
+        value = value.replace(/,/g, '');
+
+        // Regular expression to match non-numeric and non-decimal characters
+        const nonNumericDecimalRegex = /[^0-9.]/g;
+
+        if (nonNumericDecimalRegex.test(value)) {
+            // If non-numeric or non-decimal characters are found, remove them from the input value
+            value = value.replace(nonNumericDecimalRegex, '');
+        }
+
+        // Ensure there is only one decimal point in the value
+        const decimalCount = value.split('.').length - 1;
+        if (decimalCount > 1) {
+            value = value.replace(/\./g, '');
+        }
+
+        // Assign the cleaned value back to the input field
+        input.value = value;
+    }
+</script>
 @endsection

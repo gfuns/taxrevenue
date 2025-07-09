@@ -48,7 +48,7 @@
                                         <td>{{ $trx->donor_company }}</td>
                                     </tr>
                                     <tr>
-                                        <td><b>Contract Name:</b></td>
+                                        <td><b>Contract Name/LOT:</b></td>
                                         <td>{{ $trx->contract_name }}</td>
                                     </tr>
                                     <tr>
@@ -58,12 +58,12 @@
 
                                     <tr>
                                         <td><b>Date of Award:</b></td>
-                                        <td>{{ date_format(new DateTime($trx->award_date), "jS M, Y") }}</td>
+                                        <td>{{ date_format(new DateTime($trx->award_date), "jS F, Y") }}</td>
                                     </tr>
 
                                     <tr>
                                         <td><b>Date of Power of Attorney:</b></td>
-                                        <td>{{date_format(new DateTime($trx->poa_date), "jS M, Y") }}</td>
+                                        <td>{{date_format(new DateTime($trx->poa_date), "jS F, Y") }}</td>
                                     </tr>
 
                                     <tr>
@@ -76,11 +76,15 @@
                                         <td>{{ $trx->mda }}</td>
                                     </tr>
 
+                                     <tr>
+                                        <td><b>Amount Payable:</b></td>
+                                        <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
+                                    </tr>
+
                                 </table>
                                 <hr />
                                 <div class="mb-4 col-12" style="color: black; ">
-                                    <u><b>Note:</b></u> You will be charged an additional Technology Fee of <b>&#8358;
-                                        {{ number_format($payment->fee_charged, 2) }}</b> when making your payment.
+                                    <u><b>Note:</b></u> You will be charged an additional Technology Fee of <b>&#8358;{{ number_format($payment->fee_charged, 2) }}</b> when making your payment.
                                 </div>
                                 <!-- form group -->
                                 <input type="hidden" class="form-control" name="reference"

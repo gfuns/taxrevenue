@@ -372,11 +372,125 @@ class BusinessController extends Controller
 
     }
 
+    /**
+     * powerOfAttorneyPreview
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
     public function powerOfAttorneyPreview($reference)
     {
         $trx     = PowerOfAttorney::where("reference_number", $reference)->first();
         $payment = CompanyPayments::where("reference_number", $reference)->first();
         return view("business.poa_preview", compact("trx", "payment"));
+    }
+
+    /**
+     * processingFees
+     *
+     * @return void
+     */
+    public function processingFees()
+    {
+        $status = request()->status;
+        $search = request()->search;
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord = ProcessingFee::query()->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+
+            $transactions = ProcessingFee::query()->orderBy("id", "desc")->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord = ProcessingFee::query()->where("company_id", Auth::user()->company->id)->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+
+            $transactions = ProcessingFee::query()->orderBy("id", "desc")->where("company_id", Auth::user()->company->id)->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord = ProcessingFee::query()->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+
+            $transactions = ProcessingFee::query()->orderBy("id", "desc")->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->where("status", $status)->paginate(50);
+        } else {
+            $lastRecord   = ProcessingFee::where("company_id", Auth::user()->company->id)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = ProcessingFee::orderBy("id", "desc")->where('company_id', Auth::user()->company->id)->paginate(50);
+        }
+
+        $mdas = Mda::all();
+        return view("business.processing_fees", compact("transactions", "search", "status", "lastRecord", "marker", "mdas"));
+    }
+
+    /**
+     * initiatePRFRemittance
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function initiatePRFRemittance(Request $request)
+    {
+        $validatedData = $request->validate([
+            'contract_name'     => 'required',
+            'contract_sum'      => 'required',
+            'date_of_award'     => 'required',
+            'contract_duration' => 'required',
+            'mda'               => 'required',
+        ]);
+
+        try {
+            $reference = $this->genTrxReference();
+
+            $item = PaymentItem::find(4);
+
+            DB::beginTransaction();
+
+            $trx                    = new ProcessingFee;
+            $trx->reference_number  = $reference;
+            $trx->company_id        = Auth::user()->company->id;
+            $trx->company_name      = Auth::user()->company->company_name;
+            $trx->contract_name     = $request->contract_name;
+            $trx->contract_amount   = $request->contract_sum;
+            $trx->award_date        = $request->date_of_award;
+            $trx->contract_duration = $request->contract_duration;
+            $trx->mda               = $request->mda;
+            $trx->amount_paid       = ((1 / 100) * $request->contract_sum);
+            $trx->save();
+
+            $fee = $this->getFee($item->id, $trx->amount_paid);
+
+            $paymentLog                   = new CompanyPayments;
+            $paymentLog->user_id          = Auth::user()->id;
+            $paymentLog->company_id       = $trx->company_id;
+            $paymentLog->payment_item_id  = $item->id;
+            $paymentLog->reference_number = $trx->reference_number;
+            $paymentLog->amount_paid      = $trx->amount_paid;
+            $paymentLog->fee_charged      = $fee;
+            $paymentLog->total            = ($trx->amount_paid + $fee);
+            $paymentLog->save();
+
+            DB::commit();
+            return redirect()->route("business.processingFeesPreview", [$trx->reference_number]);
+        } catch (\Exception $e) {
+            report($e);
+            DB::rollback();
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+
+    }
+
+    /**
+     * processingFeesPreview
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function processingFeesPreview($reference)
+    {
+        $trx     = ProcessingFee::where("reference_number", $reference)->first();
+        $payment = CompanyPayments::where("reference_number", $reference)->first();
+        return view("business.processing_fees_preview", compact("trx", "payment"));
     }
 
     /**
@@ -427,7 +541,7 @@ class BusinessController extends Controller
             ])->post(env("CREDO_URL") . "/transaction/initialize", [
                 "email"       => $email,
                 "amount"      => ($payment->total * 100),
-                "reference"   => str_replace("BSPPC-REN-", "", $request->reference),
+                "reference"   => str_replace("BSPPC-", "", $request->reference),
                 "narration"   => $narration,
                 "callbackUrl" => $callbackUrl,
                 "bearer"      => 0,
@@ -460,7 +574,7 @@ class BusinessController extends Controller
         $timestamp = strtotime(now());                // Add timestamp for more uniqueness
         $random    = Auth::user()->id . "" . Auth::user()->company->id;
 
-        $reference = 'BSPPC-REN-' . $random . $timestamp . $hash;
+        $reference = 'BSPPC-' . $random . $timestamp . $hash;
 
         return $reference;
     }
@@ -475,7 +589,7 @@ class BusinessController extends Controller
      */
     public function getFee($id, $amount)
     {
-        $item = PaymentItem::find(1);
+        $item = PaymentItem::find($id);
         if ($item->fee_config == "percentage") {
             $fee = (($item->fee / 100) * $amount);
             return $fee;

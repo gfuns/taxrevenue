@@ -90,6 +90,10 @@ Route::group([
 
         Route::get('/processing-fees', [BusinessController::class, 'processingFees'])->name("business.processingFees");
 
+        Route::get('/processing-fees/preview/{reference}', [BusinessController::class, 'processingFeesPreview'])->name("business.processingFeesPreview");
+
+        Route::post('/initiatePRFRemittance', [BusinessController::class, 'initiatePRFRemittance'])->name("business.initiatePRFRemittance");
+
         Route::post('/processPayment', [BusinessController::class, 'processPayment'])->name("business.processPayment");
     });
 });

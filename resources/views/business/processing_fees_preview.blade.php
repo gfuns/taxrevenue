@@ -1,7 +1,7 @@
 @extends('business.layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Registration Renewals')
+@section('title', env('APP_NAME') . ' | Processing Fee Remittance')
 
 <!-- Container fluid -->
 <section class="container-fluid p-4">
@@ -10,7 +10,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-4 d-lg-flex align-items-center justify-content-between">
                 <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-0 h3 fw-bold">Registration Renewals </h1>
+                    <h1 class="mb-0 h3 fw-bold">Processing Fee Remittance </h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -18,7 +18,7 @@
                                 <a href="{{ route('business.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Registration Renewals</a>
+                                <a href="#">Processing Fee Remittance</a>
                             </li>
                         </ol>
                     </nav>
@@ -48,27 +48,27 @@
                                         <td>{{ $trx->company_name }}</td>
                                     </tr>
                                     <tr>
-                                        <td><b>Company Address:</b></td>
-                                        <td>{{ $trx->company_address }}</td>
+                                        <td><b>Contract Name/LOT:</b></td>
+                                        <td>{{ $trx->contract_name }}</td>
                                     </tr>
                                     <tr>
-                                        <td><b>BSPPC Reg. No:</b></td>
-                                        <td>{{ $trx->bsppc_number }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><b>No. of Years To Renew:</b></td>
-                                        <td>{{ $trx->period }} Year(s)</td>
+                                        <td><b>Contract Sum:</b></td>
+                                        <td>&#8358;{{ number_format($trx->contract_amount, 2) }}</td>
                                     </tr>
 
                                     <tr>
-                                        <td><b>Company Email:</b></td>
-                                        <td>{{ $trx->email }}</td>
+                                        <td><b>Date of Award:</b></td>
+                                        <td>{{ date_format(new DateTime($trx->award_date), "jS F, Y") }}</td>
                                     </tr>
 
                                     <tr>
-                                        <td><b>Director's Phone Number:</b></td>
-                                        <td>{{ $trx->phone_number }}</td>
+                                        <td><b>Contract Duration:</b></td>
+                                        <td>{{ $trx->contract_duration }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><b>MDA:</b></td>
+                                        <td>{{ $trx->mda }}</td>
                                     </tr>
 
                                     <tr>
@@ -104,7 +104,7 @@
 </section>
 
 <script type="text/javascript">
-    document.getElementById("renewals").classList.add('active');
+    document.getElementById("processingfee").classList.add('active');
 </script>
 
 @endsection

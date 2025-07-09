@@ -99,7 +99,7 @@
                                                 <td>{{ $trx->reference_number }}</td>
                                                 {{-- <td>{{ $trx->donor_company }}</td> --}}
                                                 <td>{{ $trx->contract_name }}</td>
-                                                <td>{{ date_format(new DateTime($trx->award_date), "jS M, Y") }}</td>
+                                                <td>{{ date_format(new DateTime($trx->award_date), 'jS M, Y') }}</td>
                                                 <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
                                                 <td>
                                                     @if ($trx->status == 'pending')
@@ -110,12 +110,36 @@
                                                         <span class="badge text-danger bg-light-danger">Failed</span>
                                                     @endif
                                                 </td>
-                                                <td>
-                                                    @if ($trx->status == 'pending')
-                                                        <a
-                                                            href="{{ route('business.powerOfAttorneyPreview', [$trx->reference_number]) }}"><button
-                                                                class="btn btn-sm btn-primary">Pay Now!</button></a>
-                                                    @endif
+                                                <td class="align-middle">
+                                                    <div class="hstack gap-4">
+                                                        <span class="dropdown dropstart">
+                                                            <a class="btn btn-primary bg-light-primary text-primary btn-sm"
+                                                                href="#" role="button" data-bs-toggle="dropdown"
+                                                                data-bs-offset="-20,20" aria-expanded="false">Action</a>
+                                                            <span class="dropdown-menu"><span
+                                                                    class="dropdown-header">Action</span>
+                                                                @if ($trx->status == 'pending')
+                                                                    <a class="dropdown-item"
+                                                                        href="{{ route('business.powerOfAttorneyPreview', [$trx->reference_number]) }}"><i
+                                                                            class="fe fe-trash dropdown-item-icon"></i>Make
+                                                                        Payment</a>
+                                                                @endif
+
+                                                                <a class="dropdown-item" href="#"><i
+                                                                        class="fe fe-eye dropdown-item-icon"></i>View
+                                                                    Details</a>
+
+
+                                                                @if ($trx->status == 'paid')
+                                                                    <a class="dropdown-item" href="#"
+                                                                        target="_blank"><i
+                                                                            class="fe fe-printer dropdown-item-icon"></i>Print
+                                                                        Receipt</a>
+                                                                @endif
+                                                            </span>
+                                                        </span>
+
+                                                    </div>
                                                 </td>
 
                                             </tr>
@@ -182,8 +206,8 @@
 
                     <div class="mb-3 col-12">
                         <label class="form-label">Contract Name/LOT <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="contract_name" placeholder="Contract Name/LOT"
-                            required>
+                        <input type="text" class="form-control" name="contract_name"
+                            placeholder="Contract Name/LOT" required>
                         <div class="invalid-feedback">Please Provide Contract Name/LOT.</div>
                     </div>
 

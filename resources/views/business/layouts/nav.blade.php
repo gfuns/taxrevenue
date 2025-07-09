@@ -68,7 +68,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="referrals" href="{{ route("business.processingFees") }}">
+                <a class="nav-link " id="processingfee" href="{{ route("business.processingFees") }}">
                     <i class="nav-icon bi bi-cash-coin me-2"></i>
                     Processing Fees
                 </a>
