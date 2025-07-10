@@ -45,7 +45,7 @@
                                 </span>
                                 <!-- input -->
                                 <input name="search" type="search" class="form-control ps-6"
-                                    placeholder="Search Transactions Using Reference Number......"
+                                    placeholder="Search Registrations Using BSPPC Number or CAC Number......"
                                     value="{{ $search }}">
                             </div>
 
@@ -57,9 +57,9 @@
                                 <option value="">All Statuses</option>
                                 <option value="pending" @if ($status == 'pending') selected @endif>Pending
                                 </option>
-                                <option value="paid" @if ($status == 'paid') selected @endif>Successful
+                                <option value="approved" @if ($status == 'paid') selected @endif>Approved
                                 </option>
-                                <option value="failed" @if ($status == 'failed') selected @endif>Failed</option>
+                                <option value="rejected" @if ($status == 'failed') selected @endif>Rejected</option>
                             </select>
                         </div>
                     </div>
@@ -69,19 +69,20 @@
                         <!-- Tab -->
                         <div class="tab-pane fade show active" id="all-orders" role="tabpanel"
                             aria-labelledby="all-orders-tab">
-                            <div class="table-responsive">
+                            <div class="table-responsive" style="min-height:200px">
                                 <!-- Table -->
                                 <table class="table mb-0 text-nowrap table-hover table-centered table-with-checkbox"
-                                    style="font-size: 14px">
+                                    style="font-size: 14px;">
                                     <!-- Table Head -->
                                     <thead class="table-light">
                                         <tr>
                                             <th>#</th>
-                                            <th>Reference Number</th>
-                                            {{-- <th>Donor Company</th> --}}
-                                            <th>Contract Name</th>
-                                            <th>Award Date</th>
-                                            <th>Amount Payable</th>
+                                            <th>Company Name</th>
+                                            <th>BSPPC Reg. No</th>
+                                            <th>CAC Reg. No</th>
+                                            <th>Business Category</th>
+                                            <th>Classification</th>
+                                            <th>Reg. Date</th>
                                             <th>Status</th>
                                             <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
                                         </tr>
@@ -91,18 +92,19 @@
                                         @foreach ($transactions as $trx)
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
-                                                <td>{{ $trx->reference_number }}</td>
-                                                {{-- <td>{{ $trx->donor_company }}</td> --}}
-                                                <td>{{ $trx->contract_name }}</td>
-                                                <td>{{ date_format(new DateTime($trx->award_date), 'jS M, Y') }}</td>
-                                                <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
+                                                <td>{{ $trx->company_name }}</td>
+                                                <td>{{ $trx->bsppc_number ?? 'Not Assigned' }}</td>
+                                                <td>{{ $trx->cac_number  }}</td>
+                                                <td>{{ $trx->business_category }}</td>
+                                                <td>{{ $trx->classification }}</td>
+                                                <td>{{ date_format($trx->created_at, 'jS M, Y') }}</td>
                                                 <td>
                                                     @if ($trx->status == 'pending')
                                                         <span class="badge text-warning bg-light-warning">Pending</span>
                                                     @elseif($trx->status == 'paid')
-                                                        <span class="badge text-success bg-light-success">Paid</span>
+                                                        <span class="badge text-success bg-light-success">Approved</span>
                                                     @else
-                                                        <span class="badge text-danger bg-light-danger">Failed</span>
+                                                        <span class="badge text-danger bg-light-danger">Rejected</span>
                                                     @endif
                                                 </td>
                                                 <td class="align-middle">
@@ -117,6 +119,18 @@
                                                                 <a class="dropdown-item" href="#"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
+
+                                                                <a class="dropdown-item" href="#"><i
+                                                                        class="fe fe-upload dropdown-item-icon"></i>Upload
+                                                                    BSPPC Certificate</a>
+
+                                                                <a class="dropdown-item" href="#"><i
+                                                                        class="fe fe-check-circle dropdown-item-icon"></i>Approve
+                                                                    Application</a>
+
+                                                                <a class="dropdown-item" href="#"><i
+                                                                        class="fe fe-x-circle dropdown-item-icon"></i>Reject
+                                                                    Application</a>
 
                                                             </span>
                                                         </span>

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('platform_features', function (Blueprint $table) {
             $table->increments('id');
             $table->text('feature');
+            $table->longText('description');
             $table->timestamps();
         });
     }

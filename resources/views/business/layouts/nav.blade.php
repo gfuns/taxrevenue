@@ -2,7 +2,7 @@
     <div class="vh-100" data-simplebar>
         <!-- Brand logo -->
         <a class="navbar-brand" href="{{ route('business.dashboard') }}">
-            <h3 class="fw-bold"><img src="{{ asset('images/logo_mail.png') }}" style="min-width: 185px; height: 50px"
+            <h3 class="fw-bold"><img src="{{ asset('images/logo_white.png') }}" style="min-width: 185px; height: 50px"
                     alt="BPP Logo">
             </h3>
         </a>

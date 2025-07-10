@@ -134,6 +134,46 @@ Route::group([
     Route::get('/processing-fees', [AdminController::class, 'processingFees'])->name("admin.processingFees");
 
     Route::get('/power-of-attorney', [AdminController::class, 'powerOfAttorney'])->name("admin.powerOfAttorney");
+
+    Route::get('/payment-items', [AdminController::class, 'paymentItems'])->name("admin.paymentItems");
+
+    Route::post('/updatePaymentItem', [AdminController::class, 'updatePaymentItem'])->name("admin.updatePaymentItem");
+
+    Route::get('/user-roles', [AdminController::class, 'userRoles'])->name("admin.userRoles");
+
+    Route::post('/storeUserRole', [AdminController::class, 'storeUserRole'])->name("admin.storeUserRole");
+
+    Route::post('/updateUserRole', [AdminController::class, 'updateUserRole'])->name("admin.updateUserRole");
+
+    Route::get('/roles/permissions/{id}', [AdminController::class, 'managePermissions'])->name("admin.managePermissions");
+
+    Route::get('/user-management', [AdminController::class, 'userManagement'])->name("admin.userManagement");
+
+    Route::post('/store-user', [AdminController::class, 'storeUser'])->name('admin.storeUser');
+
+    Route::post('/update-user', [AdminController::class, 'updateUser'])->name('admin.updateUser');
+
+    Route::get('/suspend-user/{id}', [AdminController::class, 'suspendUser'])->name('admin.suspendUser');
+
+    Route::get('/activate-user/{id}', [AdminController::class, 'activateUser'])->name('admin.activateUser');
+
+    Route::get('/platform-features', [AdminController::class, 'platformFeatures'])->name("admin.platformFeatures");
+
+    Route::get('/grant-feature-permission/{role}/{feature}', [AdminController::class, 'grantFeaturePermission'])->name('admin.grantFeaturePermission');
+
+    Route::get('/revoke-feature-permission/{role}/{feature}', [AdminController::class, 'revokeFeaturePermission'])->name('admin.revokeFeaturePermission');
+
+    Route::get('/grant-create-permission/{role}/{feature}', [AdminController::class, 'grantCreatePermission'])->name('admin.grantCreatePermission');
+
+    Route::get('/revoke-create-permission/{role}/{feature}', [AdminController::class, 'revokeCreatePermission'])->name('admin.revokeCreatePermission');
+
+    Route::get('/grant-edit-permission/{role}/{feature}', [AdminController::class, 'grantEditPermission'])->name('admin.grantEditPermission');
+
+    Route::get('/revoke-edit-permission/{role}/{feature}', [AdminController::class, 'revokeEditPermission'])->name('admin.revokeEditPermission');
+
+    Route::get('/grant-delete-permission/{role}/{feature}', [AdminController::class, 'grantDeletePermission'])->name('admin.grantDeletePermission');
+
+    Route::get('/revoke-delete-permission/{role}/{feature}', [AdminController::class, 'revokeDeletePermission'])->name('admin.revokeDeletePermission');
 });
 
 Route::get('/etranzact/renewal/callback', [ETranzactController::class, 'handleRenewalCallback'])->name("etranzact.renewal.callBack");

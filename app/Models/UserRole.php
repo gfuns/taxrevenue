@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +15,7 @@ class UserRole extends Model
 
     public function totalPermissions()
     {
-        $totalPermissions = PlatformFeature::count();
+        $totalPermissions = UserPermission::where("role_id", $this->id)->count();
         return $totalPermissions;
     }
 

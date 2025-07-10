@@ -2,7 +2,7 @@
     <div class="vh-100" data-simplebar>
         <!-- Brand logo -->
         <a class="navbar-brand" href="{{ route('business.dashboard') }}">
-            <h3 class="fw-bold"><img src="{{ asset('images/logo_mail.png') }}" style="min-width: 185px; height: 50px"
+            <h3 class="fw-bold"><img src="{{ asset('images/logo_white.png') }}" style="min-width: 185px; height: 50px"
                     alt="BPP Logo">
             </h3>
         </a>
@@ -74,6 +74,46 @@
                 </a>
             </li>
 
+
+            <li class="nav-item">
+                <div class="nav-divider"></div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse" data-bs-target="#platSettings"
+                    aria-expanded="false" aria-controls="platSettings">
+                    <i class="nav-icon bi bi-gear-wide-connected me-2"></i> Platform Configurations
+                </a>
+                <div id="platSettings" class="collapse " data-bs-parent="#sideNavbar">
+                    <ul class="nav flex-column">
+
+                        <li class="nav-item">
+                            <a class="nav-link " id="features" href="{{ route('admin.platformFeatures') }}">
+                                Platform Features
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link " id="payItems" href="{{ route('admin.paymentItems') }}">
+                                Payment Items
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link " id="roles" href="{{ route('admin.userRoles') }}">
+                                Roles and Permissions
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link " id="users" href="{{ route('admin.userManagement') }}">
+                                User Management
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
 
             <li class="nav-item">
                 <div class="nav-divider"></div>
