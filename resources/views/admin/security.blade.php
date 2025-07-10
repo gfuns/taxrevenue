@@ -190,7 +190,7 @@
                                             new sign-in attempt.</div>
                                         @if (!isset(Auth::user()->google2fa_secret))
                                             <div class="mt-2">
-                                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                <button class="btn btn-success btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#g2fa-enable">Setup Google
                                                     Authenticator</button>
                                             </div>
@@ -259,7 +259,7 @@
                                         placeholder="Enter the Google Authenticator Code">
                                 </div>
                                 <input type="hidden" name="google2fa_secret" value="{{ $google2faSecret }}">
-                                <button type="submit" class="btn btn-primary btn-sm enable-2fa">Enable Google
+                                <button type="submit" class="btn btn-success btn-sm enable-2fa">Enable Google
                                     Authenticator</button>
                             </div>
                         </div>
@@ -305,7 +305,7 @@
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "{{ route('business.select2FA') }}",
+                url: "{{ route('admin.select2FA') }}",
                 data: {
                     'status': status,
                     'param': param
@@ -353,7 +353,7 @@
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "{{ route('business.select2FA') }}",
+                url: "{{ route('admin.select2FA') }}",
                 data: {
                     'status': status,
                     'param': param

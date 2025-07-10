@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Power Of Attorney Application')
+@section('title', env('APP_NAME') . ' | Company Registrations')
 
 
 <!-- Container fluid -->
@@ -11,7 +11,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-3 mb-3 d-lg-flex align-items-center justify-content-between">
                 <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-0 h3 fw-bold">Power Of Attorney Application</h1>
+                    <h1 class="mb-0 h3 fw-bold">Company Registrations</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -19,7 +19,7 @@
                                 <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Power Of Attorney Application</a>
+                                <a href="#">Company Registrations</a>
                             </li>
                         </ol>
                     </nav>
@@ -78,7 +78,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Reference Number</th>
-                                            <th>Company Name</th>
+                                            {{-- <th>Donor Company</th> --}}
                                             <th>Contract Name</th>
                                             <th>Award Date</th>
                                             <th>Amount Payable</th>
@@ -92,7 +92,7 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $trx->reference_number }}</td>
-                                                <td>{{ $trx->company->company_name }}</td>
+                                                {{-- <td>{{ $trx->donor_company }}</td> --}}
                                                 <td>{{ $trx->contract_name }}</td>
                                                 <td>{{ date_format(new DateTime($trx->award_date), 'jS M, Y') }}</td>
                                                 <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
@@ -117,6 +117,7 @@
                                                                 <a class="dropdown-item" href="#"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
+
                                                             </span>
                                                         </span>
 
@@ -164,7 +165,7 @@
 
 
 <script type="text/javascript">
-    document.getElementById("poa").classList.add('active');
+    document.getElementById("companies").classList.add('active');
 </script>
 
 @endsection

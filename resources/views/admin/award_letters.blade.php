@@ -78,7 +78,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Reference Number</th>
-                                            {{-- <th>Donor Company</th> --}}
+                                            <th>Company Name</th>
                                             <th>Contract Name</th>
                                             <th>Award Date</th>
                                             <th>Amount Payable</th>
@@ -92,7 +92,7 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $trx->reference_number }}</td>
-                                                {{-- <td>{{ $trx->donor_company }}</td> --}}
+                                                 <td>{{ $trx->company->company_name }}</td>
                                                 <td>{{ $trx->contract_name }}</td>
                                                 <td>{{ date_format(new DateTime($trx->award_date), 'jS M, Y') }}</td>
                                                 <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>

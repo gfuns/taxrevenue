@@ -22,7 +22,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="wallet" href="{{ route("admin.companyRegistrations") }}">
+                <a class="nav-link " id="companies" href="{{ route("admin.companyRegistrations") }}">
                     <i class="nav-icon bi bi-pencil-square me-2"></i>
                     Company Registrations
                 </a>

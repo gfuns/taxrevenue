@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AwardLetter;
+use App\Models\Company;
 use App\Models\CompanyRenewals;
 use App\Models\Mda;
 use App\Models\PowerOfAttorney;
@@ -271,9 +272,14 @@ class AdminController extends Controller
 
     }
 
-    public function companyRegistration()
+    public function companyRegistrations()
     {
-
+        $status       = request()->status;
+        $search       = request()->search;
+        $lastRecord   = Company::count();
+        $marker       = $this->getMarkers($lastRecord, request()->page);
+        $transactions = Company::orderBy("id", "desc")->paginate(50);
+        return view("admin.company_registrations", compact("transactions", "search", "status", "lastRecord", "marker"));
     }
 
     /**

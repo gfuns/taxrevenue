@@ -32,45 +32,45 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role == "Business") {
 
-            try {
-                if (Auth::user()->auth_2fa == "Email") {
-                    if ($otp = CustomerOtp::updateOrCreate(
-                        [
-                            'user_id'  => Auth::user()->id,
-                            'otp_type' => Auth::user()->auth_2fa,
-                        ], [
-                            'otp'            => $this->generateTFA(),
-                            'otp_expiration' => Carbon::now()->addMinutes(10),
-                        ])) {
+        try {
+            if (Auth::user()->auth_2fa == "Email") {
+                if ($otp = CustomerOtp::updateOrCreate(
+                    [
+                        'user_id'  => Auth::user()->id,
+                        'otp_type' => Auth::user()->auth_2fa,
+                    ], [
+                        'otp'            => $this->generateTFA(),
+                        'otp_expiration' => Carbon::now()->addMinutes(10),
+                    ])) {
 
-                        $user = Auth::user();
-                        Mail::to($user)->send(new AuthenticationOTP($user, $otp));
-
-                    }
+                    $user = Auth::user();
+                    Mail::to($user)->send(new AuthenticationOTP($user, $otp));
 
                 }
 
-            } catch (\Exception $e) {
-                report($e);
-            } finally {
-                return redirect()->route("business.dashboard");
             }
 
-            if (Auth::user()->profile_updated == 1) {
-                return redirect()->route("business.dashboard");
-            } else {
-                return redirect()->route("business.viewProfile");
-            }
+        } catch (\Exception $e) {
+            report($e);
+        } finally {
+            if (Auth::user()->role == "Business") {
 
-        } else {
-            if (Auth::user()->profile_updated == 1) {
-                return redirect()->route("admin.dashboard");
+                if (Auth::user()->profile_updated == 1) {
+                    return redirect()->route("business.dashboard");
+                } else {
+                    return redirect()->route("business.viewProfile");
+                }
+
             } else {
-                return redirect()->route("admin.viewProfile");
+                if (Auth::user()->profile_updated == 1) {
+                    return redirect()->route("admin.dashboard");
+                } else {
+                    return redirect()->route("admin.viewProfile");
+                }
             }
         }
+
     }
 
     public function welcome()
