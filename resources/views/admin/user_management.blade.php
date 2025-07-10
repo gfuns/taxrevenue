@@ -102,7 +102,7 @@
                                     @foreach ($users as $usr)
                                         <tr>
                                             <td class="align-middle"> {{ $loop->index + 1 }}</td>
-                                            <td class="align-middle"> {{ $usr->last_name . ' ' . $usr->other_names }}
+                                            <td class="align-middle"> {{ $usr->last_name . ', ' . $usr->other_names }}
                                             </td>
                                             <td class="align-middle"> {{ $usr->email }} </td>
                                             <td class="align-middle"> {{ $usr->phone_number }} </td>
@@ -129,7 +129,7 @@
                                                                     data-bs-toggle="offcanvas"
                                                                     data-bs-target="#editAdmin"
                                                                     data-myid="{{ $usr->id }}"
-                                                                    data-firstname="{{ $usr->first_name }}"
+                                                                    data-othernames="{{ $usr->other_names }}"
                                                                     data-lastname="{{ $usr->last_name }}"
                                                                     data-email="{{ $usr->email }}"
                                                                     data-phone="{{ $usr->phone_number }}"
@@ -325,70 +325,6 @@
     </div>
 @endif
 
-
-
-<!-- Modal -->
-<div class="modal fade" id="viewAdmin" tabindex="-1" role="dialog" aria-labelledby="newCatgoryLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title mb-0" id="newCatgoryLabel">
-                    View Account Details
-                </h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-
-                </button>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <td class="">First Name</td>
-                            <td class=""><span id="vfirstname"></span></td>
-                            <td class="" rowspan="7" align="right" style="text-align: center"><img
-                                    src="" id="vphoto" class="img-responsive" style="max-width: 150px" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="">Last Name</td>
-                            <td class=""><span id="vlastname"></span></td>
-                        </tr>
-
-                        <tr>
-                            <td class="">Email</td>
-                            <td class=""><span id="vemail"></span></td>
-                        </tr>
-
-                        <tr>
-                            <td class="">Phone Number</td>
-                            <td class=""><span id="vphone"></span></td>
-                        </tr>
-
-                        <tr>
-                            <td class="">Gender</td>
-                            <td class=""><span id="vgender"></span></td>
-                        </tr>
-
-                        <tr>
-                            <td class="">Role</td>
-                            <td class=""><span id="vrole"></span></td>
-                        </tr>
-
-                        <tr>
-                            <td class="">Registration Date</td>
-                            <td class="" colspan="2"><span id="vregdate"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-success ms-2" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script type="text/javascript">
     document.getElementById("platSettings").classList.add('show');

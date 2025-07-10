@@ -47,6 +47,10 @@
             dropdownParent: $('#offcanvasRight')
         });
 
+        $('#userrole').select2({
+            dropdownParent: $('#offcanvasRight')
+        });
+
 
         $('#editPaymentItem').on('show.bs.offcanvas', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
@@ -100,73 +104,29 @@
         })
 
 
-
-        $('#subscriptionDetails').on('show.bs.modal', function(event) {
+        $('#editAdmin').on('show.bs.offcanvas', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
-            var planDetails = button.data('plandetails') // Extract info from data-* attributes
-            var planFee = button.data('planfee') // Extract info from data-* attributes
-            var renewalDate = button.data('renewaldate') // Extract info from data-* attributes
-            var planId = button.data('planid') // Extract info from data-* attributes
+            var myid = button.data('myid') // Extract info from data-* attributes
+            var othernames = button.data('othernames') // Extract info from data-* attributes
+            var lastname = button.data('lastname') // Extract info from data-* attributes
+            var email = button.data('email') // Extract info from data-* attributes
+            var phone = button.data('phone') // Extract info from data-* attributes
+            var role = button.data('role') // Extract info from data-* attributes
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 
-            var modal = $(this)
-            document.getElementById("planDetails").innerHTML = planDetails;
-            document.getElementById("planFee").innerHTML = planFee;
-            document.getElementById("renewalDate").innerHTML = renewalDate;
-            modal.find('.modal-body #planId').val(planId);
+            var offcanvas = $(this)
+            // modal.find('.modal-body #myid').val(myid)
+            offcanvas.find('.offcanvas-body #myid').val(myid)
+            offcanvas.find('.offcanvas-body #othernames').val(othernames)
+            offcanvas.find('.offcanvas-body #lastname').val(lastname)
+            offcanvas.find('.offcanvas-body #email').val(email)
+            offcanvas.find('.offcanvas-body #phone').val(phone)
+            $('#role').select2({
+                dropdownParent: $('#editAdmin'),
+            }).val(role).trigger('change');
         })
 
 
 
-
-        $('#userrole').select2({
-            dropdownParent: $('#offcanvasRight')
-        });
-
-        $('#bank').select2({
-            dropdownParent: $('#withdrawalModal')
-        });
-
-        $('#bank2').select2({
-            dropdownParent: $('#bonusWithdrawalModal')
-        });
-
-
-
-
-
-
-
-
-        // In your Javascript (external .js resource or <script> tag)
-
-
-        $(document).ready(function() {
-            $('#plans').select2();
-        });
-
-        $(document).ready(function() {
-            $('#category').select2();
-        });
-
-        $(document).ready(function() {
-            $('#paymentSchedule').select2();
-        });
-
-        $(document).ready(function() {
-            $('#workMode').select2();
-        });
-
-        $(document).ready(function() {
-            $('#jobStatus').select2();
-        });
-
-        $(document).ready(function() {
-            $('#bannertype').select2();
-        });
-
-        $(document).ready(function() {
-            $('#discat').select2();
-        });
     </script>

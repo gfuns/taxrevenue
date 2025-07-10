@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AccountCreationMail as AccountCreationMail;
 use App\Models\AwardLetter;
 use App\Models\Company;
 use App\Models\CompanyRenewals;
@@ -18,6 +19,7 @@ use Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Mail;
 use Session;
 
 class AdminController extends Controller
@@ -460,6 +462,11 @@ class AdminController extends Controller
         $user->role         = $role->role;
         $user->role_id      = $role->id;
         if ($user->save()) {
+            try {
+                Mail::to($user)->send(new AccountCreationMail($user, $user->phone_number));
+            } catch (\Exception $e) {
+                report($e);
+            }
             toast('User Information Stored Successfully.', 'success');
             return back();
         } else {
@@ -484,7 +491,6 @@ class AdminController extends Controller
             'email'        => 'required',
             'phone_number' => 'required',
             'role'         => 'required',
-            'work_group'   => 'required',
         ]);
 
         if ($validator->fails()) {

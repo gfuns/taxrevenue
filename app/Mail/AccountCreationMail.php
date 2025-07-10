@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Mail;
 
-use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
@@ -20,7 +19,7 @@ class AccountCreationMail extends Mailable
      *
      * @return void
      */
-    public function __construct(protected Customer $user, $password)
+    public function __construct(protected User $user, $password)
     {
         $this->password = $password;
     }
@@ -48,9 +47,7 @@ class AccountCreationMail extends Mailable
         return new Content(
             view: 'emails.account_creation',
             with: [
-                'name' => $this->user->first_name,
-                'role' => $this->user->role,
-                'token' => $this->user->token,
+                'user'     => $this->user,
                 'password' => $this->password,
             ],
         );

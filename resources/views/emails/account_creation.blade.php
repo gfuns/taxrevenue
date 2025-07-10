@@ -26,17 +26,17 @@
         }
 
         .logo img {
-            max-width: 150px;
+            max-width: 345px;
         }
 
         h1 {
-            color: #333333;
+            /* color: #333333; */
             font-size: 24px;
             margin-top: 0;
         }
 
         p {
-            color: #555555;
+            /* color: #555555; */
             font-size: 16px;
             line-height: 1.5;
         }
@@ -56,19 +56,19 @@
 <body>
     <div class="container">
         <div class="logo">
-            <img src="{{ $message->embed(public_path('images/logo.png')) }}" alt="BPP Logo">
+            <img src="{{ $message->embed(public_path('images/logo_mail.png')) }}" alt="BPP Logo">
         </div>
         <h1>Account Creation</h1>
-        <p>Dear {{ $name }},</p>
-        <p>An administrative account with the following role <b>{{ $role }}</b> has been created for you. Your
-            temporary password is: <b>{{ $password }}</b></p>
+        <p>Dear {{ $user->last_name . ', ' . $user->other_names }}</p>
+        <p>An administrative account with the following role <b>{{ $user->role }}</b> has been created for you on the
+            {{ env('APP_NAME') }} Application. Your temporary password is: <b>{{ $password }}</b></p>
         <p>Please use the button below to verify your email address and get started.</p>
-        <div class="code"><a href="{{ env('APP_URL') }}/verify/{{ $token }}"><button
+        <div class="code"><a href="{{ env('APP_URL') }}/verify/{{ $user->token }}"><button
                     class="btn btn-primary btn-md"
-                    style="background: #030E37; border: #030E37; color:white; padding:15px; border-radius: 5px ">Verify
+                    style="background: #38a169; border: #38a169; color:white; padding:15px; border-radius: 5px; font-weight:bold; font-size: 14px ">Verify
                     My Email</button></a></div>
         <p>&nbsp;</p>
-        <p>Thank you,<br>Arete Support Team</p>
+        <p>Thank you,<br>{{ env('APP_NAME') }}</p>
     </div>
 </body>
 
