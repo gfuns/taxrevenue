@@ -43,6 +43,10 @@
                 border: 1px solid #ccc;
             }
         }
+
+        .positionTop {
+            padding-bottom: 700px;
+        }
     </style>
 </head>
 
@@ -60,8 +64,10 @@
 
             <div class="page-ath-form">
                 <h2 class="page-ath-heading text-center">Verify Email
-                    <small style="font-size: 16px; line-height: 25px">A verification code was sent to your registered email
-                        <strong>{{ Auth::user()->email }}</strong>. Please input the 4 digit code provided on the mail to verify your email.</small>
+                    <small style="font-size: 16px; line-height: 25px">A verification code was sent to your registered
+                        email
+                        <strong>{{ Auth::user()->email }}</strong>. Please input the 4 digit code provided on the mail
+                        to verify your email.</small>
                 </h2>
                 <form class="validate" action="{{ route('verifyEmail') }}" method="POST">
                     @csrf
@@ -81,7 +87,8 @@
                 <div class="gaps-4x"></div>
 
                 <div class="form-note">
-                    If you did not get the email please <a href="{{ route("sendVerificationMail") }}"><b>Request Another</b></a>.
+                    If you did not get the email please <a href="{{ route('sendVerificationMail') }}"><b>Request
+                            Another</b></a>.
                 </div>
 
                 <div class="gaps-4x"></div>
@@ -102,25 +109,21 @@
             <div class="page-ath-footer text-center">
 
 
-                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. <br/>All Right Reserved.
+                <div class="copyright-text">&copy; {{ date('Y') }} {{ env('APP_NAME') }}. <br />All Right
+                    Reserved.
                 </div>
             </div>
         </div>
         <div class="page-ath-gfx" style="background-image: url({{ asset('auth/images/ath-gfx.png') }});">
-            <div class="w-100 d-flex justify-content-center">
+            <div class="w-100 d-flex ">
                 <div class="col-md-11 col-xl-11">
-                    <div style="padding-bottom: 30px">
+                    <div class="positionTop">
                         <a href="/"><span
-                                style="background-color: white; color: #690068; padding:10px; border-radius: 20px"><strong>Back
-                                    to Home</strong></span></a>
+                                style="background-color: white; color: green; padding:10px; border-radius: 20px"><strong><i
+                                        class="fas fa-arrow-alt-circle-left"></i> Back
+                                    to Website</strong></span></a>
                     </div>
 
-                    <div style="margin-top: 350px; margin-bottom: 50px">
-                        <span style="color:white; font-size: 72px; font-weight:bolder">Content A</span>
-                        <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Content B</span>
-
-                        <p class="text-white">The No. 1 world class cutting-edge job portal designed for professionals like you to elevate your job search experience!</p>
-                    </div>
                 </div>
             </div>
         </div>

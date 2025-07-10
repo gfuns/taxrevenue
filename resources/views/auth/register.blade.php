@@ -33,6 +33,10 @@
             transform: translateY(-50%);
             cursor: pointer;
         }
+
+        .positionTop {
+            padding-bottom: 700px;
+        }
     </style>
 
 </head>
@@ -131,22 +135,15 @@
             </div>
         </div>
         <div class="page-ath-gfx" style="background-image: url({{ asset('auth/images/ath-gfx.png') }});">
-            <div class="w-100 d-flex justify-content-center">
+            <div class="w-100 d-flex ">
                 <div class="col-md-11 col-xl-11">
-                    <div style="padding-bottom: 50px">
+                    <div class="positionTop">
                         <a href="/"><span
-                                style="background-color: white; color: #690068; padding:10px; border-radius: 20px"><strong>Back
-                                    to Home</strong></span></a>
+                                style="background-color: white; color: green; padding:10px; border-radius: 20px"><strong><i
+                                        class="fas fa-arrow-alt-circle-left"></i> Back
+                                    to Website</strong></span></a>
                     </div>
 
-                    <div style="margin-top:350px; margin-bottom: 150px">
-                        <span style="color:white; font-size: 72px; font-weight:bolder">Content A</span>
-                        <span style="color:#FEBA00; font-size: 72px; font-weight:bolder"> &nbsp;Content B</span>
-
-                        <p class="text-white">The No. 1 world class cutting-edge business directory designed for
-                            businesses
-                            like you to elevate your business experience!</p>
-                    </div>
                 </div>
             </div>
         </div>
