@@ -57,7 +57,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="referrals" href="{{ route("business.awardLetters") }}">
+                <a class="nav-link " id="awards" href="{{ route("business.awardLetters") }}">
                     <i class="nav-icon bi bi-award-fill me-2"></i>
                     Award Letter Request
                 </a>

@@ -88,6 +88,10 @@ Route::group([
 
         Route::get('/award-letters', [BusinessController::class, 'awardLetters'])->name("business.awardLetters");
 
+        Route::get('/award-letters/preview/{reference}', [BusinessController::class, 'awardLettersPreview'])->name("business.awardLettersPreview");
+
+        Route::post('/initiateAwardLetterRequest', [BusinessController::class, 'initiateAwardLetterRequest'])->name("business.initiateAwardLetterRequest");
+
         Route::get('/processing-fees', [BusinessController::class, 'processingFees'])->name("business.processingFees");
 
         Route::get('/processing-fees/preview/{reference}', [BusinessController::class, 'processingFeesPreview'])->name("business.processingFeesPreview");

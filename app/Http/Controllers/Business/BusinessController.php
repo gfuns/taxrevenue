@@ -494,6 +494,115 @@ class BusinessController extends Controller
     }
 
     /**
+     * awardLetters
+     *
+     * @return void
+     */
+    public function awardLetters()
+    {
+        $status = request()->status;
+        $search = request()->search;
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord = AwardLetter::query()->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+
+            $transactions = AwardLetter::query()->orderBy("id", "desc")->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord = AwardLetter::query()->where("company_id", Auth::user()->company->id)->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+
+            $transactions = AwardLetter::query()->orderBy("id", "desc")->where("company_id", Auth::user()->company->id)->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord = AwardLetter::query()->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+
+            $transactions = AwardLetter::query()->orderBy("id", "desc")->where("company_id", Auth::user()->company->id)->whereLike(["reference_number"], $search)->where("status", $status)->paginate(50);
+        } else {
+            $lastRecord   = AwardLetter::where("company_id", Auth::user()->company->id)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = AwardLetter::orderBy("id", "desc")->where('company_id', Auth::user()->company->id)->paginate(50);
+        }
+
+        $mdas = Mda::all();
+        return view("business.award_letters", compact("transactions", "search", "status", "lastRecord", "marker", "mdas"));
+    }
+
+    /**
+     * initiateAwardLetterRequest
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function initiateAwardLetterRequest(Request $request)
+    {
+        $validatedData = $request->validate([
+            'donor_company'     => 'required',
+            'contract_name'     => 'required',
+            'contract_sum'      => 'required',
+            'date_of_award'     => 'required',
+            'date_of_poa'       => 'required',
+            'contract_duration' => 'required',
+            'mda'               => 'required',
+        ]);
+
+        try {
+            $reference = $this->genTrxReference();
+
+            $item = PaymentItem::find(3);
+
+            DB::beginTransaction();
+
+            $trx                    = new AwardLetter;
+            $trx->reference_number  = $reference;
+            $trx->company_id        = Auth::user()->company->id;
+            $trx->company_name      = $request->company_name;
+            $trx->contract_name     = $request->contract_name;
+            $trx->contract_amount   = $request->contract_sum;
+            $trx->award_date        = $request->date_of_award;
+            $trx->contract_duration = $request->contract_duration;
+            $trx->mda               = $request->mda;
+            $trx->amount_paid       = $item->amount;
+            $trx->save();
+
+            $fee = $this->getFee($item->id, $trx->amount_paid);
+
+            $paymentLog                   = new CompanyPayments;
+            $paymentLog->user_id          = Auth::user()->id;
+            $paymentLog->company_id       = $trx->company_id;
+            $paymentLog->payment_item_id  = $item->id;
+            $paymentLog->reference_number = $trx->reference_number;
+            $paymentLog->amount_paid      = $trx->amount_paid;
+            $paymentLog->fee_charged      = $fee;
+            $paymentLog->total            = ($trx->amount_paid + $fee);
+            $paymentLog->save();
+
+            DB::commit();
+            return redirect()->route("business.awardLettersPreview", [$trx->reference_number]);
+        } catch (\Exception $e) {
+            report($e);
+            DB::rollback();
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+
+    }
+
+    /**
+     * awardLettersPreview
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function awardLettersPreview($reference)
+    {
+        $trx     = AwardLetter::where("reference_number", $reference)->first();
+        $payment = CompanyPayments::where("reference_number", $reference)->first();
+        return view("business.award_letters_preview", compact("trx", "payment"));
+    }
+
+    /**
      * processPayment
      *
      * @param Request reference

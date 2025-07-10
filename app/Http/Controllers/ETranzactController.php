@@ -149,4 +149,50 @@ class ETranzactController extends Controller
             return redirect()->route("business.processingFeesPreview", [$reference]);
         }
     }
+
+    public function handleAwardCallback(Request $request)
+    {
+        $reference = "BSPPC-" . $request->reference;
+
+        $response = Http::accept('application/json')->withHeaders([
+            'authorization' => env('CREDO_SECRET_KEY'),
+            'content_type'  => "Content-Type: application/json",
+        ])->get(env("CREDO_URL") . "/transaction/{$request->reference}/verify");
+
+        $payment = $response->collect("data");
+
+        $status  = $payment["status"];
+        $message = $payment["statusMessage"] == "Successfully processed" ? "paid" : "failed";
+
+        $paymentData = CompanyPayments::where("reference_number", $reference)->first();
+
+        if (isset($paymentData)) {
+
+            try {
+                DB::beginTransaction();
+
+                $paymentData->status = $message;
+                $paymentData->save();
+
+                $trx         = AwardLetter::where("reference_number", $reference)->first();
+                $trx->status = $message;
+                $trx->save();
+
+                DB::commit();
+
+                toast("Payment Received Successfully", 'success');
+                return redirect()->route("business.awardLetters", [$reference]);
+
+            } catch (\Exception $e) {
+                DB::rollback();
+                report($e);
+
+                toast("We Could Not Settle This Transaction.", 'error');
+                return redirect()->route("business.awardLettersPreview", [$reference]);
+            }
+        } else {
+            toast("Something Went Wrong.", 'error');
+            return redirect()->route("business.awardLettersPreview", [$reference]);
+        }
+    }
 }
