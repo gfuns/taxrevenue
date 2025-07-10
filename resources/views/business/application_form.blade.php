@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <form method="POST" action="{{ route('business.submitApplication') }}" class="needs-validation">
+    <form method="POST" action="{{ route('business.submitApplication') }}" class="needs-validation" novalidate>
         @csrf
         <div class="row">
             <div class="offset-xl-1 col-xl-10 col-lg-10 col-md-12 col-12">
@@ -41,7 +41,7 @@
 
                         <div class="mb-3 col-md-12">
                             <!-- Title -->
-                            <label for="companyName" class="form-label">Company Name</label>
+                            <label class="form-label">Company Name</label>
                             <input type="text" name="company_name" id="companyName" class="form-control text-dark"
                                 placeholder="Company Name" required>
                             <div class="invalid-feedback">Please provide a response.</div>
@@ -49,7 +49,7 @@
 
                         <div class="mb-3 col-md-12">
                             <!-- Title -->
-                            <label for="companyAddress" class="form-label">Company Address</label>
+                            <label class="form-label">Company Address</label>
                             <input type="text" name="company_adress" id="companyAddress"
                                 class="form-control text-dark" placeholder="Company Address" required>
                             <div class="invalid-feedback">Please provide a response.</div>
@@ -57,7 +57,7 @@
 
                         <div class="mb-3 col-md-12">
                             <!-- Title -->
-                            <label for="" class="form-label">What Business Do You Seek Registration
+                            <label class="form-label">What Business Do You Seek Registration
                                 For?</label>
                             <div class="row ms-2">
                                 @foreach ($bizCategories as $bc)
@@ -75,7 +75,7 @@
 
                         <div class="mb-3 col-md-12">
                             <!-- Title -->
-                            <label for="prevReg" class="form-label">Are You Registered With Any Works Registration
+                            <label class="form-label">Are You Registered With Any Works Registration
                                 Board?</label>
                             <select name="previously_registered" class="form-select text-dark" id="auttrigger1"
                                 required>
@@ -89,35 +89,35 @@
                         <div id="autopt1" style="display: none">
                             <div class="row">
                                 <div class="mb-3 col-md-6">
-                                    <label for="class" class="form-label">Which Class?</label>
+                                    <label class="form-label">Which Class?</label>
                                     <input type="text" name="class" id="class" class="form-control text-dark"
                                         placeholder="Which Class?">
                                     <div class="invalid-feedback">Please provide a response.</div>
                                 </div>
 
                                 <div class="mb-3 col-md-6">
-                                    <label for="where" class="form-label">Where?</label>
+                                    <label class="form-label">Where?</label>
                                     <input type="text" name="where" id="where" class="form-control text-dark"
                                         placeholder="Where?">
                                     <div class="invalid-feedback">Please provide a response.</div>
                                 </div>
 
                                 <div class="mb-3 col-md-6">
-                                    <label for="whatworks" class="form-label">For What Works?</label>
+                                    <label class="form-label">For What Works?</label>
                                     <input type="text" name="what_works" id="whatworks"
                                         class="form-control text-dark" placeholder="For What Works?">
                                     <div class="invalid-feedback">Please provide a response.</div>
                                 </div>
 
                                 <div class="mb-3 col-md-6">
-                                    <label for="when" class="form-label">When?</label>
+                                    <label class="form-label">When?</label>
                                     <input type="text" name="when" id="when" class="form-control text-dark"
                                         placeholder="When?">
                                     <div class="invalid-feedback">Please provide a response.</div>
                                 </div>
 
                                 <div class="mb-3 col-md-6">
-                                    <label for="certNo" class="form-label">What Is The Registration Number Of The
+                                    <label class="form-label">What Is The Registration Number Of The
                                         Certificate?</label>
                                     <input type="text" name="registration_number" id="certNo"
                                         class="form-control text-dark"
@@ -126,7 +126,7 @@
                                 </div>
 
                                 <div class="mb-3 col-md-6">
-                                    <label for="certificateValidity" class="form-label">Is The Certiticate Of
+                                    <label class="form-label">Is The Certiticate Of
                                         Registration Still Valid?</label>
                                     <select name="certificate_validity" class="form-select text-dark"
                                         id="certificateValidity" style="width: 100%">
@@ -138,7 +138,7 @@
                                 </div>
 
                                 <div class="mb-3 col-md-12">
-                                    <label for="invalidityReason" class="form-label">If Not Why?</label>
+                                    <label class="form-label">If Not Why?</label>
                                     <input type="text" name="invalidity_reason" id="invalidityReason"
                                         class="form-control text-dark"
                                         placeholder="Why is certificate no longer valid?">
@@ -149,7 +149,7 @@
                         </div>
                         <div class="mb-3 col-md-12">
                             <!-- Title -->
-                            <label for="auttrigger2" class="form-label">Do You Have Experience Or Qualification In the
+                            <label class="form-label">Do You Have Experience Or Qualification In the
                                 Field You Wish To Be Registered?</label>
                             <select name="experience" class="form-select text-dark" id="auttrigger2" required>
                                 <option value="">Select Response</option>
@@ -162,7 +162,7 @@
                         <div id="autopt2" style="display: none">
                             <div class="mb-3 col-md-12">
                                 <!-- Title -->
-                                <label for="experienceDet" class="form-label">Give Details Of Your Experience In The
+                                <label class="form-label">Give Details Of Your Experience In The
                                     Business</label>
                                 <input type="text" name="experience_details" id="experienceDet"
                                     class="form-control text-dark"
@@ -173,7 +173,7 @@
 
                         <div class="mb-3 col-md-12">
                             <!-- Title -->
-                            <label for="capital" class="form-label">How Much Capital Do You Have Available For This
+                            <label class="form-label">How Much Capital Do You Have Available For This
                                 Business?</label>
                             <input type="text" name="capital" id="capital"
                                 class="form-control text-dark"
@@ -183,7 +183,7 @@
 
                         <div class="mb-3 col-md-12">
                             <!-- Title -->
-                            <label for="auttrigger3" class="form-label">Do You Operate A Bank Account For Your
+                            <label class="form-label">Do You Operate A Bank Account For Your
                                 Business?</label>
                             <select name="bank_exist" class="form-select text-dark" id="auttrigger3" required>
                                 <option value="">Select Response</option>
@@ -196,28 +196,28 @@
                         <div id="autopt3" style="display: none">
                             <div class="row">
                                 <div class="mb-3 col-md-6">
-                                    <label for="bankName" class="form-label">Bank Name</label>
+                                    <label class="form-label">Bank Name</label>
                                     <input type="text" name="bank_name" id="bankName"
                                         class="form-control text-dark" placeholder="Bank Name" required>
                                     <div class="invalid-feedback">Please provide a response.</div>
                                 </div>
 
                                 <div class="mb-3 col-md-6">
-                                    <label for="bankBranch" class="form-label">Bank Branch</label>
+                                    <label class="form-label">Bank Branch</label>
                                     <input type="text" name="bank_branch" id="bankBranch"
                                         class="form-control text-dark" placeholder="Bank Branch" required>
                                     <div class="invalid-feedback">Please provide a response.</div>
                                 </div>
 
                                 <div class="mb-3 col-md-6">
-                                    <label for="accNo" class="form-label">Account Number</label>
+                                    <label class="form-label">Account Number</label>
                                     <input type="text" name="account_number" id="accNo"
                                         class="form-control text-dark" placeholder="Account Number" required>
                                     <div class="invalid-feedback">Please provide a response.</div>
                                 </div>
 
                                 <div class="mb-3 col-md-6">
-                                    <label for="postCode" class="form-label">Postal Code</label>
+                                    <label class="form-label">Postal Code</label>
                                     <input type="text" name="postal_code" id="postCode"
                                         class="form-control text-dark" placeholder="Postal Code" required>
                                     <div class="invalid-feedback">Please provide a response.</div>
@@ -227,7 +227,7 @@
                         </div>
                         <div class="mb-3 col-md-12">
                             <!-- Title -->
-                            <label for="postTitle" class="form-label">Are You Applying For The Upgrading Of Your
+                            <label class="form-label">Are You Applying For The Upgrading Of Your
                                 Former Registration Certificate?</label>
                             <select name="upgrading" class="form-select text-dark" id="upgrading" required>
                                 <option value="">Select Response</option>
@@ -241,7 +241,7 @@
                         <div class="col-md-8"></div>
                         <!-- button -->
                         <div class="col-12">
-                            <button class="btn btn-success w-100" type="button">Submit And Proceed</button>
+                            <button class="btn btn-success w-100" type="submit">Submit And Proceed</button>
 
                         </div>
                     </div>

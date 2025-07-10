@@ -69,7 +69,7 @@
                             <div class="col-md-8"></div>
                             <!-- button -->
                             <div class="col-12">
-                                <button class="btn btn-success w-100" type="button"
+                                <button class="btn btn-success w-100" type="submit"
                                     onClick="this.disabled=true; this.innerHTML='Submiting request, please wait...';this.form.submit();">Proceeed
                                     To Payment</button>
 
