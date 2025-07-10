@@ -94,6 +94,18 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link " id="categories" href="{{ route('admin.paymentItems') }}">
+                                Business Categories
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link " id="documents" href="{{ route('admin.paymentItems') }}">
+                                Document Mgt.
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link " id="payItems" href="{{ route('admin.paymentItems') }}">
                                 Payment Items
                             </a>

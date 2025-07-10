@@ -47,85 +47,74 @@
             dropdownParent: $('#offcanvasRight')
         });
 
-
-        $('#subscriptionDetails').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var planDetails = button.data('plandetails') // Extract info from data-* attributes
-            var planFee = button.data('planfee') // Extract info from data-* attributes
-            var renewalDate = button.data('renewaldate') // Extract info from data-* attributes
-            var planId = button.data('planid') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            var modal = $(this)
-            document.getElementById("planDetails").innerHTML = planDetails;
-            document.getElementById("planFee").innerHTML = planFee;
-            document.getElementById("renewalDate").innerHTML = renewalDate;
-            modal.find('.modal-body #planId').val(planId);
-        })
-
-
-
-
-        $('#userrole').select2({
-            dropdownParent: $('#offcanvasRight')
-        });
-
-        $('#bank').select2({
-            dropdownParent: $('#withdrawalModal')
-        });
-
-        $('#bank2').select2({
-            dropdownParent: $('#bonusWithdrawalModal')
-        });
-
-        $('#editRole').on('show.bs.offcanvas', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var myid = button.data('myid') // Extract info from data-* attributes
-            var role = button.data('role') // Extract info from data-* attributes
-
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            var offcanvas = $(this)
-            // modal.find('.modal-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #role').val(role)
-        })
-
-
-
-
-
-
-        // In your Javascript (external .js resource or <script> tag)
-
-
         $(document).ready(function() {
-            $('#plans').select2();
+            $('#auttrigger1').select2();
         });
 
         $(document).ready(function() {
-            $('#category').select2();
+            $('#certificateValidity').select2();
         });
 
         $(document).ready(function() {
-            $('#paymentSchedule').select2();
+            $('#auttrigger2').select2();
         });
 
         $(document).ready(function() {
-            $('#workMode').select2();
+            $('#auttrigger3').select2();
         });
 
         $(document).ready(function() {
-            $('#jobStatus').select2();
+            $('#upgrading').select2();
         });
 
-        $(document).ready(function() {
-            $('#bannertype').select2();
+        $("#auttrigger1").change(function() {
+            var configType = $(this).val();
+            if (configType == "Yes") {
+                 $("#autopt1").css("display", "block");
+                 $("#certificateValidity").attr("required", true);
+                 $("#invalidityReason").attr("required", true);
+                 $("#certNo").attr("required", true);
+                 $("#when").attr("required", true);
+                 $("#where").attr("required", true);
+                 $("#class").attr("required", true);
+                 $("#whatworks").attr("required", true);
+            } else {
+                $("#autopt1").css("display", "none");
+                $("#certificateValidity").removeAttr("required");
+                $("#invalidityReason").removeAttr("required");
+                $("#certNo").removeAttr("required");
+                $("#when").removeAttr("required");
+                $("#where").removeAttr("required");
+                $("#class").removeAttr("required");
+                $("#whatworks").removeAttr("required");
+            }
         });
 
-        $(document).ready(function() {
-            $('#discat').select2();
+        $("#auttrigger2").change(function() {
+            var configType = $(this).val();
+            if (configType == "Yes") {
+                 $("#autopt2").css("display", "block");
+                 $("#experienceDet").attr("required", true);
+            } else {
+                $("#autopt2").css("display", "none");
+                $("#experienceDet").removeAttr("required");
+            }
+        });
+
+        $("#auttrigger3").change(function() {
+            var configType = $(this).val();
+            if (configType == "Yes") {
+                 $("#autopt3").css("display", "block");
+                 $("#bankName").attr("required", true);
+                 $("#bankBranch").attr("required", true);
+                 $("#accNo").attr("required", true);
+                 $("#postCode").attr("required", true);
+            } else {
+                $("#autopt3").css("display", "none");
+                $("#bankName").removeAttr("required");
+                $("#bankBranch").removeAttr("required");
+                $("#accNo").removeAttr("required");
+                $("#postCode").removeAttr("required");
+            }
         });
     </script>

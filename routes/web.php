@@ -102,6 +102,10 @@ Route::group([
         Route::post('/initiatePRFRemittance', [BusinessController::class, 'initiatePRFRemittance'])->name("business.initiatePRFRemittance");
 
         Route::post('/processPayment', [BusinessController::class, 'processPayment'])->name("business.processPayment");
+
+        Route::post('/purchaseRegForm', [BusinessController::class, 'purchaseRegForm'])->name("business.purchaseRegForm");
+
+        Route::post('/submitApplication', [BusinessController::class, 'submitApplication'])->name("business.submitApplication");
     });
 });
 
@@ -182,3 +186,5 @@ Route::get('/etranzact/renewal/callback', [ETranzactController::class, 'handleRe
 Route::get('/etranzact/poa/callback', [ETranzactController::class, 'handlePOACallback'])->name("etranzact.poa.callBack");
 Route::get('/etranzact/award/callback', [ETranzactController::class, 'handleAwardCallback'])->name("etranzact.award.callBack");
 Route::get('/etranzact/prf/callback', [ETranzactController::class, 'handlePRFCallback'])->name("etranzact.prf.callBack");
+Route::get('/etranzact/regform/callback', [ETranzactController::class, 'handleRegFormCallback'])->name("etranzact.regform.callBack");
+Route::get('/etranzact/regfee/callback', [ETranzactController::class, 'handleRegFeeCallback'])->name("etranzact.regfee.callBack");

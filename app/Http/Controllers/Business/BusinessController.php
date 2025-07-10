@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
 use App\Models\AwardLetter;
+use App\Models\BusinessCategories;
 use App\Models\CompanyPayments;
 use App\Models\CompanyRenewals;
 use App\Models\Mda;
@@ -301,9 +302,26 @@ class BusinessController extends Controller
 
     }
 
+    /**
+     * companyRegistration
+     *
+     * @return void
+     */
     public function companyRegistration()
     {
-
+        $formPurchase = CompanyPayments::where("user_id", Auth::user()->id)->where("payment_item_id", 5)->where("status", "paid")->first();
+        if (isset($formPurchase)) {
+            $paidRegFee = CompanyPayments::where("user_id", Auth::user()->id)->where("payment_item_id", 6)->where("status", "paid")->first();
+            if (isset($paidRegFee)) {
+                return view("business.registration_details");
+            } else {
+                $bizCategories = BusinessCategories::where("status", "active")->get();
+                return view("business.application_form", compact("bizCategories"));
+            }
+        } else {
+            $payment = PaymentItem::find(5);
+            return view("business.purchase_form", compact("payment"));
+        }
     }
 
     /**
@@ -834,6 +852,60 @@ class BusinessController extends Controller
         } catch (\Exception $e) {
             report($e);
             toast('Error initializing payment gateway. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * purchaseRegForm
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function purchaseRegForm(Request $request)
+    {
+
+        $item = PaymentItem::find(5);
+        $fee  = $this->getFee($item->id, $item->amount);
+
+        $paymentLog                   = new CompanyPayments;
+        $paymentLog->user_id          = Auth::user()->id;
+        $paymentLog->payment_item_id  = $item->id;
+        $paymentLog->reference_number = $this->genTrxReference();
+        $paymentLog->amount_paid      = $item->amount;
+        $paymentLog->fee_charged      = $fee;
+        $paymentLog->total            = ($item->amount + $fee);
+        if ($paymentLog->save()) {
+
+            try {
+                $response = Http::accept('application/json')->withHeaders([
+                    'authorization' => env('CREDO_PUBLIC_KEY'),
+                    'content_type'  => "Content-Type: application/json",
+                ])->post(env("CREDO_URL") . "/transaction/initialize", [
+                    "email"       => Auth::user()->email,
+                    "amount"      => ($paymentLog->total * 100),
+                    "reference"   => str_replace("BSPPC-", "", $paymentLog->reference_number),
+                    "narration"   => "Company Registration Form Purchase",
+                    "callbackUrl" => route("etranzact.regform.callBack"),
+                    "bearer"      => 0,
+                ]);
+
+                $responseData = $response->collect("data");
+
+                if (isset($responseData['authorizationUrl'])) {
+                    return redirect($responseData['authorizationUrl']);
+                }
+
+                toast("Credo E-Tranzact gateway service took too long to respond.", 'error');
+                return back();
+            } catch (\Exception $e) {
+                report($e);
+                toast('Error initializing payment gateway. Please try again', 'error');
+                return back();
+            }
+        } else {
+            toast('Something Went Wrong. Please try again', 'error');
             return back();
         }
     }

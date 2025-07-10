@@ -297,7 +297,7 @@ class AdminController extends Controller
      */
     public function paymentItems()
     {
-        $paymentItems = PaymentItem::all();
+        $paymentItems = PaymentItem::orderBy("ordering", "asc")->get();
         return view("admin.payment_items", compact("paymentItems"));
     }
 

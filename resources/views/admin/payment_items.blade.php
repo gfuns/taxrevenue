@@ -48,7 +48,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Payment Item</th>
-                                            <th>Applicate Fee</th>
+                                            <th>Amount Payable</th>
                                             <th>Tech. Fee Config.</th>
                                             <th>Technology Fee</th>
                                             <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
@@ -60,7 +60,11 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $item->item }}</td>
-                                                <td>&#8358;{{ number_format($item->amount, 2) }}</td>
+                                                @if ($item->amount == 0.0)
+                                                    <td>10% of Contract Sum</td>
+                                                @else
+                                                    <td>&#8358;{{ number_format($item->amount, 2) }}</td>
+                                                @endif
                                                 <td>{{ ucwords($item->fee_config) }}</td>
                                                 <td>
                                                     @if ($item->fee_config == 'fixed')
@@ -79,7 +83,7 @@
                                                                     class="dropdown-header">Action</span>
 
                                                                 <a class="dropdown-item" href="#"
-                                                                data-bs-toggle="offcanvas"
+                                                                    data-bs-toggle="offcanvas"
                                                                     data-bs-target="#editPaymentItem"
                                                                     data-myid="{{ $item->id }}"
                                                                     data-item="{{ $item->item }}"
@@ -117,25 +121,24 @@
                     </div>
                 </div>
                 <!-- Card Footer -->
-&nbsp;
+                &nbsp;
             </div>
         </div>
     </div>
 </section>
 
-<div class="offcanvas offcanvas-end" data-bs-scroll="false" data-bs-backdrop="true" tabindex="-1"
-    id="editPaymentItem" style="width: 600px;">
+<div class="offcanvas offcanvas-end" data-bs-scroll="false" data-bs-backdrop="true" tabindex="-1" id="editPaymentItem"
+    style="width: 600px;">
     <div class="offcanvas-body" data-simplebar>
         <div class="offcanvas-header px-2 pt-0">
             <h3 class="offcanvas-title" id="offcanvasExampleLabel">Edit Payment Items</h3>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                aria-label="Close"></button>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <!-- card body -->
         <div class="container">
             <!-- form -->
-            <form class="needs-validation" novalidate method="post"
-                action="{{ route('admin.updatePaymentItem') }}" enctype="multipart/form-data">
+            <form class="needs-validation" novalidate method="post" action="{{ route('admin.updatePaymentItem') }}"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <!-- form group -->
@@ -147,27 +150,30 @@
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Application Fee <span class="text-danger">*</span></label>
+                        <label class="form-label">Amount Payable <span class="text-danger">*</span></label>
                         <input id="amount" type="text" class="form-control" name="application_fee"
                             placeholder="Enter Application Fee" required oninput="validateInput(event)">
                         <div class="invalid-feedback">Please provide application fee.</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Technology Fee Configuration <span class="text-danger">*</span></label>
+                        <label class="form-label">Technology Fee Configuration <span
+                                class="text-danger">*</span></label>
                         <select id="feeconfig" name="fee_configuration" class="form-select">
-                                <option value="">Select Technology Fee Configuration</option>
-                                <option value="percentage">Percentage</option>
-                                <option value="fixed">Fixed</option>
-                            </select>
+                            <option value="">Select Technology Fee Configuration</option>
+                            <option value="percentage">Percentage</option>
+                            <option value="fixed">Fixed</option>
+                        </select>
                         <div class="invalid-feedback">Please select technological fee configuration.</div>
                     </div>
 
                     <div id="" class="mb-3 col-12">
-                        <label class="form-label" id="feelab1">Technology Fee </label> <span class="text-danger">*</span>
+                        <label class="form-label" id="feelab1">Technology Fee </label> <span
+                            class="text-danger">*</span>
                         <input id="fee" type="text" class="form-control" name="fee"
                             placeholder="Enter Technology Fee" required oninput="validateInput(event)">
-                        <div class="invalid-feedback">Please enter technological fee <span id="feelab2" style="display: none">(enter percentage to be charged)</span>.</div>
+                        <div class="invalid-feedback">Please enter technological fee <span id="feelab2"
+                                style="display: none">(enter percentage to be charged)</span>.</div>
                     </div>
 
 
