@@ -138,7 +138,7 @@
                                 <div class="col-md-8"></div>
                                 <!-- button -->
                                 <div class="col-12">
-                                    <button class="btn btn-primary" type="button"
+                                    <button class="btn btn-success" type="button"
                                         onClick="this.disabled=true; this.innerHTML='Submiting request, please wait...';this.form.submit();">Change
                                         Password</button>
 

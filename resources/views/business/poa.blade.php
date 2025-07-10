@@ -27,7 +27,7 @@
 
                 <!-- button -->
                 <div>
-                    <a href="#" class="btn btn-primary btn-sm me-2" data-bs-toggle="offcanvas"
+                    <a href="#" class="btn btn-success btn-sm me-2" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight">Apply for Power Of Attorney</a>
                 </div>
             </div>
@@ -113,7 +113,7 @@
                                                 <td class="align-middle">
                                                     <div class="hstack gap-4">
                                                         <span class="dropdown dropstart">
-                                                            <a class="btn btn-primary bg-light-primary text-primary btn-sm"
+                                                            <a class="btn btn-success bg-light-success text-success btn-sm"
                                                                 href="#" role="button" data-bs-toggle="dropdown"
                                                                 data-bs-offset="-20,20" aria-expanded="false">Action</a>
                                                             <span class="dropdown-menu"><span
@@ -253,8 +253,8 @@
                     <div class="col-md-12 border-bottom"></div>
                     <!-- button -->
                     <div class="col-12 mt-4">
-                        <button class="btn btn-primary" type="submit">Submit Application</button>
-                        <button type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="offcanvas"
+                        <button class="btn btn-success" type="submit">Submit Application</button>
+                        <button type="button" class="btn btn-outline-success ms-2" data-bs-dismiss="offcanvas"
                             aria-label="Close">Close</button>
                     </div>
                 </div>

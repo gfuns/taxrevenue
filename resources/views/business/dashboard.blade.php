@@ -34,7 +34,7 @@
         <div class="col-lg-12 col-md-12 col-12">
             <div class="border-bottom pb-3 mb-3 d-lg-flex justify-content-between align-items-center">
                 <div class="mb-3 mb-lg-0">
-                    <h1 class="mb-0 h2 fw-bold">Business Dashboard</h1>
+                    <h1 class="mb-0 h3 fw-bold">Business Dashboard</h1>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                             <h4 class="fs-6 text-uppercase fw-bold ls-md">Current Subscription</h4>
                             <div>
                                 <span
-                                    class="bi bi-award-fill fs-3"></span>
+                                    class="bi bi-award-fill fs-3 text-success"></span>
                             </div>
                         </div>
                         <h4 class="fw-bold mb-1">
@@ -67,7 +67,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-2 lh-1">
                             <h4 class="fs-6 text-uppercase fw-bold ls-md">Arete Wallet Balance</h4>
                             <div>
-                                <span class="bi bi-wallet fs-3 text-primary"></span>
+                                <span class="bi bi-wallet fs-3 text-success"></span>
                             </div>
                         </div>
                         <h4 class="fw-bold mb-1">&#8358;</h4>
@@ -82,7 +82,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-2 lh-1">
                             <h4 class="fs-6 text-uppercase fw-bold ls-md">Referral Points</h4>
                             <div>
-                                <span class="bi bi-balloon-heart-fill fs-3 text-primary"></span>
+                                <span class="bi bi-balloon-heart-fill fs-3 text-success"></span>
                             </div>
                         </div>
                         <h4 class="fw-bold mb-1"></h4>
@@ -97,7 +97,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-2 lh-1">
                             <h4 class="fs-6 text-uppercase fw-bold ls-md">Total Jobs Posted</h4>
                             <div>
-                                <span class="bi bi-briefcase-fill fs-3 text-primary"></span>
+                                <span class="bi bi-briefcase-fill fs-3 text-success"></span>
                             </div>
                         </div>
                         <h4 class="fw-bold mb-1"></h4>
