@@ -42,7 +42,7 @@
                     <!-- card body -->
                     <div class="card-body p-lg-6">
                         <!-- form -->
-                        <form method="post" action="{{ route('business.updateProfile') }}"
+                        <form method="post" action="{{ route('admin.updateProfile') }}"
                             enctype="multipart/form-data">
                             @csrf
                             <div class="row">
@@ -145,7 +145,7 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3 col-md-6 col-12">
-                                    <label class="form-label">nationality<span class="text-danger">*</span></label>
+                                    <label class="form-label">Nationality<span class="text-danger">*</span></label>
                                     <select id="nationality" name="nationality"
                                         class="@error('nationality') is-invalid @enderror" data-width="100%"
                                         required>

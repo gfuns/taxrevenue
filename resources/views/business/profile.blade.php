@@ -145,7 +145,7 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3 col-md-6 col-12">
-                                    <label class="form-label">nationality<span class="text-danger">*</span></label>
+                                    <label class="form-label">Nationality<span class="text-danger">*</span></label>
                                     <select id="nationality" name="nationality"
                                         class="@error('nationality') is-invalid @enderror" data-width="100%"
                                         required>

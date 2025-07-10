@@ -57,7 +57,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('business.dashboard') }}">Dashboard</a>
+                                <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="#">Account Settings</a>
@@ -84,7 +84,7 @@
                     <!-- card body -->
                     <div class="card-body p-lg-6">
                         <!-- form -->
-                        <form method="post" action="{{ route('business.updatePassword') }}">
+                        <form method="post" action="{{ route('admin.updatePassword') }}">
                             @csrf
                             <div class="row">
                                 <!-- form group -->
