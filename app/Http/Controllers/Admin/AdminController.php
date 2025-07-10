@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\AccountCreationMail as AccountCreationMail;
 use App\Models\AwardLetter;
+use App\Models\BusinessCategories;
 use App\Models\Company;
 use App\Models\CompanyRenewals;
 use App\Models\Mda;
@@ -11,6 +12,7 @@ use App\Models\PaymentItem;
 use App\Models\PlatformFeature;
 use App\Models\PowerOfAttorney;
 use App\Models\ProcessingFee;
+use App\Models\UploadableDocs;
 use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\UserRole;
@@ -299,6 +301,238 @@ class AdminController extends Controller
     {
         $paymentItems = PaymentItem::orderBy("ordering", "asc")->get();
         return view("admin.payment_items", compact("paymentItems"));
+    }
+
+    /**
+     * businessCategories
+     *
+     * @return void
+     */
+    public function businessCategories()
+    {
+        $categories = BusinessCategories::all();
+        return view("admin.business_categories", compact("categories"));
+    }
+
+    /**
+     * storeBusinessCategory
+     *
+     * @param Requesr request
+     *
+     * @return void
+     */
+    public function storeBusinessCategory(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'category' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $category           = new BusinessCategories;
+        $category->category = $request->category;
+        if ($category->save()) {
+            toast("Business Category Created Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not create the provided business category", 'error');
+            return back();
+
+        }
+    }
+
+    /**
+     * updateBusinessCategory
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function updateBusinessCategory(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'category_id' => 'required',
+            'category'    => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $category           = BusinessCategories::find($request->category_id);
+        $category->category = $request->category;
+        if ($category->save()) {
+            toast("Business Category Updated Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not updated the selected business category", 'error');
+            return back();
+
+        }
+    }
+
+    /**
+     * activateCategory
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function activateCategory($id)
+    {
+        $user         = BusinessCategories::find($id);
+        $user->status = "active";
+        if ($user->save()) {
+            toast('Category Activated Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * deactivateCategory
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function deactivateCategory($id)
+    {
+        $user         = BusinessCategories::find($id);
+        $user->status = "deactivated";
+        if ($user->save()) {
+            toast('Category Deactivated Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * documentManagement
+     *
+     * @return void
+     */
+    public function documentManagement()
+    {
+        $documents = UploadableDocs::all();
+        return view("admin.document_management", compact("documents"));
+    }
+
+    /**
+     * storeUpDoc
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function storeUpDoc(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'document_title' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $doc                 = new UploadableDocs;
+        $doc->document_title = $request->document_title;
+        if ($doc->save()) {
+            toast("Document Information Captured Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not capture the provided document information", 'error');
+            return back();
+
+        }
+    }
+
+    /**
+     * updateUpDoc
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function updateUpDoc(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'document_id'    => 'required',
+            'document_title' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $doc                 = UploadableDocs::find($request->document_id);
+        $doc->document_title = $request->document_title;
+        if ($doc->save()) {
+            toast("Document Information Updated Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not updated the provided document information", 'error');
+            return back();
+
+        }
+    }
+
+    /**
+     * activateDocument
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function activateDocument($id)
+    {
+        $doc         = UploadableDocs::find($id);
+        $doc->status = "active";
+        if ($doc->save()) {
+            toast('Document Activated Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * deactivateDocument
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function deactivateDocument($id)
+    {
+        $doc         = UploadableDocs::find($id);
+        $doc->status = "deactivated";
+        if ($doc->save()) {
+            toast('Document Deactivated Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
     }
 
     /**

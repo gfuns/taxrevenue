@@ -81,7 +81,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link " id="help" href="#">
+                <a class="nav-link " id="help" href="javascript:void(Tawk_API.toggle())">
                     <i class="nav-icon bi bi-question-octagon-fill me-2"></i>
                     Help Desk
                 </a>

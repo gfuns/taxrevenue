@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('uploadable_docs', function (Blueprint $table) {
             $table->increments("id");
-            $table->string("document");
+            $table->string("document_title");
             $table->enum("status", ["active", "deactivated"])->default('active');
             $table->timestamps();
         });

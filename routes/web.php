@@ -180,6 +180,26 @@ Route::group([
     Route::get('/grant-delete-permission/{role}/{feature}', [AdminController::class, 'grantDeletePermission'])->name('admin.grantDeletePermission');
 
     Route::get('/revoke-delete-permission/{role}/{feature}', [AdminController::class, 'revokeDeletePermission'])->name('admin.revokeDeletePermission');
+
+    Route::get('/business-categories', [AdminController::class, 'businessCategories'])->name('admin.businessCategories');
+
+    Route::get('/document-management', [AdminController::class, 'documentManagement'])->name('admin.documentManagement');
+
+    Route::post('/storeBusinessCategory', [AdminController::class, 'storeBusinessCategory'])->name('admin.storeBusinessCategory');
+
+    Route::post('/updateBusinessCategory', [AdminController::class, 'updateBusinessCategory'])->name('admin.updateBusinessCategory');
+
+    Route::get('/deactivateCategory/{id}', [AdminController::class, 'deactivateCategory'])->name('admin.deactivateCategory');
+
+    Route::get('/activateCategory/{id}', [AdminController::class, 'activateCategory'])->name('admin.activateCategory');
+
+    Route::post('/storeUpDoc', [AdminController::class, 'storeUpDoc'])->name('admin.storeUpDoc');
+
+    Route::post('/updateUpDoc', [AdminController::class, 'updateUpDoc'])->name('admin.updateUpDoc');
+
+    Route::get('/activateDocument/{id}', [AdminController::class, 'activateDocument'])->name('admin.activateDocument');
+
+    Route::get('/deactivateDocument/{id}', [AdminController::class, 'deactivateDocument'])->name('admin.deactivateDocument');
 });
 
 Route::get('/etranzact/renewal/callback', [ETranzactController::class, 'handleRenewalCallback'])->name("etranzact.renewal.callBack");

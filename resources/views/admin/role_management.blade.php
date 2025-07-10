@@ -144,7 +144,7 @@
                         <div class="col-md-12 border-bottom"></div>
                         <!-- button -->
                         <div class="col-12 mt-4">
-                            <button class="btn btn-success" type="submit">Save Changes</button>
+                            <button class="btn btn-success" type="submit">Submit</button>
                             <button type="button" class="btn btn-outline-success ms-2" data-bs-dismiss="offcanvas"
                                 aria-label="Close">Close</button>
                         </div>

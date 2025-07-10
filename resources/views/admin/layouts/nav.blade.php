@@ -94,13 +94,13 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link " id="categories" href="{{ route('admin.paymentItems') }}">
+                            <a class="nav-link " id="categories" href="{{ route('admin.businessCategories') }}">
                                 Business Categories
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link " id="documents" href="{{ route('admin.paymentItems') }}">
+                            <a class="nav-link " id="documents" href="{{ route('admin.documentManagement') }}">
                                 Document Mgt.
                             </a>
                         </li>
