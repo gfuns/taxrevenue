@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\TwofactorController;
 use App\Http\Controllers\ETranzactController;
@@ -100,6 +101,39 @@ Route::group([
 
         Route::post('/processPayment', [BusinessController::class, 'processPayment'])->name("business.processPayment");
     });
+});
+
+Route::group([
+    'prefix'     => 'admin',
+    'middleware' => ['webauthenticated', 'g2fa'],
+
+], function ($router) {
+
+    Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    Route::get('/view-profile', [AdminController::class, 'viewProfile'])->name("admin.viewProfile");
+
+    Route::get('/change-password', [AdminController::class, 'changePassword'])->name("admin.changePassword");
+
+    Route::post('/update-profile', [AdminController::class, 'updateProfile'])->name("admin.updateProfile");
+
+    Route::post('/update-password', [AdminController::class, 'updatePassword'])->name("admin.updatePassword");
+
+    Route::get('/security', [AdminController::class, 'security'])->name("admin.security");
+
+    Route::post('/select2FA', [AdminController::class, 'select2FA'])->name("admin.select2FA");
+
+    Route::post('/enableGA', [AdminController::class, 'enableGA'])->name("admin.enableGA");
+
+    Route::get('company-registrations', [AdminController::class, 'companyRegistrations'])->name('admin.companyRegistrations');
+
+    Route::get('/company-renewals', [AdminController::class, 'companyRenewals'])->name("admin.companyRenewals");
+
+    Route::get('/award-letters', [AdminController::class, 'awardLetters'])->name("admin.awardLetters");
+
+    Route::get('/processing-fees', [AdminController::class, 'processingFees'])->name("admin.processingFees");
+
+    Route::get('/power-of-attorney', [AdminController::class, 'powerOfAttorney'])->name("admin.powerOfAttorney");
 });
 
 Route::get('/etranzact/renewal/callback', [ETranzactController::class, 'handleRenewalCallback'])->name("etranzact.renewal.callBack");

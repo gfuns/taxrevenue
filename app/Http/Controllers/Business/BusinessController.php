@@ -419,6 +419,11 @@ class BusinessController extends Controller
         return view("business.company_renewal_preview", compact("trx", "payment"));
     }
 
+    /**
+     * powerOfAttorney
+     *
+     * @return void
+     */
     public function powerOfAttorney()
     {
         $status = request()->status;

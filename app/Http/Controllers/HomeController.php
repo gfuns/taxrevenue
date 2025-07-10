@@ -68,7 +68,7 @@ class HomeController extends Controller
             if (Auth::user()->profile_updated == 1) {
                 return redirect()->route("admin.dashboard");
             } else {
-                return redirect()->route("business.viewProfile");
+                return redirect()->route("admin.viewProfile");
             }
         }
     }
