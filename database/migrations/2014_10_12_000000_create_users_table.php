@@ -31,6 +31,7 @@ return new class extends Migration
             $table->enum('status', ['active', 'suspended'])->default('active');
             $table->string('auth_2fa')->nullable();
             $table->string('google2fa_secret')->nullable();
+            $table->string('token')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

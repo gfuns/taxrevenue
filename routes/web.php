@@ -31,6 +31,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/authy', [HomeController::class, 'authy'])->name('authy');
 
+Route::get('/account/email/verify/{token}', [OnboardingController::class, 'verifyWithLink']);
+
 Route::post('/verify-email', [OnboardingController::class, 'verifyEmail'])->name("verifyEmail");
 
 Route::get('/send-verification-mail', [OnboardingController::class, 'sendVerificationMail'])->name("sendVerificationMail");

@@ -63,7 +63,7 @@
         <p>An administrative account with the following role <b>{{ $user->role }}</b> has been created for you on the
             {{ env('APP_NAME') }} Application. Your temporary password is: <b>{{ $password }}</b></p>
         <p>Please use the button below to verify your email address and get started.</p>
-        <div class="code"><a href="{{ env('APP_URL') }}/verify/{{ $user->token }}"><button
+        <div class="code"><a href="{{ env('APP_URL') }}/account/email/verify/{{ $user->token }}"><button
                     class="btn btn-primary btn-md"
                     style="background: #38a169; border: #38a169; color:white; padding:15px; border-radius: 5px; font-weight:bold; font-size: 14px ">Verify
                     My Email</button></a></div>

@@ -78,7 +78,7 @@
         <div class="page-ath-content">
             <div class="page-ath-header text-center">
                 <a href="/" class="page-ath-logo">
-                    <img class="page-ath-logo-img" src="{{ asset('files/general/logo.png') }}"
+                    <img class="page-ath-logo-img" src="{{ asset('images/logo_mail.png') }}"
                         alt="{{ env('APP_NAME') }}" style="max-width: 345px">
                 </a>
             </div>

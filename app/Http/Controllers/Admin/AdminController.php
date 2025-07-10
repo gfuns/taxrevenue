@@ -19,6 +19,7 @@ use Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Mail;
 use Session;
 
@@ -461,6 +462,7 @@ class AdminController extends Controller
         $user->password     = Hash::make($request->phone_number);
         $user->role         = $role->role;
         $user->role_id      = $role->id;
+        $user->token        = Str::random(60);
         if ($user->save()) {
             try {
                 Mail::to($user)->send(new AccountCreationMail($user, $user->phone_number));
