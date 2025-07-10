@@ -109,7 +109,7 @@
                             <label for="remember-me">Remember Me</label>
                         </div>
                         <div>
-                            <a href="/password/reset">Forgot password?</a>
+                            <a href="/password/reset"><strong>Forgot password?</strong></a>
                             <div class="gaps-2x"></div>
                         </div>
                     </div>
