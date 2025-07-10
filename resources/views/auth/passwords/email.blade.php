@@ -10,8 +10,30 @@
     <link rel="stylesheet" href="{{ asset('auth/assets/css/style.css') }}">
 
     <style type="text/css">
+           .page-ath-gfx {
+            background-image: url("{{ asset('auth/images/ath-gfx.png') }}");
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            height: 100vh;
+            /* or your desired height */
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            /* adjust opacity here */
+            z-index: 1;
+        }
+
         .positionTop {
+            position: relative;
             padding-bottom: 700px;
+            z-index: 2; /* put above overlay */
         }
     </style>
 </head>
@@ -59,7 +81,8 @@
                 </div>
             </div>
         </div>
-        <div class="page-ath-gfx" style="background-image: url({{ asset('auth/images/ath-gfx.png') }});">
+        <div class="page-ath-gfx">
+            <div class="bg-overlay"></div>
             <div class="w-100 d-flex ">
                 <div class="col-md-11 col-xl-11">
                     <div class="positionTop">

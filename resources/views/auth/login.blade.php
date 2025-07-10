@@ -26,10 +26,6 @@
             cursor: pointer;
         }
 
-        .positionTop {
-            padding-bottom: 700px;
-        }
-
         .page-ath-gfx {
             background-image: url("{{ asset('auth/images/ath-gfx.png') }}");
             background-size: cover;
@@ -48,6 +44,12 @@
             background-color: rgba(0, 0, 0, 0.4);
             /* adjust opacity here */
             z-index: 1;
+        }
+
+        .positionTop {
+            position: relative;
+            padding-bottom: 700px;
+            z-index: 2; /* put above overlay */
         }
     </style>
 
