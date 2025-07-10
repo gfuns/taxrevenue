@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\AwardLetter;
 use App\Models\CompanyPayments;
 use App\Models\CompanyRenewals;
 use App\Models\PowerOfAttorney;

@@ -76,10 +76,21 @@
                                         <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
                                     </tr>
 
+                                    <tr>
+                                        <td><b>Uploaded Documents:</b></td>
+                                        <td>
+                                            <ol style="padding-left:17px">
+                                                <li><a href="">BSPPC Certificate (Front and Back)</a></li>
+                                            </ol>
+                                        </td>
+                                    </tr>
+
                                 </table>
                                 <hr />
                                 <div class="mb-4 col-12" style="color: black; ">
-                                    <u><b>Note:</b></u> You will be charged an additional Technology Fee of <b>&#8358;{{ number_format($payment->fee_charged, 2) }}</b> when making your payment.
+                                    <u><b>Note:</b></u> You will be charged an additional Technology Fee of
+                                    <b>&#8358;{{ number_format($payment->fee_charged, 2) }}</b> when making your
+                                    payment.
                                 </div>
                                 <!-- form group -->
                                 <input type="hidden" class="form-control" name="reference"

@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class BusinessController extends Controller
@@ -64,7 +65,7 @@ class BusinessController extends Controller
      */
     public function updateProfile(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'last_name'       => 'required',
             'other_names'     => 'required',
             'phone_number'    => 'required',
@@ -74,6 +75,13 @@ class BusinessController extends Controller
             'dob'             => 'required',
             'contact_address' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
 
         $state = Auth::user()->profile_updated;
 
@@ -139,11 +147,18 @@ class BusinessController extends Controller
      */
     public function updatePassword(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'current_password'          => 'required',
             'new_password'              => 'required',
             'new_password_confirmation' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
 
         $user = Auth::user();
 
@@ -216,13 +231,20 @@ class BusinessController extends Controller
      */
     public function initiateCompanyRenewal(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'registration_number' => 'required',
             'period'              => 'required',
             'company_email'       => 'required',
             'phone_number'        => 'required',
             'expiry_date'         => 'required',
         ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
 
         try {
             $reference = $this->genTrxReference();
@@ -319,7 +341,7 @@ class BusinessController extends Controller
      */
     public function initiatePOAApplication(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'donor_company'     => 'required',
             'contract_name'     => 'required',
             'contract_sum'      => 'required',
@@ -328,6 +350,13 @@ class BusinessController extends Controller
             'contract_duration' => 'required',
             'mda'               => 'required',
         ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
 
         try {
             $reference = $this->genTrxReference();
@@ -429,13 +458,20 @@ class BusinessController extends Controller
      */
     public function initiatePRFRemittance(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'contract_name'     => 'required',
             'contract_sum'      => 'required',
             'date_of_award'     => 'required',
             'contract_duration' => 'required',
             'mda'               => 'required',
         ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
 
         try {
             $reference = $this->genTrxReference();
@@ -536,15 +572,21 @@ class BusinessController extends Controller
      */
     public function initiateAwardLetterRequest(Request $request)
     {
-        $validatedData = $request->validate([
-            'donor_company'     => 'required',
+        $validator = Validator::make($request->all(), [
             'contract_name'     => 'required',
             'contract_sum'      => 'required',
             'date_of_award'     => 'required',
-            'date_of_poa'       => 'required',
             'contract_duration' => 'required',
             'mda'               => 'required',
+            'tcc'               => 'required',
         ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
 
         try {
             $reference = $this->genTrxReference();
@@ -556,13 +598,17 @@ class BusinessController extends Controller
             $trx                    = new AwardLetter;
             $trx->reference_number  = $reference;
             $trx->company_id        = Auth::user()->company->id;
-            $trx->company_name      = $request->company_name;
+            $trx->company_name      = Auth::user()->company->company_name;
             $trx->contract_name     = $request->contract_name;
             $trx->contract_amount   = $request->contract_sum;
             $trx->award_date        = $request->date_of_award;
             $trx->contract_duration = $request->contract_duration;
             $trx->mda               = $request->mda;
             $trx->amount_paid       = $item->amount;
+            if ($request->has('tcc')) {
+                $uploadedFileUrl = Cloudinary::upload($request->file('tcc')->getRealPath())->getSecurePath();
+                $trx->tcc_cert   = $uploadedFileUrl;
+            }
             $trx->save();
 
             $fee = $this->getFee($item->id, $trx->amount_paid);

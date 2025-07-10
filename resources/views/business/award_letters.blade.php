@@ -192,7 +192,7 @@
         <!-- card body -->
         <div class="container">
             <!-- form -->
-            <form class="needs-validation" novalidate method="post"
+            <form id="myForm" class="needs-validation" novalidate method="post"
                 action="{{ route('business.initiateAwardLetterRequest') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
@@ -260,7 +260,7 @@
                     <div class="col-md-12 border-bottom"></div>
                     <!-- button -->
                     <div class="col-12 mt-4">
-                        <button class="btn btn-primary" type="submit">Submit Application</button>
+                        <button id="submitBtn" class="btn btn-primary" type="submit">Submit Application</button>
                         <button type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="offcanvas"
                             aria-label="Close">Close</button>
                     </div>
@@ -302,5 +302,10 @@
         // Assign the cleaned value back to the input field
         input.value = value;
     }
+
+
+    // $('#myForm').on('submit', function() {
+    //     $('#submitBtn').prop('disabled', true).text('Submitting...');
+    // });
 </script>
 @endsection
