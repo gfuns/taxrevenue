@@ -125,13 +125,15 @@
                                                                         Payment</a>
                                                                 @endif
 
-                                                                <a class="dropdown-item" href="{{ route("business.companyRenewalDetails", [$trx->reference_number]) }}"><i
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('business.companyRenewalDetails', [$trx->reference_number]) }}"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
 
 
                                                                 @if ($trx->status == 'paid')
-                                                                    <a class="dropdown-item" href="{{ route("receipt.companyRenewal", [$trx->reference_number]) }}"
+                                                                    <a class="dropdown-item"
+                                                                        href="{{ route('receipt.companyRenewal', [$trx->reference_number]) }}"
                                                                         target="_blank"><i
                                                                             class="fe fe-printer dropdown-item-icon"></i>Print
                                                                         Receipt</a>
@@ -199,15 +201,16 @@
 
                     <div class="mb-3 col-12">
                         <label class="form-label">Company Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="company_name"
-                            placeholder="Company Name" value="{{ Auth::user()->company->company_name }}" required readonly>
+                        <input type="text" class="form-control" name="company_name" placeholder="Company Name"
+                            value="{{ Auth::user()->company->company_name }}" required readonly>
                         <div class="invalid-feedback">Please Provide Company Name.</div>
                     </div>
 
                     <div class="mb-3 col-12">
                         <label class="form-label">Company Address <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="company_address"
-                            placeholder="Company Address" value="{{ Auth::user()->company->company_address }}" required readonly>
+                            placeholder="Company Address" value="{{ Auth::user()->company->company_address }}"
+                            required readonly>
                         <div class="invalid-feedback">Please Provide Company Address.</div>
                     </div>
 
@@ -221,13 +224,16 @@
 
                     <div class="mb-3 col-12">
                         <label class="form-label">Number of Years To Renew <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="period"
-                            placeholder="Number of Years To Renew" required>
+                        <select name="period" class="form-select text-dark" id="period" required>
+                            <option value="">Select Renewal Period</option>
+                            <option value="1">1 Year</option>
+                            <option value="2">2 Years</option>
+                        </select>
                         <div class="invalid-feedback">Please Provide Number of Years To Renew.</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Expiry Date <span class="text-danger">*</span></label>
+                        <label class="form-label">Expiry Date Of Previous Certificate<span class="text-danger">*</span></label>
                         <input type="date" class="form-control" name="expiry_date" placeholder="Expiry Date"
                             required>
                         <div class="invalid-feedback">Please Provide Expiry Date.</div>

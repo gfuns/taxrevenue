@@ -972,7 +972,8 @@ class BusinessController extends Controller
         $uuid      = Str::uuid()->toString();
         $hash      = substr(abs(crc32($uuid)), 0, 3); // 32-bit numeric hash
         $timestamp = strtotime(now());                // Add timestamp for more uniqueness
-        $random    = Auth::user()->id . "" . Auth::user()->company->id;
+        $companyId = isset(Auth::user()->company) ? Auth::user()->company->id : 83;
+        $random    = Auth::user()->id . "" . $companyId;
 
         $reference = 'BSPPC-' . $random . $timestamp . $hash;
 

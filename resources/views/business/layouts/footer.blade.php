@@ -42,6 +42,10 @@
             $('#status').select2();
         });
 
+        $(document).ready(function() {
+            $('#period').select2();
+        });
+
 
         $('#mda').select2({
             dropdownParent: $('#offcanvasRight')

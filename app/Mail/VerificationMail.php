@@ -28,7 +28,7 @@ class VerificationMail extends Mailable
     {
         return new Envelope(
             from: new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
-            subject: 'Arete Verification Code: Use the code ' . $this->otp . ' to proceed',
+            subject: 'BSPPC Verification Code: Use the code ' . $this->otp . ' to proceed',
         );
     }
 

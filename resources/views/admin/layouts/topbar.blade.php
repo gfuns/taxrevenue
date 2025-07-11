@@ -4,7 +4,7 @@
     </a>
     <div class="ms-3 mt-1">
         <!-- Form -->
-        <a href="/" data-bs-toggle="tooltip" data-placement="right" title="Visit Landing Page">
+        <a href="/" data-bs-toggle="tooltip" data-placement="right" title="Visit BSPPC Webiste" target="_blank">
             <i class="fe fe-globe" style="font-size: 24px; color: var(--geeks-gray-700);"></i>
         </a>
     </div>
