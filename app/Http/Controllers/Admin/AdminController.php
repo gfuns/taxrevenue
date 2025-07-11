@@ -659,7 +659,25 @@ class AdminController extends Controller
         $status    = request()->status;
         $search    = request()->search;
         $userRoles = UserRole::where("id", ">", 2)->get();
-        $users     = User::where("role_id", ">", 2)->get();
+
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord = User::query()->where("role_id", ">", 2)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $users      = User::query()->where("role_id", ">", 2)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord = User::query()->where("role_id", ">", 2)->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $users      = User::query()->where("role_id", ">", 2)->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord = User::query()->where("role_id", ">", 2)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $users      = User::query()->where("role_id", ">", 2)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->paginate(50);
+        } else {
+            $lastRecord = User::where("role_id", ">", 2)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $users      = User::where("role_id", ">", 2)->paginate(50);
+        }
+
         return view("admin.user_management", compact('users', 'userRoles', 'status', 'search'));
     }
 
@@ -992,11 +1010,25 @@ class AdminController extends Controller
      */
     public function companyRegistrations()
     {
-        $status       = request()->status;
-        $search       = request()->search;
-        $lastRecord   = Company::count();
-        $marker       = $this->getMarkers($lastRecord, request()->page);
-        $transactions = Company::orderBy("id", "desc")->paginate(50);
+        $status = request()->status;
+        $search = request()->search;
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord   = Company::query()->whereLike(["company_name", "bsppc_number", "cac_number"], $search)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = Company::query()->whereLike(["company_name", "bsppc_number", "cac_number"], $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord   = Company::query()->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = Company::query()->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord   = Company::query()->whereLike(["company_name", "bsppc_number", "cac_number"], $search)->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = Company::query()->whereLike(["company_name", "bsppc_number", "cac_number"], $search)->where("status", $status)->paginate(50);
+        } else {
+            $lastRecord   = Company::count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = Company::paginate(50);
+        }
         return view("admin.company_registrations", compact("transactions", "search", "status", "lastRecord", "marker"));
     }
 

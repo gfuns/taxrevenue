@@ -45,7 +45,7 @@
                                 </span>
                                 <!-- input -->
                                 <input name="search" type="search" class="form-control ps-6"
-                                    placeholder="Search Registrations Using BSPPC Number or CAC Number......"
+                                    placeholder="Search Registrations Using Company Name, BSPPC Number or CAC Number......"
                                     value="{{ $search }}">
                             </div>
 
@@ -57,9 +57,9 @@
                                 <option value="">All Statuses</option>
                                 <option value="pending" @if ($status == 'pending') selected @endif>Pending
                                 </option>
-                                <option value="approved" @if ($status == 'paid') selected @endif>Approved
+                                <option value="approved" @if ($status == 'approved') selected @endif>Approved
                                 </option>
-                                <option value="rejected" @if ($status == 'failed') selected @endif>Rejected</option>
+                                <option value="rejected" @if ($status == 'rejected') selected @endif>Rejected</option>
                             </select>
                         </div>
                     </div>
@@ -143,7 +143,7 @@
 
                                         @if (count($transactions) < 1)
                                             <tr>
-                                                <td colspan="7">
+                                                <td colspan="9">
                                                     <center>No Record Found</center>
                                                 </td>
                                             </tr>
