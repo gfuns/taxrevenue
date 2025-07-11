@@ -1033,6 +1033,19 @@ class AdminController extends Controller
     }
 
     /**
+     * companyRenewalDetails
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function companyRenewalDetails($reference)
+    {
+        $trx = CompanyRenewals::where("reference_number", $reference)->first();
+        return view("admin.company_renewal_details", compact("trx"));
+    }
+
+    /**
      * powerOfAttorney
      *
      * @return void
@@ -1064,6 +1077,19 @@ class AdminController extends Controller
 
         $mdas = Mda::all();
         return view("admin.poa", compact("transactions", "search", "status", "lastRecord", "marker", "mdas"));
+    }
+
+    /**
+     * powerOfAttorneyDetails
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function powerOfAttorneyDetails($reference)
+    {
+        $trx = PowerOfAttorney::where("reference_number", $reference)->first();
+        return view("admin.poa_details", compact("trx"));
     }
 
     /**
@@ -1101,6 +1127,19 @@ class AdminController extends Controller
     }
 
     /**
+     * processingFeesDetails
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function processingFeesDetails($reference)
+    {
+        $trx = ProcessingFee::where("reference_number", $reference)->first();
+        return view("admin.processing_fee_details", compact("trx"));
+    }
+
+    /**
      * awardLetters
      *
      * @return void
@@ -1132,6 +1171,19 @@ class AdminController extends Controller
 
         $mdas = Mda::all();
         return view("admin.award_letters", compact("transactions", "search", "status", "lastRecord", "marker", "mdas"));
+    }
+
+    /**
+     * awardLettersDetails
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function awardLettersDetails($reference)
+    {
+        $trx = AwardLetter::where("reference_number", $reference)->first();
+        return view("admin.award_letter_details", compact("trx"));
     }
 
     /**

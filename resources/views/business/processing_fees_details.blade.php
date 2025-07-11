@@ -96,11 +96,14 @@
                         </div>
                         <div class="col-md-8"></div>
                         <!-- button -->
-                        <div class="col-12">
-                            <a href="{{ route('receipt.processingFees', [$trx->reference_number]) }}"
-                                target="_blank"><button class="btn btn-success w-100" type="button">Print Receipt</button></a>
+                        @if ($trx->status == 'paid')
+                            <div class="col-12">
+                                <a href="{{ route('receipt.processingFees', [$trx->reference_number]) }}"
+                                    target="_blank"><button class="btn btn-success w-100" type="button">Print
+                                        Receipt</button></a>
 
-                        </div>
+                            </div>
+                        @endif
                     </div>
 
                 </div>

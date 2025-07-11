@@ -1,7 +1,7 @@
-@extends('business.layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Award Letter Requests')
+@section('title', env('APP_NAME') . ' | Processing Fee Remittance')
 
 <!-- Container fluid -->
 <section class="container-fluid p-4">
@@ -10,7 +10,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-4 d-lg-flex align-items-center justify-content-between">
                 <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-0 h3 fw-bold">Award Letter Requests </h1>
+                    <h1 class="mb-0 h3 fw-bold">Processing Fee Remittance </h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -18,7 +18,7 @@
                                 <a href="{{ route('business.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Award Letter Requests</a>
+                                <a href="#">Processing Fee Remittance</a>
                             </li>
                         </ol>
                     </nav>
@@ -79,18 +79,6 @@
                                 </tr>
 
                                 <tr>
-                                    <td><b>Uploaded Documents:</b></td>
-                                    <td>
-                                        <ol style="padding-left:17px; margin-bottom:0px">
-                                            <li><a href="">Proof of Payment of 1% Processing Fee</a></li>
-                                            <li><a href="">Tax Clearance Certificate for the period of three (3)
-                                                    years</a></li>
-                                            <li><a href="">BSPPC Certificate (Front and Back)</a></li>
-                                            <li><a href="">CAC Certificate</a></li>
-                                        </ol>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td><b>Payment Status:</b></td>
                                     <td>
                                         @if ($trx->status == 'pending')
@@ -108,14 +96,7 @@
                         </div>
                         <div class="col-md-8"></div>
                         <!-- button -->
-                        @if ($trx->status == 'paid')
-                            <div class="col-12">
-                                <a href="{{ route('receipt.awardLetters', [$trx->reference_number]) }}"
-                                    target="_blank"><button class="btn btn-success w-100" type="button">Print
-                                        Receipt</button></a>
 
-                            </div>
-                        @endif
                     </div>
 
                 </div>
@@ -127,7 +108,7 @@
 </section>
 
 <script type="text/javascript">
-    document.getElementById("awards").classList.add('active');
+    document.getElementById("processingfee").classList.add('active');
 </script>
 
 @endsection

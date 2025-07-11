@@ -144,11 +144,19 @@ Route::group([
 
     Route::get('/company-renewals', [AdminController::class, 'companyRenewals'])->name("admin.companyRenewals");
 
+    Route::get('/company-renewals/details/{reference}', [AdminController::class, 'companyRenewalDetails'])->name("admin.companyRenewalDetails");
+
     Route::get('/award-letters', [AdminController::class, 'awardLetters'])->name("admin.awardLetters");
+
+    Route::get('/award-letters/details/{reference}', [AdminController::class, 'awardLettersDetails'])->name("admin.awardLettersDetails");
 
     Route::get('/processing-fees', [AdminController::class, 'processingFees'])->name("admin.processingFees");
 
+    Route::get('/processing-fees/details/{reference}', [AdminController::class, 'processingFeesDetails'])->name("admin.processingFeesDetails");
+
     Route::get('/power-of-attorney', [AdminController::class, 'powerOfAttorney'])->name("admin.powerOfAttorney");
+
+    Route::get('/power-of-attorney/details/{reference}', [AdminController::class, 'powerOfAttorneyDetails'])->name("admin.powerOfAttorneyDetails");
 
     Route::get('/payment-items', [AdminController::class, 'paymentItems'])->name("admin.paymentItems");
 

@@ -1,7 +1,7 @@
-@extends('business.layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Award Letter Requests')
+@section('title', env('APP_NAME') . ' | Power Of Attorney Application')
 
 <!-- Container fluid -->
 <section class="container-fluid p-4">
@@ -10,7 +10,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-4 d-lg-flex align-items-center justify-content-between">
                 <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-0 h3 fw-bold">Award Letter Requests </h1>
+                    <h1 class="mb-0 h3 fw-bold">Power Of Attorney Application </h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -18,7 +18,7 @@
                                 <a href="{{ route('business.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Award Letter Requests</a>
+                                <a href="#">Power Of Attorney Application</a>
                             </li>
                         </ol>
                     </nav>
@@ -38,7 +38,6 @@
                     <!-- card body -->
                     <div class="card-body p-lg-6">
                         <!-- form -->
-
                         <div class="row">
                             <table class="table" style="border-bottom: #fff; color: #000">
                                 <tr>
@@ -46,8 +45,8 @@
                                     <td>{{ $trx->reference_number }}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>Company Name:</b></td>
-                                    <td>{{ $trx->company_name }}</td>
+                                    <td><b>Donor Company:</b></td>
+                                    <td>{{ $trx->donor_company }}</td>
                                 </tr>
                                 <tr>
                                     <td><b>Contract Name/LOT:</b></td>
@@ -61,6 +60,11 @@
                                 <tr>
                                     <td><b>Date of Award:</b></td>
                                     <td>{{ date_format(new DateTime($trx->award_date), 'jS F, Y') }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td><b>Date of Power of Attorney:</b></td>
+                                    <td>{{ date_format(new DateTime($trx->poa_date), 'jS F, Y') }}</td>
                                 </tr>
 
                                 <tr>
@@ -79,18 +83,6 @@
                                 </tr>
 
                                 <tr>
-                                    <td><b>Uploaded Documents:</b></td>
-                                    <td>
-                                        <ol style="padding-left:17px; margin-bottom:0px">
-                                            <li><a href="">Proof of Payment of 1% Processing Fee</a></li>
-                                            <li><a href="">Tax Clearance Certificate for the period of three (3)
-                                                    years</a></li>
-                                            <li><a href="">BSPPC Certificate (Front and Back)</a></li>
-                                            <li><a href="">CAC Certificate</a></li>
-                                        </ol>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td><b>Payment Status:</b></td>
                                     <td>
                                         @if ($trx->status == 'pending')
@@ -108,14 +100,7 @@
                         </div>
                         <div class="col-md-8"></div>
                         <!-- button -->
-                        @if ($trx->status == 'paid')
-                            <div class="col-12">
-                                <a href="{{ route('receipt.awardLetters', [$trx->reference_number]) }}"
-                                    target="_blank"><button class="btn btn-success w-100" type="button">Print
-                                        Receipt</button></a>
 
-                            </div>
-                        @endif
                     </div>
 
                 </div>
@@ -127,7 +112,7 @@
 </section>
 
 <script type="text/javascript">
-    document.getElementById("awards").classList.add('active');
+    document.getElementById("poa").classList.add('active');
 </script>
 
 @endsection

@@ -1,4 +1,4 @@
-@extends('business.layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
 @section('title', env('APP_NAME') . ' | Award Letter Requests')
@@ -108,14 +108,7 @@
                         </div>
                         <div class="col-md-8"></div>
                         <!-- button -->
-                        @if ($trx->status == 'paid')
-                            <div class="col-12">
-                                <a href="{{ route('receipt.awardLetters', [$trx->reference_number]) }}"
-                                    target="_blank"><button class="btn btn-success w-100" type="button">Print
-                                        Receipt</button></a>
 
-                            </div>
-                        @endif
                     </div>
 
                 </div>
