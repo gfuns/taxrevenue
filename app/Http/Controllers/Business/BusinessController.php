@@ -438,6 +438,19 @@ class BusinessController extends Controller
     }
 
     /**
+     * companyRenewalDetails
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function companyRenewalDetails($reference)
+    {
+        $trx = CompanyRenewals::where("reference_number", $reference)->first();
+        return view("business.company_renewal_details", compact("trx"));
+    }
+
+    /**
      * powerOfAttorney
      *
      * @return void
@@ -555,6 +568,19 @@ class BusinessController extends Controller
     }
 
     /**
+     * powerOfAttorneyDetails
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function powerOfAttorneyDetails($reference)
+    {
+        $trx = PowerOfAttorney::where("reference_number", $reference)->first();
+        return view("business.poa_details", compact("trx"));
+    }
+
+    /**
      * processingFees
      *
      * @return void
@@ -666,6 +692,19 @@ class BusinessController extends Controller
         $trx     = ProcessingFee::where("reference_number", $reference)->first();
         $payment = CompanyPayments::where("reference_number", $reference)->first();
         return view("business.processing_fees_preview", compact("trx", "payment"));
+    }
+
+    /**
+     * processingFeesDetails
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function processingFeesDetails($reference)
+    {
+        $trx = ProcessingFee::where("reference_number", $reference)->first();
+        return view("business.processing_fees_details", compact("trx"));
     }
 
     /**
@@ -785,6 +824,19 @@ class BusinessController extends Controller
         $trx     = AwardLetter::where("reference_number", $reference)->first();
         $payment = CompanyPayments::where("reference_number", $reference)->first();
         return view("business.award_letters_preview", compact("trx", "payment"));
+    }
+
+    /**
+     * awardLettersDetails
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function awardLettersDetails($reference)
+    {
+        $trx = AwardLetter::where("reference_number", $reference)->first();
+        return view("business.award_letters_details", compact("trx"));
     }
 
     /**

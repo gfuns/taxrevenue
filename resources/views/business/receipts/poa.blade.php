@@ -131,7 +131,7 @@
         </div>
 
         <div class="item">
-            <span>Application Fee</span><span>&#8358;{{ number_format($trx->amount_paid, 2) }}</span>
+            <span>Amount Paid</span><span>&#8358;{{ number_format($trx->amount_paid, 2) }}</span>
         </div>
 
         <div class="divider"></div>
