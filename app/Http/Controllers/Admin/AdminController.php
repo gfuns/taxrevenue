@@ -766,12 +766,14 @@ class AdminController extends Controller
             return back();
         }
 
+        $role               = UserRole::find($request->role);
         $user               = User::find($request->user_id);
         $user->other_names  = $request->other_names;
         $user->last_name    = $request->last_name;
         $user->email        = $request->email;
         $user->phone_number = $request->phone_number;
-        $user->role_id      = $request->role;
+        $user->role         = $role->role;
+        $user->role_id      = $role->id;
         if ($user->save()) {
             toast('User Information Updated Successfully.', 'success');
             return back();

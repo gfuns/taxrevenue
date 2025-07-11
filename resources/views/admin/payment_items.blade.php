@@ -61,7 +61,7 @@
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $item->item }}</td>
                                                 @if ($item->amount == 0.0)
-                                                    <td>10% of Contract Sum</td>
+                                                    <td>1% of Contract Sum</td>
                                                 @else
                                                     <td>&#8358;{{ number_format($item->amount, 2) }}</td>
                                                 @endif

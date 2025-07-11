@@ -106,8 +106,20 @@
                             </table>
 
                         </div>
+                        <hr />
                         <div class="col-md-8"></div>
                         <!-- button -->
+                        <div class="row col-12 d-flex align-items-center justify-content-between">
+                            <div class="col-6">
+                                <a href="#" target="_blank"><button class="btn btn-success w-100"
+                                        type="button">Approve Request</button></a>
+                            </div>
+                            <div class="col-6">
+                                <a href="#" target="_blank"><button class="btn btn-danger w-100"
+                                        type="button">Reject
+                                        Request</button></a>
+                            </div>
+                        </div>
 
                     </div>
 
