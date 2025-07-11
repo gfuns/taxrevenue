@@ -125,13 +125,13 @@
                                                                         Payment</a>
                                                                 @endif
 
-                                                                <a class="dropdown-item" href="#"><i
+                                                                <a class="dropdown-item" href="{{ route("business.processingFeesDetails", [$trx->reference_number]) }}"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
 
 
                                                                 @if ($trx->status == 'paid')
-                                                                    <a class="dropdown-item" href="#"
+                                                                    <a class="dropdown-item" href="{{ route("receipt.processingFees", [$trx->reference_number]) }}"
                                                                         target="_blank"><i
                                                                             class="fe fe-printer dropdown-item-icon"></i>Print
                                                                         Receipt</a>
