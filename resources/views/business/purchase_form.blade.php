@@ -48,7 +48,6 @@
                                     <br />&nbsp;
                                     <p>
                                         @php
-                                            $amount = 2500;
                                             $formatter = new \NumberFormatter('en', \NumberFormatter::SPELLOUT);
                                             $inWords = ucwords($formatter->format($payment->amount));
                                         @endphp

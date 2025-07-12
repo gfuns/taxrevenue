@@ -20,7 +20,7 @@ return new class extends Migration
             $table->double("amount_paid", 12, 2);
             $table->double("fee_charged", 12, 2);
             $table->double("total", 12, 2);
-            $table->enum("status", ["pending", "paid", "failed"])->default("pending");
+            $table->enum("status", ["pending", "payment successful", "payment failed"])->default("pending");
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

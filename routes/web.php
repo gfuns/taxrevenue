@@ -130,6 +130,8 @@ Route::group([
 
         Route::get('/preview-application/{id}', [BusinessController::class, 'previewApplication'])->name("business.previewApplication");
 
+        Route::get('/resume-application/{id}', [BusinessController::class, 'resumeApplication'])->name("business.resumeApplication");
+
         Route::post('/submitApplication', [BusinessController::class, 'submitApplication'])->name("business.submitApplication");
 
         Route::post('/finalizeApplication', [BusinessController::class, 'finalizeApplication'])->name("business.finalizeApplication");

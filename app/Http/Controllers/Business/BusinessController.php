@@ -313,20 +313,93 @@ class BusinessController extends Controller
      */
     public function companyRegistration()
     {
-        $formPurchase = CompanyPayments::where("user_id", Auth::user()->id)->where("payment_item_id", 5)->where("status", "paid")->first();
-        $formRef      = $formPurchase->reference_number;
-        if (isset($formPurchase)) {
-            $paidRegFee = CompanyPayments::where("user_id", Auth::user()->id)->where("payment_item_id", 6)->where("status", "paid")->first();
-            if (isset($paidRegFee)) {
-                return view("business.registration_details");
+        $company = Company::where("user_id", Auth::user()->id)->first();
+        if (isset($company) && ! empty($company)) {
+            if ($company->status != "in progress") {
+                $documents        = CompanyDocuments::where("company_id", $company->id)->get();
+                $executedProjects = CompanyProjects::where("company_id", $company->id)->get();
+                return view("business.registration_details", compact("company", "documents", "executedProjects"));
             } else {
-                $bizCategories = BusinessCategories::where("status", "active")->get();
-                $regType       = "Registration";
-                return view("business.application_form", compact("bizCategories", "regType", 'formRef'));
+                $payment = PaymentItem::find(6);
+                return view("business.resume_application", compact("company", "payment"));
             }
         } else {
-            $payment = PaymentItem::find(5);
-            return view("business.purchase_form", compact("payment"));
+            $formPurchase = CompanyPayments::where("user_id", Auth::user()->id)->where("payment_item_id", 5)->where("status", "paid")->first();
+            if (isset($formPurchase) && ! empty($formPurchase)) {
+                $bizCategories = BusinessCategories::where("status", "active")->get();
+                $formRef       = $formPurchase->reference_number;
+                $regType       = "Registration";
+                return view("business.application_form", compact("bizCategories", "regType", 'formRef'));
+            } else {
+                $payment = PaymentItem::find(5);
+                return view("business.purchase_form", compact("payment"));
+            }
+        }
+    }
+
+    /**
+     * resumeApplication
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function resumeApplication($id)
+    {
+        $company = Company::find($id);
+        if (isset($company) && ! empty($company)) {
+            if ($company->application_stage == "payment") {
+                $item = PaymentItem::find(6);
+                $fee  = $this->getFee($item->id, $item->amount);
+
+                $paymentLog                   = new CompanyPayments;
+                $paymentLog->user_id          = Auth::user()->id;
+                $paymentLog->company_id       = $company->id;
+                $paymentLog->payment_item_id  = $item->id;
+                $paymentLog->reference_number = $this->genTrxReference();
+                $paymentLog->amount_paid      = $item->amount;
+                $paymentLog->fee_charged      = $fee;
+                $paymentLog->total            = ($item->amount + $fee);
+                if ($paymentLog->save()) {
+
+                    try {
+                        $response = Http::accept('application/json')->withHeaders([
+                            'authorization' => env('CREDO_PUBLIC_KEY'),
+                            'content_type'  => "Content-Type: application/json",
+                        ])->post(env("CREDO_URL") . "/transaction/initialize", [
+                            "email"       => Auth::user()->email,
+                            "amount"      => ($paymentLog->total * 100),
+                            "reference"   => str_replace("BSPPC-", "", $paymentLog->reference_number),
+                            "narration"   => "Company Registration Application Fee",
+                            "callbackUrl" => route("etranzact.regfee.callBack"),
+                            "bearer"      => 0,
+                        ]);
+
+                        $responseData = $response->collect("data");
+
+                        if (isset($responseData['authorizationUrl'])) {
+                            return redirect($responseData['authorizationUrl']);
+                        }
+
+                        toast("Credo E-Tranzact gateway service took too long to respond.", 'error');
+                        return back();
+                    } catch (\Exception $e) {
+                        report($e);
+                        toast('Error initializing payment gateway. Please try again', 'error');
+                        return back();
+                    }
+                } else {
+                    toast('Something Went Wrong. Please try again', 'error');
+                    return back();
+                }
+            } else if ($company->application_stage == "projects") {
+                return redirect()->route("business.pastProjects", [$company->id]);
+            } else {
+                return redirect()->route("business.companyDocuments", [$company->id]);
+            }
+        } else {
+            toast('Something went wrong.', 'error');
+            return back();
         }
     }
 
@@ -417,8 +490,12 @@ class BusinessController extends Controller
         $company->form_reference_number   = $request->form_reference;
         if ($company->save()) {
             if ($company->upgrade_application == "yes") {
+                $company->application_stage = "projects";
+                $company->save();
                 return redirect()->route("business.pastProjects", [$company->id]);
             } else {
+                $company->application_stage = "documents";
+                $company->save();
                 return redirect()->route("business.uploadDocuments", [$company->id]);
             }
         } else {
@@ -512,6 +589,9 @@ class BusinessController extends Controller
     {
         $company = Company::find($id);
         if (isset($company) || ! empty($company)) {
+            $company->application_stage = "documents";
+            $company->save();
+
             $documents      = CompanyDocuments::where("company_id", $company->id)->get();
             $uploadableDocs = UploadableDocs::where("category", "registration")->get();
             return view("business.company_documents", compact("company", "documents", "uploadableDocs"));
@@ -589,6 +669,9 @@ class BusinessController extends Controller
     {
         $company = Company::find($id);
         if (isset($company) || ! empty($company)) {
+            $company->application_stage = "payment";
+            $company->save();
+
             $documents        = CompanyDocuments::where("company_id", $company->id)->get();
             $executedProjects = CompanyProjects::where("company_id", $company->id)->get();
             return view("business.application_preview", compact("company", "documents", "executedProjects"));

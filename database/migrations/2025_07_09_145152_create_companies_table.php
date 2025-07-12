@@ -40,8 +40,9 @@ return new class extends Migration
             $table->enum("upgrade_application", ["yes", "no"]);
             $table->string("form_reference_number")->nullable();
             $table->string("reg_reference_number")->nullable();
-            $table->enum("status", ["in progress", "pending", "approved", "rejected"])->default("in progress");
+            $table->enum("status", ["in progress", "awaiting approval", "approved", "rejected", "payment failed"])->default("in progress");
             $table->longText("rejection_reason")->nullable();
+            $table->enum("application_stage", ["projects", "documents", "payment"]);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

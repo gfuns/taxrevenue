@@ -62,9 +62,12 @@
                                 <option value="">All Statuses</option>
                                 <option value="pending" @if ($status == 'pending') selected @endif>Pending
                                 </option>
-                                <option value="paid" @if ($status == 'paid') selected @endif>Successful
+                                <option value="awaiting approval" @if ($status == 'awaiting approval') selected @endif>Awaiting Approval
                                 </option>
-                                <option value="failed" @if ($status == 'failed') selected @endif>Failed</option>
+                                <option value="approved" @if ($status == 'approved') selected @endif>Approved
+                                </option>
+                                <option value="rejected" @if ($status == 'rejected') selected @endif>Rejected</option>
+                                <option value="payment failed" @if ($status == 'payment failed') selected @endif>Payment Failed</option>
                             </select>
                         </div>
                     </div>
@@ -87,7 +90,7 @@
                                             <th>Contract Name</th>
                                             <th>Award Date</th>
                                             <th>Amount Payable</th>
-                                            <th>Status</th>
+                                            <th>Application Status</th>
                                             <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
                                         </tr>
                                     </thead>
@@ -102,12 +105,12 @@
                                                 <td>{{ date_format(new DateTime($trx->award_date), 'jS M, Y') }}</td>
                                                 <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
                                                 <td>
-                                                    @if ($trx->status == 'pending')
-                                                        <span class="badge text-warning bg-light-warning">Pending</span>
-                                                    @elseif($trx->status == 'paid')
-                                                        <span class="badge text-success bg-light-success">Paid</span>
+                                                     @if ($trx->status == 'pending' || $trx->status == 'awaiting approval')
+                                                        <span class="badge text-warning bg-light-warning">{{ ucwords($trx->status) }}</span>
+                                                    @elseif($trx->status == 'approved')
+                                                        <span class="badge text-success bg-light-success">{{ ucwords($trx->status) }}</span>
                                                     @else
-                                                        <span class="badge text-danger bg-light-danger">Failed</span>
+                                                        <span class="badge text-danger bg-light-danger">{{ ucwords($trx->status) }}</span>
                                                     @endif
                                                 </td>
                                                 <td class="align-middle">

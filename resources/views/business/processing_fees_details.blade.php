@@ -79,14 +79,17 @@
                                 </tr>
 
                                 <tr>
-                                    <td><b>Payment Status:</b></td>
+                                    <td><b>Application Status:</b></td>
                                     <td>
-                                        @if ($trx->status == 'pending')
-                                            <span class="badge text-warning bg-light-warning">Pending</span>
-                                        @elseif($trx->status == 'paid')
-                                            <span class="badge text-success bg-light-success">Paid</span>
+                                        @if ($trx->status == 'pending' || $trx->status == 'awaiting approval')
+                                            <span
+                                                class="badge text-warning bg-light-warning">{{ ucwords($trx->status) }}</span>
+                                        @elseif($trx->status == 'approved')
+                                            <span
+                                                class="badge text-success bg-light-success">{{ ucwords($trx->status) }}</span>
                                         @else
-                                            <span class="badge text-danger bg-light-danger">Failed</span>
+                                            <span
+                                                class="badge text-danger bg-light-danger">{{ ucwords($trx->status) }}</span>
                                         @endif
                                     </td>
                                 </tr>
