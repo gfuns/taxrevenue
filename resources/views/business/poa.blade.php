@@ -62,12 +62,15 @@
                                 <option value="">All Statuses</option>
                                 <option value="pending" @if ($status == 'pending') selected @endif>Pending
                                 </option>
-                                <option value="awaiting approval" @if ($status == 'awaiting approval') selected @endif>Awaiting Approval
+                                <option value="awaiting approval" @if ($status == 'awaiting approval') selected @endif>
+                                    Awaiting Approval
                                 </option>
                                 <option value="approved" @if ($status == 'approved') selected @endif>Approved
                                 </option>
-                                <option value="rejected" @if ($status == 'rejected') selected @endif>Rejected</option>
-                                <option value="payment failed" @if ($status == 'payment failed') selected @endif>Payment Failed</option>
+                                <option value="rejected" @if ($status == 'rejected') selected @endif>Rejected
+                                </option>
+                                <option value="payment failed" @if ($status == 'payment failed') selected @endif>Payment
+                                    Failed</option>
                             </select>
                         </div>
                     </div>
@@ -105,12 +108,15 @@
                                                 <td>{{ date_format(new DateTime($trx->award_date), 'jS M, Y') }}</td>
                                                 <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
                                                 <td>
-                                                     @if ($trx->status == 'pending' || $trx->status == 'awaiting approval')
-                                                        <span class="badge text-warning bg-light-warning">{{ ucwords($trx->status) }}</span>
+                                                    @if ($trx->status == 'pending' || $trx->status == 'awaiting approval')
+                                                        <span
+                                                            class="badge text-warning bg-light-warning">{{ ucwords($trx->status) }}</span>
                                                     @elseif($trx->status == 'approved')
-                                                        <span class="badge text-success bg-light-success">{{ ucwords($trx->status) }}</span>
+                                                        <span
+                                                            class="badge text-success bg-light-success">{{ ucwords($trx->status) }}</span>
                                                     @else
-                                                        <span class="badge text-danger bg-light-danger">{{ ucwords($trx->status) }}</span>
+                                                        <span
+                                                            class="badge text-danger bg-light-danger">{{ ucwords($trx->status) }}</span>
                                                     @endif
                                                 </td>
                                                 <td class="align-middle">
@@ -128,13 +134,15 @@
                                                                         Payment</a>
                                                                 @endif
 
-                                                                <a class="dropdown-item" href="{{ route("business.powerOfAttorneyDetails", [$trx->reference_number]) }}"><i
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('business.powerOfAttorneyDetails', [$trx->reference_number]) }}"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
 
 
                                                                 @if ($trx->status == 'paid')
-                                                                    <a class="dropdown-item" href="{{ route("receipt.powerOfAttorney", [$trx->reference_number]) }}"
+                                                                    <a class="dropdown-item"
+                                                                        href="{{ route('receipt.powerOfAttorney', [$trx->reference_number]) }}"
                                                                         target="_blank"><i
                                                                             class="fe fe-printer dropdown-item-icon"></i>Print
                                                                         Receipt</a>
@@ -196,22 +204,52 @@
         <div class="container">
             <!-- form -->
             <form class="needs-validation" novalidate method="post"
-                action="{{ route('business.initiatePOAApplication') }}">
+                action="{{ route('business.initiatePOAApplication') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <!-- form group -->
                     <div class="mb-3 col-12">
                         <label class="form-label">Name of Donor Company <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="donor_company"
-                            placeholder="Name of Donor Company" required>
+                            placeholder="Name of Donor Company" value="{{ Auth::user()->company->company_name }}"
+                            readonly required>
                         <div class="invalid-feedback">Please Provide Name of Donor Company.</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Contract Name/LOT <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="contract_name"
-                            placeholder="Contract Name/LOT" required>
-                        <div class="invalid-feedback">Please Provide Contract Name/LOT.</div>
+                        <label class="form-label">Name of Donee Company <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="donee_company"
+                            placeholder="Name of Donee Company" required>
+                            <small style="color:red">Please Note: The Donee Company must be a registered contractor with BSPPC</small>
+                        <div class="invalid-feedback">Please Provide Name of Donee Company.</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Donee Company Address<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="donee_company_address"
+                            placeholder="Donee Company Address" required>
+                        <div class="invalid-feedback">Please Provide Donee Company Address.</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Donee Company Email<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="donee_company_email"
+                            placeholder="Donee Company Email" required>
+                        <div class="invalid-feedback">Please Provide Donee Company Email.</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Donee Company Phone Number<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="donee_company_phone"
+                            placeholder="Donee Company Phone Number" required>
+                        <div class="invalid-feedback">Please Provide Donee Company Phone Number.</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Contract Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="contract_name" placeholder="Contract Name"
+                            required>
+                        <div class="invalid-feedback">Please Provide Contract Name.</div>
                     </div>
 
                     <div class="mb-3 col-12">
@@ -222,20 +260,6 @@
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Date of Award<span class="text-danger">*</span></label>
-                        <input type="date" class="form-control" name="date_of_award" placeholder="Date of Award"
-                            required>
-                        <div class="invalid-feedback">Please Provide Date of Award.</div>
-                    </div>
-
-                    <div class="mb-3 col-12">
-                        <label class="form-label">Date of Power of Attorney<span class="text-danger">*</span></label>
-                        <input type="date" class="form-control" name="date_of_poa"
-                            placeholder="Date of Power of Attorney" required>
-                        <div class="invalid-feedback">Please Provide Date of Power of Attorney.</div>
-                    </div>
-
-                    <div class="mb-3 col-12">
                         <label class="form-label">Contract Duration <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="contract_duration"
                             placeholder="Contract Duration" required>
@@ -243,14 +267,68 @@
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">MDA <span class="text-danger">*</span></label>
+                        <label class="form-label">Procuring Entity (MDA) <span class="text-danger">*</span></label>
                         <select id="mda" name="mda" class="form-select">
-                            <option value="">Select MDA</option>
+                            <option value="">Select Procuring Entity (MDA)</option>
                             @foreach ($mdas as $mda)
                                 <option value="{{ $mda->mda }}">{{ $mda->mda }}</option>
                             @endforeach
                         </select>
-                        <div class="invalid-feedback">Please Select MDA</div>
+                        <div class="invalid-feedback">Please Select Procuring Entity (MDA)</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Upload Contract Agreement <span
+                                class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="contract_agreement" accept="application/pdf"
+                            placeholder="Upload Contract Agreement" required>
+                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
+                        <div class="invalid-feedback">Please Upload Contract Agreement</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Upload Power Of Attorney <span
+                                class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="poa_document" accept="application/pdf"
+                            placeholder="Upload Power Of Attorney" required>
+                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
+                        <div class="invalid-feedback">Please Upload Power Of Attorney</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Notification of Award from Procuring Entity <span
+                                class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="award_notification" accept="application/pdf"
+                            placeholder="Upload Notification of Award from Procuring Entity" required>
+                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
+                        <div class="invalid-feedback">Please Upload Notification of Award from Procuring Entity</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Acceptance Letter <span
+                                class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="acceptance_letter" accept="application/pdf"
+                            placeholder="Upload Acceptance Letter" required>
+                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
+                        <div class="invalid-feedback">Please Upload Acceptance Letter</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">BOQ or BEME <span
+                                class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="boq_beme" accept="application/pdf"
+                            placeholder="Upload BOQ or BEME" required>
+                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
+                        <div class="invalid-feedback">Please Upload BOQ or BEME</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Company Profile of the Donee Company <span
+                                class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="donee_company_profile" accept="application/pdf"
+                            placeholder="Upload Company Profile of the Donee Company" required>
+                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
+                        <div class="invalid-feedback">Please Upload Company Profile of the Donee Company</div>
                     </div>
 
                     <div class="col-md-12 border-bottom"></div>

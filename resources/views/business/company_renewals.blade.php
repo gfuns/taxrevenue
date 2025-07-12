@@ -62,12 +62,15 @@
                                 <option value="">All Statuses</option>
                                 <option value="pending" @if ($status == 'pending') selected @endif>Pending
                                 </option>
-                                <option value="awaiting approval" @if ($status == 'awaiting approval') selected @endif>Awaiting Approval
+                                <option value="awaiting approval" @if ($status == 'awaiting approval') selected @endif>
+                                    Awaiting Approval
                                 </option>
                                 <option value="approved" @if ($status == 'approved') selected @endif>Approved
                                 </option>
-                                <option value="rejected" @if ($status == 'rejected') selected @endif>Rejected</option>
-                                <option value="payment failed" @if ($status == 'payment failed') selected @endif>Payment Failed</option>
+                                <option value="rejected" @if ($status == 'rejected') selected @endif>Rejected
+                                </option>
+                                <option value="payment failed" @if ($status == 'payment failed') selected @endif>Payment
+                                    Failed</option>
                             </select>
                         </div>
                     </div>
@@ -103,12 +106,15 @@
                                                 <td>{{ $trx->period }} Year(s)</td>
                                                 <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
                                                 <td>
-                                                     @if ($trx->status == 'pending' || $trx->status == 'awaiting approval')
-                                                        <span class="badge text-warning bg-light-warning">{{ ucwords($trx->status) }}</span>
+                                                    @if ($trx->status == 'pending' || $trx->status == 'awaiting approval')
+                                                        <span
+                                                            class="badge text-warning bg-light-warning">{{ ucwords($trx->status) }}</span>
                                                     @elseif($trx->status == 'approved')
-                                                        <span class="badge text-success bg-light-success">{{ ucwords($trx->status) }}</span>
+                                                        <span
+                                                            class="badge text-success bg-light-success">{{ ucwords($trx->status) }}</span>
                                                     @else
-                                                        <span class="badge text-danger bg-light-danger">{{ ucwords($trx->status) }}</span>
+                                                        <span
+                                                            class="badge text-danger bg-light-danger">{{ ucwords($trx->status) }}</span>
                                                     @endif
                                                 </td>
 
@@ -198,7 +204,7 @@
         <div class="container">
             <!-- form -->
             <form class="needs-validation" novalidate method="post"
-                action="{{ route('business.initiateCompanyRenewal') }}">
+                action="{{ route('business.initiateCompanyRenewal') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
 
@@ -221,25 +227,31 @@
                     <div class="mb-3 col-12">
                         <label class="form-label">BSPPC Registration Number <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="registration_number"
-                            placeholder="BSPPC Registration Number" required>
+                            placeholder="BSPPC Registration Number" value="{{ Auth::user()->company->bsppc_number }}"
+                            required @if (isset(Auth::user()->company->bsppc_number)) readonly @endif>
                         <div class="invalid-feedback">Please Provide BSPPC Registration Number.</div>
                     </div>
 
                     <div class="mb-3 col-12">
+                        <label class="form-label">Expiry Date Of Previous Certificate<span
+                                class="text-danger">*</span></label>
+                        <input type="date" class="form-control" name="expiry_date" placeholder="Expiry Date"
+                            required>
+                        <div class="invalid-feedback">Please Provide Expiry Date.</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
                         <label class="form-label">Number of Years To Renew <span class="text-danger">*</span></label>
-                        <select name="period" class="form-select text-dark" id="period" required>
-                            <option value="">Select Renewal Period</option>
-                            <option value="1">1 Year</option>
-                            <option value="2">2 Years</option>
-                        </select>
+                        <input type="number" class="form-control" name="period"
+                            placeholder="Number of Years To Renew" required>
                         <div class="invalid-feedback">Please Provide Number of Years To Renew.</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Expiry Date Of Previous Certificate<span class="text-danger">*</span></label>
-                        <input type="date" class="form-control" name="expiry_date" placeholder="Expiry Date"
-                            required>
-                        <div class="invalid-feedback">Please Provide Expiry Date.</div>
+                        <label class="form-label">Director's Phone Number <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="phone_number"
+                            placeholder="Director's Phone Number" required>
+                        <div class="invalid-feedback">Please Provide Director's Phone Number</div>
                     </div>
 
                     <div class="mb-3 col-12">
@@ -250,19 +262,14 @@
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Director's Phone Number <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="phone_number"
-                            placeholder="Director's Phone Number" required>
-                        <div class="invalid-feedback">Please Provide Director's Phone Number</div>
+                        <label class="form-label">Upload Previous BSPPC Certificate <span
+                                class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="bsppc_certificate" accept="application/pdf"
+                            placeholder="Upload Previous BSPPC Certificate" required>
+                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
+                        <div class="invalid-feedback">Please Upload Previous BSPPC Certificate</div>
                     </div>
 
-                    {{-- <div id="paymentNote" class="mb-3 col-12" style="color: black; display:none">
-                        <u><b>Note:</b></u> You will be redirected to our payment gateway to pay the sum of
-                        <b>&#8358;<span></span></b> to cover for your renewal fees for the provide period/duration.
-                        <br />&nbsp;
-                        <p>Click the <b>Submit Application</b> button only if you are ready to make the required
-                            payment.</p>
-                    </div> --}}
 
                     <div class="col-md-12 border-bottom"></div>
                     <!-- button -->

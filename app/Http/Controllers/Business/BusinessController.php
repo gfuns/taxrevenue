@@ -757,6 +757,7 @@ class BusinessController extends Controller
             'company_email'       => 'required',
             'phone_number'        => 'required',
             'expiry_date'         => 'required',
+            'bsppc_certificate'   => 'required|file|mimes:pdf',
         ]);
 
         if ($validator->fails()) {
@@ -784,6 +785,10 @@ class BusinessController extends Controller
             $trx->email            = $request->company_email;
             $trx->period           = $request->period;
             $trx->amount_paid      = ($item->amount * $request->period);
+            if ($request->has('bsppc_certificate')) {
+                $uploadedFileUrl = Cloudinary::upload($request->file('bsppc_certificate')->getRealPath())->getSecurePath();
+                $trx->bsppc_cert = $uploadedFileUrl;
+            }
             $trx->save();
 
             $fee = $this->getFee($item->id, $trx->amount_paid);
@@ -880,13 +885,21 @@ class BusinessController extends Controller
     public function initiatePOAApplication(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'donor_company'     => 'required',
-            'contract_name'     => 'required',
-            'contract_sum'      => 'required',
-            'date_of_award'     => 'required',
-            'date_of_poa'       => 'required',
-            'contract_duration' => 'required',
-            'mda'               => 'required',
+            'donor_company'         => 'required',
+            'donee_company'         => 'required',
+            'donee_company_address' => 'required',
+            'donee_company_email'   => 'required',
+            'donee_company_phone'   => 'required',
+            'contract_name'         => 'required',
+            'contract_sum'          => 'required',
+            'contract_duration'     => 'required',
+            'mda'                   => 'required',
+            'contract_agreement'    => 'required|file|mimes:pdf',
+            'poa_document'          => 'required|file|mimes:pdf',
+            'award_notification'    => 'required|file|mimes:pdf',
+            'donee_company_profile' => 'required|file|mimes:pdf',
+            'boq_beme'              => 'required|file|mimes:pdf',
+            'acceptance_letter'     => 'required|file|mimes:pdf',
         ]);
 
         if ($validator->fails()) {
@@ -903,17 +916,43 @@ class BusinessController extends Controller
 
             DB::beginTransaction();
 
-            $trx                    = new PowerOfAttorney;
-            $trx->reference_number  = $reference;
-            $trx->company_id        = Auth::user()->company->id;
-            $trx->donor_company     = $request->donor_company;
-            $trx->contract_name     = $request->contract_name;
-            $trx->contract_amount   = $request->contract_sum;
-            $trx->award_date        = $request->date_of_award;
-            $trx->poa_date          = $request->date_of_poa;
-            $trx->contract_duration = $request->contract_duration;
-            $trx->mda               = $request->mda;
-            $trx->amount_paid       = $item->amount;
+            $trx                        = new PowerOfAttorney;
+            $trx->reference_number      = $reference;
+            $trx->company_id            = Auth::user()->company->id;
+            $trx->donor_company         = $request->donor_company;
+            $trx->donee_company         = $request->donee_company;
+            $trx->donee_company_address = $request->donee_company_address;
+            $trx->donee_company_email   = $request->donee_company_email;
+            $trx->donee_company_phone   = $request->donee_company_phone;
+            $trx->contract_name         = $request->contract_name;
+            $trx->contract_amount       = $request->contract_sum;
+            $trx->contract_duration     = $request->contract_duration;
+            $trx->mda                   = $request->mda;
+            $trx->amount_paid           = $item->amount;
+            if ($request->has('contract_agreement')) {
+                $contractAgreement       = Cloudinary::upload($request->file('contract_agreement')->getRealPath())->getSecurePath();
+                $trx->contract_agreement = $contractAgreement;
+            }
+            if ($request->has('poa_document')) {
+                $poaDocument       = Cloudinary::upload($request->file('poa_document')->getRealPath())->getSecurePath();
+                $trx->poa_document = $poaDocument;
+            }
+            if ($request->has('award_notification')) {
+                $awardNotification       = Cloudinary::upload($request->file('award_notification')->getRealPath())->getSecurePath();
+                $trx->award_notification = $poaDocument;
+            }
+            if ($request->has('donee_company_profile')) {
+                $doneeCompanyProfile        = Cloudinary::upload($request->file('donee_company_profile')->getRealPath())->getSecurePath();
+                $trx->donee_company_profile = $doneeCompanyProfile;
+            }
+            if ($request->has('boq_beme')) {
+                $boqBeme       = Cloudinary::upload($request->file('boq_beme')->getRealPath())->getSecurePath();
+                $trx->boq_beme = $boqBeme;
+            }
+            if ($request->has('acceptance_letter')) {
+                $acceptanceLetter       = Cloudinary::upload($request->file('acceptance_letter')->getRealPath())->getSecurePath();
+                $trx->acceptance_letter = $acceptanceLetter;
+            }
             $trx->save();
 
             $fee = $this->getFee($item->id, $trx->amount_paid);

@@ -44,36 +44,55 @@
                             <div class="row">
                                 <table class="table" style="border-bottom: #fff; color: #000">
                                     <tr>
-                                        <td><b>Donor Company:</b></td>
+                                        <td width="50%"><b>Name of Donor Company:</b></td>
                                         <td>{{ $trx->donor_company }}</td>
                                     </tr>
                                     <tr>
-                                        <td><b>Contract Name/LOT:</b></td>
+                                        <td><b>Name of Donee Company:</b></td>
+                                        <td>{{ $trx->donee_company_address }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Email of Donee Company:</b></td>
+                                        <td>{{ $trx->donee_company_email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Phone No. of Donee Company:</b></td>
+                                        <td>{{ $trx->donee_company_phone }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Address of Donee Company:</b></td>
+                                        <td>{{ $trx->donee_company }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Contract Name:</b></td>
                                         <td>{{ $trx->contract_name }}</td>
                                     </tr>
                                     <tr>
                                         <td><b>Contract Sum:</b></td>
                                         <td>&#8358;{{ number_format($trx->contract_amount, 2) }}</td>
                                     </tr>
-
-                                    <tr>
-                                        <td><b>Date of Award:</b></td>
-                                        <td>{{ date_format(new DateTime($trx->award_date), "jS F, Y") }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><b>Date of Power of Attorney:</b></td>
-                                        <td>{{date_format(new DateTime($trx->poa_date), "jS F, Y") }}</td>
-                                    </tr>
-
                                     <tr>
                                         <td><b>Contract Duration:</b></td>
                                         <td>{{ $trx->contract_duration }}</td>
                                     </tr>
 
                                     <tr>
-                                        <td><b>MDA:</b></td>
+                                        <td><b>Procuring Entitty (MDA):</b></td>
                                         <td>{{ $trx->mda }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><b>Uploaded Documents:</b></td>
+                                        <td>
+                                            <ol style="padding-left:17px;margin-bottom:0px">
+                                                <li><a href="{{ $trx->contract_agreement }}" target="_blank">Contract Agreement</a></li>
+                                                <li><a href="{{ $trx->poa_document }}" target="_blank">Power Of Attorney</a></li>
+                                                <li><a href="{{ $trx->award_notification }}" target="_blank">Notification of Award from Procuring Entity</a></li>
+                                                <li><a href="{{ $trx->acceptance_letter }}" target="_blank">Acceptance Letter</a></li>
+                                                <li><a href="{{ $trx->boq_beme }}" target="_blank">BOQ or BEME</a></li>
+                                                <li><a href="{{ $trx->donee_company_profile }}" target="_blank">Company Profile of the Donee Company</a></li>
+                                            </ol>
+                                        </td>
                                     </tr>
 
                                      <tr>

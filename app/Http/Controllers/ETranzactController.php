@@ -35,7 +35,7 @@ class ETranzactController extends Controller
             try {
                 DB::beginTransaction();
 
-                $paymentData->status = $message;
+                $paymentData->status = ($message == "awaiting approval" ? "payment successful" : $message);
                 $paymentData->save();
 
                 $trx         = CompanyRenewals::where("reference_number", $reference)->first();
@@ -81,7 +81,7 @@ class ETranzactController extends Controller
             try {
                 DB::beginTransaction();
 
-                $paymentData->status = $message;
+                $paymentData->status = ($message == "awaiting approval" ? "payment successful" : $message);
                 $paymentData->save();
 
                 $trx         = PowerOfAttorney::where("reference_number", $reference)->first();
@@ -127,7 +127,7 @@ class ETranzactController extends Controller
             try {
                 DB::beginTransaction();
 
-                $paymentData->status = $message;
+                $paymentData->status = ($message == "awaiting approval" ? "payment successful" : $message);
                 $paymentData->save();
 
                 $trx         = ProcessingFee::where("reference_number", $reference)->first();
@@ -173,7 +173,7 @@ class ETranzactController extends Controller
             try {
                 DB::beginTransaction();
 
-                $paymentData->status = $message;
+                $paymentData->status = ($message == "awaiting approval" ? "payment successful" : $message);
                 $paymentData->save();
 
                 $trx         = AwardLetter::where("reference_number", $reference)->first();
@@ -218,7 +218,7 @@ class ETranzactController extends Controller
 
             try {
 
-                $paymentData->status = $message;
+                $paymentData->status = ($message == "awaiting approval" ? "payment successful" : $message);
                 $paymentData->save();
 
                 toast("Payment Received Successfully", 'success');
@@ -257,7 +257,7 @@ class ETranzactController extends Controller
             try {
                 DB::beginTransaction();
 
-                $paymentData->status = $message;
+                $paymentData->status = ($message == "awaiting approval" ? "payment successful" : $message);
                 $paymentData->save();
 
                 $company                       = Company::find($paymentData->company_id);
