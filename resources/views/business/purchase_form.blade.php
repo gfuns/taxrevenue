@@ -31,7 +31,7 @@
         <!-- row -->
         <div class="row">
             <div class="offset-xl-2 col-xl-8 col-md-12 col-12">
-                <h4>New Company Registration</h4>
+                <h4>Company Registration/Revalidation</h4>
 
                 <!-- card -->
                 <div class="card">
@@ -53,25 +53,35 @@
                                             $inWords = ucwords($formatter->format($payment->amount));
                                         @endphp
 
-                                        To Begin your company registration application, you are required to pay a
+                                        To begin your company registration application, you are required to pay a
                                         registration form fee of <strong>{{ $inWords }} Naira Only
                                             (&#8358;{{ number_format($payment->amount, 2) }})</strong>.
+
+                                        <br /><br />Please note that you will be charged an additional Technology Fee of
+                                        <b>&#8358;{{ number_format(($payment->fee / 100) * $payment->amount, 2) }}</b> when making this payment.
+
+                                    </p>
+                                    <br />
+                                    <p>
+                                        <strong><u>EXISTING CONTRACTORS SHOULD PLEASE NOTE:</u></strong><br />All existing contractors
+                                        registered with the commission are now required to revalidate their account with the commission in
+                                        line with our digitization reform process.
                                     </p>
                                 </div>
                                 <hr />
-                                <div class="mb-4 col-12" style="color: black; ">
-                                    <u><b>Note:</b></u> You will be charged an additional Technology Fee of
-                                    <b>&#8358;{{ number_format(($payment->fee / 100) * $payment->amount, 2) }}</b>
-                                    when making your
-                                    payment.
-                                </div>
                             </div>
                             <div class="col-md-8"></div>
                             <!-- button -->
-                            <div class="col-12">
-                                <button class="btn btn-success w-100" type="submit"
-                                    onClick="this.disabled=true; this.innerHTML='Submiting request, please wait...';this.form.submit();">Proceeed
-                                    To Payment</button>
+                            <div class="row col-12 d-flex align-items-center justify-content-between">
+                                <div class="col-6">
+                                    <a href="{{ route("business.accountRevalidation") }}"><button class="btn btn-success" type="button">Revalidate
+                                            Your Existing BSPPC Account</button></a>
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-success" type="submit"
+                                        onClick="this.disabled=true; this.innerHTML='Submiting request, please wait...';this.form.submit();">Purchase
+                                        Company Registration Form</button>
+                                </div>
 
                             </div>
                     </div>

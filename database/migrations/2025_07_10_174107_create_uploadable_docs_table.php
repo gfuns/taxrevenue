@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('uploadable_docs', function (Blueprint $table) {
             $table->increments("id");
             $table->string("document_title");
+            $table->enum("category", ["registration", "renewal", "power of attorney", "award letter", "processing fee"]);
             $table->enum("status", ["active", "deactivated"])->default('active');
             $table->timestamps();
         });

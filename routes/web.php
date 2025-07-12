@@ -114,6 +114,12 @@ Route::group([
 
         Route::post('/purchaseRegForm', [BusinessController::class, 'purchaseRegForm'])->name("business.purchaseRegForm");
 
+        Route::get('/account-revalidation', [BusinessController::class, 'accountRevalidation'])->name("business.accountRevalidation");
+
+        Route::get('/executed-projects/{id}', [BusinessController::class, 'pastProjects'])->name("business.pastProjects");
+
+        Route::get('/executed-projects/{id}', [BusinessController::class, 'uploadDocuments'])->name("business.uploadDocuments");
+
         Route::post('/submitApplication', [BusinessController::class, 'submitApplication'])->name("business.submitApplication");
     });
 });

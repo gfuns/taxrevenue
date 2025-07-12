@@ -80,5 +80,9 @@
         [data-theme="dark"] ::placeholder {
             color: white;
         }
+
+        input.is-invalid {
+            outline: 1px solid red;
+        }
     </style>
 </head>

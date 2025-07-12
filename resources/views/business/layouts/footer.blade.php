@@ -46,6 +46,10 @@
             $('#period').select2();
         });
 
+        $(document).ready(function() {
+            $('#prevClass').select2();
+        });
+
 
         $('#mda').select2({
             dropdownParent: $('#offcanvasRight')
@@ -56,7 +60,7 @@
         });
 
         $(document).ready(function() {
-            $('#certificateValidity').select2();
+            $('#auttrigger4').select2();
         });
 
         $(document).ready(function() {
@@ -73,10 +77,9 @@
 
         $("#auttrigger1").change(function() {
             var configType = $(this).val();
-            if (configType == "Yes") {
+            if (configType == "yes") {
                  $("#autopt1").css("display", "block");
-                 $("#certificateValidity").attr("required", true);
-                 $("#invalidityReason").attr("required", true);
+                 $("#auttrigger4").attr("required", true);
                  $("#certNo").attr("required", true);
                  $("#when").attr("required", true);
                  $("#where").attr("required", true);
@@ -84,8 +87,7 @@
                  $("#whatworks").attr("required", true);
             } else {
                 $("#autopt1").css("display", "none");
-                $("#certificateValidity").removeAttr("required");
-                $("#invalidityReason").removeAttr("required");
+                $("#auttrigger4").removeAttr("required");
                 $("#certNo").removeAttr("required");
                 $("#when").removeAttr("required");
                 $("#where").removeAttr("required");
@@ -96,7 +98,7 @@
 
         $("#auttrigger2").change(function() {
             var configType = $(this).val();
-            if (configType == "Yes") {
+            if (configType == "yes") {
                  $("#autopt2").css("display", "block");
                  $("#experienceDet").attr("required", true);
             } else {
@@ -107,7 +109,7 @@
 
         $("#auttrigger3").change(function() {
             var configType = $(this).val();
-            if (configType == "Yes") {
+            if (configType == "yes") {
                  $("#autopt3").css("display", "block");
                  $("#bankName").attr("required", true);
                  $("#bankBranch").attr("required", true);
@@ -119,6 +121,17 @@
                 $("#bankBranch").removeAttr("required");
                 $("#accNo").removeAttr("required");
                 $("#postCode").removeAttr("required");
+            }
+        });
+
+        $("#auttrigger4").change(function() {
+            var configType = $(this).val();
+            if (configType == "no") {
+                 $("#autopt4").css("display", "block");
+                 $("#invalidityReason").attr("required", true);
+            } else {
+                $("#autopt4").css("display", "none");
+                $("#invalidityReason").removeAttr("required");
             }
         });
     </script>

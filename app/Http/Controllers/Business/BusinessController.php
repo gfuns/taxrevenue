@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Business;
 use App\Http\Controllers\Controller;
 use App\Models\AwardLetter;
 use App\Models\BusinessCategories;
+use App\Models\Company;
 use App\Models\CompanyPayments;
 use App\Models\CompanyRenewals;
 use App\Models\Mda;
@@ -310,17 +311,116 @@ class BusinessController extends Controller
     public function companyRegistration()
     {
         $formPurchase = CompanyPayments::where("user_id", Auth::user()->id)->where("payment_item_id", 5)->where("status", "paid")->first();
+        $formRef      = $formPurchase->reference_number;
         if (isset($formPurchase)) {
             $paidRegFee = CompanyPayments::where("user_id", Auth::user()->id)->where("payment_item_id", 6)->where("status", "paid")->first();
             if (isset($paidRegFee)) {
                 return view("business.registration_details");
             } else {
                 $bizCategories = BusinessCategories::where("status", "active")->get();
-                return view("business.application_form", compact("bizCategories"));
+                $regType       = "Registration";
+                return view("business.application_form", compact("bizCategories", "regType", 'formRef'));
             }
         } else {
             $payment = PaymentItem::find(5);
             return view("business.purchase_form", compact("payment"));
+        }
+    }
+
+    /**
+     * accountRevalidation
+     *
+     * @return void
+     */
+    public function accountRevalidation()
+    {
+        $bizCategories = BusinessCategories::where("status", "active")->get();
+        $regType       = "Revalidation";
+        $formRef       = null;
+        return view("business.application_form", compact("bizCategories", "regType", "formRef"));
+    }
+
+    /**
+     * submitApplication
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function submitApplication(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'application_type'     => 'required',
+            'bsppc_number'         => 'required_if:application_type,revalidation',
+            'cac_number'           => 'required',
+            'company_name'         => 'required',
+            'company_adress'       => 'required',
+            'categories'           => 'required|array|min:1',
+            'categories.*'         => 'exists:business_categories,id',
+            'prev_registered'      => 'required',
+            'prev_class'           => 'required_if:prev_registered,yes',
+            'prev_location'        => 'required_if:prev_registered,yes',
+            'prev_works'           => 'required_if:prev_registered,yes',
+            'prev_period'          => 'required_if:prev_registered,yes',
+            'prev_reg_number'      => 'required_if:prev_registered,yes',
+            'certificate_validity' => 'required_if:prev_registered,yes',
+            'invalidity_reason'    => 'required_if:prev_registered,yes',
+            'business_experience'  => 'required',
+            'experience_details'   => 'required_if:business_experience,yes',
+            'business_capital'     => 'required',
+            'bank_exist'           => 'required',
+            'bank_name'            => 'required_if:bank_exist,yes',
+            'bank_branch'          => 'required_if:bank_exist,yes',
+            'account_number'       => 'required_if:bank_exist,yes',
+            'postal_address'       => 'required_if:bank_exist,yes',
+            'upgrading'            => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $bizCategories = implode(', ', $request->input('categories', []));
+
+        $company                          = new Company;
+        $company->user_id                 = Auth::user()->id;
+        $company->application_type        = $request->application_type;
+        $company->bsppc_number            = $request->bsppc_number;
+        $company->cac_number              = $request->cac_number;
+        $company->company_name            = $request->company_name;
+        $company->company_address         = $request->company_adress;
+        $company->business_category       = $bizCategories;
+        $company->classification          = "F";
+        $company->prev_reg                = $request->prev_registered;
+        $company->prev_reg_class          = $request->prev_class;
+        $company->prev_reg_where          = $request->prev_location;
+        $company->prev_reg_works          = $request->prev_works;
+        $company->prev_reg_when           = $request->prev_period;
+        $company->prev_reg_no             = $request->prev_reg_number;
+        $company->prev_reg_valid          = $request->certificate_validity;
+        $company->prev_reg_invalid_reason = $request->invalidity_reason;
+        $company->business_experience     = $request->business_experience;
+        $company->experience_details      = $request->experience_details;
+        $company->business_capital        = $request->business_capital;
+        $company->operate_bank            = $request->bank_exist;
+        $company->bank_name               = $request->bank_name;
+        $company->bank_branch             = $request->bank_branch;
+        $company->account_number          = $request->account_number;
+        $company->bank_postal_address     = $request->postal_address;
+        $company->upgrade_application     = $request->upgrading;
+        $company->form_reference_number   = $request->form_reference;
+        if ($company->save()) {
+            if ($company->upgrading == "yes") {
+                return redirect()->route("business.pastProjects", [$company->id]);
+            } else {
+                return redirect()->route("business.uploadDocuments", [$company->id]);
+            }
+        } else {
+            toast('Something went wrong.', 'error');
+            return back();
         }
     }
 
