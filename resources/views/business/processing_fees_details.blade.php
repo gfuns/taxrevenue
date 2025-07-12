@@ -50,7 +50,7 @@
                                     <td>{{ $trx->company_name }}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>Contract Name/LOT:</b></td>
+                                    <td><b>Contract Name:</b></td>
                                     <td>{{ $trx->contract_name }}</td>
                                 </tr>
                                 <tr>
@@ -69,7 +69,7 @@
                                 </tr>
 
                                 <tr>
-                                    <td><b>MDA:</b></td>
+                                    <td><b>Procuring Entity (MDA):</b></td>
                                     <td>{{ $trx->mda }}</td>
                                 </tr>
 
@@ -78,6 +78,10 @@
                                     <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
                                 </tr>
 
+                                <tr>
+                                    <td><b>Application Date:</b></td>
+                                    <td>{{ date_format($trx->created_at, 'jS F, Y g:i:sa') }}</td>
+                                </tr>
                                 <tr>
                                     <td><b>Application Status:</b></td>
                                     <td>

@@ -152,6 +152,10 @@
                                             Former Registration Certificate?</th>
                                         <td>{{ ucwords($company->upgrade_application) }}</td>
                                     </tr>
+                                     <tr>
+                                    <th>Application Date:</th>
+                                    <td>{{ date_format($company->created_at, 'jS F, Y g:i:sa') }}</td>
+                                </tr>
 
                                     <tr>
                                         <th>Application Status</th>

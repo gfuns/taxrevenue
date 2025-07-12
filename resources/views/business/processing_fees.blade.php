@@ -208,9 +208,9 @@
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Contract Name/LOT <span class="text-danger">*</span></label>
+                        <label class="form-label">Contract Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="contract_name"
-                            placeholder="Contract Name/LOT" required>
+                            placeholder="Contract Name" required>
                         <div class="invalid-feedback">Please Provide Contract Name/LOT.</div>
                     </div>
 
@@ -236,9 +236,9 @@
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">MDA <span class="text-danger">*</span></label>
+                        <label class="form-label">Procuring Entity (MDA) <span class="text-danger">*</span></label>
                         <select id="mda" name="mda" class="form-select">
-                            <option value="">Select MDA</option>
+                            <option value="">Select Procuring Entity (MDA)</option>
                             @foreach ($mdas as $mda)
                                 <option value="{{ $mda->mda }}">{{ $mda->mda }}</option>
                             @endforeach

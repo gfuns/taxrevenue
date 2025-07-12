@@ -100,6 +100,10 @@
                                     <td><b>Amount Payable:</b></td>
                                     <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
                                 </tr>
+                                 <tr>
+                                    <td><b>Application Date:</b></td>
+                                    <td>{{ date_format($trx->created_at, 'jS F, Y g:i:sa') }}</td>
+                                </tr>
 
                                 <tr>
                                     <td><b>Application Status:</b></td>

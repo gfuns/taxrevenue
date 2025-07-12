@@ -93,6 +93,11 @@
                                     </td>
                                 </tr>
 
+                                 <tr>
+                                    <td><b>Application Date:</b></td>
+                                    <td>{{ date_format($trx->created_at, 'jS F, Y g:i:sa') }}</td>
+                                </tr>
+
                                 <tr>
                                     <td><b>Application Status:</b></td>
                                     <td>
