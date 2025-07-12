@@ -34,7 +34,7 @@
                 <div class="card border-0 mb-4">
                     <!-- Card header -->
                     <div class="card-header">
-                        <h4 class="mb-0">Company {{ $regType }} Form</h4>
+                        <h4 class="mb-0">Company {{ $regType }} Application</h4>
                     </div>
 
                     <!-- Card body -->
@@ -205,7 +205,7 @@
                                 Business?</label>
                             <input type="text" name="business_capital" id="capital"
                                 class="form-control text-dark"
-                                placeholder="Are you Registered With Any Works Registration Board?" required>
+                                placeholder="Are you Registered With Any Works Registration Board?" oninput="validateInput(event)" required>
                             <div class="invalid-feedback">Please provide a response.</div>
                         </div>
 
@@ -265,7 +265,7 @@
                             <div class="invalid-feedback">Please provide a response.</div>
                         </div>
 
-                        <input type="hidden" name="postal_address" value="{{ strtolower($regType) }}" required>
+                        <input type="hidden" name="application_type" value="{{ strtolower($regType) }}" required>
                         <input type="hidden" name="form_reference" value="{{ strtolower($formRef) }}" required>
 
                         <!-- button -->

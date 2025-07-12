@@ -38,9 +38,9 @@ return new class extends Migration
             $table->string("account_number")->nullable();
             $table->string("bank_postal_address")->nullable();
             $table->enum("upgrade_application", ["yes", "no"]);
-            $table->string("form_reference_number");
+            $table->string("form_reference_number")->nullable();
             $table->string("reg_reference_number")->nullable();
-            $table->enum("status", ["pending", "approved", "rejected"])->default("pending");
+            $table->enum("status", ["in progress", "pending", "approved", "rejected"])->default("in progress");
             $table->longText("rejection_reason")->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

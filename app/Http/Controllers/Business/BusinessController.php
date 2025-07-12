@@ -5,12 +5,15 @@ use App\Http\Controllers\Controller;
 use App\Models\AwardLetter;
 use App\Models\BusinessCategories;
 use App\Models\Company;
+use App\Models\CompanyDocuments;
 use App\Models\CompanyPayments;
+use App\Models\CompanyProjects;
 use App\Models\CompanyRenewals;
 use App\Models\Mda;
 use App\Models\PaymentItem;
 use App\Models\PowerOfAttorney;
 use App\Models\ProcessingFee;
+use App\Models\UploadableDocs;
 use App\Models\User;
 use Auth;
 use Cloudinary;
@@ -413,7 +416,7 @@ class BusinessController extends Controller
         $company->upgrade_application     = $request->upgrading;
         $company->form_reference_number   = $request->form_reference;
         if ($company->save()) {
-            if ($company->upgrading == "yes") {
+            if ($company->upgrade_application == "yes") {
                 return redirect()->route("business.pastProjects", [$company->id]);
             } else {
                 return redirect()->route("business.uploadDocuments", [$company->id]);
@@ -421,6 +424,206 @@ class BusinessController extends Controller
         } else {
             toast('Something went wrong.', 'error');
             return back();
+        }
+    }
+
+    /**
+     * pastProjects
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function pastProjects($id)
+    {
+        $company = Company::find($id);
+        if (isset($company) || ! empty($company)) {
+            $executedProjects = CompanyProjects::where("company_id", $company->id)->get();
+            return view("business.executed_projects", compact("company", "executedProjects"));
+        } else {
+            return redirect()->route("business.companyRegistration");
+        }
+    }
+
+    /**
+     * addProject
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function addProject(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_id'           => 'required',
+            'awarding_body'        => 'required',
+            'contract_description' => 'required',
+            'contract_amount'      => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $project                       = new CompanyProjects;
+        $project->company_id           = $request->company_id;
+        $project->awarding_body        = $request->awarding_body;
+        $project->contract_description = $request->contract_description;
+        $project->amount               = $request->contract_amount;
+        if ($project->save()) {
+            toast('Project Captured Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong.', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * removeProject
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function removeProject($id)
+    {
+        $project = CompanyProjects::find($id);
+        if ($project->delete()) {
+            toast('Project Removed Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong.', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * companyDocuments
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function companyDocuments($id)
+    {
+        $company = Company::find($id);
+        if (isset($company) || ! empty($company)) {
+            $documents      = CompanyDocuments::where("company_id", $company->id)->get();
+            $uploadableDocs = UploadableDocs::where("category", "registration")->get();
+            return view("business.company_documents", compact("company", "documents", "uploadableDocs"));
+        } else {
+            return redirect()->route("business.companyRegistration");
+        }
+    }
+
+    /**
+     * uploadDocument
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function uploadDocument(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_id'     => 'required',
+            'document_title' => 'required',
+            'document'       => 'required|file|mimes:pdf',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $doc              = new CompanyDocuments;
+        $doc->company_id  = $request->company_id;
+        $doc->document_id = $request->document_title;
+        $doc->document    = $request->document;
+        if ($request->has('document')) {
+            $uploadedFileUrl = Cloudinary::upload($request->file('document')->getRealPath())->getSecurePath();
+            $doc->document   = $uploadedFileUrl;
+        }
+        if ($doc->save()) {
+            toast('Document Uploaded Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong.', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * removeDocument
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function removeDocument($id)
+    {
+        $doc = CompanyDocuments::find($id);
+        if ($doc->delete()) {
+            toast('Document Removed Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong.', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * previewApplication
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function previewApplication($id)
+    {
+        $company = Company::find($id);
+        if (isset($company) || ! empty($company)) {
+            $documents        = CompanyDocuments::where("company_id", $company->id)->get();
+            $executedProjects = CompanyProjects::where("company_id", $company->id)->get();
+            return view("business.application_preview", compact("company", "documents", "executedProjects"));
+        } else {
+            return redirect()->route("business.companyRegistration");
+        }
+    }
+
+    /**
+     * finalizeApplication
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function finalizeApplication(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $company         = Company::find($request->company_id);
+        $company->status = "pending";
+        if ($company->save()) {
+            toast('Application Submitted Successfully.', 'success');
+            return redirect()->route("business.dashboard");
+        } else {
+            return redirect()->route("business.companyRegistration");
         }
     }
 

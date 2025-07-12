@@ -55,6 +55,10 @@
             dropdownParent: $('#offcanvasRight')
         });
 
+        $('#docTitle').select2({
+            dropdownParent: $('#uploadDocument')
+        });
+
         $(document).ready(function() {
             $('#auttrigger1').select2();
         });
