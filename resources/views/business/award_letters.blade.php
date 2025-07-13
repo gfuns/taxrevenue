@@ -62,12 +62,15 @@
                                 <option value="">All Statuses</option>
                                 <option value="pending" @if ($status == 'pending') selected @endif>Pending
                                 </option>
-                                <option value="awaiting approval" @if ($status == 'awaiting approval') selected @endif>Awaiting Approval
+                                <option value="awaiting approval" @if ($status == 'awaiting approval') selected @endif>
+                                    Awaiting Approval
                                 </option>
                                 <option value="approved" @if ($status == 'approved') selected @endif>Approved
                                 </option>
-                                <option value="rejected" @if ($status == 'rejected') selected @endif>Rejected</option>
-                                <option value="payment failed" @if ($status == 'payment failed') selected @endif>Payment Failed</option>
+                                <option value="rejected" @if ($status == 'rejected') selected @endif>Rejected
+                                </option>
+                                <option value="payment failed" @if ($status == 'payment failed') selected @endif>Payment
+                                    Failed</option>
                             </select>
                         </div>
                     </div>
@@ -106,11 +109,14 @@
                                                 <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
                                                 <td>
                                                     @if ($trx->status == 'pending' || $trx->status == 'awaiting approval')
-                                                        <span class="badge text-warning bg-light-warning">{{ ucwords($trx->status) }}</span>
+                                                        <span
+                                                            class="badge text-warning bg-light-warning">{{ ucwords($trx->status) }}</span>
                                                     @elseif($trx->status == 'approved')
-                                                        <span class="badge text-success bg-light-success">{{ ucwords($trx->status) }}</span>
+                                                        <span
+                                                            class="badge text-success bg-light-success">{{ ucwords($trx->status) }}</span>
                                                     @else
-                                                        <span class="badge text-danger bg-light-danger">{{ ucwords($trx->status) }}</span>
+                                                        <span
+                                                            class="badge text-danger bg-light-danger">{{ ucwords($trx->status) }}</span>
                                                     @endif
                                                 </td>
                                                 <td class="align-middle">
@@ -128,13 +134,15 @@
                                                                         Payment</a>
                                                                 @endif
 
-                                                                <a class="dropdown-item" href="{{ route("business.awardLettersDetails", [$trx->reference_number]) }}"><i
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('business.awardLettersDetails', [$trx->reference_number]) }}"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
 
 
                                                                 @if ($trx->status == 'paid')
-                                                                    <a class="dropdown-item" href="{{ route("receipt.awardLetters", [$trx->reference_number]) }}"
+                                                                    <a class="dropdown-item"
+                                                                        href="{{ route('receipt.awardLetters', [$trx->reference_number]) }}"
                                                                         target="_blank"><i
                                                                             class="fe fe-printer dropdown-item-icon"></i>Print
                                                                         Receipt</a>
@@ -202,16 +210,16 @@
                     <!-- form group -->
                     <div class="mb-3 col-12">
                         <label class="form-label">Company Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="company_name"
-                            placeholder="Company Name" value="{{ Auth::user()->company->company_name }}" required readonly>
+                        <input type="text" class="form-control" name="company_name" placeholder="Company Name"
+                            value="{{ Auth::user()->company->company_name }}" required readonly>
                         <div class="invalid-feedback">Please Provide Company Name.</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Contract Name/LOT <span class="text-danger">*</span></label>
+                        <label class="form-label">Contract Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="contract_name"
-                            placeholder="Contract Name/LOT" required>
-                        <div class="invalid-feedback">Please Provide Contract Name/LOT.</div>
+                            placeholder="Contract Name" required>
+                        <div class="invalid-feedback">Please Provide Contract Name.</div>
                     </div>
 
                     <div class="mb-3 col-12">
@@ -236,28 +244,64 @@
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">MDA <span class="text-danger">*</span></label>
+                        <label class="form-label">Procuring Entity (MDA) <span class="text-danger">*</span></label>
                         <select id="mda" name="mda" class="form-control form-select">
-                            <option value="">Select MDA</option>
+                            <option value="">Select Procuring Entity (MDA)</option>
                             @foreach ($mdas as $mda)
                                 <option value="{{ $mda->mda }}">{{ $mda->mda }}</option>
                             @endforeach
                         </select>
-                        <div class="invalid-feedback">Please Select MDA</div>
+                        <div class="invalid-feedback">Please Select Procuring Entity (MDA)</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Processing Fee Reference No. Indicating Payment of 1% Processing Fee <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="reference_number"
-                            placeholder="Processing Fee Reference No. Indicating Payment of 1% Processing Fee" required>
+                        <label class="form-label">Processing Fee Reference No. Indicating Payment of 1% Processing Fee
+                            <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="fee_evidence"
+                            placeholder="Processing Fee Reference No. Indicating Payment of 1% Processing Fee"
+                            required>
                         <div class="invalid-feedback">Please Provide Processing Fee Reference Number</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Tax Clearance Certificate For the past three (3) Years <span class="text-danger">*</span></label>
+                        <label class="form-label">Tax Clearance Certificate For Three (3) Recent Years <span
+                                class="text-danger">*</span></label>
+                        <small style="color:green; display:block">Please Document Format Must Be Portable Document
+                            Format (PDF).</small>
                         <input type="file" class="form-control" name="tcc"
-                            placeholder="Tax Clearance Certificate" required>
-                        <div class="invalid-feedback">Please Upload Tax Clearance Certificate</div>
+                            placeholder="Tax Clearance Certificate" accept="application/pdf" required>
+                        <div class="invalid-feedback">Please Upload Tax Clearance Certificate For Three (3) Recent Years</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Upload Valid BSPPC Certificate <span
+                                class="text-danger">*</span></label>
+                        <small style="color:green; display:block">Please Document Format Must Be Portable Document
+                            Format (PDF).</small>
+                        <input type="file" class="form-control" name="bsppc_certificate" accept="application/pdf"
+                            placeholder="Upload Valid BSPPC Certificate" required>
+                        <small style="color:red"><u>Note:</u> Existing contractors who are renewing for the first time
+                            on this platform should scan the passport page and the last update page of their green card
+                            in one single document before uploading.</small>
+                        <div class="invalid-feedback">Please Upload Valid BSPPC Certificate</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Upload CAC Certificate</label>
+                        <small style="color:green; display:block">Please Document Format Must Be Portable Document
+                            Format (PDF).</small>
+                        <input type="file" class="form-control" name="cac_certificate" accept="application/pdf"
+                            placeholder="Upload CAC Certificate" required>
+                        <div class="invalid-feedback">Please Upload CAC Certificate</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Upload Evidence of Advance Payment Guarantee (Optional)</label>
+                        <small style="color:green; display:block">Please Document Format Must Be Portable Document
+                            Format (PDF).</small>
+                        <input type="file" class="form-control" name="advance_payment" accept="application/pdf"
+                            placeholder="Upload Evidence of Advance Payment Guarantee">
+                        <div class="invalid-feedback">Please Upload Evidence of Advance Payment Guarantee</div>
                     </div>
 
                     <div class="col-md-12 border-bottom"></div>

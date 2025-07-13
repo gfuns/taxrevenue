@@ -264,9 +264,13 @@
                     <div class="mb-3 col-12">
                         <label class="form-label">Upload Previous BSPPC Certificate <span
                                 class="text-danger">*</span></label>
+                        <small style="color:green; display:block">Please Document Format Must Be Portable Document
+                            Format (PDF).</small>
                         <input type="file" class="form-control" name="bsppc_certificate" accept="application/pdf"
                             placeholder="Upload Previous BSPPC Certificate" required>
-                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
+                        <small style="color:red"><u>Note:</u> Existing contractors who are renewing for the first time
+                            on this platform should scan the passport page and the last update page of their green card
+                            in one single document before uploading.</small>
                         <div class="invalid-feedback">Please Upload Previous BSPPC Certificate</div>
                     </div>
 

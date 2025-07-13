@@ -20,10 +20,12 @@ return new class extends Migration
             $table->double("contract_amount", 12, 2);
             $table->date("award_date");
             $table->string("contract_duration");
+            $table->string("fee_evidence");
             $table->text("mda");
             $table->text("tcc_cert");
             $table->text("cac_cert");
             $table->text("bsppc_cert");
+            $table->text("advance_payment")->nullable();
             $table->double("amount_paid", 12, 2);
             $table->enum("status", ["pending", "awaiting approval", "approved", "rejected", "payment failed"])->default("pending");
             $table->longText("rejection_reason")->nullable();

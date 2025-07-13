@@ -84,7 +84,7 @@
                                     <tr>
                                         <td><b>Uploaded Documents:</b></td>
                                         <td>
-                                            <ol style="padding-left:17px;margin-bottom:0px">
+                                            <ol style="padding-left:17px; margin-bottom:0px">
                                                 <li><a href="{{ $trx->contract_agreement }}" target="_blank">Contract Agreement</a></li>
                                                 <li><a href="{{ $trx->poa_document }}" target="_blank">Power Of Attorney</a></li>
                                                 <li><a href="{{ $trx->award_notification }}" target="_blank">Notification of Award from Procuring Entity</a></li>

@@ -1181,7 +1181,11 @@ class BusinessController extends Controller
             'date_of_award'     => 'required',
             'contract_duration' => 'required',
             'mda'               => 'required',
-            'tcc'               => 'required',
+            'fee_evidence'      => 'required',
+            'tcc'               => 'required|file|mimes:pdf',
+            'bsppc_certificate' => 'required|file|mimes:pdf',
+            'cac_certificate'   => 'required|file|mimes:pdf',
+            'advance_payment'   => 'nullable|file|mimes:pdf',
         ]);
 
         if ($validator->fails()) {
@@ -1200,6 +1204,7 @@ class BusinessController extends Controller
 
             $trx                    = new AwardLetter;
             $trx->reference_number  = $reference;
+            $trx->fee_evidence      = $request->fee_evidence;
             $trx->company_id        = Auth::user()->company->id;
             $trx->company_name      = Auth::user()->company->company_name;
             $trx->contract_name     = $request->contract_name;
@@ -1209,8 +1214,20 @@ class BusinessController extends Controller
             $trx->mda               = $request->mda;
             $trx->amount_paid       = $item->amount;
             if ($request->has('tcc')) {
-                $uploadedFileUrl = Cloudinary::upload($request->file('tcc')->getRealPath())->getSecurePath();
-                $trx->tcc_cert   = $uploadedFileUrl;
+                $tcc           = Cloudinary::upload($request->file('tcc')->getRealPath())->getSecurePath();
+                $trx->tcc_cert = $tcc;
+            }
+            if ($request->has('bsppc_certificate')) {
+                $bsppcCertificate = Cloudinary::upload($request->file('bsppc_certificate')->getRealPath())->getSecurePath();
+                $trx->bsppc_cert  = $bsppcCertificate;
+            }
+            if ($request->has('cac_certificate')) {
+                $cacCertificate = Cloudinary::upload($request->file('cac_certificate')->getRealPath())->getSecurePath();
+                $trx->cac_cert  = $cacCertificate;
+            }
+            if ($request->has('advance_payment')) {
+                $advancePayment       = Cloudinary::upload($request->file('advance_payment')->getRealPath())->getSecurePath();
+                $trx->advance_payment = $advancePayment;
             }
             $trx->save();
 

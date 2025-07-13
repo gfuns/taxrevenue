@@ -84,7 +84,7 @@
                                     <tr>
                                         <td><b>Uploaded Documents:</b></td>
                                         <td>
-                                            <ol style="padding-left:17px;margin-bottom:0px">
+                                            <ol style="padding-left:17px; margin-bottom:0px">
                                                 <li><a href="{{ $trx->bsppc_cert }}" target="_blank">BSPPC Certificate (Front and Back)</a></li>
                                             </ol>
                                         </td>

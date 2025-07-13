@@ -220,7 +220,8 @@
                         <label class="form-label">Name of Donee Company <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="donee_company"
                             placeholder="Name of Donee Company" required>
-                            <small style="color:red">Please Note: The Donee Company must be a registered contractor with BSPPC</small>
+                        <small style="color:red">Please Note: The Donee Company must be a registered contractor with
+                            BSPPC</small>
                         <div class="invalid-feedback">Please Provide Name of Donee Company.</div>
                     </div>
 
@@ -278,56 +279,60 @@
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Upload Contract Agreement <span
-                                class="text-danger">*</span></label>
-                        <input type="file" class="form-control" name="contract_agreement" accept="application/pdf"
-                            placeholder="Upload Contract Agreement" required>
-                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
+                        <label class="form-label">Upload Contract Agreement <span class="text-danger">*</span></label>
+                        <small style="color:green; display:block">Please Document Format Must Be Portable Document
+                            Format (PDF).</small>
+                        <input type="file" class="form-control" name="contract_agreement"
+                            accept="application/pdf" placeholder="Upload Contract Agreement" required>
                         <div class="invalid-feedback">Please Upload Contract Agreement</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Upload Power Of Attorney <span
-                                class="text-danger">*</span></label>
+                        <label class="form-label">Upload Power Of Attorney <span class="text-danger">*</span></label>
+                        <small style="color:green; display:block">Please Document Format Must Be Portable Document
+                            Format (PDF).</small>
                         <input type="file" class="form-control" name="poa_document" accept="application/pdf"
                             placeholder="Upload Power Of Attorney" required>
-                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
                         <div class="invalid-feedback">Please Upload Power Of Attorney</div>
                     </div>
 
                     <div class="mb-3 col-12">
                         <label class="form-label">Notification of Award from Procuring Entity <span
                                 class="text-danger">*</span></label>
-                        <input type="file" class="form-control" name="award_notification" accept="application/pdf"
-                            placeholder="Upload Notification of Award from Procuring Entity" required>
-                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
+                        <small style="color:green; display:block">Please Document Format Must Be Portable Document
+                            Format (PDF).</small>
+                        <input type="file" class="form-control" name="award_notification"
+                            accept="application/pdf" placeholder="Upload Notification of Award from Procuring Entity"
+                            required>
                         <div class="invalid-feedback">Please Upload Notification of Award from Procuring Entity</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Acceptance Letter <span
-                                class="text-danger">*</span></label>
+                        <label class="form-label">Acceptance Letter <span class="text-danger">*</span></label>
+                        <small style="color:green; display:block">Please Document Format Must Be Portable Document
+                            Format (PDF).</small>
                         <input type="file" class="form-control" name="acceptance_letter" accept="application/pdf"
                             placeholder="Upload Acceptance Letter" required>
-                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
                         <div class="invalid-feedback">Please Upload Acceptance Letter</div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">BOQ or BEME <span
-                                class="text-danger">*</span></label>
+                        <label class="form-label">BOQ or BEME <span class="text-danger">*</span></label>
+                        <small style="color:green; display:block">Please Document Format Must Be Portable Document
+                            Format (PDF).</small>
                         <input type="file" class="form-control" name="boq_beme" accept="application/pdf"
                             placeholder="Upload BOQ or BEME" required>
-                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
                         <div class="invalid-feedback">Please Upload BOQ or BEME</div>
                     </div>
 
                     <div class="mb-3 col-12">
                         <label class="form-label">Company Profile of the Donee Company <span
                                 class="text-danger">*</span></label>
-                        <input type="file" class="form-control" name="donee_company_profile" accept="application/pdf"
-                            placeholder="Upload Company Profile of the Donee Company" required>
-                        <small style="color:red">Please Document Format Must Be Portable Document Format (PDF)</small>
+                        <small style="color:green; display:block">Please Document Format Must Be Portable Document
+                            Format (PDF).</small>
+                        <input type="file" class="form-control" name="donee_company_profile"
+                            accept="application/pdf" placeholder="Upload Company Profile of the Donee Company"
+                            required>
                         <div class="invalid-feedback">Please Upload Company Profile of the Donee Company</div>
                     </div>
 
