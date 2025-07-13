@@ -41,8 +41,8 @@
 
                         <div class="row">
                             <table class="table" style="border-bottom: #fff; color: #000">
-                                <tr>
-                                    <td><b>Reference Number:</b></td>
+                                 <tr>
+                                    <td width="50%"><b>Reference Number:</b></td>
                                     <td>{{ $trx->reference_number }}</td>
                                 </tr>
                                 <tr>
@@ -59,6 +59,16 @@
                                 </tr>
 
                                 <tr>
+                                    <td><b>Expiry Date Of Previous Certificate</b></td>
+                                    <td>{{ date_format(new DateTime($trx->expiry_date), 'jS F, Y') }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td><b>Director's Phone Number:</b></td>
+                                    <td>{{ $trx->phone_number }}</td>
+                                </tr>
+
+                                <tr>
                                     <td><b>No. of Years To Renew:</b></td>
                                     <td>{{ $trx->period }} Year(s)</td>
                                 </tr>
@@ -66,11 +76,6 @@
                                 <tr>
                                     <td><b>Company Email:</b></td>
                                     <td>{{ $trx->email }}</td>
-                                </tr>
-
-                                <tr>
-                                    <td><b>Director's Phone Number:</b></td>
-                                    <td>{{ $trx->phone_number }}</td>
                                 </tr>
 
                                 <tr>
@@ -82,20 +87,29 @@
                                     <td><b>Uploaded Documents:</b></td>
                                     <td>
                                         <ol style="padding-left:17px; margin-bottom:0px">
-                                            <li><a href="">BSPPC Certificate (Front and Back)</a></li>
+                                            <li><a href="{{ $trx->bsppc_cert }}" target="_blank">BSPPC Certificate
+                                                    (Front and Back)</a></li>
                                         </ol>
                                     </td>
                                 </tr>
 
+                                 <tr>
+                                    <td><b>Application Date:</b></td>
+                                    <td>{{ date_format($trx->created_at, 'jS F, Y g:i:sa') }}</td>
+                                </tr>
+
                                 <tr>
-                                    <td><b>Payment Status:</b></td>
+                                    <td><b>Application Status:</b></td>
                                     <td>
-                                        @if ($trx->status == 'pending')
-                                            <span class="badge text-warning bg-light-warning">Pending</span>
-                                        @elseif($trx->status == 'paid')
-                                            <span class="badge text-success bg-light-success">Paid</span>
+                                        @if ($trx->status == 'pending' || $trx->status == 'awaiting approval')
+                                            <span
+                                                class="badge text-warning bg-light-warning">{{ ucwords($trx->status) }}</span>
+                                        @elseif($trx->status == 'approved')
+                                            <span
+                                                class="badge text-success bg-light-success">{{ ucwords($trx->status) }}</span>
                                         @else
-                                            <span class="badge text-danger bg-light-danger">Failed</span>
+                                            <span
+                                                class="badge text-danger bg-light-danger">{{ ucwords($trx->status) }}</span>
                                         @endif
                                     </td>
                                 </tr>
