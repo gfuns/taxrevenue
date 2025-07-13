@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Middleware;
 
+use App\Models\Company;
 use Auth;
 use Closure;
 use Illuminate\Http\Request;
@@ -16,10 +17,12 @@ class CompanyRegistered
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            if (Auth::user()->profile_updated == 1) {
+            $company = Company::where("user_id", Auth::user()->id)->where("status", "approved")->first();
+            if (isset($company) && ! empty($company)) {
                 return $next($request);
             } else {
-                return response()->view("business.profile");
+                toast('This process is only allowed for approved contractors.', 'error');
+                return redirect()->route("business.dashboard");
             }
         } else {
             return response()->view("auth.login");
