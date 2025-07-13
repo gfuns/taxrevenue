@@ -59,7 +59,8 @@
                                 </option>
                                 <option value="approved" @if ($status == 'approved') selected @endif>Approved
                                 </option>
-                                <option value="rejected" @if ($status == 'rejected') selected @endif>Rejected</option>
+                                <option value="rejected" @if ($status == 'rejected') selected @endif>Rejected
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -83,7 +84,7 @@
                                             <th>Business Category</th>
                                             <th>Classification</th>
                                             <th>Reg. Date</th>
-                                            <th>Status</th>
+                                            <th>Application Status</th>
                                             <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
                                         </tr>
                                     </thead>
@@ -94,17 +95,20 @@
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $trx->company_name }}</td>
                                                 <td>{{ $trx->bsppc_number ?? 'Not Assigned' }}</td>
-                                                <td>{{ $trx->cac_number  }}</td>
+                                                <td>{{ $trx->cac_number }}</td>
                                                 <td>{{ $trx->business_category }}</td>
                                                 <td>{{ $trx->classification }}</td>
                                                 <td>{{ date_format($trx->created_at, 'jS M, Y') }}</td>
                                                 <td>
-                                                    @if ($trx->status == 'pending')
-                                                        <span class="badge text-warning bg-light-warning">Pending</span>
-                                                    @elseif($trx->status == 'paid')
-                                                        <span class="badge text-success bg-light-success">Approved</span>
+                                                    @if ($trx->status == 'pending' || $trx->status == 'awaiting approval')
+                                                        <span
+                                                            class="badge text-warning bg-light-warning">{{ ucwords($trx->status) }}</span>
+                                                    @elseif($trx->status == 'approved')
+                                                        <span
+                                                            class="badge text-success bg-light-success">{{ ucwords($trx->status) }}</span>
                                                     @else
-                                                        <span class="badge text-danger bg-light-danger">Rejected</span>
+                                                        <span
+                                                            class="badge text-danger bg-light-danger">{{ ucwords($trx->status) }}</span>
                                                     @endif
                                                 </td>
                                                 <td class="align-middle">

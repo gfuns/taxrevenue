@@ -441,6 +441,7 @@ class AdminController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'document_title' => 'required',
+            'operation'      => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -452,6 +453,7 @@ class AdminController extends Controller
 
         $doc                 = new UploadableDocs;
         $doc->document_title = $request->document_title;
+        $doc->category       = $request->operation;
         if ($doc->save()) {
             toast("Document Information Captured Successfully.", 'success');
             return back();
@@ -474,6 +476,7 @@ class AdminController extends Controller
         $validator = Validator::make($request->all(), [
             'document_id'    => 'required',
             'document_title' => 'required',
+            'operation'      => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -485,6 +488,7 @@ class AdminController extends Controller
 
         $doc                 = UploadableDocs::find($request->document_id);
         $doc->document_title = $request->document_title;
+        $doc->category       = $request->operation;
         if ($doc->save()) {
             toast("Document Information Updated Successfully.", 'success');
             return back();

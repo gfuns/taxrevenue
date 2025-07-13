@@ -22,18 +22,18 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="companies" href="{{ route("admin.companyRegistrations") }}">
+                <a class="nav-link " id="companies" href="{{ route('admin.companyRegistrations') }}">
                     <i class="nav-icon bi bi-pencil-square me-2"></i>
                     Company Registrations
                 </a>
             </li>
 
-             <li class="nav-item">
+            <li class="nav-item">
                 <div class="nav-divider"></div>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="renewals" href="{{ route("admin.companyRenewals") }}">
+                <a class="nav-link " id="renewals" href="{{ route('admin.companyRenewals') }}">
                     <i class="nav-icon bi bi-arrow-clockwise me-2"></i>
                     Registration Renewals
                 </a>
@@ -45,7 +45,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link " id="poa" href="{{ route("admin.powerOfAttorney") }}">
+                <a class="nav-link " id="poa" href="{{ route('admin.powerOfAttorney') }}">
                     <i class="nav-icon fa fa-gavel me-2"></i>
                     Power of Attorneys
                 </a>
@@ -57,9 +57,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="awards" href="{{ route("admin.awardLetters") }}">
-                    <i class="nav-icon bi bi-award-fill me-2"></i>
-                    Award Letter Requests
+                <a class="nav-link " id="processingfee" href="{{ route('admin.processingFees') }}">
+                    <i class="nav-icon bi bi-cash-coin me-2"></i>
+                    Processing Fees
                 </a>
             </li>
 
@@ -68,12 +68,11 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="processingfee" href="{{ route("admin.processingFees") }}">
-                    <i class="nav-icon bi bi-cash-coin me-2"></i>
-                    Processing Fees
+                <a class="nav-link " id="awards" href="{{ route('admin.awardLetters') }}">
+                    <i class="nav-icon bi bi-award-fill me-2"></i>
+                    Award Letter Requests
                 </a>
             </li>
-
 
             <li class="nav-item">
                 <div class="nav-divider"></div>

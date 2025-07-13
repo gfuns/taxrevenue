@@ -56,6 +56,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Uploadable Document</th>
+                                            <th>Required Operation</th>
                                             <th>Status</th>
                                             <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
                                         </tr>
@@ -66,6 +67,7 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $doc->document_title }}</td>
+                                                <td>{{ ucwords($doc->category) }}</td>
                                                 <td>
                                                     @if ($doc->status == 'active')
                                                         <span class="badge text-success bg-light-success">Active</span>
@@ -85,9 +87,10 @@
 
                                                                 <a class="dropdown-item" href="#"
                                                                     data-bs-toggle="offcanvas"
-                                                                    data-bs-target="#editCategory"
+                                                                    data-bs-target="#editDocument"
                                                                     data-myid="{{ $doc->id }}"
-                                                                    data-category="{{ $doc->document_title }}"><i
+                                                                    data-document="{{ $doc->document_title }}"
+                                                                    data-operation="{{ $doc->category }}"><i
                                                                         class="fe fe-edit dropdown-item-icon"></i>Update
                                                                     Details</a>
 
@@ -156,9 +159,22 @@
                     <!-- form group -->
                     <div class="mb-3 col-12">
                         <label class="form-label">Document Title <span class="text-danger">*</span></label>
-                        <input type="text" name="document_title" class="form-control" placeholder="Enter Document Title "
-                            required>
+                        <input type="text" name="document_title" class="form-control"
+                            placeholder="Enter Document Title " required>
                         <div class="invalid-feedback">Please enter document title.</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Required Operation <span class="text-danger">*</span></label>
+                        <select id="operation" name="operation" class="form-select">
+                            <option value="">Select Required Operation</option>
+                            <option value="registration">Company Registration</option>
+                            <option value="renewal">Registration Renewal</option>
+                            <option value="power of attorney">Power Of Attorney Application</option>
+                            <option value="award letter">Award Letter Application</option>
+                            <option value="processing fee">Processing Fee Remittance</option>
+                        </select>
+                        <div class="invalid-feedback">Please Select Required Operation</div>
                     </div>
 
                     <div class="col-md-12 border-bottom"></div>
@@ -174,7 +190,7 @@
     </div>
 </div>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="editCategory" style="width: 600px;">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="editDocument" style="width: 600px;">
     <div class="offcanvas-body" data-simplebar>
         <div class="offcanvas-header px-2 pt-0">
             <h3 class="offcanvas-title" id="offcanvasExampleLabel"> Update Document Information</h3>
@@ -184,16 +200,29 @@
         <!-- card body -->
         <div class="container">
             <!-- form -->
-            <form class="needs-validation" novalidate method="post"
-                action="{{ route('admin.updateUpDoc') }}" enctype="multipart/form-data">
+            <form class="needs-validation" novalidate method="post" action="{{ route('admin.updateUpDoc') }}"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <!-- form group -->
                     <div class="mb-3 col-12">
                         <label class="form-label">Document Title <span class="text-danger">*</span></label>
-                        <input id="category" type="text" name="document_title" class="form-control"
+                        <input id="document" type="text" name="document_title" class="form-control"
                             placeholder="Enter Document Title" required>
                         <div class="invalid-feedback">Please enter document title.</div>
+                    </div>
+
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Required Operation <span class="text-danger">*</span></label>
+                        <select id="uoperation" name="operation" class="form-select">
+                            <option value="">Select Required Operation</option>
+                            <option value="registration">Company Registration</option>
+                            <option value="renewal">Registration Renewal</option>
+                            <option value="power of attorney">Power Of Attorney Application</option>
+                            <option value="award letter">Award Letter Application</option>
+                            <option value="processing fee">Processing Fee Remittance</option>
+                        </select>
+                        <div class="invalid-feedback">Please Select Required Operation</div>
                     </div>
 
                     <input id="myid" type="hidden" name="document_id" class="form-control" required>
