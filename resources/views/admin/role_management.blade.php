@@ -25,11 +25,13 @@
                     </nav>
                 </div>
 
-                 <div>
+                @if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 1) == true)
+                    <div>
                         <a href="#" class="btn btn-success btn-sm me-2" data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasRight">Add New User Role</a>
 
                     </div>
+                @endif
             </div>
         </div>
     </div>
@@ -54,7 +56,9 @@
                                             <th>#</th>
                                             <th>User Role</th>
                                             <th>Permissions</th>
-                                            <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
+                                            @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -64,33 +68,35 @@
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $role->role }}</td>
                                                 <td> {{ $role->totalPermissions() }} Permissions Found</td>
-                                                <td class="align-middle">
-                                                    <div class="hstack gap-4">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn btn-success bg-light-success text-success btn-sm"
-                                                                href="#" role="button" data-bs-toggle="dropdown"
-                                                                data-bs-offset="-20,20" aria-expanded="false">Action</a>
-                                                            <span class="dropdown-menu"><span
-                                                                    class="dropdown-header">Action</span>
+                                                @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                    <td class="align-middle">
+                                                        <div class="hstack gap-4">
+                                                            <span class="dropdown dropstart">
+                                                                <a class="btn btn-success bg-light-success text-success btn-sm"
+                                                                    href="#" role="button"
+                                                                    data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                                    aria-expanded="false">Action</a>
+                                                                <span class="dropdown-menu"><span
+                                                                        class="dropdown-header">Action</span>
 
-                                                                <a class="dropdown-item" href="#"
-                                                                    data-bs-toggle="offcanvas"
-                                                                    data-bs-target="#editUserRole"
-                                                                    data-myid="{{ $role->id }}"
-                                                                    data-userole="{{ $role->role }}"><i
-                                                                        class="fe fe-edit dropdown-item-icon"></i>Update
-                                                                    Details</a>
-                                                                <a class="dropdown-item"
-                                                                    href="{{ route('admin.managePermissions', [$role->id]) }}"><i
-                                                                        class="fe fe-settings dropdown-item-icon"></i>View
-                                                                    Permissions</a>
+                                                                    <a class="dropdown-item" href="#"
+                                                                        data-bs-toggle="offcanvas"
+                                                                        data-bs-target="#editUserRole"
+                                                                        data-myid="{{ $role->id }}"
+                                                                        data-userole="{{ $role->role }}"><i
+                                                                            class="fe fe-edit dropdown-item-icon"></i>Update
+                                                                        Details</a>
+                                                                    <a class="dropdown-item"
+                                                                        href="{{ route('admin.managePermissions', [$role->id]) }}"><i
+                                                                            class="fe fe-settings dropdown-item-icon"></i>View
+                                                                        Permissions</a>
 
+                                                                </span>
                                                             </span>
-                                                        </span>
 
-                                                    </div>
-                                                </td>
-
+                                                        </div>
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
 
@@ -119,7 +125,8 @@
     </div>
 </section>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 600px;">
+@if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 1) == true)
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 600px;">
         <div class="offcanvas-body" data-simplebar>
             <div class="offcanvas-header px-2 pt-0">
                 <h3 class="offcanvas-title" id="offcanvasExampleLabel"> New User Role</h3>
@@ -153,9 +160,10 @@
             </div>
         </div>
     </div>
+@endif
 
-
- <div class="offcanvas offcanvas-end" tabindex="-1" id="editUserRole" style="width: 600px;">
+@if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="editUserRole" style="width: 600px;">
         <div class="offcanvas-body" data-simplebar>
             <div class="offcanvas-header px-2 pt-0">
                 <h3 class="offcanvas-title" id="offcanvasExampleLabel"> Edit User Role</h3>
@@ -191,8 +199,7 @@
             </div>
         </div>
     </div>
-
-
+@endif
 <script type="text/javascript">
     document.getElementById("platSettings").classList.add('show');
     document.getElementById("roles").classList.add('active');

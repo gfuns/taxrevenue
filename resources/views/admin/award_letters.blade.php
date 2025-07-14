@@ -94,11 +94,11 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $trx->reference_number }}</td>
-                                                 <td>{{ $trx->company->company_name }}</td>
+                                                <td>{{ $trx->company->company_name }}</td>
                                                 <td>{{ $trx->contract_name }}</td>
                                                 <td>{{ date_format(new DateTime($trx->award_date), 'jS M, Y') }}</td>
                                                 <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
-                                               <td>
+                                                <td>
                                                     @if ($trx->status == 'pending' || $trx->status == 'awaiting approval')
                                                         <span
                                                             class="badge text-warning bg-light-warning">{{ ucwords($trx->status) }}</span>
@@ -119,7 +119,8 @@
                                                             <span class="dropdown-menu"><span
                                                                     class="dropdown-header">Action</span>
 
-                                                                <a class="dropdown-item" href="{{ route("admin.awardLettersDetails", [$trx->reference_number]) }}"><i
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('admin.awardLettersDetails', [$trx->reference_number]) }}"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
 
@@ -128,7 +129,6 @@
 
                                                     </div>
                                                 </td>
-
                                             </tr>
                                         @endforeach
 

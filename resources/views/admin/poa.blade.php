@@ -117,7 +117,8 @@
                                                             <span class="dropdown-menu"><span
                                                                     class="dropdown-header">Action</span>
 
-                                                                <a class="dropdown-item" href="{{ route("admin.powerOfAttorneyDetails", [$trx->reference_number]) }}"><i
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('admin.powerOfAttorneyDetails', [$trx->reference_number]) }}"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
                                                             </span>
@@ -125,7 +126,6 @@
 
                                                     </div>
                                                 </td>
-
                                             </tr>
                                         @endforeach
 

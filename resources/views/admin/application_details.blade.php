@@ -247,20 +247,22 @@
                     </table>
 
                 </div>
-
-                <hr />
-                <div class="col-md-8"></div>
-                <!-- button -->
-                <div class="p-4 row col-12 d-flex align-items-center justify-content-between">
-                    <div class="col-6">
-                        <a href="#" target="_blank"><button class="btn btn-success w-100" type="button">Approve
-                                Application</button></a>
+                @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 2) == true)
+                    <hr />
+                    <div class="col-md-8"></div>
+                    <!-- button -->
+                    <div class="p-4 row col-12 d-flex align-items-center justify-content-between">
+                        <div class="col-6">
+                            <a href="#" target="_blank"><button class="btn btn-success w-100"
+                                    type="button">Approve
+                                    Application</button></a>
+                        </div>
+                        <div class="col-6">
+                            <a href="#" target="_blank"><button class="btn btn-danger w-100" type="button">Reject
+                                    Application</button></a>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <a href="#" target="_blank"><button class="btn btn-danger w-100" type="button">Reject
-                                Application</button></a>
-                    </div>
-                </div>
+                @endif
 
             </div>
 

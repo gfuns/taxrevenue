@@ -57,7 +57,9 @@
                                             <th>#</th>
                                             <th>Business Category</th>
                                             <th>Status</th>
-                                            <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
+                                            @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -74,43 +76,45 @@
                                                             class="badge text-danger bg-light-danger">Deactivated</span>
                                                     @endif
                                                 </td>
-                                                <td class="align-middle">
-                                                    <div class="hstack gap-4">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn btn-success bg-light-success text-success btn-sm"
-                                                                href="#" role="button" data-bs-toggle="dropdown"
-                                                                data-bs-offset="-20,20" aria-expanded="false">Action</a>
-                                                            <span class="dropdown-menu"><span
-                                                                    class="dropdown-header">Action</span>
+                                                @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                    <td class="align-middle">
+                                                        <div class="hstack gap-4">
+                                                            <span class="dropdown dropstart">
+                                                                <a class="btn btn-success bg-light-success text-success btn-sm"
+                                                                    href="#" role="button"
+                                                                    data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                                    aria-expanded="false">Action</a>
+                                                                <span class="dropdown-menu"><span
+                                                                        class="dropdown-header">Action</span>
 
-                                                                <a class="dropdown-item" href="#"
-                                                                    data-bs-toggle="offcanvas"
-                                                                    data-bs-target="#editCategory"
-                                                                    data-myid="{{ $cat->id }}"
-                                                                    data-category="{{ $cat->category }}"><i
-                                                                        class="fe fe-edit dropdown-item-icon"></i>Update
-                                                                    Details</a>
+                                                                    <a class="dropdown-item" href="#"
+                                                                        data-bs-toggle="offcanvas"
+                                                                        data-bs-target="#editCategory"
+                                                                        data-myid="{{ $cat->id }}"
+                                                                        data-category="{{ $cat->category }}"><i
+                                                                            class="fe fe-edit dropdown-item-icon"></i>Update
+                                                                        Details</a>
 
-                                                                @if ($cat->status == 'active')
-                                                                    <a class="dropdown-item"
-                                                                        href="{{ route('admin.deactivateCategory', [$cat->id]) }}"
-                                                                        onclick="return confirm('Are you sure you want to deacticate this category?');"><i
-                                                                            class="fe fe-x-circle dropdown-item-icon"></i>Deactivate
-                                                                        Category</a>
-                                                                @else
-                                                                    <a class="dropdown-item"
-                                                                        href="{{ route('admin.activateCategory', [$cat->id]) }}"
-                                                                        onclick="return confirm('Are you sure you want to activate this category?');"><i
-                                                                            class="fe fe-check-circle dropdown-item-icon"></i>Activate
-                                                                        Category</a>
-                                                                @endif
+                                                                    @if ($cat->status == 'active')
+                                                                        <a class="dropdown-item"
+                                                                            href="{{ route('admin.deactivateCategory', [$cat->id]) }}"
+                                                                            onclick="return confirm('Are you sure you want to deacticate this category?');"><i
+                                                                                class="fe fe-x-circle dropdown-item-icon"></i>Deactivate
+                                                                            Category</a>
+                                                                    @else
+                                                                        <a class="dropdown-item"
+                                                                            href="{{ route('admin.activateCategory', [$cat->id]) }}"
+                                                                            onclick="return confirm('Are you sure you want to activate this category?');"><i
+                                                                                class="fe fe-check-circle dropdown-item-icon"></i>Activate
+                                                                            Category</a>
+                                                                    @endif
 
+                                                                </span>
                                                             </span>
-                                                        </span>
 
-                                                    </div>
-                                                </td>
-
+                                                        </div>
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
 
@@ -139,78 +143,81 @@
     </div>
 </section>
 
+@if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 1) == true)
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 600px;">
+        <div class="offcanvas-body" data-simplebar>
+            <div class="offcanvas-header px-2 pt-0">
+                <h3 class="offcanvas-title" id="offcanvasExampleLabel"> New Business Category</h3>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <!-- card body -->
+            <div class="container">
+                <!-- form -->
+                <form class="needs-validation" novalidate method="post"
+                    action="{{ route('admin.storeBusinessCategory') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <!-- form group -->
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Business Category <span class="text-danger">*</span></label>
+                            <input type="text" name="category" class="form-control"
+                                placeholder="Enter Business Category" required>
+                            <div class="invalid-feedback">Please enter business category.</div>
+                        </div>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 600px;">
-    <div class="offcanvas-body" data-simplebar>
-        <div class="offcanvas-header px-2 pt-0">
-            <h3 class="offcanvas-title" id="offcanvasExampleLabel"> New Business Category</h3>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <!-- card body -->
-        <div class="container">
-            <!-- form -->
-            <form class="needs-validation" novalidate method="post" action="{{ route('admin.storeBusinessCategory') }}"
-                enctype="multipart/form-data">
-                @csrf
-                <div class="row">
-                    <!-- form group -->
-                    <div class="mb-3 col-12">
-                        <label class="form-label">Business Category <span class="text-danger">*</span></label>
-                        <input type="text" name="category" class="form-control" placeholder="Enter Business Category"
-                            required>
-                        <div class="invalid-feedback">Please enter business category.</div>
+                        <div class="col-md-12 border-bottom"></div>
+                        <!-- button -->
+                        <div class="col-12 mt-4">
+                            <button class="btn btn-success" type="submit">Submit</button>
+                            <button type="button" class="btn btn-outline-success ms-2" data-bs-dismiss="offcanvas"
+                                aria-label="Close">Close</button>
+                        </div>
                     </div>
-
-                    <div class="col-md-12 border-bottom"></div>
-                    <!-- button -->
-                    <div class="col-12 mt-4">
-                        <button class="btn btn-success" type="submit">Submit</button>
-                        <button type="button" class="btn btn-outline-success ms-2" data-bs-dismiss="offcanvas"
-                            aria-label="Close">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="offcanvas offcanvas-end" tabindex="-1" id="editCategory" style="width: 600px;">
-    <div class="offcanvas-body" data-simplebar>
-        <div class="offcanvas-header px-2 pt-0">
-            <h3 class="offcanvas-title" id="offcanvasExampleLabel"> Update Business Category</h3>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                aria-label="Close"></button>
-        </div>
-        <!-- card body -->
-        <div class="container">
-            <!-- form -->
-            <form class="needs-validation" novalidate method="post"
-                action="{{ route('admin.updateBusinessCategory') }}" enctype="multipart/form-data">
-                @csrf
-                <div class="row">
-                    <!-- form group -->
-                    <div class="mb-3 col-12">
-                        <label class="form-label">Business Category <span class="text-danger">*</span></label>
-                        <input id="category" type="text" name="category" class="form-control"
-                            placeholder="Enter Business Category" required>
-                        <div class="invalid-feedback">Please enter business category.</div>
-                    </div>
-
-                    <input id="myid" type="hidden" name="category_id" class="form-control" required>
-
-                    <div class="col-md-12 border-bottom"></div>
-                    <!-- button -->
-                    <div class="col-12 mt-4">
-                        <button class="btn btn-success" type="submit">Save Changes</button>
-                        <button type="button" class="btn btn-outline-success ms-2" data-bs-dismiss="offcanvas"
-                            aria-label="Close">Close</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+@endif
 
+@if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="editCategory" style="width: 600px;">
+        <div class="offcanvas-body" data-simplebar>
+            <div class="offcanvas-header px-2 pt-0">
+                <h3 class="offcanvas-title" id="offcanvasExampleLabel"> Update Business Category</h3>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <!-- card body -->
+            <div class="container">
+                <!-- form -->
+                <form class="needs-validation" novalidate method="post"
+                    action="{{ route('admin.updateBusinessCategory') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <!-- form group -->
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Business Category <span class="text-danger">*</span></label>
+                            <input id="category" type="text" name="category" class="form-control"
+                                placeholder="Enter Business Category" required>
+                            <div class="invalid-feedback">Please enter business category.</div>
+                        </div>
+
+                        <input id="myid" type="hidden" name="category_id" class="form-control" required>
+
+                        <div class="col-md-12 border-bottom"></div>
+                        <!-- button -->
+                        <div class="col-12 mt-4">
+                            <button class="btn btn-success" type="submit">Save Changes</button>
+                            <button type="button" class="btn btn-outline-success ms-2" data-bs-dismiss="offcanvas"
+                                aria-label="Close">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endif
 
 <script type="text/javascript">
     document.getElementById("platSettings").classList.add('show');

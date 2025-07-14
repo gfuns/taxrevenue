@@ -41,7 +41,7 @@
 
                         <div class="row">
                             <table class="table" style="border-bottom: #fff; color: #000">
-                                 <tr>
+                                <tr>
                                     <td width="50%"><b>Reference Number:</b></td>
                                     <td>{{ $trx->reference_number }}</td>
                                 </tr>
@@ -93,7 +93,7 @@
                                     </td>
                                 </tr>
 
-                                 <tr>
+                                <tr>
                                     <td><b>Application Date:</b></td>
                                     <td>{{ date_format($trx->created_at, 'jS F, Y g:i:sa') }}</td>
                                 </tr>
@@ -124,20 +124,22 @@
                             </table>
 
                         </div>
-                        <hr />
-                        <div class="col-md-8"></div>
-                        <!-- button -->
-                        <div class="row col-12 d-flex align-items-center justify-content-between">
-                            <div class="col-6">
-                                <a href="#" target="_blank"><button class="btn btn-success w-100"
-                                        type="button">Approve Request</button></a>
+                        @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 3) == true)
+                            <hr />
+                            <div class="col-md-8"></div>
+                            <!-- button -->
+                            <div class="row col-12 d-flex align-items-center justify-content-between">
+                                <div class="col-6">
+                                    <a href="#" target="_blank"><button class="btn btn-success w-100"
+                                            type="button">Approve Request</button></a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="#" target="_blank"><button class="btn btn-danger w-100"
+                                            type="button">Reject
+                                            Request</button></a>
+                                </div>
                             </div>
-                            <div class="col-6">
-                                <a href="#" target="_blank"><button class="btn btn-danger w-100"
-                                        type="button">Reject
-                                        Request</button></a>
-                            </div>
-                        </div>
+                        @endif
 
                     </div>
 

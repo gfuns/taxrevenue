@@ -110,6 +110,7 @@
                                                             class="badge text-danger bg-light-danger">{{ ucwords($trx->status) }}</span>
                                                     @endif
                                                 </td>
+
                                                 <td class="align-middle">
                                                     <div class="hstack gap-4">
                                                         <span class="dropdown dropstart">
@@ -119,7 +120,8 @@
                                                             <span class="dropdown-menu"><span
                                                                     class="dropdown-header">Action</span>
 
-                                                                <a class="dropdown-item" href="{{ route("admin.processingFeesDetails", [$trx->reference_number]) }}"><i
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('admin.processingFeesDetails', [$trx->reference_number]) }}"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
 
@@ -128,7 +130,6 @@
 
                                                     </div>
                                                 </td>
-
                                             </tr>
                                         @endforeach
 

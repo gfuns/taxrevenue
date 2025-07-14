@@ -124,18 +124,6 @@
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
 
-                                                                <a class="dropdown-item" href="#"><i
-                                                                        class="fe fe-upload dropdown-item-icon"></i>Upload
-                                                                    BSPPC Certificate</a>
-
-                                                                <a class="dropdown-item" href="#"><i
-                                                                        class="fe fe-check-circle dropdown-item-icon"></i>Approve
-                                                                    Application</a>
-
-                                                                <a class="dropdown-item" href="#"><i
-                                                                        class="fe fe-x-circle dropdown-item-icon"></i>Reject
-                                                                    Application</a>
-
                                                             </span>
                                                         </span>
 
