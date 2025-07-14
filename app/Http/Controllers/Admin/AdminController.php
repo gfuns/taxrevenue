@@ -6,6 +6,8 @@ use App\Mail\AccountCreationMail as AccountCreationMail;
 use App\Models\AwardLetter;
 use App\Models\BusinessCategories;
 use App\Models\Company;
+use App\Models\CompanyDocuments;
+use App\Models\CompanyProjects;
 use App\Models\CompanyRenewals;
 use App\Models\Mda;
 use App\Models\PaymentItem;
@@ -1019,9 +1021,9 @@ class AdminController extends Controller
         $status = request()->status;
         $search = request()->search;
         if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord   = Company::query()->whereLike(["company_name", "bsppc_number", "cac_number"], $search)->count();
+            $lastRecord   = Company::query()->where("status")->whereLike(["company_name", "bsppc_number", "cac_number"], $search)->count();
             $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Company::query()->whereLike(["company_name", "bsppc_number", "cac_number"], $search)->paginate(50);
+            $transactions = Company::query()->whereIn("status", ["awaiting approval", "approved", "rejected"])->whereLike(["company_name", "bsppc_number", "cac_number"], $search)->paginate(50);
         } else if (! isset(request()->search) && isset(request()->status)) {
             $lastRecord   = Company::query()->where("status", $status)->count();
             $marker       = $this->getMarkers($lastRecord, request()->page);
@@ -1031,11 +1033,26 @@ class AdminController extends Controller
             $marker       = $this->getMarkers($lastRecord, request()->page);
             $transactions = Company::query()->whereLike(["company_name", "bsppc_number", "cac_number"], $search)->where("status", $status)->paginate(50);
         } else {
-            $lastRecord   = Company::count();
+            $lastRecord   = Company::whereIn("status", ["awaiting approval", "approved", "rejected"])->count();
             $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Company::paginate(50);
+            $transactions = Company::whereIn("status", ["awaiting approval", "approved", "rejected"])->paginate(50);
         }
         return view("admin.company_registrations", compact("transactions", "search", "status", "lastRecord", "marker"));
+    }
+
+    /**
+     * companyRegDetails
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function companyRegDetails($id)
+    {
+        $company          = Company::find($id);
+        $documents        = CompanyDocuments::where("company_id", $company->id)->get();
+        $executedProjects = CompanyProjects::where("company_id", $company->id)->get();
+        return view("admin.application_details", compact("company", "documents", "executedProjects"));
     }
 
     /**
@@ -1048,10 +1065,10 @@ class AdminController extends Controller
         $status = request()->status;
         $search = request()->search;
         if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = CompanyRenewals::query()->whereLike(["reference_number"], $search)->count();
+            $lastRecord = CompanyRenewals::query()->whereIn("status", ["awaiting approval", "approved", "rejected"])->whereLike(["reference_number"], $search)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
 
-            $transactions = CompanyRenewals::query()->orderBy("id", "desc")->whereLike(["reference_number"], $search)->paginate(50);
+            $transactions = CompanyRenewals::query()->orderBy("id", "desc")->whereIn("status", ["awaiting approval", "approved", "rejected"])->whereLike(["reference_number"], $search)->paginate(50);
         } else if (! isset(request()->search) && isset(request()->status)) {
             $lastRecord = CompanyRenewals::query()->where("status", $status)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
@@ -1063,9 +1080,9 @@ class AdminController extends Controller
 
             $transactions = CompanyRenewals::query()->orderBy("id", "desc")->whereLike(["reference_number"], $search)->where("status", $status)->paginate(50);
         } else {
-            $lastRecord   = CompanyRenewals::count();
+            $lastRecord   = CompanyRenewals::whereIn("status", ["awaiting approval", "approved", "rejected"])->count();
             $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = CompanyRenewals::orderBy("id", "desc")->paginate(50);
+            $transactions = CompanyRenewals::orderBy("id", "desc")->whereIn("status", ["awaiting approval", "approved", "rejected"])->paginate(50);
         }
         return view("admin.company_renewals", compact("transactions", "search", "status", "lastRecord", "marker"));
     }
@@ -1140,10 +1157,10 @@ class AdminController extends Controller
         $status = request()->status;
         $search = request()->search;
         if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = ProcessingFee::query()->whereLike(["reference_number"], $search)->count();
+            $lastRecord = ProcessingFee::query()->whereIn("status", ["awaiting approval", "approved", "rejected"])->whereLike(["reference_number"], $search)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
 
-            $transactions = ProcessingFee::query()->orderBy("id", "desc")->whereLike(["reference_number"], $search)->paginate(50);
+            $transactions = ProcessingFee::query()->orderBy("id", "desc")->whereIn("status", ["awaiting approval", "approved", "rejected"])->whereLike(["reference_number"], $search)->paginate(50);
         } else if (! isset(request()->search) && isset(request()->status)) {
             $lastRecord = ProcessingFee::query()->where("status", $status)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
@@ -1155,9 +1172,9 @@ class AdminController extends Controller
 
             $transactions = ProcessingFee::query()->orderBy("id", "desc")->whereLike(["reference_number"], $search)->where("status", $status)->paginate(50);
         } else {
-            $lastRecord   = ProcessingFee::count();
+            $lastRecord   = ProcessingFee::whereIn("status", ["awaiting approval", "approved", "rejected"])->count();
             $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = ProcessingFee::orderBy("id", "desc")->paginate(50);
+            $transactions = ProcessingFee::orderBy("id", "desc")->whereIn("status", ["awaiting approval", "approved", "rejected"])->paginate(50);
         }
 
         $mdas = Mda::all();
@@ -1187,10 +1204,10 @@ class AdminController extends Controller
         $status = request()->status;
         $search = request()->search;
         if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = AwardLetter::query()->whereLike(["reference_number"], $search)->count();
+            $lastRecord = AwardLetter::query()->whereIn("status", ["awaiting approval", "approved", "rejected"])->whereLike(["reference_number"], $search)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
 
-            $transactions = AwardLetter::query()->orderBy("id", "desc")->whereLike(["reference_number"], $search)->paginate(50);
+            $transactions = AwardLetter::query()->whereIn("status", ["awaiting approval", "approved", "rejected"])->orderBy("id", "desc")->whereLike(["reference_number"], $search)->paginate(50);
         } else if (! isset(request()->search) && isset(request()->status)) {
             $lastRecord = AwardLetter::query()->where("status", $status)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
@@ -1202,9 +1219,9 @@ class AdminController extends Controller
 
             $transactions = AwardLetter::query()->orderBy("id", "desc")->whereLike(["reference_number"], $search)->where("status", $status)->paginate(50);
         } else {
-            $lastRecord   = AwardLetter::count();
+            $lastRecord   = AwardLetter::whereIn("status", ["awaiting approval", "approved", "rejected"])->count();
             $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = AwardLetter::orderBy("id", "desc")->paginate(50);
+            $transactions = AwardLetter::orderBy("id", "desc")->whereIn("status", ["awaiting approval", "approved", "rejected"])->paginate(50);
         }
 
         $mdas = Mda::all();

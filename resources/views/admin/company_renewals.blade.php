@@ -55,11 +55,13 @@
                             <!-- form select -->
                             <select id="status" name="status" class="form-select" onChange="this.form.submit()">
                                 <option value="">All Statuses</option>
-                                <option value="pending" @if ($status == 'pending') selected @endif>Pending
+                                <option value="awaiting approval" @if ($status == 'awaiting approval') selected @endif>
+                                    Awaiting Approval
                                 </option>
-                                <option value="paid" @if ($status == 'paid') selected @endif>Successful
+                                <option value="approved" @if ($status == 'approved') selected @endif>Approved
                                 </option>
-                                <option value="failed" @if ($status == 'failed') selected @endif>Failed</option>
+                                <option value="rejected" @if ($status == 'rejected') selected @endif>Rejected
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -115,7 +117,8 @@
                                                             <span class="dropdown-menu"><span
                                                                     class="dropdown-header">Action</span>
 
-                                                                <a class="dropdown-item" href="{{ route("admin.companyRenewalDetails", [$trx->reference_number]) }}"><i
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('admin.companyRenewalDetails', [$trx->reference_number]) }}"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
 

@@ -162,6 +162,8 @@ Route::group([
 
     Route::get('company-registrations', [AdminController::class, 'companyRegistrations'])->name('admin.companyRegistrations');
 
+    Route::get('company-registration/details/{id}', [AdminController::class, 'companyRegDetails'])->name('admin.companyRegDetails');
+
     Route::get('/company-renewals', [AdminController::class, 'companyRenewals'])->name("admin.companyRenewals");
 
     Route::get('/company-renewals/details/{reference}', [AdminController::class, 'companyRenewalDetails'])->name("admin.companyRenewalDetails");

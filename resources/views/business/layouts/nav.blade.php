@@ -24,7 +24,7 @@
             <li class="nav-item">
                 <a class="nav-link " id="registration" href="{{ route("business.companyRegistration") }}">
                     <i class="nav-icon bi bi-pencil-square me-2"></i>
-                    Company Registration
+                    Contractor Registration
                 </a>
             </li>
 

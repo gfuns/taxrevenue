@@ -1,7 +1,7 @@
-@extends('business.layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Contractor Registration Details')
+@section('title', env('APP_NAME') . ' | Contractor Registrations Details')
 
 <section class="container-fluid p-4">
     <div class="row">
@@ -9,7 +9,7 @@
         <div class="col-lg-12 col-md-12 col-12">
             <div class="border-bottom pb-3 mb-3 d-md-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-md-0">
-                    <h1 class="mb-1 h2 fw-bold">Contractor Registration Details</h1>
+                    <h1 class="mb-1 h2 fw-bold">Contractor Registrations Details</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -17,7 +17,7 @@
                                 <a href="{{ route('business.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Contractor Registration Details</a>
+                                <a href="#">Contractor Registrations Details</a>
                             </li>
                         </ol>
                     </nav>
@@ -152,10 +152,10 @@
                                             Former Registration Certificate?</th>
                                         <td>{{ ucwords($company->upgrade_application) }}</td>
                                     </tr>
-                                     <tr>
-                                    <th>Application Date:</th>
-                                    <td>{{ date_format($company->created_at, 'jS F, Y g:i:sa') }}</td>
-                                </tr>
+                                    <tr>
+                                        <th>Application Date:</th>
+                                        <td>{{ date_format($company->created_at, 'jS F, Y g:i:sa') }}</td>
+                                    </tr>
 
                                     <tr>
                                         <th>Application Status</th>
@@ -247,9 +247,20 @@
                     </table>
 
                 </div>
+
+                <hr />
+                <div class="col-md-8"></div>
                 <!-- button -->
-                <div class="col-md-8 mt-5"></div>
-                <!-- button -->
+                <div class="p-4 row col-12 d-flex align-items-center justify-content-between">
+                    <div class="col-6">
+                        <a href="#" target="_blank"><button class="btn btn-success w-100" type="button">Approve
+                                Application</button></a>
+                    </div>
+                    <div class="col-6">
+                        <a href="#" target="_blank"><button class="btn btn-danger w-100" type="button">Reject
+                                Application</button></a>
+                    </div>
+                </div>
 
             </div>
 
@@ -261,7 +272,7 @@
 
 
 <script type="text/javascript">
-    document.getElementById("registration").classList.add('active');
+    document.getElementById("companies").classList.add('active');
 </script>
 
 @endsection

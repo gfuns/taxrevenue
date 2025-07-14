@@ -78,25 +78,26 @@
                                     <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
                                 </tr>
 
-                                 <tr>
-                                        <td><b>Uploaded Documents:</b></td>
-                                        <td>
-                                            <ol style="padding-left:17px; margin-bottom:0px">
-                                                <li><a href="{{ route('receipt.processingFees', [$trx->fee_evidence]) }}" target="_blank">Proof of Payment of 1% Processing Fee</a></li>
-                                                <li><a href="{{ $trx->tcc_cert }}" target="_blank">Tax Clearance
-                                                        Certificate For Three (3) Recent Years</a></li>
-                                                <li><a href="{{ $trx->bsppc_cert }}" target="_blank">Valid BSPPC
-                                                        Certificate</a></li>
-                                                <li><a href="{{ $trx->cac_cert }}" target="_blank">CAC Certificate</a>
-                                                </li>
-                                                @if (isset($trx->advance_payment))
-                                                    <li><a href="{{ $trx->advance_payment }}" target="_blank">Evidence
-                                                            of Advance Payment Guarantee</a></li>
-                                                @endif
-                                            </ol>
-                                        </td>
-                                    </tr>
-                                 <tr>
+                                <tr>
+                                    <td><b>Uploaded Documents:</b></td>
+                                    <td>
+                                        <ol style="padding-left:17px; margin-bottom:0px">
+                                            <li><a href="{{ route('receipt.processingFees', [$trx->fee_evidence]) }}"
+                                                    target="_blank">Proof of Payment of 1% Processing Fee</a></li>
+                                            <li><a href="{{ $trx->tcc_cert }}" target="_blank">Tax Clearance
+                                                    Certificate For Three (3) Recent Years</a></li>
+                                            <li><a href="{{ $trx->bsppc_cert }}" target="_blank">Valid BSPPC
+                                                    Certificate</a></li>
+                                            <li><a href="{{ $trx->cac_cert }}" target="_blank">CAC Certificate</a>
+                                            </li>
+                                            @if (isset($trx->advance_payment))
+                                                <li><a href="{{ $trx->advance_payment }}" target="_blank">Evidence
+                                                        of Advance Payment Guarantee</a></li>
+                                            @endif
+                                        </ol>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td><b>Application Date:</b></td>
                                     <td>{{ date_format($trx->created_at, 'jS F, Y g:i:sa') }}</td>
                                 </tr>
@@ -115,6 +116,13 @@
                                         @endif
                                     </td>
                                 </tr>
+
+                                @if ($trx->status == 'rejected')
+                                    <tr>
+                                        <th>Reason For Rejection</th>
+                                        <td>{{ $trx->rejection_reason }}</td>
+                                    </tr>
+                                @endif
 
                             </table>
 

@@ -121,6 +121,13 @@
                                     </td>
                                 </tr>
 
+                                @if ($trx->status == 'rejected')
+                                    <tr>
+                                        <th>Reason For Rejection</th>
+                                        <td>{{ $trx->rejection_reason }}</td>
+                                    </tr>
+                                @endif
+
                             </table>
 
                         </div>
