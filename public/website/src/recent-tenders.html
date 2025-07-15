@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Recent Tenders</title>
+		<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+     <link rel="stylesheet" href="output.css">
+	</head>
+	<body class="bg-gray-50 text-gray-800 font-sans p-6">
+		<section class="py-16 px-6">
+			<div class="max-w-6xl mx-auto">
+				<div class="grid lg:grid-cols-2 gap-12 items-start">
+					<!-- Left Content -->
+					<div>
+						<h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+							<span class="text-gray-400">Open Tenders:</span>
+							<span class="text-gray-800"
+								>Opportunities for Transparent Partnership</span
+							>
+						</h2>
+
+						<p class="text-gray-600 leading-relaxed mb-8">
+							We are committed to fair, competitive, and transparent procurement. Here,
+							you'll find active tender opportunities published by the Benua State
+							Public Procurement Commission. Each tender aligns with the values of
+							value- for-money, inclusivity, and accountability.
+						</p>
+					</div>
+
+					<!-- Right Content -->
+					<div>
+						<h3 class="text-2xl font-bold text-gray-800 mb-6">Why Participate?</h3>
+
+						<ul class="space-y-4">
+							<li class="flex items-start">
+								<div
+									class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+								<span class="text-gray-700">Equal access to government contracts</span>
+							</li>
+							<li class="flex items-start">
+								<div
+									class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+								<span class="text-gray-700">Clear evaluation criteria</span>
+							</li>
+							<li class="flex items-start">
+								<div
+									class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+								<span class="text-gray-700">Real-time updates and notifications</span>
+							</li>
+							<li class="flex items-start">
+								<div
+									class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+								<span class="text-gray-700"
+									>Opportunities across multiple sectors: construction, ICT, healthcare,
+									education, and more</span
+								>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="">
+			<!-- Full Width Banner Image -->
+			<div class="max-w-6xl h-64 md:h-80 lg:h-96 overflow-hidden mx-auto">
+				<img
+					src="../assets/images/frame4.png"
+					class="w-full h-full object-cover object-center" />
+			</div>
+		</section>
+
+    <section class="max-w-6xl mx-auto px-4 py-10">
+			<h2 class="text-3xl font-bold text-[#232323] mb-2">Open Tenders</h2>
+			<p class="text-[#535353] text-base mb-6">
+				Stay informed on the most recent open tender
+			</p>
+
+			<!-- Tender List Container -->
+			<div id="tender-list" class="space-y-6"></div>
+
+			<!-- Pagination UI -->
+			<div id="pagination" class="flex justify-center mt-10 space-x-2"></div>
+		</section>
+
+    <section class="max-w-7xl mx-auto px-16 py-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+  
+        <!-- Card 1 -->
+        <div class="bg-white shadow-sm overflow-hidden">
+          <img src="../assets/images/Image.png" alt="" class="w-full h-48 object-cover" />
+          <div class="p-5 space-y-2">
+            <p class="text-sm text-green-600 font-medium">E-Procurement Strategies</p>
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg font-semibold text-gray-900">Digital Procurement Insights</h3>
+              <span class="text-gray-500 text-lg">↗</span>
+            </div>
+            <p class="text-sm text-gray-600">What are the best practices for creating engaging e-procurement presentations that captivate your team and impress stakeholders?</p>
+            <div class="flex items-center gap-2 pt-4">
+              <img src="https://i.pravatar.cc/30?img=1" class="w-6 h-6 rounded-full" alt="">
+              <span class="text-sm text-gray-700">Jordan Smith</span>
+              <span class="text-sm text-gray-500 ml-auto">15 Mar 2023</span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Card 2 -->
+        <div class="bg-white shadow-sm overflow-hidden">
+          <img src="../assets/images/Image.png" alt="" class="w-full h-48 object-cover" />
+          <div class="p-5 space-y-2">
+            <p class="text-sm text-green-600 font-medium">Sustainable Sourcing Techniques</p>
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg font-semibold text-gray-900">Eco-Friendly Procurement Practices</h3>
+              <span class="text-gray-500 text-lg">↗</span>
+            </div>
+            <p class="text-sm text-gray-600">How can organizations integrate sustainability into procurement to reduce environmental impact while ensuring cost-effectiveness?</p>
+            <div class="flex items-center gap-2 pt-4">
+              <img src="https://i.pravatar.cc/30?img=2" class="w-6 h-6 rounded-full" alt="">
+              <span class="text-sm text-gray-700">Alex Johnson</span>
+              <span class="text-sm text-gray-500 ml-auto">22 Apr 2023</span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Card 3 -->
+        <div class="bg-white shadow-sm overflow-hidden">
+          <img src="../assets/images/Image.png" alt="" class="w-full h-48 object-cover" />
+          <div class="p-5 space-y-2">
+            <p class="text-sm text-green-600 font-medium">Supplier Relationship Management</p>
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg font-semibold text-gray-900">Building Strong Partnerships</h3>
+              <span class="text-gray-500 text-lg">↗</span>
+            </div>
+            <p class="text-sm text-gray-600">What strategies can be employed to enhance communication with suppliers for improved supply chain efficiency?</p>
+            <div class="flex items-center gap-2 pt-4">
+              <img src="https://i.pravatar.cc/30?img=3" class="w-6 h-6 rounded-full" alt="">
+              <span class="text-sm text-gray-700">Emily Davis</span>
+              <span class="text-sm text-gray-500 ml-auto">05 May 2023</span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Add 6 more cards similarly... -->
+        <!-- Use different images or avatars for better variety -->
+  
+      </div>
+  
+      <!-- Load More Button -->
+      <div class="mt-10 flex justify-center">
+        <button class="px-6 py-3 bg-green-100 text-green-700 rounded-full text-sm font-medium hover:bg-green-200 transition">
+          ⬇ Load more
+        </button>
+      </div>
+    </section>
+
+		<script>
+			const tenders = [
+				`<!-- Tender 1 -->
+      <div class="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row">
+        <div class="md:w-3/4 p-6 border border-gray-300">
+          <h3 class="font-bold text-[23px] mb-1 text-[#535353]">Road Rehabilitation in Gboko LGA</h3>
+          <p class="text-[#949494] mb-4 max-w-xl">Rehabilitation of key access roads in Gboko LGA to improve rural mobility and logistics, including grading, drainage, and resurfacing.</p>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-3 mb-4">
+            <div>
+              <p class="text-[#949494]">Deadline:</p>
+              <p class="text-[#535353]">30 June 2025</p>
+            </div>
+            <div>
+              <p class="text-[#949494]">Contract Category:</p>
+              <p class="text-[#535353]">Civil Engineering / Road Construction</p>
+            </div>
+          </div>
+          <button class="inline-flex items-center gap-2 bg-[#535353] text-white px-4 py-2 rounded hover:bg-gray-700">
+            Apply Now
+            <span>↗</span>
+          </button>
+        </div>
+        <div class="md:w-1/4">
+          <img src="../assets/images/road.png" alt="Road" class="w-full h-full object-cover" />
+        </div>
+      </div>`,
+
+				`<!-- Tender 2 -->
+      <div class="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row">
+        <div class="md:w-3/4 p-6 border border-gray-300">
+          <h3 class="font-bold text-[23px] mb-1 text-[#535353]">Supply of Medical Equipment to General Hospitals</h3>
+          <p class="text-[#949494] mb-4 max-w-xl">Procurement and delivery of surgical and diagnostic medical equipment to general hospitals across Benue State.</p>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-3 mb-4">
+            <div>
+              <p class="text-[#949494]">Deadline:</p>
+              <p class="text-[#535353]">15 July 2025</p>
+            </div>
+            <div>
+              <p class="text-[#949494]">Contract Category:</p>
+              <p class="text-[#535353]">Medical Equipment Suppliers / Biomedical Engineering</p>
+            </div>
+          </div>
+          <button class="inline-flex items-center gap-2 bg-[#535353] text-white px-4 py-2 rounded hover:bg-gray-700">
+            Apply Now
+            <span>↗</span>
+          </button>
+        </div>
+        <div class="md:w-1/4">
+          <img src="../assets/images/hospital.png" alt="Hospital" class="w-full h-full object-cover" />
+        </div>
+      </div>`,
+
+				`<!-- Tender 3 -->
+      <div class="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row">
+        <div class="md:w-3/4 p-6 border border-gray-300">
+          <h3 class="font-bold text-[23px] mb-1 text-[#535353]">Construction of Boreholes in Rural Communities</h3>
+          <p class="text-[#949494] mb-4 max-w-xl">Drilling and installation of solar-powered boreholes in 25 rural communities to provide access to clean water.</p>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-3 mb-4">
+            <div>
+              <p class="text-[#949494]">Deadline:</p>
+              <p class="text-[#535353]">25 May 2025</p>
+            </div>
+            <div>
+              <p class="text-[#949494]">Contract Category:</p>
+              <p class="text-[#535353]">Water Engineering / Borehole Drilling Services</p>
+            </div>
+          </div>
+          <button class="inline-flex items-center gap-2 bg-[#535353] text-white px-4 py-2 rounded hover:bg-gray-700">
+            Apply Now
+            <span>↗</span>
+          </button>
+        </div>
+        <div class="md:w-1/4">
+          <img src="../assets/images/borehole.png" alt="Borehole" class="w-full h-full object-cover" />
+        </div>
+      </div>`,
+
+				`<!-- Tender 4 -->
+      <div class="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row">
+        <div class="md:w-3/4 p-6 border border-gray-300">
+          <h3 class="font-bold text-[23px] mb-1 text-[#535353]">Construction of Boreholes in Rural Communities</h3>
+          <p class="text-[#949494] mb-4 max-w-xl">Drilling and installation of solar-powered boreholes in 25 rural communities to provide access to clean water.</p>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-3 mb-4">
+            <div>
+              <p class="text-[#949494]">Deadline:</p>
+              <p class="text-[#535353]">25 May 2025</p>
+            </div>
+            <div>
+              <p class="text-[#949494]">Contract Category:</p>
+              <p class="text-[#535353]">Water Engineering / Borehole Drilling Services</p>
+            </div>
+          </div>
+          <button class="inline-flex items-center gap-2 bg-[#535353] text-white px-4 py-2 rounded hover:bg-gray-700">
+            Apply Now
+            <span>↗</span>
+          </button>
+        </div>
+        <div class="md:w-1/4">
+          <img src="../assets/images/borehole.png" alt="Borehole" class="w-full h-full object-cover" />
+        </div>
+      </div>`,
+
+				`<!-- Tender 5 -->
+      <div class="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row">
+        <div class="md:w-3/4 p-6 border border-gray-300">
+          <h3 class="font-bold text-[23px] mb-1 text-[#535353]">Construction of Boreholes in Rural Communities</h3>
+          <p class="text-[#949494] mb-4 max-w-xl">Drilling and installation of solar-powered boreholes in 25 rural communities to provide access to clean water.</p>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-3 mb-4">
+            <div>
+              <p class="text-[#949494]">Deadline:</p>
+              <p class="text-[#535353]">25 May 2025</p>
+            </div>
+            <div>
+              <p class="text-[#949494]">Contract Category:</p>
+              <p class="text-[#535353]">Water Engineering / Borehole Drilling Services</p>
+            </div>
+          </div>
+          <button class="inline-flex items-center gap-2 bg-[#535353] text-white px-4 py-2 rounded hover:bg-gray-700">
+            Apply Now
+            <span>↗</span>
+          </button>
+        </div>
+        <div class="md:w-1/4">
+          <img src="../assets/images/borehole.png" alt="Borehole" class="w-full h-full object-cover" />
+        </div>
+      </div>`,
+
+				`<!-- Tender 6 -->
+      <div class="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row">
+        <div class="md:w-3/4 p-6 border border-gray-300">
+          <h3 class="font-bold text-[23px] mb-1 text-[#535353]">Construction of Boreholes in Rural Communities</h3>
+          <p class="text-[#949494] mb-4 max-w-xl">Drilling and installation of solar-powered boreholes in 25 rural communities to provide access to clean water.</p>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-3 mb-4">
+            <div>
+              <p class="text-[#949494]">Deadline:</p>
+              <p class="text-[#535353]">25 May 2025</p>
+            </div>
+            <div>
+              <p class="text-[#949494]">Contract Category:</p>
+              <p class="text-[#535353]">Water Engineering / Borehole Drilling Services</p>
+            </div>
+          </div>
+          <button class="inline-flex items-center gap-2 bg-[#535353] text-white px-4 py-2 rounded hover:bg-gray-700">
+            Apply Now
+            <span>↗</span>
+          </button>
+        </div>
+        <div class="md:w-1/4">
+          <img src="../assets/images/borehole.png" alt="Borehole" class="w-full h-full object-cover" />
+        </div>
+      </div>`,
+
+				`<!-- Tender 7 -->
+      <div class="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row">
+        <div class="md:w-3/4 p-6 border border-gray-300">
+          <h3 class="font-bold text-[23px] mb-1 text-[#535353]">Construction of Boreholes in Rural Communities</h3>
+          <p class="text-[#949494] mb-4 max-w-xl">Drilling and installation of solar-powered boreholes in 25 rural communities to provide access to clean water.</p>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-3 mb-4">
+            <div>
+              <p class="text-[#949494]">Deadline:</p>
+              <p class="text-[#535353]">25 May 2025</p>
+            </div>
+            <div>
+              <p class="text-[#949494]">Contract Category:</p>
+              <p class="text-[#535353]">Water Engineering / Borehole Drilling Services</p>
+            </div>
+          </div>
+          <button class="inline-flex items-center gap-2 bg-[#535353] text-white px-4 py-2 rounded hover:bg-gray-700">
+            Apply Now
+            <span>↗</span>
+          </button>
+        </div>
+        <div class="md:w-1/4">
+          <img src="../assets/images/borehole.png" alt="Borehole" class="w-full h-full object-cover" />
+        </div>
+      </div>`,
+
+				`<!-- Tender 7 -->
+      <div class="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row">
+        <div class="md:w-3/4 p-6 border border-gray-300">
+          <h3 class="font-bold text-[23px] mb-1 text-[#535353]">Construction of Boreholes in Rural Communities</h3>
+          <p class="text-[#949494] mb-4 max-w-xl">Drilling and installation of solar-powered boreholes in 25 rural communities to provide access to clean water.</p>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-3 mb-4">
+            <div>
+              <p class="text-[#949494]">Deadline:</p>
+              <p class="text-[#535353]">25 May 2025</p>
+            </div>
+            <div>
+              <p class="text-[#949494]">Contract Category:</p>
+              <p class="text-[#535353]">Water Engineering / Borehole Drilling Services</p>
+            </div>
+          </div>
+          <button class="inline-flex items-center gap-2 bg-[#535353] text-white px-4 py-2 rounded hover:bg-gray-700">
+            Apply Now
+            <span>↗</span>
+          </button>
+        </div>
+        <div class="md:w-1/4">
+          <img src="../assets/images/borehole.png" alt="Borehole" class="w-full h-full object-cover" />
+        </div>
+      </div>`,
+
+				`<!-- Tender 7 -->
+      <div class="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row">
+        <div class="md:w-3/4 p-6 border border-gray-300">
+          <h3 class="font-bold text-[23px] mb-1 text-[#535353]">Construction of Boreholes in Rural Communities</h3>
+          <p class="text-[#949494] mb-4 max-w-xl">Drilling and installation of solar-powered boreholes in 25 rural communities to provide access to clean water.</p>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-3 mb-4">
+            <div>
+              <p class="text-[#949494]">Deadline:</p>
+              <p class="text-[#535353]">25 May 2025</p>
+            </div>
+            <div>
+              <p class="text-[#949494]">Contract Category:</p>
+              <p class="text-[#535353]">Water Engineering / Borehole Drilling Services</p>
+            </div>
+          </div>
+          <button class="inline-flex items-center gap-2 bg-[#535353] text-white px-4 py-2 rounded hover:bg-gray-700">
+            Apply Now
+            <span>↗</span>
+          </button>
+        </div>
+        <div class="md:w-1/4">
+          <img src="../assets/images/borehole.png" alt="Borehole" class="w-full h-full object-cover" />
+        </div>
+      </div>`,
+
+				`<!-- Tender 7 -->
+      <div class="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row">
+        <div class="md:w-3/4 p-6 border border-gray-300">
+          <h3 class="font-bold text-[23px] mb-1 text-[#535353]">Construction of Boreholes in Rural Communities</h3>
+          <p class="text-[#949494] mb-4 max-w-xl">Drilling and installation of solar-powered boreholes in 25 rural communities to provide access to clean water.</p>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-3 mb-4">
+            <div>
+              <p class="text-[#949494]">Deadline:</p>
+              <p class="text-[#535353]">25 May 2025</p>
+            </div>
+            <div>
+              <p class="text-[#949494]">Contract Category:</p>
+              <p class="text-[#535353]">Water Engineering / Borehole Drilling Services</p>
+            </div>
+          </div>
+          <button class="inline-flex items-center gap-2 bg-[#535353] text-white px-4 py-2 rounded hover:bg-gray-700">
+            Apply Now
+            <span>↗</span>
+          </button>
+        </div>
+        <div class="md:w-1/4">
+          <img src="../assets/images/borehole.png" alt="Borehole" class="w-full h-full object-cover" />
+        </div>
+      </div>`,
+
+				`<!-- Tender 7 -->
+      <div class="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row">
+        <div class="md:w-3/4 p-6 border border-gray-300">
+          <h3 class="font-bold text-[23px] mb-1 text-[#535353]">Construction of Boreholes in Rural Communities</h3>
+          <p class="text-[#949494] mb-4 max-w-xl">Drilling and installation of solar-powered boreholes in 25 rural communities to provide access to clean water.</p>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-3 mb-4">
+            <div>
+              <p class="text-[#949494]">Deadline:</p>
+              <p class="text-[#535353]">25 May 2025</p>
+            </div>
+            <div>
+              <p class="text-[#949494]">Contract Category:</p>
+              <p class="text-[#535353]">Water Engineering / Borehole Drilling Services</p>
+            </div>
+          </div>
+          <button class="inline-flex items-center gap-2 bg-[#535353] text-white px-4 py-2 rounded hover:bg-gray-700">
+            Apply Now
+            <span>↗</span>
+          </button>
+        </div>
+        <div class="md:w-1/4">
+          <img src="../assets/images/borehole.png" alt="Borehole" class="w-full h-full object-cover" />
+        </div>
+      </div>`,
+			]
+
+			const itemsPerPage = 5
+			let currentPage = 1
+
+			function renderTenders() {
+				const container = document.getElementById("tender-list")
+				container.innerHTML = ""
+				const start = (currentPage - 1) * itemsPerPage
+				const end = start + itemsPerPage
+				const currentItems = tenders.slice(start, end)
+				currentItems.forEach((html) => {
+					const wrapper = document.createElement("div")
+					wrapper.innerHTML = html
+					container.appendChild(wrapper)
+				})
+			}
+
+			function renderPagination() {
+				const totalPages = Math.ceil(tenders.length / itemsPerPage)
+				const pagination = document.getElementById("pagination")
+				pagination.innerHTML = ""
+
+				if (currentPage > 1) {
+					const prev = createPageButton("← Previous", currentPage - 1)
+					pagination.appendChild(prev)
+				}
+
+				for (let i = 1; i <= totalPages; i++) {
+					const btn = createPageButton(i, i)
+					pagination.appendChild(btn)
+				}
+
+				if (currentPage < totalPages) {
+					const next = createPageButton("Next →", currentPage + 1)
+					pagination.appendChild(next)
+				}
+			}
+
+			function createPageButton(text, page) {
+				const btn = document.createElement("button")
+				btn.textContent = text
+				btn.className = `px-3 py-2 text-sm rounded border border-gray-300 hover:bg-gray-100 ${
+					currentPage === page ? "bg-gray-800 text-white" : "text-gray-700"
+				}`
+				btn.onclick = () => {
+					currentPage = page
+					renderTenders()
+					renderPagination()
+				}
+				return btn
+			}
+
+			// Initial render
+			renderTenders()
+			renderPagination()
+		</script>
+	</body>
+</html>

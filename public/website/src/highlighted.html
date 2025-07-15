@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSPP Navigation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .font-sora { font-family: 'Sora', sans-serif; }
+        .font-jaka { font-family: 'Sora', sans-serif; }
+        .current-page {
+            position: relative;
+        }
+        .current-page::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 3px;
+            background: #02611A;
+            border-radius: 2px;
+        }
+        .mobile-current-page {
+            background-color: #f0f9ff;
+            border-left: 4px solid #02611A;
+            color: #02611A;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo and Brand -->
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <div class="text-green-800 font-bold text-xl">B</div>
+                        </div>
+                    </div>
+                    <div class="hidden sm:block text-[#232323] font-normal text-[11px] tracking-normal font-jaka leading-[120%]">
+                        <p>Procurement and Project</p>
+                        <p>Procurement and Project</p>
+                        <p>Management System</p>
+                    </div>
+                    <!-- Mobile brand text -->
+                    <div class="sm:hidden">
+                        <div class="text-gray-900 font-bold text-base">BSPP</div>
+                        <div class="text-gray-600 text-sm">Procurement System</div>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center space-x-2">
+                    <a
+                        href="about.html"
+                        data-page="about"
+                        class="nav-link hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md hover:bg-gray-50 font-sora font-normal text-[19px] leading-[26.6px] tracking-[0%] text-[#232323]">
+                        About Us
+                    </a>
+                    <a
+                        href="tenders.html"
+                        data-page="tenders"
+                        class="nav-link hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md hover:bg-gray-50 font-sora font-normal text-[19px] leading-[26.6px] tracking-[0%] text-[#232323]">
+                        Tenders
+                    </a>
+                    <a
+                        href="awards.html"
+                        data-page="awards"
+                        class="nav-link hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md hover:bg-gray-50 font-sora font-normal text-[19px] leading-[26.6px] tracking-[0%] text-[#232323]">
+                        Awards
+                    </a>
+
+                    <!-- Media dropdown -->
+                    <div class="relative group">
+                        <button
+                            class="nav-link hover:text-primary flex items-center hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md hover:bg-gray-50 font-sora font-normal text-[19px] leading-[26.6px] tracking-[0%] text-[#232323]"
+                            data-page="media">
+                            Media
+                            <svg
+                                class="ml-2 h-4 w-4 transition-transform duration-200 group-hover:rotate-180"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Enhanced dropdown menu -->
+                        <div
+                            class="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 z-20">
+                            <div class="py-2">
+                                <a
+                                    href="news.html"
+                                    data-page="news"
+                                    class="dropdown-link flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-green-600 hover:text-white transition-colors duration-200">
+                                    <svg
+                                        class="w-4 h-4 mr-3"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                                    </svg>
+                                    News & Updates
+                                </a>
+                                <a
+                                    href="press.html"
+                                    data-page="press"
+                                    class="dropdown-link flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-green-600 hover:text-white transition-colors duration-200">
+                                    <svg
+                                        class="w-4 h-4 mr-3"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                    </svg>
+                                    Press Releases
+                                </a>
+                                <a
+                                    href="resources.html"
+                                    data-page="resources"
+                                    class="dropdown-link flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-green-600 hover:text-white transition-colors duration-200">
+                                    <svg
+                                        class="w-4 h-4 mr-3"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                    </svg>
+                                    Resource Center
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a
+                        href="contact.html"
+                        data-page="contact"
+                        class="nav-link hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md hover:bg-gray-50 font-sora font-normal text-[19px] leading-[26.6px] tracking-[0%] text-[#232323]">
+                        Contact
+                    </a>
+                </nav>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center space-x-4">
+                    <!-- Get Started Button -->
+                    <button
+                        class="bg-[#02611A] text-white px-6 py-2.5 rounded-full transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 font-jaka font-normal text-[16px] leading-[24.4px] tracking-[0%]">
+                        Get Started
+                    </button>
+
+                    <!-- Mobile menu button -->
+                    <button
+                        type="button"
+                        class="lg:hidden flex items-center justify-center w-10 h-10 text-gray-700 hover:text-green-600 hover:bg-gray-100 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50"
+                        onclick="toggleMobileMenu()">
+                        <svg
+                            id="menu-icon"
+                            class="h-6 w-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg
+                            id="close-icon"
+                            class="h-6 w-6 hidden"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Mobile menu -->
+        <div
+            id="mobile-menu"
+            class="lg:hidden hidden border-t border-gray-200 bg-white">
+            <div class="px-4 pt-4 pb-6 space-y-2">
+                <a
+                    href="about.html"
+                    data-page="about"
+                    class="mobile-nav-link block px-4 py-3 text-gray-700 hover:text-green-600 hover:bg-gray-50 rounded-lg text-base font-medium transition-colors duration-200">
+                    About Us
+                </a>
+                <a
+                    href="tenders.html"
+                    data-page="tenders"
+                    class="mobile-nav-link block px-4 py-3 text-gray-700 hover:text-green-600 hover:bg-gray-50 rounded-lg text-base font-medium transition-colors duration-200">
+                    Tenders
+                </a>
+                <a
+                    href="awards.html"
+                    data-page="awards"
+                    class="mobile-nav-link block px-4 py-3 text-gray-700 hover:text-green-600 hover:bg-gray-50 rounded-lg text-base font-medium transition-colors duration-200">
+                    Awards
+                </a>
+
+                <!-- Mobile Media submenu -->
+                <div class="space-y-1">
+                    <button
+                        onclick="toggleMobileSubmenu()"
+                        data-page="media"
+                        class="mobile-nav-link flex items-center justify-between w-full px-4 py-3 text-gray-700 hover:text-green-600 hover:bg-gray-50 rounded-lg text-base font-medium transition-colors duration-200">
+                        Media
+                        <svg
+                            id="submenu-arrow"
+                            class="h-5 w-5 transition-transform duration-200"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="mobile-submenu" class="hidden pl-4 space-y-1">
+                        <a
+                            href="news.html"
+                            data-page="news"
+                            class="mobile-nav-link block px-4 py-2 text-gray-600 hover:text-green-600 hover:bg-gray-50 rounded-lg text-sm transition-colors duration-200">
+                            News & Updates
+                        </a>
+                        <a
+                            href="press.html"
+                            data-page="press"
+                            class="mobile-nav-link block px-4 py-2 text-gray-600 hover:text-green-600 hover:bg-gray-50 rounded-lg text-sm transition-colors duration-200">
+                            Press Releases
+                        </a>
+                        <a
+                            href="resources.html"
+                            data-page="resources"
+                            class="mobile-nav-link block px-4 py-2 text-gray-600 hover:text-green-600 hover:bg-gray-50 rounded-lg text-sm transition-colors duration-200">
+                            Resource Center
+                        </a>
+                    </div>
+                </div>
+
+                <a
+                    href="contact.html"
+                    data-page="contact"
+                    class="mobile-nav-link block px-4 py-3 text-gray-700 hover:text-green-600 hover:bg-gray-50 rounded-lg text-base font-medium transition-colors duration-200">
+                    Contact
+                </a>
+
+                <div class="pt-4 border-t border-gray-200">
+                    <button
+                        class="w-full bg-green-800 text-white px-6 py-3 rounded-lg text-base font-semibold transition-all duration-200 shadow-md">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    
+
+    <script>
+        // Function to toggle mobile menu
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
+        // Function to toggle mobile submenu
+        function toggleMobileSubmenu() {
+            const submenu = document.getElementById('mobile-submenu');
+            const arrow = document.getElementById('submenu-arrow');
+            
+            if (submenu.classList.contains('hidden')) {
+                submenu.classList.remove('hidden');
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                submenu.classList.add('hidden');
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Function to get current page from URL
+        function getCurrentPage() {
+            const path = window.location.pathname;
+            const filename = path.split('/').pop();
+            
+            if (filename.includes('about')) return 'about';
+            if (filename.includes('tenders')) return 'tenders';
+            if (filename.includes('awards')) return 'awards';
+            if (filename.includes('contact')) return 'contact';
+            if (filename.includes('news')) return 'news';
+            if (filename.includes('press')) return 'press';
+            if (filename.includes('resources')) return 'resources';
+            if (filename.includes('media')) return 'media';
+            
+            return null;
+        }
+
+        // Function to highlight current page
+        function highlightCurrentPage(currentPage) {
+            // Remove existing current page classes
+            document.querySelectorAll('.nav-link, .mobile-nav-link, .dropdown-link').forEach(link => {
+                link.classList.remove('current-page', 'mobile-current-page');
+            });
+
+            if (!currentPage) return;
+
+            // Highlight desktop navigation
+            const desktopLink = document.querySelector(`nav .nav-link[data-page="${currentPage}"]`);
+            if (desktopLink) {
+                desktopLink.classList.add('current-page');
+            }
+
+            // Highlight mobile navigation
+            const mobileLink = document.querySelector(`#mobile-menu .mobile-nav-link[data-page="${currentPage}"]`);
+            if (mobileLink) {
+                mobileLink.classList.add('mobile-current-page');
+            }
+
+            // Highlight dropdown items and their parent
+            const dropdownLink = document.querySelector(`.dropdown-link[data-page="${currentPage}"]`);
+            if (dropdownLink) {
+                dropdownLink.classList.add('current-page');
+                // Also highlight the Media parent
+                const mediaButton = document.querySelector(`button[data-page="media"]`);
+                if (mediaButton) {
+                    mediaButton.classList.add('current-page');
+                }
+                // Mobile media button
+                const mobileMediaButton = document.querySelector(`#mobile-menu button[data-page="media"]`);
+                if (mobileMediaButton) {
+                    mobileMediaButton.classList.add('mobile-current-page');
+                }
+            }
+        }
+
+        // Function to set current page (for demo purposes)
+        function setCurrentPage(page) {
+            highlightCurrentPage(page);
+        }
+
+        // Initialize current page highlighting on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // First check if there's a stored current page (for SPA-like behavior)
+            let currentPage = sessionStorage.getItem('currentPage');
+            
+            // If no stored page, detect from URL
+            if (!currentPage) {
+                currentPage = getCurrentPage();
+            }
+            
+            highlightCurrentPage(currentPage);
+        });
+
+        // Handle navigation clicks - allow normal navigation
+        document.querySelectorAll('a[data-page]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Allow normal navigation - no preventDefault()
+                // The highlighting will be handled on the new page load
+                const page = this.getAttribute('data-page');
+                // Optional: Store the current page in sessionStorage for SPA-like behavior
+                sessionStorage.setItem('currentPage', page);
+            });
+        });
+    </script>
+</body>
+</html>
