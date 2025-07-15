@@ -1,15 +1,22 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Mail\AdminAwardNotification as AdminAwardNotification;
+use App\Mail\AdminPOANotification as AdminPOANotification;
+use App\Mail\AdminProcessingFeeNotification as AdminProcessingFeeNotification;
+use App\Mail\AdminRegNotification as AdminRegNotification;
+use App\Mail\AdminRenewalNotification as AdminRenewalNotification;
 use App\Models\AwardLetter;
 use App\Models\Company;
 use App\Models\CompanyPayments;
 use App\Models\CompanyRenewals;
 use App\Models\PowerOfAttorney;
 use App\Models\ProcessingFee;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Mail;
 
 class ETranzactController extends Controller
 {
@@ -43,6 +50,15 @@ class ETranzactController extends Controller
                 $trx->save();
 
                 DB::commit();
+
+                if ($message == "awaiting approval") {
+                    try {
+                        $user = User::where("email", "tsegbatersootimothy@gmail.com")->first();
+                        Mail::to($user)->send(new AdminRenewalNotification($user, $trx));
+                    } catch (\Exception $e) {
+                        report($e);
+                    }
+                }
 
                 toast("Payment Received Successfully", 'success');
                 return redirect()->route("business.companyRenewals", [$reference]);
@@ -87,6 +103,15 @@ class ETranzactController extends Controller
                 $trx         = PowerOfAttorney::where("reference_number", $reference)->first();
                 $trx->status = $message;
                 $trx->save();
+
+                if ($message == "awaiting approval") {
+                    try {
+                        $user = User::where("email", "tsegbatersootimothy@gmail.com")->first();
+                        Mail::to($user)->send(new AdminPOANotification($user, $trx));
+                    } catch (\Exception $e) {
+                        report($e);
+                    }
+                }
 
                 DB::commit();
 
@@ -134,6 +159,15 @@ class ETranzactController extends Controller
                 $trx->status = $message;
                 $trx->save();
 
+                if ($message == "awaiting approval") {
+                    try {
+                        $user = User::where("email", "tsegbatersootimothy@gmail.com")->first();
+                        Mail::to($user)->send(new AdminProcessingFeeNotification($user, $trx));
+                    } catch (\Exception $e) {
+                        report($e);
+                    }
+                }
+
                 DB::commit();
 
                 toast("Payment Received Successfully", 'success');
@@ -179,6 +213,15 @@ class ETranzactController extends Controller
                 $trx         = AwardLetter::where("reference_number", $reference)->first();
                 $trx->status = $message;
                 $trx->save();
+
+                if ($message == "awaiting approval") {
+                    try {
+                        $user = User::where("email", "tsegbatersootimothy@gmail.com")->first();
+                        Mail::to($user)->send(new AdminAwardNotification($user, $trx));
+                    } catch (\Exception $e) {
+                        report($e);
+                    }
+                }
 
                 DB::commit();
 
@@ -264,6 +307,15 @@ class ETranzactController extends Controller
                 $company->reg_reference_number = $reference;
                 $company->status               = $message;
                 $company->save();
+
+                if ($message == "awaiting approval") {
+                    try {
+                        $user = User::where("email", "tsegbatersootimothy@gmail.com")->first();
+                        Mail::to($user)->send(new AdminRegNotification($user, $company));
+                    } catch (\Exception $e) {
+                        report($e);
+                    }
+                }
 
                 DB::commit();
 
