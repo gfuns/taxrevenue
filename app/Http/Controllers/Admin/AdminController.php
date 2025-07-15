@@ -695,12 +695,12 @@ class AdminController extends Controller
         $userRole       = UserRole::find($request->role_id);
         $userRole->role = $request->role;
         if ($userRole->save()) {
+            $users = User::where("role_id", $userRole->id)->update(["role" => $userRole->role]);
             toast('User Role Updated Successfully.', 'success');
             return back();
         } else {
             toast('Something went wrong. Please try again', 'error');
             return back();
-
         }
     }
 
