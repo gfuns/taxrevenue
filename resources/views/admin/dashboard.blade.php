@@ -43,64 +43,79 @@
         <div class="col-lg-3 col-12">
             <div class="col-lg-12 col-12">
                 <!-- Card -->
-                <div class="card mb-4">
+                <div class="card mb-3">
                     <!-- Card body -->
                     <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between mb-2 lh-1">
-                            <h4 class="fs-6 text-uppercase fw-bold ls-md">Current Subscription</h4>
+                        <div class="d-flex align-items-center justify-content-between lh-1">
+                            <h4 class="fs-6 text-uppercase fw-bold ls-md">Contractor Regs.</h4>
                             <div>
                                 <span
-                                    class="bi bi-award-fill fs-3 text-success"></span>
+                                    class="bi bi-pencil-square fs-3 text-success"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-1">
-                            <span class="fs-5">No Active Subscription Found</span>
+                        <h4 class="fw-bold mb-0">
+                            <span class="fs-5">&#8358;{{ number_format($params["regs"], 2) }}</span>
                         </h4>
                     </div>
                 </div>
             </div>
             <div class="col-lg-12 col-md-12 col-12">
                 <!-- Card -->
-                <div class="card mb-4">
+                <div class="card mb-3">
                     <!-- Card body -->
                     <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between mb-2 lh-1">
-                            <h4 class="fs-6 text-uppercase fw-bold ls-md">Arete Wallet Balance</h4>
+                        <div class="d-flex align-items-center justify-content-between lh-1">
+                            <h4 class="fs-6 text-uppercase fw-bold ls-md">Registration Renewals</h4>
                             <div>
-                                <span class="bi bi-wallet fs-3 text-success"></span>
+                                <span class="bi bi-arrow-clockwise fs-3 text-success"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-1">&#8358;</h4>
+                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params["renewals"], 2) }}</h4>
                     </div>
                 </div>
             </div>
             <div class="col-lg-12 col-12">
                 <!-- Card -->
-                <div class="card mb-4">
+                <div class="card mb-3">
                     <!-- Card body -->
                     <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between mb-2 lh-1">
-                            <h4 class="fs-6 text-uppercase fw-bold ls-md">Referral Points</h4>
+                        <div class="d-flex align-items-center justify-content-between lh-1">
+                            <h4 class="fs-6 text-uppercase fw-bold ls-md">Power Of Attorneys</h4>
                             <div>
-                                <span class="bi bi-balloon-heart-fill fs-3 text-success"></span>
+                                <span class="fa fa-gavel fs-3 text-success"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-1"></h4>
+                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params["poas"], 2) }}</h4>
                     </div>
                 </div>
             </div>
             <div class="col-lg-12 col-12">
                 <!-- Card -->
-                <div class="card mb-4">
+                <div class="card mb-3">
                     <!-- Card body -->
                     <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between mb-2 lh-1">
-                            <h4 class="fs-6 text-uppercase fw-bold ls-md">Total Jobs Posted</h4>
+                        <div class="d-flex align-items-center justify-content-between lh-1">
+                            <h4 class="fs-6 text-uppercase fw-bold ls-md">Award Letters</h4>
                             <div>
-                                <span class="bi bi-briefcase-fill fs-3 text-success"></span>
+                                <span class="bi bi-award-fill fs-3 text-success"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-1"></h4>
+                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params["awards"], 2) }}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-12">
+                <!-- Card -->
+                <div class="card mb-3">
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between lh-1">
+                            <h4 class="fs-6 text-uppercase fw-bold ls-md">Processing Fees</h4>
+                            <div>
+                                <span class="bi bi-cash-coin fs-3 text-success"></span>
+                            </div>
+                        </div>
+                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params["prFees"], 2) }}</h4>
                     </div>
                 </div>
             </div>
@@ -112,7 +127,7 @@
                 <div
                     class="card-header align-items-center card-header-height d-flex justify-content-between align-items-center">
                     <div>
-                        <h4 class="mb-0">Statistics of Customer Interactions and Reach</h4>
+                        <h4 class="mb-0">Revenue Generation Graph/Statistics</h4>
                     </div>
                 </div>
                 <!-- Card body -->
@@ -127,7 +142,6 @@
 </section>
 
 <script>
-    //document.getElementById("navDashboard").classList.add('show');
     document.getElementById("dashboard").classList.add('active');
 </script>
 

@@ -36,7 +36,14 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-        return view("admin.dashboard");
+        $params = [
+            "regs"     => Company::whereIn("status", ["awaiting approval", "approved", "rejected"])->sum("amount_paid"),
+            "renewals" => CompanyRenewals::whereIn("status", ["awaiting approval", "approved", "rejected"])->sum("amount_paid"),
+            "poas"     => PowerOfAttorney::whereIn("status", ["awaiting approval", "approved", "rejected"])->sum("amount_paid"),
+            "awards"   => AwardLetter::whereIn("status", ["awaiting approval", "approved", "rejected"])->sum("amount_paid"),
+            "prFees"   => ProcessingFee::whereIn("status", ["awaiting approval", "approved", "rejected"])->sum("amount_paid"),
+        ];
+        return view("admin.dashboard", compact("params"));
     }
 
     /**
