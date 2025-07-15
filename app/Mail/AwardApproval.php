@@ -2,23 +2,21 @@
 
 namespace App\Mail;
 
-use App\Models\Customer;
-use App\Models\UtilityTransactions;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AirtimeSuccessful extends Mailable
+class AwardApproval extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(protected Customer $user, protected UtilityTransactions $trx)
+    public function __construct()
     {
         //
     }
@@ -29,8 +27,7 @@ class AirtimeSuccessful extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
-            subject: 'Airtime Purchase Successful',
+            subject: 'Award Approval',
         );
     }
 
@@ -40,11 +37,7 @@ class AirtimeSuccessful extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.airtime_purchase',
-            with: [
-                'user' => $this->user,
-                'transaction' => $this->trx,
-            ],
+            view: 'view.name',
         );
     }
 

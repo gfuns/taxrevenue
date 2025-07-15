@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class BonusWithdrawalSuccessful extends Mailable
+class RenewalApproval extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -27,7 +27,7 @@ class BonusWithdrawalSuccessful extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Bonus Withdrawal Successful',
+            subject: 'Renewal Approval',
         );
     }
 
