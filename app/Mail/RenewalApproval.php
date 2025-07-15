@@ -1,10 +1,11 @@
 <?php
-
 namespace App\Mail;
 
+use App\Models\CompanyRenewals;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -16,7 +17,7 @@ class RenewalApproval extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(protected User $user, protected CompanyRenewals $application)
     {
         //
     }
@@ -27,7 +28,8 @@ class RenewalApproval extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Renewal Approval',
+            from: new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
+            subject: 'Notification of Renewal Application Approval',
         );
     }
 
@@ -37,7 +39,11 @@ class RenewalApproval extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.renewal_approval',
+            with: [
+                'user'        => $this->user,
+                'application' => $this->application,
+            ],
         );
     }
 

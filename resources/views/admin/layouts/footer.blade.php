@@ -10,7 +10,6 @@
     <script src="{{ asset('assets/libs/jsvectormap/dist/js/jsvectormap.min.js') }}"></script>
     <script src="{{ asset('assets/libs/jsvectormap/dist/maps/world.js') }}"></script>
     <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
-    @include('admin.layouts.chart')
     <script src="{{ asset('assets/libs/flatpickr/dist/flatpickr.min.js') }}"></script>
     <script src="{{ asset('assets/js/vendors/flatpickr.js') }}"></script>
     <script src="{{ asset('assets/libs/quill/dist/quill.min.js') }}"></script>

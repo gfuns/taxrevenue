@@ -1,10 +1,11 @@
 <?php
-
 namespace App\Mail;
 
+use App\Models\ProcessingFee;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -16,7 +17,7 @@ class ProcessingRejection extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(protected User $user, protected ProcessingFee $application)
     {
         //
     }
@@ -27,7 +28,8 @@ class ProcessingRejection extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Processing Rejection',
+            from: new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
+            subject: 'Notification of Processing Fee Remittance Rejection',
         );
     }
 
@@ -37,7 +39,11 @@ class ProcessingRejection extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.processing_rejection',
+            with: [
+                'user'        => $this->user,
+                'application' => $this->application,
+            ],
         );
     }
 

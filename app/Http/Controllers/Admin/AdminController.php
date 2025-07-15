@@ -3,6 +3,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AccountCreationMail as AccountCreationMail;
+use App\Mail\PoaApproval as PoaApproval;
+use App\Mail\PoaRejection as PoaRejection;
+use App\Mail\ProcessingApproval as ProcessingApproval;
+use App\Mail\ProcessingRejection as ProcessingRejection;
+use App\Mail\RegistrationApproval as RegistrationApproval;
+use App\Mail\RegistrationRejection as RegistrationRejection;
+use App\Mail\RenewalApproval as RenewalApproval;
+use App\Mail\RenewalRejection as RenewalRejection;
 use App\Models\AwardLetter;
 use App\Models\BusinessCategories;
 use App\Models\Company;
@@ -1109,6 +1117,12 @@ class AdminController extends Controller
             $company->bsppc_number = $this->gerateBssppcNumber($id);
         }
         if ($company->save()) {
+            try {
+                $user = User::find($company->user_id);
+                Mail::to($user)->send(new RegistrationApproval($user, $company));
+            } catch (\Exception $e) {
+                report($e);
+            }
             toast('Contractor Registration Successfully Approved', 'success');
             return back();
         } else {
@@ -1142,6 +1156,12 @@ class AdminController extends Controller
         $company->status           = "rejected";
         $company->rejection_reason = $request->rejection_reason;
         if ($company->save()) {
+            try {
+                $user = User::find($company->user_id);
+                Mail::to($user)->send(new RegistrationRejection($user, $company));
+            } catch (\Exception $e) {
+                report($e);
+            }
             toast('Contractor Registration Rejected', 'success');
             return back();
         } else {
@@ -1231,6 +1251,12 @@ class AdminController extends Controller
         $renewal         = CompanyRenewals::find($id);
         $renewal->status = "approved";
         if ($renewal->save()) {
+            try {
+                $user = User::find($renewal->company->user_id);
+                Mail::to($user)->send(new RenewalApproval($user, $renewal));
+            } catch (\Exception $e) {
+                report($e);
+            }
             toast('Contractor Renewal Application Successfully Approved', 'success');
             return back();
         } else {
@@ -1264,6 +1290,12 @@ class AdminController extends Controller
         $renewal->status           = "rejected";
         $renewal->rejection_reason = $request->rejection_reason;
         if ($renewal->save()) {
+            try {
+                $user = User::find($renewal->company->user_id);
+                Mail::to($user)->send(new RenewalRejection($user, $renewal));
+            } catch (\Exception $e) {
+                report($e);
+            }
             toast('Contractor Renewal Application Rejected', 'success');
             return back();
         } else {
@@ -1331,6 +1363,12 @@ class AdminController extends Controller
         $poa         = PowerOfAttorney::find($id);
         $poa->status = "approved";
         if ($poa->save()) {
+            try {
+                $user = User::find($poa->company->user_id);
+                Mail::to($user)->send(new PoaApproval($user, $poa));
+            } catch (\Exception $e) {
+                report($e);
+            }
             toast('Power Of Attorney  Application Successfully Approved', 'success');
             return back();
         } else {
@@ -1364,6 +1402,12 @@ class AdminController extends Controller
         $poa->status           = "rejected";
         $poa->rejection_reason = $request->rejection_reason;
         if ($poa->save()) {
+            try {
+                $user = User::find($poa->company->user_id);
+                Mail::to($user)->send(new PoaRejection($user, $poa));
+            } catch (\Exception $e) {
+                report($e);
+            }
             toast('Power Of Attorney Application Rejected', 'success');
             return back();
         } else {
@@ -1428,9 +1472,15 @@ class AdminController extends Controller
      */
     public function approvePrfApplication($id)
     {
-        $poa         = ProcessingFee::find($id);
-        $poa->status = "approved";
-        if ($poa->save()) {
+        $procFee         = ProcessingFee::find($id);
+        $procFee->status = "approved";
+        if ($procFee->save()) {
+            try {
+                $user = User::find($procFee->company->user_id);
+                Mail::to($user)->send(new ProcessingApproval($user, $procFee));
+            } catch (\Exception $e) {
+                report($e);
+            }
             toast('Processing Fee Remmittance Successfully Approved', 'success');
             return back();
         } else {
@@ -1460,10 +1510,16 @@ class AdminController extends Controller
             return back();
         }
 
-        $poa                   = ProcessingFee::find($request->application_id);
-        $poa->status           = "rejected";
-        $poa->rejection_reason = $request->rejection_reason;
-        if ($poa->save()) {
+        $procFee                   = ProcessingFee::find($request->application_id);
+        $procFee->status           = "rejected";
+        $procFee->rejection_reason = $request->rejection_reason;
+        if ($procFee->save()) {
+            try {
+                $user = User::find($procFee->company->user_id);
+                Mail::to($user)->send(new ProcessingRejection($user, $procFee));
+            } catch (\Exception $e) {
+                report($e);
+            }
             toast('Processing Fee Remmittance Rejected', 'success');
             return back();
         } else {

@@ -145,4 +145,6 @@
     document.getElementById("dashboard").classList.add('active');
 </script>
 
+@include('admin.layouts.chart')
+
 @endsection
