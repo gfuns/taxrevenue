@@ -3,6 +3,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AccountCreationMail as AccountCreationMail;
+use App\Mail\AwardApproval as AwardApproval;
+use App\Mail\AwardRejection as AwardRejection;
 use App\Mail\PoaApproval as PoaApproval;
 use App\Mail\PoaRejection as PoaRejection;
 use App\Mail\ProcessingApproval as ProcessingApproval;
@@ -1584,9 +1586,15 @@ class AdminController extends Controller
      */
     public function approveAwardApplication($id)
     {
-        $poa         = AwardLetter::find($id);
-        $poa->status = "approved";
-        if ($poa->save()) {
+        $award         = AwardLetter::find($id);
+        $award->status = "approved";
+        if ($award->save()) {
+            try {
+                $user = User::find($award->company->user_id);
+                Mail::to($user)->send(new AwardApproval($user, $award));
+            } catch (\Exception $e) {
+                report($e);
+            }
             toast('Award Letter Application Successfully Approved', 'success');
             return back();
         } else {
@@ -1616,10 +1624,16 @@ class AdminController extends Controller
             return back();
         }
 
-        $poa                   = AwardLetter::find($request->application_id);
-        $poa->status           = "rejected";
-        $poa->rejection_reason = $request->rejection_reason;
-        if ($poa->save()) {
+        $award                   = AwardLetter::find($request->application_id);
+        $award->status           = "rejected";
+        $award->rejection_reason = $request->rejection_reason;
+        if ($award->save()) {
+            try {
+                $user = User::find($award->company->user_id);
+                Mail::to($user)->send(new AwardRejection($user, $award));
+            } catch (\Exception $e) {
+                report($e);
+            }
             toast('Award Letter Application Rejected', 'success');
             return back();
         } else {
