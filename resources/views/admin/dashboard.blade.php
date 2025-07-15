@@ -49,12 +49,11 @@
                         <div class="d-flex align-items-center justify-content-between lh-1">
                             <h4 class="fs-6 text-uppercase fw-bold ls-md">Contractor Regs.</h4>
                             <div>
-                                <span
-                                    class="bi bi-pencil-square fs-3 text-success"></span>
+                                <span class="bi bi-pencil-square fs-3 text-success"></span>
                             </div>
                         </div>
                         <h4 class="fw-bold mb-0">
-                            <span class="fs-5">&#8358;{{ number_format($params["regs"], 2) }}</span>
+                            <span class="fs-5">&#8358;{{ number_format($params['regs'], 2) }}</span>
                         </h4>
                     </div>
                 </div>
@@ -70,7 +69,7 @@
                                 <span class="bi bi-arrow-clockwise fs-3 text-success"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params["renewals"], 2) }}</h4>
+                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params['renewals'], 2) }}</h4>
                     </div>
                 </div>
             </div>
@@ -85,7 +84,7 @@
                                 <span class="fa fa-gavel fs-3 text-success"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params["poas"], 2) }}</h4>
+                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params['poas'], 2) }}</h4>
                     </div>
                 </div>
             </div>
@@ -100,7 +99,7 @@
                                 <span class="bi bi-award-fill fs-3 text-success"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params["awards"], 2) }}</h4>
+                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params['awards'], 2) }}</h4>
                     </div>
                 </div>
             </div>
@@ -115,7 +114,7 @@
                                 <span class="bi bi-cash-coin fs-3 text-success"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params["prFees"], 2) }}</h4>
+                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params['prFees'], 2) }}</h4>
                     </div>
                 </div>
             </div>
@@ -131,9 +130,10 @@
                     </div>
                 </div>
                 <!-- Card body -->
-                <div class="card-body">
+                <div id="" class="card-body">
                     <!-- Earning chart -->
-                    <div id="sessionChart" class="apex-charts"></div>
+                    <canvas id="myLineChart" height="445"></canvas>
+                    {{-- <div id="myLineChart"></div> --}}
                 </div>
             </div>
         </div>

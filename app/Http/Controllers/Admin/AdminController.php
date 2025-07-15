@@ -19,6 +19,7 @@ use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\UserRole;
 use Auth;
+use Carbon\Carbon;
 use Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -43,7 +44,38 @@ class AdminController extends Controller
             "awards"   => AwardLetter::whereIn("status", ["awaiting approval", "approved", "rejected"])->sum("amount_paid"),
             "prFees"   => ProcessingFee::whereIn("status", ["awaiting approval", "approved", "rejected"])->sum("amount_paid"),
         ];
-        return view("admin.dashboard", compact("params"));
+
+        $year   = Carbon::now()->year;
+        $months = collect(range(1, 12));
+
+        $datasets = [
+            'registrations' => [],
+            'renewals'      => [],
+            'poa'           => [],
+            'award_letters' => [],
+            'processing'    => [],
+        ];
+
+        foreach ($months as $m) {
+            $datasets['registrations'][] = Company::whereYear('created_at', $year)
+                ->whereMonth('created_at', $m)->sum("amount_paid");
+
+            $datasets['renewals'][] = CompanyRenewals::whereYear('created_at', $year)
+                ->whereMonth('created_at', $m)->sum("amount_paid");
+
+            $datasets['poa'][] = PowerOfAttorney::whereYear('created_at', $year)
+                ->whereMonth('created_at', $m)->sum("amount_paid");
+
+            $datasets['award_letters'][] = AwardLetter::whereYear('created_at', $year)
+                ->whereMonth('created_at', $m)->sum("amount_paid");
+
+            $datasets['processing'][] = ProcessingFee::whereYear('created_at', $year)
+                ->whereMonth('created_at', $m)->sum("amount_paid");
+        }
+
+        $dataSets = json_encode($datasets);
+
+        return view("admin.dashboard", compact("params", "dataSets"));
     }
 
     /**
