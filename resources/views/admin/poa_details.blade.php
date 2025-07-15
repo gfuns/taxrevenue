@@ -136,19 +136,23 @@
                             </table>
 
                         </div>
-                        @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 4) == true)
+                        @if (
+                            \App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 4) == true &&
+                                $trx->status == 'awaiting approval')
                             <hr />
                             <div class="col-md-8"></div>
                             <!-- button -->
                             <div class="row col-12 d-flex align-items-center justify-content-between">
                                 <div class="col-6">
-                                    <a href="#" target="_blank"><button class="btn btn-success w-100"
+                                    <a href="{{ route('admin.approvePoaApplication', [$trx->id]) }}"
+                                        onclick="return disableLink(this);"><button class="btn btn-success w-100"
                                             type="button">Approve Request</button></a>
                                 </div>
                                 <div class="col-6">
-                                    <a href="#" target="_blank"><button class="btn btn-danger w-100"
-                                            type="button">Reject
-                                            Request</button></a>
+                                    <button class="btn btn-danger w-100" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#rejectApplication" data-backdrop="static"
+                                        data-myid="{{ $trx->id }}">Reject
+                                        Request</button>
                                 </div>
                             </div>
                         @endif
@@ -161,6 +165,43 @@
     </div>
     </div>
 </section>
+
+
+<!-- Modal -->
+<div class="modal fade" id="rejectApplication" tabindex="-1" role="dialog" aria-labelledby="newCatgoryLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title mb-0" id="newCatgoryLabel">
+                    Reject Application
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                </button>
+            </div>
+            <form action="{{ route('admin.rejectPoaApplication') }}" method="POST" class="needs-validation"
+                novalidate>
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3 col-12">
+                        <label class="form-label">Reason For Rejection</label>
+                        <textarea name="rejection_reason" class="form-control text-dark" placeholder="Reason For Rejection" rows="5"
+                            required style="resize: none"></textarea>
+                        <div class="invalid-feedback">Please provide reason for rejecting application.</div>
+                    </div>
+
+                    <input type="hidden" name="application_id" value="{{ $trx->id }}" required>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="submitBtn" class="btn btn-success" type="submit">Reject Application</button>
+                    <button type="button" class="btn btn-outline-success ms-2" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     document.getElementById("poa").classList.add('active');

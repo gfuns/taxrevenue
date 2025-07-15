@@ -164,21 +164,41 @@ Route::group([
 
     Route::get('company-registration/details/{id}', [AdminController::class, 'companyRegDetails'])->name('admin.companyRegDetails');
 
+    Route::get('approve-registration/{id}', [AdminController::class, 'approveCompanyReg'])->name('admin.approveCompanyReg');
+
+    Route::post('reject-registration', [AdminController::class, 'rejectCompanyReg'])->name('admin.rejectCompanyReg');
+
     Route::get('/company-renewals', [AdminController::class, 'companyRenewals'])->name("admin.companyRenewals");
 
     Route::get('/company-renewals/details/{reference}', [AdminController::class, 'companyRenewalDetails'])->name("admin.companyRenewalDetails");
+
+    Route::get('approve-renewal/{id}', [AdminController::class, 'approveCompanyRenewal'])->name('admin.approveCompanyRenewal');
+
+    Route::post('reject-renewal', [AdminController::class, 'rejectCompanyRenewal'])->name('admin.rejectCompanyRenewal');
 
     Route::get('/award-letters', [AdminController::class, 'awardLetters'])->name("admin.awardLetters");
 
     Route::get('/award-letters/details/{reference}', [AdminController::class, 'awardLettersDetails'])->name("admin.awardLettersDetails");
 
+    Route::get('approve-award-application/{id}', [AdminController::class, 'approveAwardApplication'])->name('admin.approveAwardApplication');
+
+    Route::post('rejectAwardApplication', [AdminController::class, 'rejectAwardApplication'])->name('admin.rejectAwardApplication');
+
     Route::get('/processing-fees', [AdminController::class, 'processingFees'])->name("admin.processingFees");
 
     Route::get('/processing-fees/details/{reference}', [AdminController::class, 'processingFeesDetails'])->name("admin.processingFeesDetails");
 
+    Route::get('approve-prf-application/{id}', [AdminController::class, 'approvePrfApplication'])->name('admin.approvePrfApplication');
+
+    Route::post('rejectPrfApplication', [AdminController::class, 'rejectPrfApplication'])->name('admin.rejectPrfApplication');
+
     Route::get('/power-of-attorney', [AdminController::class, 'powerOfAttorney'])->name("admin.powerOfAttorney");
 
     Route::get('/power-of-attorney/details/{reference}', [AdminController::class, 'powerOfAttorneyDetails'])->name("admin.powerOfAttorneyDetails");
+
+    Route::get('approve-poa-application/{id}', [AdminController::class, 'approvePoaApplication'])->name('admin.approvePoaApplication');
+
+    Route::post('rejectPoaApplication', [AdminController::class, 'rejectPoaApplication'])->name('admin.rejectPoaApplication');
 
     Route::get('/payment-items', [AdminController::class, 'paymentItems'])->name("admin.paymentItems");
 

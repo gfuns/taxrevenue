@@ -1056,6 +1056,86 @@ class AdminController extends Controller
     }
 
     /**
+     * approveCompanyReg
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function approveCompanyReg($id)
+    {
+        $company         = Company::find($id);
+        $company->status = "approved";
+        if ($company->application_type == "registration") {
+            $company->bsppc_number = $this->gerateBssppcNumber($id);
+        }
+        if ($company->save()) {
+            toast('Contractor Registration Successfully Approved', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * rejectCompanyReg
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function rejectCompanyReg(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'application_id'   => 'required',
+            'rejection_reason' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $company                   = Company::find($request->application_id);
+        $company->status           = "rejected";
+        $company->rejection_reason = $request->rejection_reason;
+        if ($company->save()) {
+            toast('Contractor Registration Rejected', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * gerateBssppcNumber
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function gerateBssppcNumber($id)
+    {
+        $company     = Company::find($id);
+        $bsppcNoPref = "BNSPPC/" . strtoupper($company->classification);
+        if (strlen($id) == 1) {
+            return $bsppcNoPref . "0000" . $id;
+        } else if (strlen($id) == 2) {
+            return $bsppcNoPref . "000" . $id;
+        } else if (strlen($id) == 3) {
+            return $bsppcNoPref . "00" . $id;
+        } else if (strlen($id) == 4) {
+            return $bsppcNoPref . "0" . $id;
+        } else if (strlen($id) == 5) {
+            return $bsppcNoPref . $id;
+        }
+    }
+
+    /**
      * companyRenewals
      *
      * @return void
@@ -1098,6 +1178,59 @@ class AdminController extends Controller
     {
         $trx = CompanyRenewals::where("reference_number", $reference)->first();
         return view("admin.company_renewal_details", compact("trx"));
+    }
+
+    /**
+     * approveCompanyRenewal
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function approveCompanyRenewal($id)
+    {
+        $renewal         = CompanyRenewals::find($id);
+        $renewal->status = "approved";
+        if ($renewal->save()) {
+            toast('Contractor Renewal Application Successfully Approved', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * rejectCompanyRenewal
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function rejectCompanyRenewal(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'application_id'   => 'required',
+            'rejection_reason' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $renewal                   = CompanyRenewals::find($request->application_id);
+        $renewal->status           = "rejected";
+        $renewal->rejection_reason = $request->rejection_reason;
+        if ($renewal->save()) {
+            toast('Contractor Renewal Application Rejected', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
     }
 
     /**
@@ -1148,6 +1281,59 @@ class AdminController extends Controller
     }
 
     /**
+     * approvePoaApplication
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function approvePoaApplication($id)
+    {
+        $poa         = PowerOfAttorney::find($id);
+        $poa->status = "approved";
+        if ($poa->save()) {
+            toast('Power Of Attorney  Application Successfully Approved', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * rejectPoaApplication
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function rejectPoaApplication(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'application_id'   => 'required',
+            'rejection_reason' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $poa                   = PowerOfAttorney::find($request->application_id);
+        $poa->status           = "rejected";
+        $poa->rejection_reason = $request->rejection_reason;
+        if ($poa->save()) {
+            toast('Power Of Attorney Application Rejected', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
      * processingFees
      *
      * @return void
@@ -1195,6 +1381,59 @@ class AdminController extends Controller
     }
 
     /**
+     * approvePrfApplication
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function approvePrfApplication($id)
+    {
+        $poa         = ProcessingFee::find($id);
+        $poa->status = "approved";
+        if ($poa->save()) {
+            toast('Processing Fee Remmittance Successfully Approved', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * rejectPrfApplication
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function rejectPrfApplication(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'application_id'   => 'required',
+            'rejection_reason' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $poa                   = ProcessingFee::find($request->application_id);
+        $poa->status           = "rejected";
+        $poa->rejection_reason = $request->rejection_reason;
+        if ($poa->save()) {
+            toast('Processing Fee Remmittance Rejected', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
      * awardLetters
      *
      * @return void
@@ -1239,6 +1478,59 @@ class AdminController extends Controller
     {
         $trx = AwardLetter::where("reference_number", $reference)->first();
         return view("admin.award_letter_details", compact("trx"));
+    }
+
+    /**
+     * approveAwardApplication
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function approveAwardApplication($id)
+    {
+        $poa         = AwardLetter::find($id);
+        $poa->status = "approved";
+        if ($poa->save()) {
+            toast('Award Letter Application Successfully Approved', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * rejectAwardApplication
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function rejectAwardApplication(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'application_id'   => 'required',
+            'rejection_reason' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $poa                   = AwardLetter::find($request->application_id);
+        $poa->status           = "rejected";
+        $poa->rejection_reason = $request->rejection_reason;
+        if ($poa->save()) {
+            toast('Award Letter Application Rejected', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
     }
 
     /**

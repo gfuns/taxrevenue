@@ -163,5 +163,12 @@
         })
 
 
-
+        function disableLink(anchor) {
+            const btn = anchor.querySelector('button');
+            if (btn) {
+                btn.disabled = true; // visually & functionally disabled
+                btn.innerText = 'Submitting request, please wait…';
+            }
+            return true;
+        }
     </script>
