@@ -19,7 +19,7 @@ class CertificateController extends Controller
         $date       = Carbon::parse($company->created_at); // Replace with your input date
         $expiryDate = $date->addYear();
         $qrcodeURL  = route("download.certificate", [$reference]);
-        // return view("certificate", compact("company", "expiryDate", "qrcodeURL"));
+        return view("certificate", compact("company", "expiryDate", "qrcodeURL"));
 
         view()->share(['company' => $company, 'expiryDate' => $expiryDate, 'qrcodeURL' => $qrcodeURL]);
 

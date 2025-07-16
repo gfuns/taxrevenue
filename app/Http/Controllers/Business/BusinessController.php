@@ -702,7 +702,7 @@ class BusinessController extends Controller
         }
 
         $company         = Company::find($request->company_id);
-        $company->status = "pending";
+        $company->status = "in progress";
         if ($company->save()) {
 
             $item = PaymentItem::find(6);

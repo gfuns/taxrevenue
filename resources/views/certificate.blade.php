@@ -141,7 +141,7 @@
     <div class="content">
         <!-- Logo and Photograph -->
         <div>
-            <img src="{{ asset('website/assets/images/benue-logo.png') }}" alt="BSPPC Logo" class="logo">
+            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('website/assets/images/benue-logo.png'))) }}" alt="BSPPC Logo" class="logo">
             <img src="{{ $company->user->profile_photo }}" alt="Passport Photograph" class="passport">
         </div>
         <!-- Header -->
