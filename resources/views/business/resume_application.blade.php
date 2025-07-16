@@ -72,15 +72,11 @@
                                         application.
                                     </p>
                                 @else
-                                    @php
-                                        $formatter = new \NumberFormatter('en', \NumberFormatter::SPELLOUT);
-                                        $inWords = ucwords($formatter->format($payment->amount));
-                                    @endphp
                                     <p>
                                         Your application is currently incomplete. You last stopped at the
                                         <b>Company Documents Upload Stage</b>. <br /><br /> The next stage of your
                                         application will require you to pay an application fee of
-                                        <strong>{{ $inWords }} Naira Only
+                                        <strong>{{ $payment->amountInWords() }} Naira Only
                                             (&#8358;{{ number_format($payment->amount, 2) }})</strong>.
                                         <br /><br />Please note that you will be charged an additional Technology
                                         Fee of
