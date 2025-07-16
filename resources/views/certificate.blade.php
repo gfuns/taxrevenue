@@ -114,7 +114,7 @@
             bottom: 200px;
             left: 60px;
             right: 60px;
-            width: 30%;
+            width: 40%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -130,6 +130,10 @@
         .qr-code {
             width: 100px;
         }
+
+        .qrcode {
+            width: 40px;
+        }
     </style>
 </head>
 
@@ -142,7 +146,8 @@
     <div class="content">
         <!-- Logo and Photograph -->
         <div>
-            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('website/assets/images/benue-logo.png'))) }}" alt="BSPPC Logo" class="logo">
+            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('website/assets/images/benue-logo.png'))) }}"
+                alt="BSPPC Logo" class="logo">
             <img src="{{ $company->user->profile_photo }}" alt="Passport Photograph" class="passport">
         </div>
         <!-- Header -->
@@ -187,11 +192,11 @@
         <!-- Signature and QR -->
         <div class="signature-section">
             <div>
-                <hr/>
+                <hr />
                 <div class="signature-label">Engr. Dr. Comfort Adadu <small>MNSE, MniMechE</small></div>
             </div>
             <div class="qr-code">
-                <img src="{{ asset("qrcodes/{$fileName}") }}" alt="QR Code">
+                <img src="{{ asset("qrcodes/{$fileName}") }}" class="qrcode" alt="QR Code">
             </div>
         </div>
     </div>
