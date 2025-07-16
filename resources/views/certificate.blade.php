@@ -189,18 +189,20 @@
         </div>
 
         <!-- Signature and QR -->
-        <table class="signature-section">
-            <tr>
-                <td width="75%">
-                    <hr />
-                    <div class="signature-label">Engr. Dr. Comfort Adadu <small>MNSE, MniMechE</small></div>
-                </td>
-                <td style="text-align: right; vertical-align: top;">
-                    <img src="{{ asset("qrcodes/{$fileName}") }}" class="qrcode" alt="QR Code">
+        <div class="signature-section">
+            <table>
+                <tr>
+                    <td width="75%">
+                        <hr />
+                        <div class="signature-label">Engr. Dr. Comfort Adadu <small>MNSE, MniMechE</small></div>
+                    </td>
+                    <td style="text-align: right; vertical-align: top;">
+                        <img src="{{ asset("qrcodes/{$fileName}") }}" class="qrcode" alt="QR Code">
 
-                </td>
-            </tr>
-        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
     </div>
 </body>
