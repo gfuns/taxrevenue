@@ -459,8 +459,8 @@ class BusinessController extends Controller
             return back();
         }
 
-        $bizCategories = implode(', ', $request->input('categories', []));
-
+        $bizCategories                    = implode(', ', $request->input('categories', []));
+        $payment                          = PaymentItem::find(6);
         $company                          = new Company;
         $company->user_id                 = Auth::user()->id;
         $company->application_type        = $request->application_type;
@@ -488,6 +488,7 @@ class BusinessController extends Controller
         $company->bank_postal_address     = $request->postal_address;
         $company->upgrade_application     = $request->upgrading;
         $company->form_reference_number   = $request->form_reference;
+        $company->amount_paid             = $payment->amount;
         if ($company->save()) {
             if ($company->upgrade_application == "yes") {
                 $company->application_stage = "projects";
