@@ -255,9 +255,8 @@
                     <!-- button -->
                     <div class="p-4 row col-12 d-flex align-items-center justify-content-between">
                         <div class="col-6">
-                            <a href="{{ route('admin.approveCompanyReg', [$company->id]) }}"
-                                onclick="return disableLink(this);"><button class="btn btn-success w-100"
-                                    type="button">Approve
+                            <a href="{{ route('admin.approveCompanyReg', [$company->id]) }}">
+                                <button class="btn btn-success w-100" type="button" target=_blank>Approve
                                     Application</button></a>
                         </div>
                         <div class="col-6">
@@ -270,6 +269,7 @@
                     </div>
                 @endif
 
+                                {{-- onclick="return disableLink(this);" --}}
             </div>
 
         </div>
