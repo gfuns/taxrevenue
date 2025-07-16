@@ -440,7 +440,7 @@ class BusinessController extends Controller
             'prev_period'          => 'required_if:prev_registered,yes',
             'prev_reg_number'      => 'required_if:prev_registered,yes',
             'certificate_validity' => 'required_if:prev_registered,yes',
-            'invalidity_reason'    => 'required_if:prev_registered,yes',
+            'invalidity_reason'    => 'required_if:prev_registered,no',
             'business_experience'  => 'required',
             'experience_details'   => 'required_if:business_experience,yes',
             'business_capital'     => 'required',

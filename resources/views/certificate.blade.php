@@ -32,7 +32,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 85%;
             height: 100%;
             z-index: 1;
             padding: 50px 60px;
