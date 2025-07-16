@@ -130,7 +130,7 @@
             font-weight: bold;
         }
 
-        .qr-code {
+        .qrcode {
             width: 100px;
         }
     </style>
