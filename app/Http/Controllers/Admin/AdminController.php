@@ -1125,6 +1125,8 @@ class AdminController extends Controller
             } catch (\Exception $e) {
                 report($e);
             }
+
+            return redirect()->route("download.certificate", [bcrypt($company->id)]);
             toast('Contractor Registration Successfully Approved', 'success');
             return back();
         } else {

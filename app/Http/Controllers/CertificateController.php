@@ -13,12 +13,13 @@ class CertificateController extends Controller
      *
      * @return void
      */
-    public function downloadCertificate($reference)
+    public function downloadCertificate($id)
     {
-        $company    = Company::where("reg_reference_number", $reference)->first();
+        $companyId  = decrypt($id);
+        $company    = Company::where("reg_reference_number", $companyId)->first();
         $date       = Carbon::parse($company->created_at); // Replace with your input date
         $expiryDate = $date->addYear();
-        $qrcodeURL  = route("download.certificate", [$reference]);
+        $qrcodeURL  = route("download.certificate", [$id]);
 
         $fileName = 'qrcode_' . $reference . '.png'; // Unique file name for each QR code
         $filePath = public_path('qrcodes/' . $fileName);
