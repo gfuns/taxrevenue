@@ -49,7 +49,7 @@
 						</div>
 						<div
 							class="hidden sm:block text-[#232323] font-normal text-[11px] tracking-normal font-jaka leading-[120%]">
-							<p>Procurement and Project</p>
+							<p>Benue State Public</p>
 							<p>Procurement and Project</p>
 							<p>Management System</p>
 						</div>
@@ -442,7 +442,7 @@
 						</div>
 						<div
 							class="hidden sm:block text-white font-normal text-[11px] tracking-normal font-jaka leading-[120%]">
-							<p>Procurement and Project</p>
+							<p>Benue State Public</p>
 							<p>Procurement and Project</p>
 							<p>Management System</p>
 						</div>
