@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Carbon\Carbon;
+use PDF;
 
 class CertificateController extends Controller
 {
@@ -17,6 +18,12 @@ class CertificateController extends Controller
         $company    = Company::where("reg_reference_number", $reference)->first();
         $date       = Carbon::parse($company->created_at); // Replace with your input date
         $expiryDate = $date->addYear();
-        return view("certificate", compact("company", "expiryDate"));
+        $qrcodeURL  = route("download.certificate", [$reference]);
+        view()->share(['company' => $company, 'expiryDate' => $expiryDate, 'qrcodeURL' => $qrcodeURL]);
+
+        $pdf      = PDF::loadView('certificate');
+        $fileName = "BSPPC Certificate.pdf";
+        return $pdf->stream($fileName);
+        return view("certificate", compact("company", "expiryDate", "qrcodeURL"));
     }
 }

@@ -324,7 +324,7 @@ class BusinessController extends Controller
                 return view("business.resume_application", compact("company", "payment"));
             }
         } else {
-            $formPurchase = CompanyPayments::where("user_id", Auth::user()->id)->where("payment_item_id", 5)->where("status", "paid")->first();
+            $formPurchase = CompanyPayments::where("user_id", Auth::user()->id)->where("payment_item_id", 5)->where("status", "payment successful")->first();
             if (isset($formPurchase) && ! empty($formPurchase)) {
                 $bizCategories = BusinessCategories::where("status", "active")->get();
                 $formRef       = $formPurchase->reference_number;

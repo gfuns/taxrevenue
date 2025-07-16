@@ -1,142 +1,167 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>Download Certificate</title>
-    <style>
-        body {
-            font-family: 'Arial', serif;
-            background: #fff;
+    <meta charset="utf-8">
+    <style type="text/css">
+        @page {
             margin: 0;
-            padding: 0;
+            size: A4 portrait;
         }
 
-        .certificate-container {
-            width: 900px;
-            height: 1275px;
-            margin: 0 auto;
-            padding: 50px;
-            border: 40px solid #c00;
-            box-sizing: border-box;
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Averta', sans-serif;
             position: relative;
         }
 
-        .header {
-            text-align: center;
-            margin-top: 20px;
+        .certificate-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            padding: 50px 60px;
+            box-sizing: border-box;
         }
 
         .logo {
-            width: 100px;
             position: absolute;
-            top: 50px;
-            left: 50px;
+            top: 60px;
+            left: 70px;
+            width: 130px;
         }
 
-        .decor-top-right {
+        .passport {
             position: absolute;
-            top: 40px;
-            right: 40px;
-            width: 80px;
-            height: 80px;
+            top: 60px;
+            right: 100px;
+            width: 100px;
+            /* height: 80px; */
         }
 
         .certificate-title {
-            font-size: 18px;
+            text-align: center;
+            font-size: 22px;
             font-weight: bold;
-            margin-top: 20px;
+            margin-top: 150px;
         }
 
         .sub-title {
+            text-align: center;
             font-size: 16px;
             margin-top: 10px;
+            font-weight: bold;
         }
 
         .certify-text {
-            margin-top: 60px;
+            /* width: 90%; */
             text-align: center;
+            font-size: 20px;
+            margin-top: 50px;
+        }
+
+        .certify-subtext {
+            margin-top: 40px;
+            padding: 15px;
             font-size: 18px;
+            line-height: 25px;
         }
 
         .company-name {
+            font-size: 20px;
             font-weight: bold;
-            font-size: 22px;
             background: #f5f5f5;
             display: inline-block;
             padding: 8px 20px;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .details {
-            margin-top: 50px;
-            font-size: 16px;
+            margin: 30px auto;
+            width: 90%;
             background: #f9f9f9;
             padding: 20px;
+            font-size: 14px;
         }
 
-        .details p {
-            margin: 8px 0;
+        .details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .details td {
+            padding: 6px;
+            vertical-align: top;
         }
 
         .signature-section {
-            margin-top: 80px;
+            position: absolute;
+            bottom: 130px;
+            left: 60px;
+            right: 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .signature {
-            font-family: 'Brush Script MT', cursive;
-            font-size: 24px;
-        }
-
         .signature-label {
             font-size: 14px;
             margin-top: 5px;
+            text-align: center;
+            font-weight: bold;
         }
 
         .qr-code {
             width: 100px;
         }
-
-        .decor-bottom {
-            position: absolute;
-            bottom: 40px;
-            left: 40px;
-            width: 80px;
-        }
-
-        .decor-bottom-right {
-            position: absolute;
-            bottom: 40px;
-            right: 40px;
-            width: 80px;
-        }
     </style>
 </head>
 
 <body>
-    <div class="certificate-container">
-        <img src="{{ asset('website/assets/images/benue-logo.png') }}" alt="BSPPC Logo" class="logo">
-        <img src="decor-top-right.png" alt="Decoration" class="decor-top-right">
+    <!-- Background Image -->
+    <img class="certificate-bg"
+        src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/certificate.png'))) }}"
+        alt="Certificate Background">
 
-        <div class="header">
-            <div class="certificate-title">
-                BENUE STATE PUBLIC PROCUREMENT COMMISSION
-            </div>
-            <div class="sub-title">CERTIFICATION OF WORKS REGISTRATION</div>
+    <div class="content">
+        <!-- Logo and Photograph -->
+        <div>
+            <img src="{{ asset('website/assets/images/benue-logo.png') }}" alt="BSPPC Logo" class="logo">
+            <img src="{{ $company->user->profile_photo }}" alt="Passport Photograph" class="passport">
         </div>
+        <!-- Header -->
+        <div class="certificate-title" style="">
+            BENUE STATE PUBLIC PROCUREMENT COMMISSION
+        </div>
+        <div class="sub-title">CERTIFICATION OF WORKS REGISTRATION</div>
 
+        <!-- Company Info -->
         <div class="certify-text">
             This is to certify that <br>
-            <div class="company-name" style="margin-top: 50px;">{{ strtoupper($company->company_name) }}</div>
+            <div class="company-name">{{ strtoupper($company->company_name) }}</div>
         </div>
-        <p style="margin-top: 40px;">
-            Whose director's photograph appears above was duly registered as a contractor with the Benue State Public
-            Procurement Commission with following details:
+
+        <p class="certify-subtext">
+            Whose director's photograph appears above was duly registered as a contractor with the Benue State
+            Public Procurement Commission with the following details:
         </p>
 
+        <!-- Details -->
         <div class="details">
             <table>
                 <tr>
@@ -153,21 +178,21 @@
                 </tr>
                 <tr>
                     <td><strong>VALID TILL:</strong></td>
-                    <td>{{ date_format($expiryDate, 'Y-m-d') }}</td>
+                    <td>{{ strtoupper(date_format($expiryDate, 'jS F, Y')) }}</td>
                 </tr>
             </table>
         </div>
 
+        <!-- Signature and QR -->
         <div class="signature-section">
             <div>
-                <div class="signature"><img src="{{ asset('images/signature.png') }}" style="width: 150px" /></div>
+                <img src="{{ asset('images/signature.png') }}" style="width: 150px" />
                 <div class="signature-label">Authorised Signature</div>
             </div>
-            <img src="qrcode.png" alt="QR Code" class="qr-code">
+            <div class="qr-code">
+                {!! QrCode::size(100)->generate($qrcodeURL) !!}
+            </div>
         </div>
-
-        <img src="decor-bottom.png" alt="Decoration" class="decor-bottom">
-        <img src="decor-bottom-right.png" alt="Decoration" class="decor-bottom-right">
     </div>
 </body>
 
