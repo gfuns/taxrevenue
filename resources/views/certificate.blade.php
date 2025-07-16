@@ -78,8 +78,9 @@
         .certify-subtext {
             margin-top: 40px;
             padding: 15px;
-            font-size: 17px;
+            font-size: 18px;
             line-height: 25px;
+            text-align: center;
         }
 
         .company-name {
