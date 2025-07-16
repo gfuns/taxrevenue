@@ -120,7 +120,8 @@
         }
 
         .signature-contain {
-            width: 40%;
+            width: 50%;
+            margin-top: 45px;
         }
 
         .signature-label {
