@@ -12,4 +12,10 @@ class Company extends Model
     {
         return $this->belongsTo('App\Models\User', 'user_id');
     }
+
+    public function getCategories()
+    {
+        $ids = explode(',', $this->business_category);
+        return BusinessCategories::whereIn('id', $ids)->pluck('category')->implode(', ');
+    }
 }

@@ -68,7 +68,7 @@
                             <tr>
                                 <th>What Business Do You Seek Registration
                                     For?</th>
-                                <td>{{ $company->company_address }}</td>
+                                <td>{{ $company->getCategories() }}</td>
                             </tr>
                             <tr>
                                 <th>Are You Registered With Any Works Registration
