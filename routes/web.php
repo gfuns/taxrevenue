@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\TwofactorController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ETranzactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OnboardingController;
@@ -80,6 +81,8 @@ Route::post('/login/validate2fa', [TwofactorController::class, 'validate2fa'])->
 
 Route::post('/login/2fa', [TwofactorController::class, 'verify2FA'])->name('login.2fa');
 
+Route::get('certificate', [CertificateController::class, 'downloadCertificate'])->name("download.certificate");
+
 Route::group([
     'prefix'     => 'portal',
     'middleware' => ['emailverified', 'webauthenticated', 'g2fa'],
@@ -102,6 +105,10 @@ Route::group([
     Route::post('/enableGA', [BusinessController::class, 'enableGA'])->name("business.enableGA");
 
     Route::get('/company-registration', [BusinessController::class, 'companyRegistration'])->name("business.companyRegistration")->middleware(["profileupdated"]);
+
+    Route::post('/purchaseRegForm', [BusinessController::class, 'purchaseRegForm'])->name("business.purchaseRegForm");
+
+    Route::get('/account-revalidation', [BusinessController::class, 'accountRevalidation'])->name("business.accountRevalidation");
 
     Route::group([
         'middleware' => ['profileupdated', 'companyreg'],
@@ -139,10 +146,6 @@ Route::group([
         Route::get('/processing-fees/details/{reference}', [BusinessController::class, 'processingFeesDetails'])->name("business.processingFeesDetails");
 
         Route::post('/processPayment', [BusinessController::class, 'processPayment'])->name("business.processPayment");
-
-        Route::post('/purchaseRegForm', [BusinessController::class, 'purchaseRegForm'])->name("business.purchaseRegForm");
-
-        Route::get('/account-revalidation', [BusinessController::class, 'accountRevalidation'])->name("business.accountRevalidation");
 
         Route::get('/executed-projects/{id}', [BusinessController::class, 'pastProjects'])->name("business.pastProjects");
 
