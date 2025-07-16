@@ -29,7 +29,7 @@ class CertificateController extends Controller
         view()->share(['company' => $company, 'expiryDate' => $expiryDate, 'qrcodeURL' => $qrcodeURL, "fileName" => $fileName]);
 
         $pdf      = PDF::loadView('certificate');
-        $fileName = "BSPPC Certificate.pdf";
-        return $pdf->stream($fileName);
+        $fileName = "BSPPC Certificate" . preg_replace("/-/", "", $bsppcno) . ".pdf";
+        return $pdf->download($fileName);
     }
 }
