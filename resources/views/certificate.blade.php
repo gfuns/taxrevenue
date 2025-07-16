@@ -111,7 +111,7 @@
 
         .signature-section {
             position: absolute;
-            bottom: 150px;
+            bottom: 200px;
             left: 60px;
             right: 60px;
             display: flex;
