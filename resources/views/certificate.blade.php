@@ -78,7 +78,7 @@
         .certify-subtext {
             margin-top: 40px;
             padding: 15px;
-            font-size: 18px;
+            font-size: 16px;
             line-height: 25px;
         }
 
@@ -136,7 +136,7 @@
         }
 
         .bsppcno{
-            margin-top: 50px;
+            margin-top: 10px;
         }
     </style>
 </head>
