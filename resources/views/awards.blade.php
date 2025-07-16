@@ -43,7 +43,7 @@
 					<!-- Logo and Brand -->
 					<div class="flex items-center space-x-4">
 						<div class="flex-shrink-0">
-							<div class="flex items-center justify-center w-16 h-16 rounded-full">
+							<div class="flex items-center justify-center w-20 h-16 rounded-full">
 								<img src="{{ asset("website/assets/images/benue-logo.png")}}" alt="" />
 							</div>
 						</div>
@@ -111,7 +111,7 @@
 								class="absolute left-0 z-20 invisible w-56 mt-2 transition-all duration-300 transform translate-y-2 bg-white border border-gray-100 shadow-lg opacity-0 rounded-xl group-hover:opacity-100 group-hover:visible group-hover:translate-y-0">
 								<div class="py-2">
 									<a
-										href="news.html"
+										href="news"
 										data-page="news"
 										class="flex items-center px-4 py-3 text-sm text-gray-700 transition-colors duration-200 dropdown-link hover:bg-green-600 hover:text-white">
 										<svg
@@ -128,7 +128,7 @@
 										News & Updates
 									</a>
 									<a
-										href="press.html"
+										href="press"
 										data-page="press"
 										class="flex items-center px-4 py-3 text-sm text-gray-700 transition-colors duration-200 dropdown-link hover:bg-green-600 hover:text-white">
 										<svg
@@ -145,7 +145,7 @@
 										Press Releases
 									</a>
 									<a
-										href="resources.html"
+										href="resources"
 										data-page="resources"
 										class="flex items-center px-4 py-3 text-sm text-gray-700 transition-colors duration-200 dropdown-link hover:bg-green-600 hover:text-white">
 										<svg
@@ -896,7 +896,7 @@
 					<!-- Logo and Brand -->
 					<div class="flex items-center space-x-4">
 						<div class="flex-shrink-0">
-							<div class="w-12 h-12">
+							<div class="w-20 h-16">
 								<img src="{{ asset("website/assets/images/benue-logo.png")}}" alt="" />
 							</div>
 						</div>
@@ -1093,7 +1093,7 @@
 				const path = window.location.pathname
 				const filename = path.split("/").pop()
 
-				if (filename === "" || filename === "index.html") return "home"
+				if (filename === "" || filename === "index") return "home"
 				if (filename.includes("about")) return "about"
 				if (filename.includes("tenders")) return "tenders"
 				if (filename.includes("awards")) return "awards"

@@ -43,7 +43,7 @@
 					<!-- Logo and Brand -->
 					<div class="flex items-center space-x-4">
 						<div class="flex-shrink-0">
-							<div class="flex items-center justify-center w-16 h-16 rounded-full">
+							<div class="flex items-center justify-center w-20 h-16 rounded-full">
 								<img src="{{ asset("website/assets/images/benue-logo.png")}}" alt="" />
 							</div>
 						</div>
@@ -63,25 +63,25 @@
 					<!-- Desktop Navigation -->
 					<nav class="items-center hidden space-x-2 lg:flex">
 						<a
-							href="index.html"
+							href="index"
 							data-page="home"
 							class="nav-link hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md hover:bg-gray-50 font-sora font-normal text-[19px] leading-[26.6px] tracking-[0%] text-[#232323]">
 							Home
 						</a>
 						<a
-							href="about.html"
+							href="about"
 							data-page="about"
 							class="nav-link hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md hover:bg-gray-50 font-sora font-normal text-[19px] leading-[26.6px] tracking-[0%] text-[#232323]">
 							About Us
 						</a>
 						<a
-							href="tenders.html"
+							href="tenders"
 							data-page="tenders"
 							class="nav-link hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md hover:bg-gray-50 font-sora font-normal text-[19px] leading-[26.6px] tracking-[0%] text-[#232323]">
 							Tenders
 						</a>
 						<a
-							href="awards.html"
+							href="awards"
 							data-page="awards"
 							class="nav-link hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md hover:bg-gray-50 font-sora font-normal text-[19px] leading-[26.6px] tracking-[0%] text-[#232323]">
 							Awards
@@ -111,7 +111,7 @@
 								class="absolute left-0 z-20 invisible w-56 mt-2 transition-all duration-300 transform translate-y-2 bg-white border border-gray-100 shadow-lg opacity-0 rounded-xl group-hover:opacity-100 group-hover:visible group-hover:translate-y-0">
 								<div class="py-2">
 									<a
-										href="news.html"
+										href="news"
 										data-page="news"
 										class="flex items-center px-4 py-3 text-sm text-gray-700 transition-colors duration-200 dropdown-link hover:bg-green-600 hover:text-white">
 										<svg
@@ -128,7 +128,7 @@
 										News & Updates
 									</a>
 									<a
-										href="press.html"
+										href="press"
 										data-page="press"
 										class="flex items-center px-4 py-3 text-sm text-gray-700 transition-colors duration-200 dropdown-link hover:bg-green-600 hover:text-white">
 										<svg
@@ -145,7 +145,7 @@
 										Press Releases
 									</a>
 									<a
-										href="resources.html"
+										href="resources"
 										data-page="resources"
 										class="flex items-center px-4 py-3 text-sm text-gray-700 transition-colors duration-200 dropdown-link hover:bg-green-600 hover:text-white">
 										<svg
@@ -166,7 +166,7 @@
 						</div>
 
 						<a
-							href="contact.html"
+							href="contact"
 							data-page="contact"
 							class="nav-link hover:text-primary transition-colors duration-200 px-3 py-2 rounded-md hover:bg-gray-50 font-sora font-normal text-[19px] leading-[26.6px] tracking-[0%] text-[#232323]">
 							Contact
@@ -221,25 +221,25 @@
 				class="hidden bg-white border-t border-gray-200 lg:hidden">
 				<div class="px-4 pt-4 pb-6 space-y-2">
 					<a
-						href="index.html"
+						href="index"
 						data-page="home"
 						class="block px-4 py-3 text-base font-medium text-gray-700 transition-colors duration-200 rounded-lg mobile-nav-link hover:text-green-600 hover:bg-gray-50">
 						Home
 					</a>
 					<a
-						href="about.html"
+						href="about"
 						data-page="about"
 						class="block px-4 py-3 text-base font-medium text-gray-700 transition-colors duration-200 rounded-lg mobile-nav-link hover:text-green-600 hover:bg-gray-50">
 						About Us
 					</a>
 					<a
-						href="tenders.html"
+						href="tenders"
 						data-page="tenders"
 						class="block px-4 py-3 text-base font-medium text-gray-700 transition-colors duration-200 rounded-lg mobile-nav-link hover:text-green-600 hover:bg-gray-50">
 						Tenders
 					</a>
 					<a
-						href="awards.html"
+						href="awards"
 						data-page="awards"
 						class="block px-4 py-3 text-base font-medium text-gray-700 transition-colors duration-200 rounded-lg mobile-nav-link hover:text-green-600 hover:bg-gray-50">
 						Awards
@@ -267,19 +267,19 @@
 						</button>
 						<div id="mobile-submenu" class="hidden pl-4 space-y-1">
 							<a
-								href="news.html"
+								href="news"
 								data-page="news"
 								class="block px-4 py-2 text-sm text-gray-600 transition-colors duration-200 rounded-lg mobile-nav-link hover:text-green-600 hover:bg-gray-50">
 								News & Updates
 							</a>
 							<a
-								href="press.html"
+								href="press"
 								data-page="press"
 								class="block px-4 py-2 text-sm text-gray-600 transition-colors duration-200 rounded-lg mobile-nav-link hover:text-green-600 hover:bg-gray-50">
 								Press Releases
 							</a>
 							<a
-								href="resources.html"
+								href="resources"
 								data-page="resources"
 								class="block px-4 py-2 text-sm text-gray-600 transition-colors duration-200 rounded-lg mobile-nav-link hover:text-green-600 hover:bg-gray-50">
 								Resource Center
@@ -288,7 +288,7 @@
 					</div>
 
 					<a
-						href="contact.html"
+						href="contact"
 						data-page="contact"
 						class="block px-4 py-3 text-base font-medium text-gray-700 transition-colors duration-200 rounded-lg mobile-nav-link hover:text-green-600 hover:bg-gray-50">
 						Contact
@@ -582,7 +582,7 @@
 					<!-- Logo and Brand -->
 					<div class="flex items-center space-x-4">
 						<div class="flex-shrink-0">
-							<div class="flex items-center justify-center w-16 h-16 rounded-full">
+							<div class="flex items-center justify-center w-20 h-16 rounded-full">
 								<img src="{{ asset("website/assets/images/benue-logo.png")}}" alt="" />
 							</div>
 						</div>
@@ -779,7 +779,7 @@
 				const path = window.location.pathname
 				const filename = path.split("/").pop()
 
-				if (filename === "" || filename === "index.html") return "home"
+				if (filename === "" || filename === "index") return "home"
 				if (filename.includes("about")) return "about"
 				if (filename.includes("tenders")) return "tenders"
 				if (filename.includes("awards")) return "awards"

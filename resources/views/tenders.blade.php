@@ -43,7 +43,7 @@
 					<!-- Logo and Brand -->
 					<div class="flex items-center space-x-4">
 						<div class="flex-shrink-0">
-							<div class="flex items-center justify-center w-16 h-16 rounded-full">
+							<div class="flex items-center justify-center w-20 h-16 rounded-full">
 								<img src="{{ asset("website/assets/images/benue-logo.png")}}" alt="" />
 							</div>
 						</div>
@@ -436,7 +436,7 @@
 					<!-- Logo and Brand -->
 					<div class="flex items-center space-x-4">
 						<div class="flex-shrink-0">
-							<div class="flex items-center justify-center w-16 h-16 rounded-full">
+							<div class="flex items-center justify-center w-20 h-16 rounded-full">
 								<img src="{{ asset("website/assets/images/benue-logo.png")}}" alt="" />
 							</div>
 						</div>
@@ -633,7 +633,7 @@
 				const path = window.location.pathname
 				const filename = path.split("/").pop()
 
-				if (filename === "" || filename === "index.html") return "home"
+				if (filename === "" || filename === "index") return "home"
 				if (filename.includes("about")) return "about"
 				if (filename.includes("tenders")) return "tenders"
 				if (filename.includes("awards")) return "awards"
