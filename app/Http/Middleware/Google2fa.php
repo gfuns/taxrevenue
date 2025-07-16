@@ -19,7 +19,6 @@ class Google2fa
     {
 
         if (isset(Auth::user()->auth_2fa)) {
-            return $next($request);
             if (Auth::user()->auth_2fa == "GoogleAuth") {
 
                 if (Session::has("myGoogle2fa")) {
