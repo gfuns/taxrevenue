@@ -189,13 +189,13 @@
         </div>
 
         <!-- Signature and QR -->
-        <table>
+        <table class="signature-section">
             <tr>
                 <td width="75%">
                     <hr />
                     <div class="signature-label">Engr. Dr. Comfort Adadu <small>MNSE, MniMechE</small></div>
                 </td>
-                <td>
+                <td style="text-align: right; vertical-align: top;">
                     <img src="{{ asset("qrcodes/{$fileName}") }}" class="qrcode" alt="QR Code">
 
                 </td>
