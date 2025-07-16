@@ -44,7 +44,7 @@
         <div class="page-ath-content">
             <div class="page-ath-header">
                 <a href="/" class="page-ath-logo">
-                    <img class="page-ath-logo-img" src="{{ asset('images/logo_mail.png') }}" alt="BPP Logo"
+                    <img class="page-ath-logo-img" src="{{ asset('images/logo_green.png') }}" alt="BPP Logo"
                         style="max-width: 345px">
                 </a>
             </div>
