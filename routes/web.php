@@ -110,6 +110,28 @@ Route::group([
 
     Route::get('/account-revalidation', [BusinessController::class, 'accountRevalidation'])->name("business.accountRevalidation");
 
+    Route::get('/preview-application/{id}', [BusinessController::class, 'previewApplication'])->name("business.previewApplication");
+
+    Route::get('/resume-application/{id}', [BusinessController::class, 'resumeApplication'])->name("business.resumeApplication");
+
+    Route::post('/submitApplication', [BusinessController::class, 'submitApplication'])->name("business.submitApplication");
+
+    Route::post('/finalizeApplication', [BusinessController::class, 'finalizeApplication'])->name("business.finalizeApplication");
+
+    Route::post('/processPayment', [BusinessController::class, 'processPayment'])->name("business.processPayment");
+
+    Route::get('/executed-projects/{id}', [BusinessController::class, 'pastProjects'])->name("business.pastProjects");
+
+    Route::post('/addProject', [BusinessController::class, 'addProject'])->name("business.addProject");
+
+    Route::get('/remove-project/{id}', [BusinessController::class, 'removeProject'])->name("business.removeProject");
+
+    Route::get('/company-documents/{id}', [BusinessController::class, 'companyDocuments'])->name("business.companyDocuments");
+
+    Route::post('/uploadDocument', [BusinessController::class, 'uploadDocument'])->name("business.uploadDocument");
+
+    Route::get('/remove-document/{id}', [BusinessController::class, 'removeDocument'])->name("business.removeDocument");
+
     Route::group([
         'middleware' => ['profileupdated', 'companyreg'],
     ], function ($router) {
@@ -145,27 +167,6 @@ Route::group([
 
         Route::get('/processing-fees/details/{reference}', [BusinessController::class, 'processingFeesDetails'])->name("business.processingFeesDetails");
 
-        Route::post('/processPayment', [BusinessController::class, 'processPayment'])->name("business.processPayment");
-
-        Route::get('/executed-projects/{id}', [BusinessController::class, 'pastProjects'])->name("business.pastProjects");
-
-        Route::post('/addProject', [BusinessController::class, 'addProject'])->name("business.addProject");
-
-        Route::get('/remove-project/{id}', [BusinessController::class, 'removeProject'])->name("business.removeProject");
-
-        Route::get('/company-documents/{id}', [BusinessController::class, 'companyDocuments'])->name("business.companyDocuments");
-
-        Route::post('/uploadDocument', [BusinessController::class, 'uploadDocument'])->name("business.uploadDocument");
-
-        Route::get('/remove-document/{id}', [BusinessController::class, 'removeDocument'])->name("business.removeDocument");
-
-        Route::get('/preview-application/{id}', [BusinessController::class, 'previewApplication'])->name("business.previewApplication");
-
-        Route::get('/resume-application/{id}', [BusinessController::class, 'resumeApplication'])->name("business.resumeApplication");
-
-        Route::post('/submitApplication', [BusinessController::class, 'submitApplication'])->name("business.submitApplication");
-
-        Route::post('/finalizeApplication', [BusinessController::class, 'finalizeApplication'])->name("business.finalizeApplication");
     });
 });
 
