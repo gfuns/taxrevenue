@@ -114,7 +114,7 @@
             bottom: 200px;
             left: 60px;
             right: 60px;
-            width: 60%;
+            width: 40%;
             display: flex;
             justify-content: space-between;
             align-items: center;
