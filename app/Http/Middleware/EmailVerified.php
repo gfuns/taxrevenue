@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Middleware;
 
 use Auth;
@@ -17,6 +16,7 @@ class EmailVerified
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
+            return $next($request);
             if (isset(Auth::user()->email_verified_at)) {
                 return $next($request);
             } else {
