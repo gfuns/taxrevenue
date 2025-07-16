@@ -13,9 +13,8 @@ class CertificateController extends Controller
      *
      * @return void
      */
-    public function downloadCertificate()
+    public function downloadCertificate($reference)
     {
-        $reference  = "BSPPC-221752354411324";
         $company    = Company::where("reg_reference_number", $reference)->first();
         $date       = Carbon::parse($company->created_at); // Replace with your input date
         $expiryDate = $date->addYear();
