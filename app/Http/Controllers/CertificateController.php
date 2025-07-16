@@ -16,7 +16,7 @@ class CertificateController extends Controller
     public function downloadCertificate($bsppcno)
     {
         $companyId  = preg_replace("/-/", "/", $bsppcno);
-        $company    = Company::where("reg_reference_number", $companyId)->first();
+        $company    = Company::where("bsppc_number", $companyId)->first();
         $date       = Carbon::parse($company->created_at); // Replace with your input date
         $expiryDate = $date->addYear();
         $qrcodeURL  = route("download.certificate", [$bsppcno]);
