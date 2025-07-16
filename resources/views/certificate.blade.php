@@ -63,7 +63,7 @@
 
         .sub-title {
             text-align: center;
-            font-size: 16px;
+            font-size: 17px;
             margin-top: 10px;
             font-weight: bold;
         }
