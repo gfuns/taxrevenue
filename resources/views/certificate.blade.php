@@ -130,8 +130,9 @@
             font-weight: bold;
         }
 
-        .qrcode {
+        .qr-code {
             width: 100px;
+            margin-left: auto;
         }
     </style>
 </head>
@@ -189,20 +190,31 @@
         </div>
 
         <!-- Signature and QR -->
-        <div class="signature-section">
-            <table>
-                <tr>
-                    <td width="95%">
-                        <hr />
-                        <div class="signature-label">Engr. Dr. Comfort Adadu <small>MNSE, MniMechE</small></div>
-                    </td>
-                    <td style="text-align: right; vertical-align: top;">
-                        <img src="{{ asset("qrcodes/{$fileName}") }}" class="qrcode" alt="QR Code">
 
-                    </td>
-                </tr>
-            </table>
+        <div class="signature-section">
+            <div class="signature-contain">
+                <hr />
+                <div class="signature-label">Engr. Dr. Comfort Adadu <small>MNSE, MniMechE</small></div>
+            </div>
+            <div class="qr-code">
+                <img src="{{ asset("qrcodes/{$fileName}") }}" class="qrcode" alt="QR Code" style="width:100px">
+            </div>
         </div>
+
+        {{-- <table>
+            <tr>
+                <td width="75%">
+                    <hr />
+                    <div class="signature-label">Engr. Dr. Comfort Adadu <small>MNSE, MniMechE</small></div>
+                </td>
+                <td>
+                    <div class="qr-code">
+                        <img src="{{ asset("qrcodes/{$fileName}") }}" class="qrcode" alt="QR Code">
+                    </div>
+                </td>
+            </tr>
+        </table> --}}
+
 
     </div>
 </body>
