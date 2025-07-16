@@ -77,8 +77,8 @@
 
         .certify-subtext {
             margin-top: 40px;
-            padding: 17px;
-            font-size: 16px;
+            padding: 15px;
+            font-size: 17px;
             line-height: 25px;
         }
 
