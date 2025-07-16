@@ -114,7 +114,7 @@
             bottom: 200px;
             left: 60px;
             right: 60px;
-            width: 20%;
+            width: 60%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -187,8 +187,8 @@
         <!-- Signature and QR -->
         <div class="signature-section">
             <div>
-                <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/signature.png'))) }}" style="width: 150px" />
-                <div class="signature-label">Authorised Signature</div>
+                <hr/>
+                <div class="signature-label">Engr. Dr. Comfort Adadu <small>MNSE, MniMechE</small></div>
             </div>
             <div class="qr-code">
                 <img src="{{ asset("qrcodes/{$fileName}") }}" alt="QR Code" style="height: 100px">
