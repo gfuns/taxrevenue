@@ -160,10 +160,12 @@
         <div class="certify-text">
             This is to certify that <br>
             <div class="company-name">{{ strtoupper($company->company_name) }}</div>
+            <br>
+            With BSPPC Number: {{ $company->bsppc_number }}
         </div>
 
         <p class="certify-subtext">
-            Whose director's photograph appears above was duly registered as a contractor with the Benue State
+            And whose director's photograph appears above has been duly registered as a contractor with the Benue State
             Public Procurement Commission with the following details:
         </p>
 
