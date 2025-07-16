@@ -497,7 +497,7 @@ class BusinessController extends Controller
             } else {
                 $company->application_stage = "documents";
                 $company->save();
-                return redirect()->route("business.uploadDocuments", [$company->id]);
+                return redirect()->route("business.companyDocuments", [$company->id]);
             }
         } else {
             toast('Something went wrong.', 'error');
