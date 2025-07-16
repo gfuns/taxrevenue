@@ -48,10 +48,6 @@
                                     <br />&nbsp;
                                     <p>
 
-                                        @php
-    dd(NumberFormatter::class); // Should print "NumberFormatter" only if Intl
-@endphp
-
                                         To begin your company registration application, you are required to pay a
                                         registration form fee of <strong>{{ $payment->amountInWords() }} Naira Only
                                             (&#8358;{{ number_format($payment->amount, 2) }})</strong>.

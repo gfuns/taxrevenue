@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use NumberFormatter;
 
 class PaymentItem extends Model
 {
@@ -10,7 +11,7 @@ class PaymentItem extends Model
 
     public function amountInWords()
     {
-        $formatter = new \NumberFormatter('en', \NumberFormatter::SPELLOUT);
+        $formatter = new NumberFormatter('en', NumberFormatter::SPELLOUT);
         $inWords   = ucwords($formatter->format($this->amount));
         return $inWords;
     }
