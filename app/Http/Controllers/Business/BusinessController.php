@@ -701,8 +701,9 @@ class BusinessController extends Controller
             return back();
         }
 
-        $company         = Company::find($request->company_id);
-        $company->status = "in progress";
+        $company                    = Company::find($request->company_id);
+        $company->status            = "in progress";
+        $company->application_stage = "payment";
         if ($company->save()) {
 
             $item = PaymentItem::find(6);

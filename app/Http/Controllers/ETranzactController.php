@@ -306,6 +306,7 @@ class ETranzactController extends Controller
                 $company                       = Company::find($paymentData->company_id);
                 $company->reg_reference_number = $reference;
                 $company->status               = $message;
+                $company->application_stage    = "complete";
                 $company->save();
 
                 if ($message == "awaiting approval") {

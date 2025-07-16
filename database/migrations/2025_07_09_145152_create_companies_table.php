@@ -42,7 +42,7 @@ return new class extends Migration
             $table->string("reg_reference_number")->nullable();
             $table->enum("status", ["in progress", "awaiting approval", "approved", "rejected", "payment failed"])->default("in progress");
             $table->longText("rejection_reason")->nullable();
-            $table->enum("application_stage", ["projects", "documents", "payment"]);
+            $table->enum("application_stage", ["projects", "documents", "payment", "complete"]);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
