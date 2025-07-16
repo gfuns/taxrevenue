@@ -192,7 +192,7 @@
         <div class="signature-section">
             <table>
                 <tr>
-                    <td width="75%">
+                    <td width="95%">
                         <hr />
                         <div class="signature-label">Engr. Dr. Comfort Adadu <small>MNSE, MniMechE</small></div>
                     </td>
