@@ -114,10 +114,13 @@
             bottom: 200px;
             left: 60px;
             right: 60px;
-            width: 40%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .signature-contain {
+            width: 40%;
         }
 
         .signature-label {
@@ -129,10 +132,6 @@
 
         .qr-code {
             width: 100px;
-        }
-
-        .qrcode {
-            width: 40px;
         }
     </style>
 </head>
@@ -191,7 +190,7 @@
 
         <!-- Signature and QR -->
         <div class="signature-section">
-            <div>
+            <div class="signature-contain">
                 <hr />
                 <div class="signature-label">Engr. Dr. Comfort Adadu <small>MNSE, MniMechE</small></div>
             </div>
