@@ -431,7 +431,7 @@ class BusinessController extends Controller
             'cac_number'           => 'required',
             'company_name'         => 'required',
             'company_adress'       => 'required',
-            'categories'           => 'required|array|min:1',
+            'categories'           => 'required|array|min:1|max:2',
             'categories.*'         => 'exists:business_categories,id',
             'prev_registered'      => 'required',
             'prev_class'           => 'required_if:prev_registered,yes',
