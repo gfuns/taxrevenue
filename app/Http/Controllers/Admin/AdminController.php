@@ -1126,7 +1126,7 @@ class AdminController extends Controller
                 report($e);
             }
 
-            return redirect()->route("download.certificate", [preg_replace("/\//", "-", $company->id)]);
+            return redirect()->route("download.certificate", [preg_replace("/\//", "-", $company->bsppc_number)]);
             toast('Contractor Registration Successfully Approved', 'success');
             return back();
         } else {
