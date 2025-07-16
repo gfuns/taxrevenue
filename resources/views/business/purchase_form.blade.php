@@ -47,13 +47,9 @@
                                         {{ Auth::user()->last_name . ', ' . Auth::user()->other_names }}</strong>
                                     <br />&nbsp;
                                     <p>
-                                        @php
-                                            $formatter = new \NumberFormatter('en', \NumberFormatter::SPELLOUT);
-                                            $inWords = ucwords($formatter->format($payment->amount));
-                                        @endphp
 
                                         To begin your company registration application, you are required to pay a
-                                        registration form fee of <strong>{{ $inWords }} Naira Only
+                                        registration form fee of <strong>{{ $payment->amountInWords() }} Naira Only
                                             (&#8358;{{ number_format($payment->amount, 2) }})</strong>.
 
                                         <br /><br />Please note that you will be charged an additional Technology Fee of
