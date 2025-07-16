@@ -134,6 +134,10 @@
             width: 100px;
             margin-left: auto;
         }
+
+        .bsppcno{
+            margin-top: 50px;
+        }
     </style>
 </head>
 
@@ -161,7 +165,7 @@
             This is to certify that <br>
             <div class="company-name">{{ strtoupper($company->company_name) }}</div>
             <br>
-            With BSPPC Number: {{ $company->bsppc_number }}
+            <div class="bsppcno">With BSPPC Number: <strong>{{ $company->bsppc_number }}</strong></div>
         </div>
 
         <p class="certify-subtext">
@@ -179,10 +183,6 @@
                 <tr>
                     <td><strong>CLASS:</strong></td>
                     <td>{{ $company->classification }}</td>
-                </tr>
-                <tr>
-                    <td><strong>LGA:</strong></td>
-                    <td>{{ $company->lga ?? 'MAKURDI' }}</td>
                 </tr>
                 <tr>
                     <td><strong>VALID TILL:</strong></td>
