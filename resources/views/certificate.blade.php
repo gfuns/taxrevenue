@@ -114,7 +114,7 @@
             bottom: 200px;
             left: 60px;
             right: 60px;
-            width: 40%;
+            width: 30%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -191,7 +191,7 @@
                 <div class="signature-label">Engr. Dr. Comfort Adadu <small>MNSE, MniMechE</small></div>
             </div>
             <div class="qr-code">
-                <img src="{{ asset("qrcodes/{$fileName}") }}" alt="QR Code" style="height: 100px">
+                <img src="{{ asset("qrcodes/{$fileName}") }}" alt="QR Code">
             </div>
         </div>
     </div>
