@@ -704,8 +704,51 @@ class BusinessController extends Controller
         $company         = Company::find($request->company_id);
         $company->status = "pending";
         if ($company->save()) {
-            toast('Application Submitted Successfully.', 'success');
-            return redirect()->route("business.dashboard");
+
+            $item = PaymentItem::find(6);
+            $fee  = $this->getFee($item->id, $item->amount);
+
+            $paymentLog                   = new CompanyPayments;
+            $paymentLog->user_id          = Auth::user()->id;
+            $paymentLog->company_id       = $company->id;
+            $paymentLog->payment_item_id  = $item->id;
+            $paymentLog->reference_number = $this->genTrxReference();
+            $paymentLog->amount_paid      = $item->amount;
+            $paymentLog->fee_charged      = $fee;
+            $paymentLog->total            = ($item->amount + $fee);
+            if ($paymentLog->save()) {
+
+                try {
+                    $response = Http::accept('application/json')->withHeaders([
+                        'authorization' => env('CREDO_PUBLIC_KEY'),
+                        'content_type'  => "Content-Type: application/json",
+                    ])->post(env("CREDO_URL") . "/transaction/initialize", [
+                        "email"       => Auth::user()->email,
+                        "amount"      => ($paymentLog->total * 100),
+                        "reference"   => str_replace("BSPPC-", "", $paymentLog->reference_number),
+                        "narration"   => "Company Registration Application Fee",
+                        "callbackUrl" => route("etranzact.regfee.callBack"),
+                        "bearer"      => 0,
+                    ]);
+
+                    $responseData = $response->collect("data");
+
+                    if (isset($responseData['authorizationUrl'])) {
+                        return redirect($responseData['authorizationUrl']);
+                    }
+
+                    toast("Credo E-Tranzact gateway service took too long to respond.", 'error');
+                    return back();
+                } catch (\Exception $e) {
+                    report($e);
+                    toast('Error initializing payment gateway. Please try again', 'error');
+                    return back();
+                }
+            } else {
+                toast('Something Went Wrong. Please try again', 'error');
+                return back();
+            }
+
         } else {
             return redirect()->route("business.companyRegistration");
         }
