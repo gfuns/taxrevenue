@@ -81,7 +81,7 @@ Route::post('/login/validate2fa', [TwofactorController::class, 'validate2fa'])->
 
 Route::post('/login/2fa', [TwofactorController::class, 'verify2FA'])->name('login.2fa');
 
-Route::get('certificate/{id}', [CertificateController::class, 'downloadCertificate'])->name("download.certificate");
+Route::get('certificate/{bsppcno}', [CertificateController::class, 'downloadCertificate'])->name("download.certificate");
 
 Route::group([
     'prefix'     => 'portal',
