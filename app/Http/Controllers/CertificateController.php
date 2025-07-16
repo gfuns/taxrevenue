@@ -21,7 +21,7 @@ class CertificateController extends Controller
         $expiryDate = $date->addYear();
         $qrcodeURL  = route("download.certificate", [$bsppcno]);
 
-        $fileName = 'qrcode_' . $reference . '.png'; // Unique file name for each QR code
+        $fileName = 'qrcode_' . $bsppcno . '.png'; // Unique file name for each QR code
         $filePath = public_path('qrcodes/' . $fileName);
         QrCode::format('png')->size(300)->generate($qrcodeURL, $filePath);
         // return view("certificate", compact("company", "expiryDate", "qrcodeURL", "fileName"));
