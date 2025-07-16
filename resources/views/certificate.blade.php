@@ -111,9 +111,10 @@
 
         .signature-section {
             position: absolute;
-            bottom: 130px;
+            bottom: 200px;
             left: 60px;
             right: 60px;
+            width: 20%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -186,11 +187,11 @@
         <!-- Signature and QR -->
         <div class="signature-section">
             <div>
-                <img src="{{ asset('images/signature.png') }}" style="width: 150px" />
+                <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/signature.png'))) }}" style="width: 150px" />
                 <div class="signature-label">Authorised Signature</div>
             </div>
             <div class="qr-code">
-                {!! QrCode::size(100)->generate($qrcodeURL) !!}
+                <img src="{{ asset("qrcodes/{$fileName}") }}" alt="QR Code" style="height: 100px">
             </div>
         </div>
     </div>

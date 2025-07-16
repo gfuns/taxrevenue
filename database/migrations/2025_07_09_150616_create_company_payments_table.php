@@ -17,9 +17,9 @@ return new class extends Migration
             $table->integer("company_id")->unsigned()->nullable();
             $table->integer("payment_item_id")->unsigned();
             $table->string("reference_number");
-            $table->double("amount_paid", 12, 2);
-            $table->double("fee_charged", 12, 2);
-            $table->double("total", 12, 2);
+            $table->double("amount_paid", 20, 2);
+            $table->double("fee_charged", 20, 2);
+            $table->double("total", 20, 2);
             $table->enum("status", ["pending", "payment successful", "payment failed"])->default("pending");
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string("prev_reg_invalid_reason")->nullable();
             $table->enum("business_experience", ["yes", "no"]);
             $table->longText("experience_details")->nullable();
-            $table->double("business_capital", 12, 2);
+            $table->double("business_capital", 20, 2);
             $table->enum("operate_bank", ["yes", "no"]);
             $table->string("bank_name")->nullable();
             $table->string("bank_branch")->nullable();

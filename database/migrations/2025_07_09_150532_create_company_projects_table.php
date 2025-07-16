@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer("company_id")->unsigned();
             $table->string("awarding_body");
             $table->longText("contract_description");
-            $table->double("amount", 12, 2);
+            $table->double("amount", 20, 2);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });

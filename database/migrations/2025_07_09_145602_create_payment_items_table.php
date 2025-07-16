@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('payment_items', function (Blueprint $table) {
             $table->increments("id");
             $table->string("item");
-            $table->double("amount", 12, 2);
+            $table->double("amount", 20, 2);
             $table->enum("fee_config", ["fixed", "percentage"]);
-            $table->double("fee", 12, 2);
+            $table->double("fee", 20, 2);
             $table->timestamps();
         });
     }

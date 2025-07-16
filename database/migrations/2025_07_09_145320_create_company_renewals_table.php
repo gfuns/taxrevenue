@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer("period");
             $table->string("bsppc_number");
             $table->text("bsppc_cert");
-            $table->double("amount_paid", 12, 2);
+            $table->double("amount_paid", 20, 2);
             $table->enum("status", ["pending", "awaiting approval", "approved", "rejected", "payment failed"])->default("pending");
             $table->longText("rejection_reason")->nullable();
             $table->timestamps();

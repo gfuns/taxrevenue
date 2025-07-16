@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string("reference_number");
             $table->text("company_name");
             $table->text("contract_name");
-            $table->double("contract_amount", 12, 2);
+            $table->double("contract_amount", 20, 2);
             $table->date("award_date");
             $table->string("contract_duration");
             $table->string("fee_evidence");
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->text("cac_cert");
             $table->text("bsppc_cert");
             $table->text("advance_payment")->nullable();
-            $table->double("amount_paid", 12, 2);
+            $table->double("amount_paid", 20, 2);
             $table->enum("status", ["pending", "awaiting approval", "approved", "rejected", "payment failed"])->default("pending");
             $table->longText("rejection_reason")->nullable();
             $table->timestamps();
