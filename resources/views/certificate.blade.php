@@ -196,22 +196,12 @@
                     <div class="signature-label">Engr. Dr. Comfort Adadu <small>MNSE, MniMechE</small></div>
                 </td>
                 <td>
-                    <div class="qr-code">
-                        <img src="{{ asset("qrcodes/{$fileName}") }}" class="qrcode" alt="QR Code">
-                    </div>
+                    <img src="{{ asset("qrcodes/{$fileName}") }}" class="qrcode" alt="QR Code">
+
                 </td>
             </tr>
         </table>
 
-        <div class="signature-section">
-            <div class="signature-contain">
-                <hr />
-                <div class="signature-label">Engr. Dr. Comfort Adadu <small>MNSE, MniMechE</small></div>
-            </div>
-            <div class="qr-code">
-                <img src="{{ asset("qrcodes/{$fileName}") }}" class="qrcode" alt="QR Code">
-            </div>
-        </div>
     </div>
 </body>
 
