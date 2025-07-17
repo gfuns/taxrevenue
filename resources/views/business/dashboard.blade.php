@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class="">
-        <div class="row col-lg-12 col-12">
+        <div class="row col-lg-12 col-12" style="margin: 0px !important; padding: 0px !important">
             <div class="col-lg-4 col-12">
                 <!-- Card -->
                 <div class="card mb-4">
@@ -94,7 +94,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-12 col-12 d-none d-md-block">
+        <div class="col-lg-12 col-12 d-none d-md-block p-3">
             <!-- Card -->
             <div class="card mb-4">
                 <!-- Card header -->
