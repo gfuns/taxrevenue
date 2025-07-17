@@ -163,7 +163,7 @@
 
                         <div class="col-lg-4 col-md-12 col-12">
                             <!-- Card -->
-                            <a href="{{ route('business.viewCertificate', [preg_replace("/\//", "-", Auth::user()->company->bsppc_number)]) }}">
+                            <a href="{{ route('business.viewCertificate', [preg_replace("/\//", "-", Auth::user()->company->bsppc_number)]) }}" target="_blank">
                                 <div class="card mb-4" style="background: #023a1f">
                                     <!-- Card body -->
                                     <div class="p-3">
