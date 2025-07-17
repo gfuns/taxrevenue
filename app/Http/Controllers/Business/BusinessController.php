@@ -318,7 +318,13 @@ class BusinessController extends Controller
             if ($company->status != "in progress") {
                 $documents        = CompanyDocuments::where("company_id", $company->id)->get();
                 $executedProjects = CompanyProjects::where("company_id", $company->id)->get();
-                return view("business.registration_details", compact("company", "documents", "executedProjects"));
+                if ($company->status == "rejected") {
+                    $bizCategories  = BusinessCategories::where("status", "active")->get();
+                    $uploadableDocs = UploadableDocs::where("category", "registration")->get();
+                    return view("business.update_registration_details", compact("company", "documents", "executedProjects", "bizCategories", "uploadableDocs"));
+                } else {
+                    return view("business.registration_details", compact("company", "documents", "executedProjects"));
+                }
             } else {
                 $payment = PaymentItem::find(6);
                 return view("business.resume_application", compact("company", "payment"));
@@ -503,6 +509,18 @@ class BusinessController extends Controller
             toast('Something went wrong.', 'error');
             return back();
         }
+    }
+
+    /**
+     * updateRegDetails
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function updateRegDetails(Request $request)
+    {
+
     }
 
     /**

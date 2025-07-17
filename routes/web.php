@@ -185,6 +185,8 @@ Route::group([
 
         Route::post('/updatePRFApplication', [BusinessController::class, 'updatePRFApplication'])->name("business.updatePRFApplication");
 
+        Route::post('/updateRegDetails', [BusinessController::class, 'updateRegDetails'])->name("business.updateRegDetails");
+
     });
 });
 

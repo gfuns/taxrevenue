@@ -115,7 +115,7 @@
                                         <option value="C">Class C</option>
                                         <option value="D">Class D</option>
                                         <option value="E">Class E</option>
-                                        <option value="f">Class F</option>
+                                        <option value="F">Class F</option>
                                     </select>
                                     <div class="invalid-feedback">Please select a response.</div>
                                 </div>

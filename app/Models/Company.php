@@ -18,4 +18,10 @@ class Company extends Model
         $ids = explode(',', $this->business_category);
         return BusinessCategories::whereIn('id', $ids)->pluck('category')->implode(', ');
     }
+
+    public function selectedIds()
+    {
+        $ids = explode(',', $this->business_category);
+        return $ids;
+    }
 }
