@@ -187,6 +187,8 @@ Route::group([
 
         Route::post('/updatePRFApplication', [BusinessController::class, 'updatePRFApplication'])->name("business.updatePRFApplication");
 
+        Route::get('/viewCertificate/{bsppcno}', [CertificateController::class, 'viewCertificate'])->name("business.viewCertificate");
+
     });
 });
 
