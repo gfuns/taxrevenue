@@ -132,7 +132,7 @@
                             <div class="row col-12 d-flex align-items-center justify-content-between">
                                 <div class="col-6">
                                     <a href="{{ route('admin.approveCompanyRenewal', [$trx->id]) }}"
-                                        onclick="return disableLink(this);">
+                                        onclick="return disableLink(this);" target=_blank>
                                         <button class="btn btn-success w-100" type="button">Approve Request</button>
                                     </a>
                                 </div>

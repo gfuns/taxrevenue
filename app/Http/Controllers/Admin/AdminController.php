@@ -1261,6 +1261,7 @@ class AdminController extends Controller
             } catch (\Exception $e) {
                 report($e);
             }
+            return redirect()->route("download.downloadRenewalCert", [$renewal->reference_number]);
             toast('Contractor Renewal Application Successfully Approved', 'success');
             return back();
         } else {

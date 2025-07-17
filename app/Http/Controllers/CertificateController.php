@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\CompanyRenewals;
 use Carbon\Carbon;
 use PDF;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -29,7 +30,35 @@ class CertificateController extends Controller
         view()->share(['company' => $company, 'expiryDate' => $expiryDate, 'qrcodeURL' => $qrcodeURL, "fileName" => $fileName]);
 
         $pdf      = PDF::loadView('certificate');
-        $fileName = "BSPPC Certificate" . preg_replace("/-/", "", $bsppcno) . ".pdf";
+        $fileName = "BSPPC Certificate " . preg_replace("/-/", "", $bsppcno) . ".pdf";
+        return $pdf->download($fileName);
+    }
+
+    /**
+     * downloadRenewalCert
+     *
+     * @param mixed bsppcno
+     *
+     * @return void
+     */
+    public function downloadRenewalCert($reference)
+    {
+        $refNo      = preg_replace("/-/", "", $reference);
+        $renewal    = CompanyRenewals::where("reference_number", $reference)->first();
+        $company    = Company::find($renewal->company_id);
+        $date       = Carbon::parse($renewal->created_at); // Replace with your input date
+        $expiryDate = $date->addYear($renewal->period);
+        $qrcodeURL  = route("download.downloadRenewalCert", [$refNo]);
+
+        $fileName = 'qrcode_' . $refNo . '.png'; // Unique file name for each QR code
+        $filePath = public_path('qrcodes/' . $fileName);
+        QrCode::format('png')->size(300)->generate($qrcodeURL, $filePath);
+        // return view("renewal_certificate", compact("company", "expiryDate", "qrcodeURL", "fileName", "renewal"));
+
+        view()->share(['renewal_certificate' => $company, 'expiryDate' => $expiryDate, 'renewal' => $renewal, 'qrcodeURL' => $qrcodeURL, "fileName" => $fileName]);
+
+        $pdf      = PDF::loadView('renewal_certificate');
+        $fileName = "BSPPC Renewal Certificate " . preg_replace("/-/", "", $refNo) . ".pdf";
         return $pdf->download($fileName);
     }
 }

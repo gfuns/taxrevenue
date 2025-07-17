@@ -83,6 +83,8 @@ Route::post('/login/2fa', [TwofactorController::class, 'verify2FA'])->name('logi
 
 Route::get('certificate/{bsppcno}', [CertificateController::class, 'downloadCertificate'])->name("download.certificate");
 
+Route::get('renewal/{reference}', [CertificateController::class, 'downloadRenewalCert'])->name("download.downloadRenewalCert");
+
 Route::group([
     'prefix'     => 'portal',
     'middleware' => ['emailverified', 'webauthenticated', 'g2fa'],
