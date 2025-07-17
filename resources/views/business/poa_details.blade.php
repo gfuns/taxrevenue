@@ -44,63 +44,68 @@
                                     <td><b>Reference Number:</b></td>
                                     <td>{{ $trx->reference_number }}</td>
                                 </tr>
-                                 <tr>
-                                        <td width="50%"><b>Name of Donor Company:</b></td>
-                                        <td>{{ $trx->donor_company }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Name of Donee Company:</b></td>
-                                        <td>{{ $trx->donee_company_address }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Email of Donee Company:</b></td>
-                                        <td>{{ $trx->donee_company_email }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Phone No. of Donee Company:</b></td>
-                                        <td>{{ $trx->donee_company_phone }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Address of Donee Company:</b></td>
-                                        <td>{{ $trx->donee_company }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Contract Name:</b></td>
-                                        <td>{{ $trx->contract_name }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Contract Sum:</b></td>
-                                        <td>&#8358;{{ number_format($trx->contract_amount, 2) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Contract Duration:</b></td>
-                                        <td>{{ $trx->contract_duration }}</td>
-                                    </tr>
+                                <tr>
+                                    <td width="50%"><b>Name of Donor Company:</b></td>
+                                    <td>{{ $trx->donor_company }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Name of Donee Company:</b></td>
+                                    <td>{{ $trx->donee_company_address }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Email of Donee Company:</b></td>
+                                    <td>{{ $trx->donee_company_email }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Phone No. of Donee Company:</b></td>
+                                    <td>{{ $trx->donee_company_phone }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Address of Donee Company:</b></td>
+                                    <td>{{ $trx->donee_company }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Contract Name:</b></td>
+                                    <td>{{ $trx->contract_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Contract Sum:</b></td>
+                                    <td>&#8358;{{ number_format($trx->contract_amount, 2) }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Contract Duration:</b></td>
+                                    <td>{{ $trx->contract_duration }}</td>
+                                </tr>
 
-                                    <tr>
-                                        <td><b>Procuring Entitty (MDA):</b></td>
-                                        <td>{{ $trx->mda }}</td>
-                                    </tr>
+                                <tr>
+                                    <td><b>Procuring Entitty (MDA):</b></td>
+                                    <td>{{ $trx->mda }}</td>
+                                </tr>
 
-                                    <tr>
-                                        <td><b>Uploaded Documents:</b></td>
-                                        <td>
-                                            <ol style="padding-left:17px;margin-bottom:0px">
-                                                <li><a href="{{ $trx->contract_agreement }}" target="_blank">Contract Agreement</a></li>
-                                                <li><a href="{{ $trx->poa_document }}" target="_blank">Power Of Attorney</a></li>
-                                                <li><a href="{{ $trx->award_notification }}" target="_blank">Notification of Award from Procuring Entity</a></li>
-                                                <li><a href="{{ $trx->acceptance_letter }}" target="_blank">Acceptance Letter</a></li>
-                                                <li><a href="{{ $trx->boq_beme }}" target="_blank">BOQ or BEME</a></li>
-                                                <li><a href="{{ $trx->donee_company_profile }}" target="_blank">Company Profile of the Donee Company</a></li>
-                                            </ol>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td><b>Uploaded Documents:</b></td>
+                                    <td>
+                                        <ol style="padding-left:17px;margin-bottom:0px">
+                                            <li><a href="{{ $trx->contract_agreement }}" target="_blank">Contract
+                                                    Agreement</a></li>
+                                            <li><a href="{{ $trx->poa_document }}" target="_blank">Power Of
+                                                    Attorney</a></li>
+                                            <li><a href="{{ $trx->award_notification }}" target="_blank">Notification
+                                                    of Award from Procuring Entity</a></li>
+                                            <li><a href="{{ $trx->acceptance_letter }}" target="_blank">Acceptance
+                                                    Letter</a></li>
+                                            <li><a href="{{ $trx->boq_beme }}" target="_blank">BOQ or BEME</a></li>
+                                            <li><a href="{{ $trx->donee_company_profile }}" target="_blank">Company
+                                                    Profile of the Donee Company</a></li>
+                                        </ol>
+                                    </td>
+                                </tr>
 
                                 <tr>
                                     <td><b>Amount Payable:</b></td>
                                     <td>&#8358;{{ number_format($trx->amount_paid, 2) }}</td>
                                 </tr>
-                                 <tr>
+                                <tr>
                                     <td><b>Application Date:</b></td>
                                     <td>{{ date_format($trx->created_at, 'jS F, Y g:i:sa') }}</td>
                                 </tr>
@@ -121,16 +126,30 @@
                                     </td>
                                 </tr>
 
+                                @if ($trx->status == 'rejected')
+                                    <tr>
+                                        <td><b>Reason For Rejection</b></td>
+                                        <td>{{ $trx->rejection_reason }}</td>
+                                    </tr>
+                                @endif
+
                             </table>
 
                         </div>
                         <div class="col-md-8"></div>
                         <!-- button -->
-                        @if ($trx->status == 'paid')
+                        @if ($trx->status != 'pending' && $trx->status != 'payment failed' && $trx->status != 'rejected')
                             <div class="col-12">
                                 <a href="{{ route('receipt.powerOfAttorney', [$trx->reference_number]) }}"
-                                    target="_blank"><button class="btn btn-success w-100" type="button">Print
+                                    target="_blank"><button class="btn btn-success w-100" type="button">Print Payment
                                         Receipt</button></a>
+                            </div>
+                        @endif
+
+                        @if ($trx->status == 'rejected')
+                            <div class="col-12">
+                                <a href="{{ route('business.editPoaApplication', [$trx->reference_number]) }}"><button
+                                        class="btn btn-success w-100" type="button">Update Application</button></a>
                             </div>
                         @endif
                     </div>

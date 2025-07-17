@@ -49,7 +49,7 @@
                                     </tr>
                                     <tr>
                                         <td><b>Name of Donee Company:</b></td>
-                                        <td>{{ $trx->donee_company_address }}</td>
+                                        <td>{{ $trx->donee_company }}</td>
                                     </tr>
                                     <tr>
                                         <td><b>Email of Donee Company:</b></td>
@@ -61,7 +61,7 @@
                                     </tr>
                                     <tr>
                                         <td><b>Address of Donee Company:</b></td>
-                                        <td>{{ $trx->donee_company }}</td>
+                                        <td>{{ $trx->donee_company_address }}</td>
                                     </tr>
                                     <tr>
                                         <td><b>Contract Name:</b></td>

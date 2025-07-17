@@ -98,17 +98,31 @@
                                     </td>
                                 </tr>
 
+                                @if ($trx->status == 'rejected')
+                                    <tr>
+                                        <td><b>Reason For Rejection</b></td>
+                                        <td>{{ $trx->rejection_reason }}</td>
+                                    </tr>
+                                @endif
+
                             </table>
 
                         </div>
                         <div class="col-md-8"></div>
                         <!-- button -->
-                        @if ($trx->status == 'paid')
+                        @if ($trx->status != 'pending' && $trx->status != 'payment failed' && $trx->status != 'rejected')
                             <div class="col-12">
                                 <a href="{{ route('receipt.processingFees', [$trx->reference_number]) }}"
-                                    target="_blank"><button class="btn btn-success w-100" type="button">Print
+                                    target="_blank"><button class="btn btn-success w-100" type="button">Print Payment
                                         Receipt</button></a>
 
+                            </div>
+                        @endif
+
+                        @if ($trx->status == 'rejected')
+                            <div class="col-12">
+                                <a href="{{ route('business.editPRFApplication', [$trx->reference_number]) }}"><button
+                                        class="btn btn-success w-100" type="button">Update Application</button></a>
                             </div>
                         @endif
                     </div>

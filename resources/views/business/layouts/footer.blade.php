@@ -50,6 +50,10 @@
             $('#prevClass').select2();
         });
 
+        $(document).ready(function() {
+            $('#umda').select2();
+        });
+
 
         $('#mda').select2({
             dropdownParent: $('#offcanvasRight')

@@ -865,6 +865,67 @@ class BusinessController extends Controller
     }
 
     /**
+     * editRenewalApplication
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function editRenewalApplication($reference)
+    {
+        $trx = CompanyRenewals::where("reference_number", $reference)->first();
+        return view("business.update_renewals", compact("trx"));
+    }
+
+    /**
+     * updateRenewalApplication
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function updateRenewalApplication(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'application_id'      => 'required',
+            'registration_number' => 'required',
+            'company_email'       => 'required',
+            'phone_number'        => 'required',
+            'expiry_date'         => 'required',
+            'bsppc_certificate'   => 'nullable|file|mimes:pdf',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        try {
+
+            $trx               = CompanyRenewals::find($request->application_id);
+            $trx->bsppc_number = $request->registration_number;
+            $trx->expiry_date  = $request->expiry_date;
+            $trx->phone_number = $request->phone_number;
+            $trx->email        = $request->company_email;
+            $trx->status       = "awaiting approval";
+            if ($request->has('bsppc_certificate')) {
+                $uploadedFileUrl = Cloudinary::upload($request->file('bsppc_certificate')->getRealPath())->getSecurePath();
+                $trx->bsppc_cert = $uploadedFileUrl;
+            }
+            $trx->save();
+
+            toast("Application Updated And Resubmitted For Review", 'success');
+            return redirect()->route("business.companyRenewalDetails", [$trx->reference_number]);
+        } catch (\Exception $e) {
+            report($e);
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+    }
+
+    /**
      * companyRenewalPreview
      *
      * @param mixed reference
@@ -1029,6 +1090,103 @@ class BusinessController extends Controller
     }
 
     /**
+     * editPoaApplication
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function editPoaApplication($reference)
+    {
+        $trx  = PowerOfAttorney::where("reference_number", $reference)->first();
+        $mdas = Mda::all();
+        return view("business.update_poa", compact("trx", "mdas"));
+    }
+
+    /**
+     * updatePoaApplication
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function updatePoaApplication(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'application_id'        => 'required',
+            'donor_company'         => 'required',
+            'donee_company'         => 'required',
+            'donee_company_address' => 'required',
+            'donee_company_email'   => 'required',
+            'donee_company_phone'   => 'required',
+            'contract_name'         => 'required',
+            'contract_sum'          => 'required',
+            'contract_duration'     => 'required',
+            'mda'                   => 'required',
+            'contract_agreement'    => 'nullable|file|mimes:pdf',
+            'poa_document'          => 'nullable|file|mimes:pdf',
+            'award_notification'    => 'nullable|file|mimes:pdf',
+            'donee_company_profile' => 'nullable|file|mimes:pdf',
+            'boq_beme'              => 'nullable|file|mimes:pdf',
+            'acceptance_letter'     => 'nullable|file|mimes:pdf',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        try {
+
+            $trx                        = PowerOfAttorney::find($request->application_id);
+            $trx->donor_company         = $request->donor_company;
+            $trx->donee_company         = $request->donee_company;
+            $trx->donee_company_address = $request->donee_company_address;
+            $trx->donee_company_email   = $request->donee_company_email;
+            $trx->donee_company_phone   = $request->donee_company_phone;
+            $trx->contract_name         = $request->contract_name;
+            $trx->contract_amount       = $request->contract_sum;
+            $trx->contract_duration     = $request->contract_duration;
+            $trx->mda                   = $request->mda;
+            $trx->status                = "awaiting approval";
+            if ($request->has('contract_agreement')) {
+                $contractAgreement       = Cloudinary::upload($request->file('contract_agreement')->getRealPath())->getSecurePath();
+                $trx->contract_agreement = $contractAgreement;
+            }
+            if ($request->has('poa_document')) {
+                $poaDocument       = Cloudinary::upload($request->file('poa_document')->getRealPath())->getSecurePath();
+                $trx->poa_document = $poaDocument;
+            }
+            if ($request->has('award_notification')) {
+                $awardNotification       = Cloudinary::upload($request->file('award_notification')->getRealPath())->getSecurePath();
+                $trx->award_notification = $poaDocument;
+            }
+            if ($request->has('donee_company_profile')) {
+                $doneeCompanyProfile        = Cloudinary::upload($request->file('donee_company_profile')->getRealPath())->getSecurePath();
+                $trx->donee_company_profile = $doneeCompanyProfile;
+            }
+            if ($request->has('boq_beme')) {
+                $boqBeme       = Cloudinary::upload($request->file('boq_beme')->getRealPath())->getSecurePath();
+                $trx->boq_beme = $boqBeme;
+            }
+            if ($request->has('acceptance_letter')) {
+                $acceptanceLetter       = Cloudinary::upload($request->file('acceptance_letter')->getRealPath())->getSecurePath();
+                $trx->acceptance_letter = $acceptanceLetter;
+            }
+            $trx->save();
+            toast("Application Updated And Resubmitted For Review", 'success');
+            return redirect()->route("business.powerOfAttorneyDetails", [$trx->reference_number]);
+        } catch (\Exception $e) {
+            report($e);
+
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
+    }
+
+    /**
      * powerOfAttorneyPreview
      *
      * @param mixed reference
@@ -1153,6 +1311,66 @@ class BusinessController extends Controller
             return back();
         }
 
+    }
+
+    /**
+     * editPRFApplication
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function editPRFApplication($reference)
+    {
+        $trx  = ProcessingFee::where("reference_number", $reference)->first();
+        $mdas = Mda::all();
+        return view("business.update_processing_fee", compact("trx", "mdas"));
+    }
+
+    /**
+     * updatePRFApplication
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function updatePRFApplication(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'application_id'    => 'required',
+            'company_name'      => 'required',
+            'contract_name'     => 'required',
+            'contract_sum'      => 'required',
+            'date_of_award'     => 'required',
+            'contract_duration' => 'required',
+            'mda'               => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        try {
+
+            $trx                    = ProcessingFee::find($request->application_id);
+            $trx->company_name      = $request->company_name;
+            $trx->contract_name     = $request->contract_name;
+            $trx->award_date        = $request->date_of_award;
+            $trx->contract_duration = $request->contract_duration;
+            $trx->mda               = $request->mda;
+            $trx->status            = "awaiting approval";
+            $trx->save();
+            toast("Application Updated And Resubmitted For Review", 'success');
+            return redirect()->route("business.processingFeesDetails", [$trx->reference_number]);
+        } catch (\Exception $e) {
+            report($e);
+            DB::rollback();
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
     }
 
     /**
@@ -1302,6 +1520,88 @@ class BusinessController extends Controller
             return back();
         }
 
+    }
+
+    /**
+     * editAwardApplication
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function editAwardApplication($reference)
+    {
+        $trx  = AwardLetter::where("reference_number", $reference)->first();
+        $mdas = Mda::all();
+        return view("business.update_award_letter", compact("trx", "mdas"));
+    }
+
+    /**
+     * updateAwardApplication
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function updateAwardApplication(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'application_id'    => 'required',
+            'company_name'      => 'required',
+            'contract_name'     => 'required',
+            'contract_sum'      => 'required',
+            'date_of_award'     => 'required',
+            'contract_duration' => 'required',
+            'mda'               => 'required',
+            'fee_evidence'      => 'required',
+            'tcc'               => 'nullable|file|mimes:pdf',
+            'bsppc_certificate' => 'nullable|file|mimes:pdf',
+            'cac_certificate'   => 'nullable|file|mimes:pdf',
+            'advance_payment'   => 'nullable|file|mimes:pdf',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        try {
+
+            $trx                    = AwardLetter::find($request->application_id);
+            $trx->fee_evidence      = $request->fee_evidence;
+            $trx->company_name      = $request->company_name;
+            $trx->contract_name     = $request->contract_name;
+            $trx->contract_amount   = $request->contract_sum;
+            $trx->award_date        = $request->date_of_award;
+            $trx->contract_duration = $request->contract_duration;
+            $trx->mda               = $request->mda;
+            $trx->status            = "awaiting approval";
+            if ($request->has('tcc')) {
+                $tcc           = Cloudinary::upload($request->file('tcc')->getRealPath())->getSecurePath();
+                $trx->tcc_cert = $tcc;
+            }
+            if ($request->has('bsppc_certificate')) {
+                $bsppcCertificate = Cloudinary::upload($request->file('bsppc_certificate')->getRealPath())->getSecurePath();
+                $trx->bsppc_cert  = $bsppcCertificate;
+            }
+            if ($request->has('cac_certificate')) {
+                $cacCertificate = Cloudinary::upload($request->file('cac_certificate')->getRealPath())->getSecurePath();
+                $trx->cac_cert  = $cacCertificate;
+            }
+            if ($request->has('advance_payment')) {
+                $advancePayment       = Cloudinary::upload($request->file('advance_payment')->getRealPath())->getSecurePath();
+                $trx->advance_payment = $advancePayment;
+            }
+            $trx->save();
+            toast("Application Updated And Resubmitted For Review", 'success');
+            return redirect()->route("business.awardLettersDetails", [$trx->reference_number]);
+        } catch (\Exception $e) {
+            report($e);
+            toast("Something Went Wrong", 'error');
+            return back();
+        }
     }
 
     /**

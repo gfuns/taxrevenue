@@ -145,6 +145,10 @@ Route::group([
 
         Route::get('/company-renewals/details/{reference}', [BusinessController::class, 'companyRenewalDetails'])->name("business.companyRenewalDetails");
 
+        Route::get('/company-renewals/update/{reference}', [BusinessController::class, 'editRenewalApplication'])->name("business.editRenewalApplication");
+
+        Route::post('/updateRenewalApplication', [BusinessController::class, 'updateRenewalApplication'])->name("business.updateRenewalApplication");
+
         Route::get('/power-of-attorney', [BusinessController::class, 'powerOfAttorney'])->name("business.powerOfAttorney");
 
         Route::get('/power-of-attorney/preview/{reference}', [BusinessController::class, 'powerOfAttorneyPreview'])->name("business.powerOfAttorneyPreview");
@@ -152,6 +156,10 @@ Route::group([
         Route::post('/initiatePOAApplication', [BusinessController::class, 'initiatePOAApplication'])->name("business.initiatePOAApplication");
 
         Route::get('/power-of-attorney/details/{reference}', [BusinessController::class, 'powerOfAttorneyDetails'])->name("business.powerOfAttorneyDetails");
+
+        Route::get('/power-of-attorney/update/{reference}', [BusinessController::class, 'editPoaApplication'])->name("business.editPoaApplication");
+
+        Route::post('/updatePoaApplication', [BusinessController::class, 'updatePoaApplication'])->name("business.updatePoaApplication");
 
         Route::get('/award-letters', [BusinessController::class, 'awardLetters'])->name("business.awardLetters");
 
@@ -161,6 +169,10 @@ Route::group([
 
         Route::get('/award-letters/details/{reference}', [BusinessController::class, 'awardLettersDetails'])->name("business.awardLettersDetails");
 
+        Route::get('/award-letters/update/{reference}', [BusinessController::class, 'editAwardApplication'])->name("business.editAwardApplication");
+
+        Route::post('/updateAwardApplication', [BusinessController::class, 'updateAwardApplication'])->name("business.updateAwardApplication");
+
         Route::get('/processing-fees', [BusinessController::class, 'processingFees'])->name("business.processingFees");
 
         Route::get('/processing-fees/preview/{reference}', [BusinessController::class, 'processingFeesPreview'])->name("business.processingFeesPreview");
@@ -168,6 +180,10 @@ Route::group([
         Route::post('/initiatePRFRemittance', [BusinessController::class, 'initiatePRFRemittance'])->name("business.initiatePRFRemittance");
 
         Route::get('/processing-fees/details/{reference}', [BusinessController::class, 'processingFeesDetails'])->name("business.processingFeesDetails");
+
+        Route::get('/processing-fees/update/{reference}', [BusinessController::class, 'editPRFApplication'])->name("business.editPRFApplication");
+
+        Route::post('/updatePRFApplication', [BusinessController::class, 'updatePRFApplication'])->name("business.updatePRFApplication");
 
     });
 });

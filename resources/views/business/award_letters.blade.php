@@ -245,7 +245,7 @@
 
                     <div class="mb-3 col-12">
                         <label class="form-label">Procuring Entity (MDA) <span class="text-danger">*</span></label>
-                        <select id="mda" name="mda" class="form-control form-select">
+                        <select id="mda" name="mda" class="form-control form-select" required>
                             <option value="">Select Procuring Entity (MDA)</option>
                             @foreach ($mdas as $mda)
                                 <option value="{{ $mda->mda }}">{{ $mda->mda }}</option>
@@ -287,7 +287,8 @@
                     </div>
 
                     <div class="mb-3 col-12">
-                        <label class="form-label">Upload CAC Certificate</label>
+                        <label class="form-label">Upload CAC Certificate <span
+                                            class="text-danger">*</span></label>
                         <small style="color:green; display:block">Please Document Format Must Be Portable Document
                             Format (PDF).</small>
                         <input type="file" class="form-control" name="cac_certificate" accept="application/pdf"
