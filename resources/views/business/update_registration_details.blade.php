@@ -43,92 +43,102 @@
                     </div>
                 </div>
 
+                <form class="needs-validation" novalidate method="post"
+                    action="{{ route('business.updateRegDetails') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="p-4 col-md-12">
 
-                <div class="p-4 col-md-12">
+                        @if ($company->application_type == 'revalidation')
+                            <div class="row ps-4 col-lg-12 col-12 mb-3">
+                                <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>BSPPC
+                                        Number:</strong></div>
+                                <div class="col-12 col-md-7 col-lg-7">
+                                    <input type="text" name="bsppc_number" id="bsppcNumber"
+                                        class="form-control text-dark" placeholder="BSPPC Number"
+                                        value="{{ $company->bsppc_number }}" required>
+                                    <div class="invalid-feedback">Please provide a response.</div>
+                                </div>
+                            </div>
+                        @endif
 
-                    <table class="table table-hover table-centered table-bordered">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="betty" colspan="2"> APPLICATION DETAILS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if ($company->application_type == 'revalidation')
-                                <tr>
-                                    <th width="50%">BSPPC Number</th>
-                                    <td>
-                                        <input type="text" name="bsppc_number" id="bsppcNumber"
-                                            class="form-control text-dark" placeholder="BSPPC Number"
-                                            value="{{ $company->bsppc_number }}" required>
-                                        <div class="invalid-feedback">Please provide a response.</div>
-                                    </td>
-                                </tr>
-                            @endif
-                            <tr>
-                                <th>CAC Registration Number</th>
-                                <td>
-                                    <input type="text" name="cac_number" id="cacNumber"
-                                        class="form-control text-dark" placeholder="CAC Registration Number"
-                                        value="{{ $company->cac_number }}" required>
-                                    <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Company Name</th>
-                                <td>
-                                    <input type="text" name="company_name" id="companyName"
-                                        class="form-control text-dark" placeholder="Company Name"
-                                        value="{{ $company->company_name }}" required>
-                                    <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Company Address</th>
-                                <td>
-                                    <input type="text" name="company_adress" id="companyAddress"
-                                        class="form-control text-dark" placeholder="Company Address"
-                                        value="{{ $company->company_address }}" required>
-                                    <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>What Business Do You Seek Registration
-                                    For?</th>
-                                <td>
-                                    <div class="row ms-2">
-                                        @foreach ($bizCategories as $bc)
-                                            <!-- form check -->
-                                            <div class="form-check mb-2 col-md-6 col-sm-6">
-                                                <input class="form-check-input" name="categories[]" type="checkbox"
-                                                    value="{{ $bc->id }}" id="{{ $bc->id }}"
-                                                    {{ in_array($bc->id, $company->selectedIds()) ? 'checked' : '' }}>
-                                                <label class="form-check-label"
-                                                    for="{{ $bc->id }}">{{ $bc->category }}</label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div id="catinvalid" class="invalid-feedback">Please select a category.</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Are You Registered With Any Works Registration
-                                    Board?</th>
-                                <td>
-                                    <select name="prev_registered" class="form-select text-dark" id="auttrigger1"
-                                        required>
-                                        <option value="">Select Response</option>
-                                        <option value="yes" @if ($company->prev_reg == 'yes') selected @endif>Yes
-                                        </option>
-                                        <option value="no" @if ($company->prev_reg == 'no') selected @endif>No
-                                        </option>
-                                    </select>
-                                    <div class="invalid-feedback">Please select a response.</div>
-                                </td>
-                            </tr>
+                        <div class="row ps-4 col-lg-12 col-12 mb-3">
+                            <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>CAC Registration
+                                    Number:</strong></div>
+                            <div class="col-12 col-md-7 col-lg-7">
+                                <input type="text" name="cac_number" id="cacNumber" class="form-control text-dark"
+                                    placeholder="CAC Registration Number" value="{{ $company->cac_number }}" required>
+                                <div class="invalid-feedback">Please provide a response.</div>
+                            </div>
+                        </div>
 
-                            <tr class="autopt1">
-                                <th>Which Class?</th>
-                                <td><select name="prev_class" class="form-select text-dark" id="prevClass"
+                        <div class="row ps-4 col-lg-12 col-12 mb-3">
+                            <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Company Name:</strong>
+                            </div>
+                            <div class="col-12 col-md-7 col-lg-7">
+                                <input type="text" name="company_name" id="companyName"
+                                    class="form-control text-dark" placeholder="Company Name"
+                                    value="{{ $company->company_name }}" required>
+                                <div class="invalid-feedback">Please provide a response.</div>
+                            </div>
+                        </div>
+
+                        <div class="row ps-4 col-lg-12 col-12 mb-3">
+                            <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Company
+                                    Address:</strong>
+                            </div>
+                            <div class="col-12 col-md-7 col-lg-7">
+                                <input type="text" name="company_adress" id="companyAddress"
+                                    class="form-control text-dark" placeholder="Company Address"
+                                    value="{{ $company->company_address }}" required>
+                                <div class="invalid-feedback">Please provide a response.</div>
+                            </div>
+                        </div>
+
+                        <div class="row ps-4 col-lg-12 col-12 mb-3">
+                            <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>What Business Do You
+                                    Seek
+                                    Registration
+                                    For?</strong></div>
+                            <div class="col-12 col-md-7 col-lg-7">
+                                <div class="row ms-2">
+                                    @foreach ($bizCategories as $bc)
+                                        <!-- form check -->
+                                        <div class="form-check mb-2 col-md-6 col-sm-6">
+                                            <input class="form-check-input" name="categories[]" type="checkbox"
+                                                value="{{ $bc->id }}" id="{{ $bc->id }}"
+                                                {{ in_array($bc->id, $company->selectedIds()) ? 'checked' : '' }}>
+                                            <label class="form-check-label"
+                                                for="{{ $bc->id }}">{{ $bc->category }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div id="catinvalid" class="invalid-feedback">Please select a category.</div>
+                            </div>
+                        </div>
+
+                        <div class="row ps-4 col-lg-12 col-12 mb-3">
+                            <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Are You Registered With
+                                    Any Works Registration
+                                    Board?</strong></div>
+                            <div class="col-12 col-md-7 col-lg-7">
+                                <select name="prev_registered" class="form-select text-dark" id="auttrigger1" required>
+                                    <option value="">Select Response</option>
+                                    <option value="yes" @if ($company->prev_reg == 'yes') selected @endif>Yes
+                                    </option>
+                                    <option value="no" @if ($company->prev_reg == 'no') selected @endif>No
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback">Please select a response.</div>
+                            </div>
+                        </div>
+
+                        <div id="autopt1" @if ($company->prev_reg == 'no') style="display: none" @endif>
+                            <div class="row ps-4 col-lg-12 col-12 mb-3">
+                                <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Which
+                                        Class?</strong>
+                                </div>
+                                <div class="col-12 col-md-7 col-lg-7">
+                                    <select name="prev_class" class="form-select text-dark" id="prevClass"
                                         style="width: 100%">
                                         <option value="">Select Class</option>
                                         <option value="A" @if ($company->prev_reg_class == 'A') selected @endif>
@@ -145,46 +155,61 @@
                                             Class F</option>
                                     </select>
                                     <div class="invalid-feedback">Please select a response.</div>
-                                </td>
-                            </tr>
-                            <tr class="autopt1">
-                                <th>Where?</th>
-                                <td><input type="text" name="prev_location" id="where"
+                                </div>
+                            </div>
+
+                            <div class="row ps-4 col-lg-12 col-12 mb-3">
+                                <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Where?</strong>
+                                </div>
+                                <div class="col-12 col-md-7 col-lg-7">
+                                    <input type="text" name="prev_location" id="where"
                                         class="form-control text-dark" value="{{ $company->prev_reg_where }}"
                                         placeholder="Where?">
                                     <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
-                            <tr class="autopt1">
-                                <th>For What Works?</th>
-                                <td><input type="text" name="prev_works" id="whatworks"
+                                </div>
+                            </div>
+
+                            <div class="row ps-4 col-lg-12 col-12 mb-3">
+                                <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>For What
+                                        Works?</strong></div>
+                                <div class="col-12 col-md-7 col-lg-7">
+                                    <input type="text" name="prev_works" id="whatworks"
                                         class="form-control text-dark" value="{{ $company->prev_reg_works }}"
                                         placeholder="For What Works?">
                                     <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
-                            <tr class="autopt1">
-                                <th>When?</th>
-                                <td><input type="text" name="prev_period" id="when"
+                                </div>
+                            </div>
+
+                            <div class="row ps-4 col-lg-12 col-12 mb-3">
+                                <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>When?</strong>
+                                </div>
+                                <div class="col-12 col-md-7 col-lg-7">
+                                    <input type="text" name="prev_period" id="when"
                                         class="form-control text-dark" value="{{ $company->prev_reg_when }}"
                                         placeholder="When?">
                                     <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
-                            <tr class="autopt1">
-                                <th>What Is The Registration Number Of The
-                                    Certificate?</th>
-                                <td><input type="text" name="prev_reg_number" id="certNo"
+                                </div>
+                            </div>
+
+                            <div class="row ps-4 col-lg-12 col-12 mb-3">
+                                <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>What Is The
+                                        Registration Number Of The
+                                        Certificate?</strong></div>
+                                <div class="col-12 col-md-7 col-lg-7">
+                                    <input type="text" name="prev_reg_number" id="certNo"
                                         class="form-control text-dark"
                                         placeholder="Registration Number Of The Certificate"
                                         value="{{ $company->prev_reg_no }}">
                                     <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
-                            <tr class="autopt1">
-                                <th>Is The Certiticate Of
-                                    Registration Still Valid?</th>
-                                <td><select name="certificate_validity" class="form-select text-dark"
+                                </div>
+                            </div>
+
+                            <div class="row ps-4 col-lg-12 col-12 mb-3">
+                                <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Is The
+                                        Certiticate Of
+                                        Registration Still Valid?</strong></div>
+                                <div class="col-12 col-md-7 col-lg-7">
+                                    <select name="certificate_validity" class="form-select text-dark"
                                         id="auttrigger4" style="width: 100%">
                                         <option value="">Select Response</option>
                                         <option value="yes" @if ($company->prev_reg_valid == 'yes') selected @endif>
@@ -193,122 +218,212 @@
                                             No</option>
                                     </select>
                                     <div class="invalid-feedback">Please select a response.</div>
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
 
-                            <tr>
-                                <th>If Not Why?</th>
-                                <td>
-                                    <input type="text" name="invalidity_reason" id="invalidityReason"
-                                        class="form-control text-dark"
-                                        placeholder="Why is certificate no longer valid?"
-                                        value="{{ ucwords($company->prev_reg_invalid_reason) }}">
-                                    <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
+                            <div id="autopt4" @if ($company->prev_reg_valid == 'yes') style="display: none" @endif>
+                                <div class="row ps-4 col-lg-12 col-12 mb-3">
+                                    <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>If Not
+                                            Why?</strong>
+                                    </div>
+                                    <div class="col-12 col-md-7 col-lg-7">
+                                        <input type="text" name="invalidity_reason" id="invalidityReason"
+                                            class="form-control text-dark"
+                                            placeholder="Why is certificate no longer valid?"
+                                            value="{{ ucwords($company->prev_reg_invalid_reason) }}">
+                                        <div class="invalid-feedback">Please provide a response.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                            <tr>
-                                <th>Do You Have Experience Or Qualification In the
-                                    Field You Wish To Be Registered?</th>
-                                <td><select name="business_experience" class="form-select text-dark" id="auttrigger2"
-                                        required>
-                                        <option value="">Select Response</option>
-                                        <option value="yes" @if ($company->business_experience == 'yes') selected @endif>Yes
-                                        </option>
-                                        <option value="no" @if ($company->business_experience == 'no') selected @endif>No
-                                        </option>
-                                    </select>
-                                    <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
+                        <div class="row ps-4 col-lg-12 col-12 mb-3">
+                            <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Do You Have
+                                    Experience
+                                    Or Qualification In the
+                                    Field You Wish To Be Registered?</strong></div>
+                            <div class="col-12 col-md-7 col-lg-7">
+                                <select name="business_experience" class="form-select text-dark" id="auttrigger2"
+                                    required>
+                                    <option value="">Select Response</option>
+                                    <option value="yes" @if ($company->business_experience == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no" @if ($company->business_experience == 'no') selected @endif>
+                                        No
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback">Please provide a response.</div>
+                            </div>
+                        </div>
 
-                            <tr>
-                                <th>Give Details Of Your Experience In The
-                                    Business</th>
-                                <td><input type="text" name="experience_details" id="experienceDet"
+                        <div id="autopt2" @if ($company->business_experience == 'no') style="display: none" @endif>
+                            <div class="row ps-4 col-lg-12 col-12 mb-3">
+                                <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Give Details Of
+                                        Your
+                                        Experience In The
+                                        Business:</strong></div>
+                                <div class="col-12 col-md-7 col-lg-7">
+                                    <input type="text" name="experience_details" id="experienceDet"
                                         class="form-control text-dark" value="{{ $company->experience_details }}"
                                         placeholder="Give Details Of Your Experience In The Business">
                                     <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
+                        </div>
 
-                            <tr>
-                                <th>How Much Capital Do You Have Available For This
-                                    Business?</th>
-                                <td><input type="text" name="business_capital" id="capital"
-                                        class="form-control text-dark" value="{{ $company->business_capital }}"
-                                        placeholder="Are you Registered With Any Works Registration Board?"
-                                        oninput="validateInput(event)" required>
-                                    <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Do You Operate A Bank Account For Your
-                                    Business?</th>
-                                <td><select name="bank_exist" class="form-select text-dark" id="auttrigger3"
-                                        required>
-                                        <option value="">Select Response</option>
-                                        <option value="yes" @if ($company->operate_bank == 'yes') selected @endif>Yes
-                                        </option>
-                                        <option value="no" @if ($company->operate_bank == 'no') selected @endif>No
-                                        </option>
-                                    </select>
-                                    <div class="invalid-feedback">Please select a response.</div>
-                                </td>
-                            </tr>
+                        <div class="row ps-4 col-lg-12 col-12 mb-3">
+                            <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>How Much Capital Do
+                                    You Have Available For This Business?</strong></div>
+                            <div class="col-12 col-md-7 col-lg-7">
+                                <input type="text" name="business_capital" id="capital"
+                                    class="form-control text-dark" value="{{ $company->business_capital }}"
+                                    placeholder="Are you Registered With Any Works Registration Board?"
+                                    oninput="validateInput(event)" required>
+                                <div class="invalid-feedback">Please provide a response.</div>
+                            </div>
+                        </div>
 
-                            <tr>
-                                <th>Bank Name</th>
-                                <td><input type="text" name="bank_name" id="bankName"
+                        <div class="row ps-4 col-lg-12 col-12 mb-3">
+                            <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Do You Operate A
+                                    Bank
+                                    Account For Your
+                                    Business?</strong></div>
+                            <div class="col-12 col-md-7 col-lg-7">
+                                <select name="bank_exist" class="form-select text-dark" id="auttrigger3" required>
+                                    <option value="">Select Response</option>
+                                    <option value="yes" @if ($company->operate_bank == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no" @if ($company->operate_bank == 'no') selected @endif>
+                                        No
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback">Please select a response.</div>
+                            </div>
+                        </div>
+
+                        <div id="autopt3" @if ($company->operate_bank == 'no') style="display: none" @endif>
+                            <div class="row ps-4 col-lg-12 col-12 mb-3">
+                                <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Bank
+                                        Name:</strong>
+                                </div>
+                                <div class="col-12 col-md-7 col-lg-7">
+                                    <input type="text" name="bank_name" id="bankName"
                                         class="form-control text-dark" placeholder="Bank Name"
                                         value="{{ $company->bank_name }}" required>
                                     <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Bank Branch</th>
-                                <td><input type="text" name="bank_branch" id="bankBranch"
+                                </div>
+                            </div>
+
+                            <div class="row ps-4 col-lg-12 col-12 mb-3">
+                                <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Bank
+                                        Branch:</strong>
+                                </div>
+                                <div class="col-12 col-md-7 col-lg-7">
+                                    <input type="text" name="bank_branch" id="bankBranch"
                                         class="form-control text-dark" placeholder="Bank Branch"
                                         value="{{ $company->bank_branch }}" required>
                                     <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Account Number</th>
-                                <td> <input type="text" name="account_number" id="accNo"
+                                </div>
+                            </div>
+
+                            <div class="row ps-4 col-lg-12 col-12 mb-3">
+                                <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Account
+                                        Number:</strong></div>
+                                <div class="col-12 col-md-7 col-lg-7">
+                                    <input type="text" name="account_number" id="accNo"
                                         class="form-control text-dark" placeholder="Account Number"
                                         value="{{ $company->account_number }}" required>
                                     <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Postal Code</th>
-                                <td><input type="text" name="postal_address" id="postCode"
+                                </div>
+                            </div>
+
+                            <div class="row ps-4 col-lg-12 col-12 mb-3">
+                                <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Postal
+                                        Code:</strong>
+                                </div>
+                                <div class="col-12 col-md-7 col-lg-7">
+                                    <input type="text" name="postal_address" id="postCode"
                                         class="form-control text-dark" placeholder="Postal Code"
                                         value="{{ $company->bank_postal_address }}" required>
                                     <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Are You Applying For The Upgrading Of Your
-                                    Former Registration Certificate?</th>
-                                <td> <select name="upgrading" class="form-select text-dark" id="upgrading" required>
-                                        <option value="">Select Response</option>
-                                        <option value="yes" @if ($company->upgrade_application == 'yes') selected @endif>Yes
-                                        </option>
-                                        <option value="no" @if ($company->upgrade_application == 'no') selected @endif>No
-                                        </option>
-                                    </select>
-                                    <div class="invalid-feedback">Please provide a response.</div>
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ps-4 col-lg-12 col-12 mb-3">
+                            <div class="col-12 col-md-5 col-lg-5" style="color: #3a3939"><strong>Are You Applying For
+                                    The Upgrading Of Your
+                                    Former Registration Certificate?</strong></div>
+                            <div class="col-12 col-md-7 col-lg-7">
+                                <select name="upgrading" class="form-select text-dark" id="upgrading" required>
+                                    <option value="">Select Response</option>
+                                    <option value="yes" @if ($company->upgrade_application == 'yes') selected @endif>
+                                        Yes
+                                    </option>
+                                    <option value="no" @if ($company->upgrade_application == 'no') selected @endif>
+                                        No
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback">Please provide a response.</div>
+                            </div>
+                        </div>
 
-                        </tbody>
-                    </table>
+                    </div>
 
-                </div>
+                    @if (count($executedProjects) > 0)
+                        <div class="p-4 table-responsive">
+                            <table class="table mb-0 text-nowrap table-hover table-centered table-with-checkbox"
+                                style="font-size: 14px">
+                                <!-- Table Head -->
+                                <thead class="table-light">
+                                    <tr>
+                                        <div class="d-lg-flex align-items-center justify-content-between"
+                                            style="background: #f1f5f9; box-shadow: inset 0 0 0 9999px var(--geeks-table-accent-bg); padding: .45rem 1.5rem; border-bottom: 1px solid #e2e8f0">
+                                            <div>
+                                                <h4 class="betty mb-0">PAST CONTRACTS EXECUTED
+                                                </h4>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#addProject" data-backdrop="static">Add
+                                                    Project</button>
+                                            </div>
+                                        </div>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Awarding Body</th>
+                                        <th>Project Description</th>
+                                        <th>Contract Sum</th>
+                                        <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
+                                    </tr>
+                                    @foreach ($executedProjects as $ep)
+                                        <tr>
+                                            <td>{{ $loop->index + 1 }}</td>
+                                            <td>{{ $ep->awarding_body }}</td>
+                                            <td>{{ $ep->contract_description }}</td>
+                                            <td>&#8358;{{ number_format($ep->amount, 2) }}</td>
+                                            <td class="align-middle">
+                                                <a class="btn btn-danger btn-xs bg-light-danger text-danger"
+                                                    href="{{ route('business.removeProject', [$ep->id]) }}"
+                                                    onclick="return confirm('Are you sure you want to remove this project?');"><i
+                                                        class="fe fe-trash dropdown-item-icon"
+                                                        style="color:red"></i>Remove
+                                                    Project</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
-                @if (count($executedProjects) > 0)
+                                </tbody>
+                            </table>
+
+                        </div>
+                    @endif
+
+                    <!-- Card body -->
                     <div class="p-4 table-responsive">
                         <table class="table mb-0 text-nowrap table-hover table-centered table-with-checkbox"
                             style="font-size: 14px">
@@ -316,40 +431,39 @@
                             <thead class="table-light">
                                 <tr>
                                     <div class="d-lg-flex align-items-center justify-content-between"
-                                        style="background: #f1f5f9; box-shadow: inset 0 0 0 9999px var(--geeks-table-accent-bg); padding: .75rem 1.5rem; border-bottom: 1px solid #e2e8f0">
+                                        style="background: #f1f5f9; box-shadow: inset 0 0 0 9999px var(--geeks-table-accent-bg); padding: .45rem 1.5rem; border-bottom: 1px solid #e2e8f0">
                                         <div>
-                                            <h4 class="betty mb-0">PAST CONTRACTS EXECUTED
-                                            </h4>
+                                            <h4 class="betty mb-0">UPLOADED COMPANY DOCUMENTS</h4>
                                         </div>
                                         <div>
                                             <button class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#addProject" data-backdrop="static">Add
-                                                Project</button>
+                                                data-bs-target="#uploadDocument" data-backdrop="static">Upload
+                                                Document</button>
                                         </div>
                                     </div>
                                 </tr>
+
                             </thead>
                             <tbody>
                                 <tr>
                                     <th>#</th>
-                                    <th>Awarding Body</th>
-                                    <th>Project Description</th>
-                                    <th>Contract Sum</th>
+                                    <th>Document Title</th>
+                                    <th>Uploaded Document</th>
                                     <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
                                 </tr>
-                                @foreach ($executedProjects as $ep)
+                                @foreach ($documents as $doc)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $ep->awarding_body }}</td>
-                                        <td>{{ $ep->contract_description }}</td>
-                                        <td>&#8358;{{ number_format($ep->amount, 2) }}</td>
+                                        <td>{{ $doc->docs->document_title }}</td>
+                                        <td><a href="{{ $doc->document }}" target="_blank"><button
+                                                    class="btn btn-success btn-xs">View Document</button></a></td>
                                         <td class="align-middle">
                                             <a class="btn btn-danger btn-xs bg-light-danger text-danger"
-                                                href="{{ route('business.removeProject', [$ep->id]) }}"
-                                                onclick="return confirm('Are you sure you want to remove this project?');"><i
+                                                href="{{ route('business.removeDocument', [$doc->id]) }}"
+                                                onclick="return confirm('Are you sure you want to remove this document?');"><i
                                                     class="fe fe-trash dropdown-item-icon"
                                                     style="color:red"></i>Remove
-                                                Project</a>
+                                                Document</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -357,70 +471,18 @@
                             </tbody>
                         </table>
 
-                    </div>
-                @endif
 
-                <!-- Card body -->
-                <div class="p-4 table-responsive">
-                    <table class="table mb-0 text-nowrap table-hover table-centered table-with-checkbox"
-                        style="font-size: 14px">
-                        <!-- Table Head -->
-                        <thead class="table-light">
-                            <tr>
-                                <div class="d-lg-flex align-items-center justify-content-between"
-                                    style="background: #f1f5f9; box-shadow: inset 0 0 0 9999px var(--geeks-table-accent-bg); padding: .75rem 1.5rem; border-bottom: 1px solid #e2e8f0">
-                                    <div>
-                                        <h4 class="betty mb-0">UPLOADED COMPANY DOCUMENTS</h4>
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#uploadDocument" data-backdrop="static">Upload
-                                            Document</button>
-                                    </div>
-                                </div>
-                            </tr>
-
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>#</th>
-                                <th>Document Title</th>
-                                <th>Uploaded Document</th>
-                                <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
-                            </tr>
-                            @foreach ($documents as $doc)
-                                <tr>
-                                    <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $doc->docs->document_title }}</td>
-                                    <td><a href="{{ $doc->document }}" target="_blank"><button
-                                                class="btn btn-success btn-xs">View Document</button></a></td>
-                                    <td class="align-middle">
-                                        <a class="btn btn-danger btn-xs bg-light-danger text-danger"
-                                            href="{{ route('business.removeDocument', [$doc->id]) }}"
-                                            onclick="return confirm('Are you sure you want to remove this document?');"><i
-                                                class="fe fe-trash dropdown-item-icon" style="color:red"></i>Remove
-                                            Document</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-
-                        </tbody>
-                    </table>
-
-                    <form class="needs-validation" novalidate method="post"
-                        action="{{ route('business.updateRegDetails') }}" enctype="multipart/form-data">
-                        @csrf
                         <div class="col-md-12 border-bottom"></div>
-                         <input type="hidden" name="application_id" value="{{ $company->id }}" required>
+                        <input type="hidden" name="application_id" value="{{ $company->id }}" required>
                         <div class="col-12 mt-4">
                             <button class="btn btn-success w-100" type="submit">Submit Changes</button>
                         </div>
-                    </form>
-                </div>
-                <!-- button -->
-                <div class="col-md-8 mt-5"></div>
-                <!-- button -->
 
+                    </div>
+                    <!-- button -->
+                    <div class="col-md-8 mt-5"></div>
+                    <!-- button -->
+                </form>
             </div>
 
         </div>

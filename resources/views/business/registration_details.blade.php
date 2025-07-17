@@ -38,151 +38,152 @@
                     </div>
                 </div>
 
-
                 <div class="p-4 col-md-12">
-                    <table class="table table-hover table-centered table-bordered">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="betty" colspan="2"> APPLICATION DETAILS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if ($company->application_type == 'revalidation')
-                                <tr>
-                                    <th width="50%">BSPPC Number</th>
-                                    <td>{{ $company->bsppc_number }}</td>
-                                </tr>
-                            @endif
-                            <tr>
-                                <th>CAC Registration Number</th>
-                                <td>{{ $company->cac_number }}</td>
-                            </tr>
-                            <tr>
-                                <th>Company Name</th>
-                                <td>{{ $company->company_name }}</td>
-                            </tr>
-                            <tr>
-                                <th>Company Address</th>
-                                <td>{{ $company->company_address }}</td>
-                            </tr>
-                            <tr>
-                                <th>What Business Do You Seek Registration
-                                    For?</th>
-                                <td>{{ $company->getCategories() }}</td>
-                            </tr>
-                            <tr>
-                                <th>Are You Registered With Any Works Registration
-                                    Board?</th>
-                                <td>{{ ucwords($company->prev_reg) }}</td>
-                            </tr>
-                            @if ($company->prev_reg == 'yes')
-                                <tr>
-                                    <th>Which Class?</th>
-                                    <td>{{ ucwords($company->prev_reg_class) }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Where?</th>
-                                    <td>{{ $company->prev_reg_where }}</td>
-                                </tr>
-                                <tr>
-                                    <th>For What Works?</th>
-                                    <td>{{ $company->prev_reg_works }}</td>
-                                </tr>
-                                <tr>
-                                    <th>When?</th>
-                                    <td>{{ $company->prev_reg_when }}</td>
-                                </tr>
-                                <tr>
-                                    <th>What Is The Registration Number Of The
-                                        Certificate?</th>
-                                    <td>{{ $company->prev_reg_no }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Is The Certiticate Of
-                                        Registration Still Valid?</th>
-                                    <td>{{ ucwords($company->prev_reg_valid) }}</td>
-                                </tr>
-                                @if ($company->prev_reg == 'no')
-                                    <tr>
-                                        <th>If Not Why?</th>
-                                        <td>{{ ucwords($company->prev_reg_invalid_reason) }}</td>
-                                    </tr>
-                                @endif
-                                <tr>
-                                    <th>Do You Have Experience Or Qualification In the
-                                        Field You Wish To Be Registered?</th>
-                                    <td>{{ ucwords($company->business_experience) }}</td>
-                                </tr>
-                                @if ($company->business_experience == 'yes')
-                                    <tr>
-                                        <th>Give Details Of Your Experience In The
-                                            Business</th>
-                                        <td>{{ $company->experience_details }}</td>
-                                    </tr>
-                                @endif
-                                <tr>
-                                    <th>How Much Capital Do You Have Available For This
-                                        Business?</th>
-                                    <td>&#8358;{{ number_format($company->business_capital, 2) }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Do You Operate A Bank Account For Your
-                                        Business?</th>
-                                    <td>{{ ucwords($company->operate_bank) }}</td>
-                                </tr>
-                                @if ($company->operate_bank == 'yes')
-                                    <tr>
-                                        <th>Bank Name</th>
-                                        <td>{{ $company->bank_name }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Bank Branch</th>
-                                        <td>{{ $company->bank_branch }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Account Number</th>
-                                        <td>{{ $company->account_number }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Postal Code</th>
-                                        <td>{{ $company->bank_postal_address }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Are You Applying For The Upgrading Of Your
-                                            Former Registration Certificate?</th>
-                                        <td>{{ ucwords($company->upgrade_application) }}</td>
-                                    </tr>
-                                     <tr>
-                                    <th>Application Date:</th>
-                                    <td>{{ date_format($company->created_at, 'jS F, Y g:i:sa') }}</td>
-                                </tr>
 
+                    <div class="table-responsive">
+                        <table class="table table-hover table-centered table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="betty" colspan="2"> APPLICATION DETAILS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if ($company->application_type == 'revalidation')
                                     <tr>
-                                        <th>Application Status</th>
-                                        <td>
-                                            @if ($company->status == 'pending' || $company->status == 'awaiting approval')
-                                                <span
-                                                    class="badge text-warning bg-light-warning">{{ ucwords($company->status) }}</span>
-                                            @elseif($company->status == 'approved')
-                                                <span
-                                                    class="badge text-success bg-light-success">{{ ucwords($company->status) }}</span>
-                                            @else
-                                                <span
-                                                    class="badge text-danger bg-light-danger">{{ ucwords($company->status) }}</span>
-                                            @endif
-                                        </td>
+                                        <th width="50%">BSPPC Number</th>
+                                        <td>{{ $company->bsppc_number }}</td>
                                     </tr>
-                                    @if ($company->status == 'rejected')
+                                @endif
+                                <tr>
+                                    <th>CAC Registration Number</th>
+                                    <td>{{ $company->cac_number }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Company Name</th>
+                                    <td>{{ $company->company_name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Company Address</th>
+                                    <td>{{ $company->company_address }}</td>
+                                </tr>
+                                <tr>
+                                    <th>What Business Do You Seek Registration
+                                        For?</th>
+                                    <td>{{ $company->getCategories() }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Are You Registered With Any Works Registration
+                                        Board?</th>
+                                    <td>{{ ucwords($company->prev_reg) }}</td>
+                                </tr>
+                                @if ($company->prev_reg == 'yes')
+                                    <tr>
+                                        <th>Which Class?</th>
+                                        <td>{{ ucwords($company->prev_reg_class) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Where?</th>
+                                        <td>{{ $company->prev_reg_where }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>For What Works?</th>
+                                        <td>{{ $company->prev_reg_works }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>When?</th>
+                                        <td>{{ $company->prev_reg_when }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>What Is The Registration Number Of The
+                                            Certificate?</th>
+                                        <td>{{ $company->prev_reg_no }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Is The Certiticate Of
+                                            Registration Still Valid?</th>
+                                        <td>{{ ucwords($company->prev_reg_valid) }}</td>
+                                    </tr>
+                                    @if ($company->prev_reg_valid == 'no')
                                         <tr>
-                                            <th>Reason For Rejection</th>
-                                            <td>{{ $company->rejection_reason }}</td>
+                                            <th>If Not Why?</th>
+                                            <td>{{ ucwords($company->prev_reg_invalid_reason) }}</td>
                                         </tr>
                                     @endif
-                                @endif
-                            @endif
-                        </tbody>
-                    </table>
+                                    <tr>
+                                        <th>Do You Have Experience Or Qualification In the
+                                            Field You Wish To Be Registered?</th>
+                                        <td>{{ ucwords($company->business_experience) }}</td>
+                                    </tr>
+                                    @if ($company->business_experience == 'yes')
+                                        <tr>
+                                            <th>Give Details Of Your Experience In The
+                                                Business</th>
+                                            <td>{{ $company->experience_details }}</td>
+                                        </tr>
+                                    @endif
+                                    <tr>
+                                        <th>How Much Capital Do You Have Available For This
+                                            Business?</th>
+                                        <td>&#8358;{{ number_format($company->business_capital, 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Do You Operate A Bank Account For Your
+                                            Business?</th>
+                                        <td>{{ ucwords($company->operate_bank) }}</td>
+                                    </tr>
+                                    @if ($company->operate_bank == 'yes')
+                                        <tr>
+                                            <th>Bank Name</th>
+                                            <td>{{ $company->bank_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Bank Branch</th>
+                                            <td>{{ $company->bank_branch }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Account Number</th>
+                                            <td>{{ $company->account_number }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Postal Code</th>
+                                            <td>{{ $company->bank_postal_address }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Are You Applying For The Upgrading Of Your
+                                                Former Registration Certificate?</th>
+                                            <td>{{ ucwords($company->upgrade_application) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Application Date:</th>
+                                            <td>{{ date_format($company->created_at, 'jS F, Y g:i:sa') }}</td>
+                                        </tr>
 
+                                        <tr>
+                                            <th>Application Status</th>
+                                            <td>
+                                                @if ($company->status == 'pending' || $company->status == 'awaiting approval')
+                                                    <span
+                                                        class="badge text-warning bg-light-warning">{{ ucwords($company->status) }}</span>
+                                                @elseif($company->status == 'approved')
+                                                    <span
+                                                        class="badge text-success bg-light-success">{{ ucwords($company->status) }}</span>
+                                                @else
+                                                    <span
+                                                        class="badge text-danger bg-light-danger">{{ ucwords($company->status) }}</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @if ($company->status == 'rejected')
+                                            <tr>
+                                                <th>Reason For Rejection</th>
+                                                <td>{{ $company->rejection_reason }}</td>
+                                            </tr>
+                                        @endif
+                                    @endif
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 @if (count($executedProjects) > 0)

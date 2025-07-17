@@ -134,6 +134,8 @@ Route::group([
 
     Route::get('/remove-document/{id}', [BusinessController::class, 'removeDocument'])->name("business.removeDocument");
 
+    Route::post('/updateRegDetails', [BusinessController::class, 'updateRegDetails'])->name("business.updateRegDetails");
+
     Route::group([
         'middleware' => ['profileupdated', 'companyreg'],
     ], function ($router) {
@@ -184,8 +186,6 @@ Route::group([
         Route::get('/processing-fees/update/{reference}', [BusinessController::class, 'editPRFApplication'])->name("business.editPRFApplication");
 
         Route::post('/updatePRFApplication', [BusinessController::class, 'updatePRFApplication'])->name("business.updatePRFApplication");
-
-        Route::post('/updateRegDetails', [BusinessController::class, 'updateRegDetails'])->name("business.updateRegDetails");
 
     });
 });
