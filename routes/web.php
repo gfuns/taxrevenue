@@ -24,35 +24,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/about', function () {
-    return view('about');
-});
-
-Route::get('/tenders', function () {
-    return view('tenders');
-});
-
-Route::get('/awards', function () {
-    return view('awards');
-});
-
-Route::get('/contact', function () {
-    return view('contact');
-});
-
-Route::get('/news', function () {
-    return view('news');
-});
-
-Route::get('/press', function () {
-    return view('press');
-});
-
-Route::get('/resources', function () {
-    return view('resources');
+    return view('auth.login');
 });
 
 Route::get('/welcome', [HomeController::class, 'welcome'])->name('welcome');

@@ -79,7 +79,7 @@
             <div class="page-ath-header text-center">
                 <a href="/" class="page-ath-logo">
                     <img class="page-ath-logo-img" src="{{ asset('images/logo_green.png') }}" alt="BPP Logo"
-                        style="max-width: 345px">
+                        style="max-width: 200px">
                 </a>
             </div>
 
