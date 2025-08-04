@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('company_documents', function (Blueprint $table) {
-            $table->id();
-            $table->integer("company_id")->unsigned();
-            $table->integer("document_id")->unsigned();
-            $table->text("document");
+        Schema::create('mdas', function (Blueprint $table) {
+            $table->increments("id");
+            $table->text("mda");
+            $table->string("mda_code");
+            $table->enum("status", ["active", "deactivated"])->default("active");
             $table->timestamps();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('company_documents');
+        Schema::dropIfExists('mdas');
     }
 };

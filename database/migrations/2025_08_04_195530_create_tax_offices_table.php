@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mdas', function (Blueprint $table) {
+        Schema::create('tax_offices', function (Blueprint $table) {
             $table->increments("id");
-            $table->text("mda");
+            $table->text("tax_office");
+            $table->text("address");
+            $table->enum("status", ["active", "deactivated"])->default("active");
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mdas');
+        Schema::dropIfExists('tax_offices');
     }
 };

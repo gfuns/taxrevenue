@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('payment_items', function (Blueprint $table) {
             $table->increments("id");
-            $table->string("item");
-            $table->double("amount", 20, 2);
-            $table->enum("fee_config", ["fixed", "percentage"]);
-            $table->double("fee", 20, 2);
+            $table->integer('mda_id')->unsigned();
+            $table->string("revenue_item");
+            $table->string("revenue_code");
+            $table->double("amount", 12, 2)->nullable();
+            $table->double("percentage", 12, 2)->nullable();
+            $table->enum("fee_config", ["fixed", "percentage", "variable"]);
+            $table->enum("status", ["active", "deactivated"])->default("active");
             $table->timestamps();
+            $table->foreign('mda_id')->references('id')->on('mdas')->onDelete('cascade');
         });
     }
 

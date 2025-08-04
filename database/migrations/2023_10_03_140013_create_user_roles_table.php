@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('user_roles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('role');
+            $table->enum('category', ['tax payer', 'bdic', 'birs hq', 'birs area office', 'mda admin']);
             $table->timestamps();
         });
     }

@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('business_categories', function (Blueprint $table) {
+        Schema::create('lgas', function (Blueprint $table) {
             $table->increments("id");
-            $table->string("category");
-            $table->enum("status", ["active", "deactivated"])->default("active");
+            $table->string("lga");
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('business_categories');
+        Schema::dropIfExists('lgas');
     }
 };

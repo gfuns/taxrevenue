@@ -26,6 +26,9 @@ return new class extends Migration
             $table->string('nationality')->nullable();
             $table->string('role');
             $table->integer('role_id')->nullable();
+            $table->integer('mda_id')->nullable();
+            $table->integer('tax_office_id')->nullable();
+            $table->enum('category', ['tax payer', 'bdic', 'birs hq', 'birs area office', 'mda admin']);
             $table->string('password');
             $table->integer('profile_updated')->default(0);
             $table->enum('status', ['active', 'suspended'])->default('active');

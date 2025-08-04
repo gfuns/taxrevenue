@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('uploadable_docs', function (Blueprint $table) {
+        Schema::create('payment_types', function (Blueprint $table) {
             $table->increments("id");
-            $table->string("document_title");
-            $table->enum("category", ["registration", "renewal", "power of attorney", "award letter", "processing fee"]);
-            $table->enum("status", ["active", "deactivated"])->default('active');
+            $table->string("payment_type");
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('uploadable_docs');
+        Schema::dropIfExists('payment_types');
     }
 };
