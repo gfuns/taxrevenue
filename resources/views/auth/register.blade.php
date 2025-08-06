@@ -8,6 +8,7 @@
     <title>Sign-Up | {{ env('APP_NAME') }}</title>
     <link rel="stylesheet" href="{{ asset('auth/assets/css/vendor.bundle.css') }}">
     <link rel="stylesheet" href="{{ asset('auth/assets/css/style.css') }}">
+    <link href="{{ asset('assets/libs/select2/css/select2.min.css') }}" rel="stylesheet" />
 
     <style type="text/css">
         html,
@@ -111,6 +112,13 @@
                         id="register">
                         @csrf
                         <div class="input-item">
+                             <select id="accountType" name="taxpayer_type" class=" input-bordered" data-width="100%" required>
+                                <option value="">Select Tax Payer Type</option>
+                                <option value="individual">Individual Tax Payer</option>
+                                <option value="corporate">Corporate Tax Payer</option>
+                            </select>
+                        </div>
+                        <div class="input-item">
                             <input type="text" placeholder="Last Name" class="input-bordered" name="last_name"
                                 value="{{ old('last_name') }}" minlength="3" data-msg-required="Required."
                                 data-msg-minlength="At least 3 chars." required>
@@ -124,11 +132,6 @@
                             <input type="email" placeholder="Your Email" class="input-bordered" name="email"
                                 value="{{ old('email') }}" data-msg-required="Required."
                                 data-msg-email="Enter valid email." required>
-                        </div>
-                        <div class="input-item">
-                            <input type="text" placeholder="Your Phone Number" class="input-bordered"
-                                name="phone_number" value="{{ old('phone_number') }}" data-msg-required="Required."
-                                required>
                         </div>
                         <div class="input-item password-toggle">
                             <input type="password" placeholder="Password" class="input-bordered" name="password"
@@ -199,6 +202,7 @@
 
     <script src="{{ asset('auth/assets/js/jquery.bundle.js') }}"></script>
     <script src="{{ asset('auth/assets/js/script.js') }}"></script>
+    <script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
     @include('sweetalert::alert')
     <script type="text/javascript">
         jQuery(function() {
@@ -242,6 +246,10 @@
                 icon.classList.add("fa-eye");
             }
         }
+
+        $(document).ready(function() {
+            $('#accountType').select2();
+        });
     </script>
 
 </body>

@@ -94,12 +94,11 @@
                                     @foreach ($taxPayers as $tp)
                                         <tr>
                                             <td class="align-middle"> {{ $loop->index + 1 }}</td>
-                                            <td class="align-middle"> {{ $tp->tax_payer  }}</td>
-                                            <td class="align-middle"> {{ ucwords($tp->category)  }}</td>
-                                            <td class="align-middle"> {{ $tp->btin  }}</td>
-                                            <td class="align-middle"> {{ $tp->email }} </td>
-                                            <td class="align-middle"> {{ $tp->phone_number }} </td>
-                                            <td class="align-middle"> {{ $tp->role }} </td>
+                                            <td class="align-middle"> {{ $tp->tax_payer }}</td>
+                                            <td class="align-middle"> {{ ucwords($tp->category) }}</td>
+                                            <td class="align-middle"> {{ $tp->btin }}</td>
+                                            <td class="align-middle"> {{ $tp->user->email }} </td>
+                                            <td class="align-middle"> {{ $tp->user->phone_number }} </td>
                                             <td>
                                                 @if ($tp->user->status == 'active')
                                                     <span class="badge text-success bg-light-success">Active</span>
@@ -118,29 +117,22 @@
                                                         @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
                                                             <span class="dropdown-menu"><span
                                                                     class="dropdown-header">Action</span>
-                                                                <a style="cursor:pointer" class="dropdown-item"
-                                                                    data-bs-toggle="offcanvas"
-                                                                    data-bs-target="#editAdmin"
-                                                                    data-myid="{{ $usr->id }}"
-                                                                    data-othernames="{{ $usr->other_names }}"
-                                                                    data-lastname="{{ $usr->last_name }}"
-                                                                    data-email="{{ $usr->email }}"
-                                                                    data-phone="{{ $usr->phone_number }}"
-                                                                    data-role="{{ $usr->role_id }}"><i
-                                                                        class="fe fe-edit dropdown-item-icon"></i>Edit
-                                                                    User Information</a>
-                                                                @if ($usr->status == 'active')
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('admin.taxPayerDetails', [$tp->id]) }}"><i
+                                                                        class="fe fe-eye dropdown-item-icon"></i>View
+                                                                    Details</a>
+                                                                @if ($tp->user->status == 'active')
                                                                     <a class="dropdown-item"
-                                                                        href="{{ route('admin.suspendUser', [$usr->id]) }}"
-                                                                        onclick="return confirm('Are you sure you want to suspend this user?');"><i
+                                                                        href="{{ route('admin.suspendTaxPayer', [$tp->user_id]) }}"
+                                                                        onclick="return confirm('Are you sure you want to suspend this tax payer?');"><i
                                                                             class="fe fe-x-circle dropdown-item-icon"></i>Suspend
-                                                                        User</a>
+                                                                        Tax Payer</a>
                                                                 @else
                                                                     <a class="dropdown-item"
-                                                                        href="{{ route('admin.activateUser', [$usr->id]) }}"
-                                                                        onclick="return confirm('Are you sure you want to activate this user?');"><i
+                                                                        href="{{ route('admin.activateTaxPayer', [$tp->user_id]) }}"
+                                                                        onclick="return confirm('Are you sure you want to activate this tax payer?');"><i
                                                                             class="fe fe-check-circle dropdown-item-icon"></i>Activate
-                                                                        User</a>
+                                                                        Tax Payer</a>
                                                                 @endif
                                                             </span>
                                                         @endif

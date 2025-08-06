@@ -264,6 +264,12 @@ Route::group([
 
     Route::get('/tax-payers', [AdminController::class, 'taxPayers'])->name("admin.taxPayers");
 
+    Route::get('/taxpayer/details/{id}', [AdminController::class, 'taxPayerDetails'])->name("admin.taxPayerDetails");
+
+    Route::get('/suspend-taxpayer/{id}', [AdminController::class, 'suspendTaxPayer'])->name("admin.suspendTaxPayer");
+
+    Route::get('/activate-taxpayer/{id}', [AdminController::class, 'activateTaxPayer'])->name("admin.activateTaxPayer");
+
 });
 
 Route::group([

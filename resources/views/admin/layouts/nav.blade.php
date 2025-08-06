@@ -187,7 +187,7 @@
                 <li class="nav-item">
                     <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse"
                         data-bs-target="#platSettings" aria-expanded="false" aria-controls="platSettings">
-                        <i class="nav-icon bi bi-gear-wide-connected me-2"></i> Platform Configurations
+                        <i class="nav-icon bi bi-tools me-2"></i> Platform Configurations
                     </a>
                     <div id="platSettings" class="collapse " data-bs-parent="#sideNavbar">
                         <ul class="nav flex-column">

@@ -1559,23 +1559,118 @@ class AdminController extends Controller
         $status = request()->status;
 
         if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = TaxPayer::query()->whereLike(["tax_payer", "btin"], $search)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $taxPayers  = TaxPayer::query()->whereLike(["tax_payer", "btin"], $search)->paginate(50);
+            $lastRecord = $taxPayers = $taxPayers = TaxPayer::query()
+                ->where(function ($query) use ($search) {
+                    $query->whereLike(["tax_payer", "btin"], $search);
+                })
+                ->orWhereHas('user', function ($query) use ($search) {
+                    $query->whereLike(["email", "phone_number"], $search);
+                })
+                ->count();
+            $marker    = $this->getMarkers($lastRecord, request()->page);
+            $taxPayers = $taxPayers = TaxPayer::query()
+                ->where(function ($query) use ($search) {
+                    $query->whereLike(["tax_payer", "btin"], $search);
+                })
+                ->orWhereHas('user', function ($query) use ($search) {
+                    $query->whereLike(["email", "phone_number"], $search);
+                })
+                ->paginate(50);
         } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord = TaxPayer::query()->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $taxPayers  = TaxPayer::query()->where("status", $status)->paginate(50);
+            $lastRecord = TaxPayer::with('user')
+                ->whereHas('user', function ($query) use ($status) {
+                    $query->where('status', $status);
+                })
+                ->count();
+            $marker    = $this->getMarkers($lastRecord, request()->page);
+            $taxPayers = TaxPayer::with('user')
+                ->whereHas('user', function ($query) use ($status) {
+                    $query->where('status', $status);
+                })
+                ->paginate(50);
         } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord = TaxPayer::query()->whereLike(["tax_payer", "btin"], $search)->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $taxPayers  = TaxPayer::query()->whereLike(["tax_payer", "btin"], $search)->where("status", $status)->paginate(50);
+            $lastRecord = TaxPayer::with('user')
+                ->whereHas('user', function ($query) use ($status) {
+                    $query->where('status', $status);
+                })
+                ->where(function ($query) use ($search) {
+                    $query->whereLike(['tax_payer', 'btin'], $search)
+                        ->orWhereHas('user', function ($q) use ($search) {
+                            $q->whereLike(['email', 'phone_number'], $search);
+                        });
+                })
+                ->count();
+            $marker    = $this->getMarkers($lastRecord, request()->page);
+            $taxPayers = TaxPayer::with('user')
+                ->whereHas('user', function ($query) use ($status) {
+                    $query->where('status', $status);
+                })
+                ->where(function ($query) use ($search) {
+                    $query->whereLike(['tax_payer', 'btin'], $search)
+                        ->orWhereHas('user', function ($q) use ($search) {
+                            $q->whereLike(['email', 'phone_number'], $search);
+                        });
+                })
+                ->paginate(50);
         } else {
             $lastRecord = TaxPayer::count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
-            $taxPayers  = TaxPayer::paginate(50);
+            $taxPayers  = TaxPayer::with('user')->paginate(50);
         }
         return view("admin.tax_payers", compact("taxPayers", "search", "status", "lastRecord", "marker"));
+    }
+
+    /**
+     * taxPayerDetails
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function taxPayerDetails($id)
+    {
+        $taxpayer = TaxPayer::find($id);
+        return view("admin.taxpayer_details", compact("taxpayer"));
+    }
+
+    /**
+     * suspendTaxPayer
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function suspendTaxPayer($id)
+    {
+        $taxpayer         = User::find($id);
+        $taxpayer->status = "suspended";
+        if ($taxpayer->save()) {
+            toast('Tax Payer Account Suspended Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * activateTaxPayer
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function activateTaxPayer($id)
+    {
+        $taxpayer         = User::find($id);
+        $taxpayer->status = "active";
+        if ($taxpayer->save()) {
+            toast('Tax Payer Account Activated Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
     }
 
     /**
