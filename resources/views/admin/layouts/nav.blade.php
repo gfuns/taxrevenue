@@ -22,7 +22,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="companies" href="">
+                    <a class="nav-link " id="taxpayers" href="{{ route("admin.taxPayers") }}">
                         <i class="nav-icon bi bi-people-fill me-2"></i>
                         Registered Tax Payers
                     </a>

@@ -11,6 +11,7 @@ use App\Models\PlatformFeature;
 use App\Models\PosTerminals;
 use App\Models\TaxConsultants;
 use App\Models\TaxOffice;
+use App\Models\TaxPayer;
 use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\UserRole;
@@ -1545,6 +1546,36 @@ class AdminController extends Controller
             toast('Something went wrong. Please try again', 'error');
             return back();
         }
+    }
+
+    /**
+     * taxPayers
+     *
+     * @return void
+     */
+    public function taxPayers()
+    {
+        $search = request()->search;
+        $status = request()->status;
+
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord = TaxPayer::query()->whereLike(["tax_payer", "btin"], $search)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $taxPayers  = TaxPayer::query()->whereLike(["tax_payer", "btin"], $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord = TaxPayer::query()->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $taxPayers  = TaxPayer::query()->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord = TaxPayer::query()->whereLike(["tax_payer", "btin"], $search)->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $taxPayers  = TaxPayer::query()->whereLike(["tax_payer", "btin"], $search)->where("status", $status)->paginate(50);
+        } else {
+            $lastRecord = TaxPayer::count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $taxPayers  = TaxPayer::paginate(50);
+        }
+        return view("admin.tax_payers", compact("taxPayers", "search", "status", "lastRecord", "marker"));
     }
 
     /**

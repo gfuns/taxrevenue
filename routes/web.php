@@ -262,6 +262,8 @@ Route::group([
 
     Route::post('/updatePosTerminal', [AdminController::class, 'updatePosTerminal'])->name("admin.updatePosTerminal");
 
+    Route::get('/tax-payers', [AdminController::class, 'taxPayers'])->name("admin.taxPayers");
+
 });
 
 Route::group([
