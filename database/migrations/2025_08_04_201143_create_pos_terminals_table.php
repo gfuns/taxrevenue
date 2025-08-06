@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text("assigned_location")->nullable();
             $table->string("longitude")->nullable();
             $table->string("latitude")->nullable();
-            $table->string("ip")->nullable();
+            $table->string("ip_address")->nullable();
             $table->string("port")->nullable();
             $table->string("notification_ip")->nullable();
             $table->enum("status", ["active", "inactive", "deactivated"])->default("inactive");

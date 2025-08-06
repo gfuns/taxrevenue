@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string("phone_number")->unique();
             $table->enum("gender", ["male", "female"]);
             $table->string("photo")->nullable();
+            $table->longText("assigned_location")->nullable();
             $table->enum('status', ["active", "suspended", "banned"])->default("active");
             $table->timestamps();
         });

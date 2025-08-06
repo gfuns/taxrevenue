@@ -3,30 +3,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AccountCreationMail as AccountCreationMail;
-use App\Mail\AwardApproval as AwardApproval;
-use App\Mail\AwardRejection as AwardRejection;
-use App\Mail\PoaApproval as PoaApproval;
-use App\Mail\PoaRejection as PoaRejection;
-use App\Mail\ProcessingApproval as ProcessingApproval;
-use App\Mail\ProcessingRejection as ProcessingRejection;
-use App\Mail\RegistrationApproval as RegistrationApproval;
-use App\Mail\RegistrationRejection as RegistrationRejection;
-use App\Mail\RenewalApproval as RenewalApproval;
-use App\Mail\RenewalRejection as RenewalRejection;
-use App\Models\AwardLetter;
-use App\Models\BusinessCategories;
-use App\Models\Company;
-use App\Models\CompanyDocuments;
-use App\Models\CompanyProjects;
-use App\Models\CompanyRenewals;
+use App\Models\CollectionAgents;
 use App\Models\Lgas;
 use App\Models\Mda;
 use App\Models\PaymentItem;
 use App\Models\PlatformFeature;
-use App\Models\PowerOfAttorney;
-use App\Models\ProcessingFee;
+use App\Models\PosTerminals;
+use App\Models\TaxConsultants;
 use App\Models\TaxOffice;
-use App\Models\UploadableDocs;
 use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\UserRole;
@@ -34,6 +18,7 @@ use Auth;
 use Carbon\Carbon;
 use Cloudinary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -833,7 +818,7 @@ class AdminController extends Controller
             toast("Area Tax Office Created Successfully.", 'success');
             return back();
         } else {
-            toast("We could not create the specified area office", 'error');
+            toast("Something Went Wrong. Please try again", 'error');
             return back();
         }
     }
@@ -869,7 +854,7 @@ class AdminController extends Controller
             toast("Area Tax Office Updated Successfully.", 'success');
             return back();
         } else {
-            toast("We could not update the specified area office", 'error');
+            toast("Something Went Wrong. Please try again", 'error');
             return back();
         }
     }
@@ -932,7 +917,7 @@ class AdminController extends Controller
             toast("MDA Created Successfully.", 'success');
             return back();
         } else {
-            toast("We could not create the specified MDA", 'error');
+            toast("Something Went Wrong. Please try again", 'error');
             return back();
         }
     }
@@ -966,7 +951,7 @@ class AdminController extends Controller
             toast("MDA Updated Successfully.", 'success');
             return back();
         } else {
-            toast("We could not update the specified MDA", 'error');
+            toast("Something Went Wrong. Please try again", 'error');
             return back();
         }
     }
@@ -1036,7 +1021,7 @@ class AdminController extends Controller
             toast("Revenue Item Created Successfully.", 'success');
             return back();
         } else {
-            toast("We could not create the specified revenue item", 'error');
+            toast("Something Went Wrong. Please try again", 'error');
             return back();
         }
     }
@@ -1077,509 +1062,58 @@ class AdminController extends Controller
             toast("Revenue Item Updated Successfully.", 'success');
             return back();
         } else {
-            toast("We could not update the specified revenue item", 'error');
-            return back();
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////
-
-    /**
-     * businessCategories
-     *
-     * @return void
-     */
-    public function businessCategories()
-    {
-        $categories = BusinessCategories::all();
-        return view("admin.business_categories", compact("categories"));
-    }
-
-    /**
-     * storeBusinessCategory
-     *
-     * @param Requesr request
-     *
-     * @return void
-     */
-    public function storeBusinessCategory(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'category' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
-        $category           = new BusinessCategories;
-        $category->category = $request->category;
-        if ($category->save()) {
-            toast("Business Category Created Successfully.", 'success');
-            return back();
-        } else {
-            toast("We could not create the provided business category", 'error');
-            return back();
-
-        }
-    }
-
-    /**
-     * updateBusinessCategory
-     *
-     * @param Request request
-     *
-     * @return void
-     */
-    public function updateBusinessCategory(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'category_id' => 'required',
-            'category'    => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
-        $category           = BusinessCategories::find($request->category_id);
-        $category->category = $request->category;
-        if ($category->save()) {
-            toast("Business Category Updated Successfully.", 'success');
-            return back();
-        } else {
-            toast("We could not updated the selected business category", 'error');
-            return back();
-
-        }
-    }
-
-    /**
-     * activateCategory
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function activateCategory($id)
-    {
-        $user         = BusinessCategories::find($id);
-        $user->status = "active";
-        if ($user->save()) {
-            toast('Category Activated Successfully.', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
+            toast("Something Went Wrong. Please try again", 'error');
             return back();
         }
     }
 
     /**
-     * deactivateCategory
-     *
-     * @param mixed id
+     * taxConsultants
      *
      * @return void
      */
-    public function deactivateCategory($id)
+    public function taxConsultants()
     {
-        $user         = BusinessCategories::find($id);
-        $user->status = "deactivated";
-        if ($user->save()) {
-            toast('Category Deactivated Successfully.', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
-        }
-    }
-
-    /**
-     * documentManagement
-     *
-     * @return void
-     */
-    public function documentManagement()
-    {
-        $documents = UploadableDocs::all();
-        return view("admin.document_management", compact("documents"));
-    }
-
-    /**
-     * storeUpDoc
-     *
-     * @param Request request
-     *
-     * @return void
-     */
-    public function storeUpDoc(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'document_title' => 'required',
-            'operation'      => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
-        $doc                 = new UploadableDocs;
-        $doc->document_title = $request->document_title;
-        $doc->category       = $request->operation;
-        if ($doc->save()) {
-            toast("Document Information Captured Successfully.", 'success');
-            return back();
-        } else {
-            toast("We could not capture the provided document information", 'error');
-            return back();
-
-        }
-    }
-
-    /**
-     * updateUpDoc
-     *
-     * @param Request request
-     *
-     * @return void
-     */
-    public function updateUpDoc(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'document_id'    => 'required',
-            'document_title' => 'required',
-            'operation'      => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
-        $doc                 = UploadableDocs::find($request->document_id);
-        $doc->document_title = $request->document_title;
-        $doc->category       = $request->operation;
-        if ($doc->save()) {
-            toast("Document Information Updated Successfully.", 'success');
-            return back();
-        } else {
-            toast("We could not updated the provided document information", 'error');
-            return back();
-
-        }
-    }
-
-    /**
-     * activateDocument
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function activateDocument($id)
-    {
-        $doc         = UploadableDocs::find($id);
-        $doc->status = "active";
-        if ($doc->save()) {
-            toast('Document Activated Successfully.', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
-        }
-    }
-
-    /**
-     * deactivateDocument
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function deactivateDocument($id)
-    {
-        $doc         = UploadableDocs::find($id);
-        $doc->status = "deactivated";
-        if ($doc->save()) {
-            toast('Document Deactivated Successfully.', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
-        }
-    }
-
-    /**
-     * updatePaymentItem
-     *
-     * @param Request request
-     *
-     * @return void
-     */
-    public function updatePaymentItem(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'item_id'           => 'required',
-            'payment_item'      => 'required',
-            'application_fee'   => 'required',
-            'fee_configuration' => 'required',
-            'fee'               => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
-        $item             = PaymentItem::find($request->item_id);
-        $item->item       = $request->payment_item;
-        $item->amount     = $request->application_fee;
-        $item->fee_config = $request->fee_configuration;
-        $item->fee        = $request->fee;
-        if ($item->save()) {
-            toast("Payment item updated successfully.", 'success');
-            return back();
-        } else {
-            toast("We could not update the selected payment item", 'error');
-            return back();
-        }
-    }
-
-    /**
-     * companyRegistrations
-     *
-     * @return void
-     */
-    public function companyRegistrations()
-    {
-        $status = request()->status;
         $search = request()->search;
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord   = Company::query()->where("status")->whereLike(["company_name", "bsppc_number", "cac_number"], $search)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Company::query()->whereIn("status", ["awaiting approval", "approved", "rejected"])->whereLike(["company_name", "bsppc_number", "cac_number"], $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = Company::query()->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Company::query()->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = Company::query()->whereLike(["company_name", "bsppc_number", "cac_number"], $search)->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Company::query()->whereLike(["company_name", "bsppc_number", "cac_number"], $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord   = Company::whereIn("status", ["awaiting approval", "approved", "rejected"])->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Company::whereIn("status", ["awaiting approval", "approved", "rejected"])->paginate(50);
-        }
-        return view("admin.company_registrations", compact("transactions", "search", "status", "lastRecord", "marker"));
-    }
-
-    /**
-     * companyRegDetails
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function companyRegDetails($id)
-    {
-        $company          = Company::find($id);
-        $documents        = CompanyDocuments::where("company_id", $company->id)->get();
-        $executedProjects = CompanyProjects::where("company_id", $company->id)->get();
-        return view("admin.application_details", compact("company", "documents", "executedProjects"));
-    }
-
-    /**
-     * approveCompanyReg
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function approveCompanyReg($id)
-    {
-        $company         = Company::find($id);
-        $company->status = "approved";
-        if ($company->application_type == "registration") {
-            $company->bsppc_number = $this->gerateBssppcNumber($id);
-        }
-        if ($company->save()) {
-            try {
-                $user = User::find($company->user_id);
-                Mail::to($user)->send(new RegistrationApproval($user, $company));
-            } catch (\Exception $e) {
-                report($e);
-            }
-
-            return redirect()->route("download.certificate", [preg_replace("/\//", "-", $company->bsppc_number)]);
-            toast('Contractor Registration Successfully Approved', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
-        }
-    }
-
-    /**
-     * rejectCompanyReg
-     *
-     * @param Request request
-     *
-     * @return void
-     */
-    public function rejectCompanyReg(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'application_id'   => 'required',
-            'rejection_reason' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
-        $company                   = Company::find($request->application_id);
-        $company->status           = "rejected";
-        $company->rejection_reason = $request->rejection_reason;
-        if ($company->save()) {
-            try {
-                $user = User::find($company->user_id);
-                Mail::to($user)->send(new RegistrationRejection($user, $company));
-            } catch (\Exception $e) {
-                report($e);
-            }
-            toast('Contractor Registration Rejected', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
-        }
-    }
-
-    /**
-     * gerateBssppcNumber
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function gerateBssppcNumber($id)
-    {
-        $company     = Company::find($id);
-        $bsppcNoPref = "BNSPPC/" . strtoupper($company->classification);
-        if (strlen($id) == 1) {
-            return $bsppcNoPref . "0000" . $id;
-        } else if (strlen($id) == 2) {
-            return $bsppcNoPref . "000" . $id;
-        } else if (strlen($id) == 3) {
-            return $bsppcNoPref . "00" . $id;
-        } else if (strlen($id) == 4) {
-            return $bsppcNoPref . "0" . $id;
-        } else if (strlen($id) == 5) {
-            return $bsppcNoPref . $id;
-        }
-    }
-
-    /**
-     * companyRenewals
-     *
-     * @return void
-     */
-    public function companyRenewals()
-    {
         $status = request()->status;
-        $search = request()->search;
+
         if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = CompanyRenewals::query()->whereIn("status", ["awaiting approval", "approved", "rejected"])->whereLike(["reference_number"], $search)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-
-            $transactions = CompanyRenewals::query()->orderBy("id", "desc")->whereIn("status", ["awaiting approval", "approved", "rejected"])->whereLike(["reference_number"], $search)->paginate(50);
+            $lastRecord  = TaxConsultants::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->count();
+            $marker      = $this->getMarkers($lastRecord, request()->page);
+            $consultants = TaxConsultants::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->paginate(50);
         } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord = CompanyRenewals::query()->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-
-            $transactions = CompanyRenewals::query()->orderBy("id", "desc")->where("status", $status)->paginate(50);
+            $lastRecord  = PaymentItem::query()->where("status", $status)->count();
+            $marker      = $this->getMarkers($lastRecord, request()->page);
+            $consultants = TaxConsultants::query()->where("status", $status)->paginate(50);
         } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord = CompanyRenewals::query()->whereLike(["reference_number"], $search)->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-
-            $transactions = CompanyRenewals::query()->orderBy("id", "desc")->whereLike(["reference_number"], $search)->where("status", $status)->paginate(50);
+            $lastRecord  = TaxConsultants::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->count();
+            $marker      = $this->getMarkers($lastRecord, request()->page);
+            $consultants = TaxConsultants::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->paginate(50);
         } else {
-            $lastRecord   = CompanyRenewals::whereIn("status", ["awaiting approval", "approved", "rejected"])->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = CompanyRenewals::orderBy("id", "desc")->whereIn("status", ["awaiting approval", "approved", "rejected"])->paginate(50);
+            $lastRecord  = TaxConsultants::count();
+            $marker      = $this->getMarkers($lastRecord, request()->page);
+            $consultants = TaxConsultants::paginate(50);
         }
-        return view("admin.company_renewals", compact("transactions", "search", "status", "lastRecord", "marker"));
+        return view("admin.tax_consultants", compact("consultants", "search", "status", "lastRecord", "marker"));
     }
 
     /**
-     * companyRenewalDetails
-     *
-     * @param mixed reference
-     *
-     * @return void
-     */
-    public function companyRenewalDetails($reference)
-    {
-        $trx = CompanyRenewals::where("reference_number", $reference)->first();
-        return view("admin.company_renewal_details", compact("trx"));
-    }
-
-    /**
-     * approveCompanyRenewal
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function approveCompanyRenewal($id)
-    {
-        $renewal         = CompanyRenewals::find($id);
-        $renewal->status = "approved";
-        if ($renewal->save()) {
-            try {
-                $user = User::find($renewal->company->user_id);
-                Mail::to($user)->send(new RenewalApproval($user, $renewal));
-            } catch (\Exception $e) {
-                report($e);
-            }
-            return redirect()->route("download.downloadRenewalCert", [$renewal->reference_number]);
-            toast('Contractor Renewal Application Successfully Approved', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
-        }
-    }
-
-    /**
-     * rejectCompanyRenewal
+     * storeConsultant
      *
      * @param Request request
      *
      * @return void
      */
-    public function rejectCompanyRenewal(Request $request)
+    public function storeConsultant(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'application_id'   => 'required',
-            'rejection_reason' => 'required',
+            'surname'       => 'required',
+            'first_name'    => 'required',
+            'other_names'   => 'nullable',
+            'email'         => 'required|unique:tax_consultants',
+            'phone_number'  => 'required|unique:tax_consultants',
+            'gender'        => 'required',
+            'profile_photo' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -1589,109 +1123,129 @@ class AdminController extends Controller
             return back();
         }
 
-        $renewal                   = CompanyRenewals::find($request->application_id);
-        $renewal->status           = "rejected";
-        $renewal->rejection_reason = $request->rejection_reason;
-        if ($renewal->save()) {
-            try {
-                $user = User::find($renewal->company->user_id);
-                Mail::to($user)->send(new RenewalRejection($user, $renewal));
-            } catch (\Exception $e) {
-                report($e);
+        try {
+            $consultant               = new TaxConsultants;
+            $consultant->surname      = $request->surname;
+            $consultant->first_name   = $request->first_name;
+            $consultant->other_names  = $request->other_names;
+            $consultant->email        = $request->email;
+            $consultant->phone_number = $request->phone_number;
+            $consultant->gender       = $request->gender;
+            if ($request->has('profile_photo')) {
+                $uploadedFileUrl   = Cloudinary::upload($request->file('profile_photo')->getRealPath())->getSecurePath();
+                $consultant->photo = $uploadedFileUrl;
             }
-            toast('Contractor Renewal Application Rejected', 'success');
+            $consultant->save();
+
+            toast("Tax Consultant Created Successfully.", 'success');
             return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
+        } catch (\Exception $e) {
+            report($e);
+            toast("Something Went Wrong. Please try again", 'error');
             return back();
         }
     }
 
     /**
-     * powerOfAttorney
+     * updateConsultant
+     *
+     * @param Request request
      *
      * @return void
      */
-    public function powerOfAttorney()
+    public function updateConsultant(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'consultant_id' => 'required',
+            'surname'       => 'required',
+            'first_name'    => 'required',
+            'other_names'   => 'nullable',
+            'email'         => 'required',
+            'phone_number'  => 'required',
+            'gender'        => 'required',
+            'profile_photo' => 'nullable',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        try {
+            $consultant               = TaxConsultants::find($request->consultant_id);
+            $consultant->surname      = $request->surname;
+            $consultant->first_name   = $request->first_name;
+            $consultant->other_names  = $request->other_names;
+            $consultant->email        = $request->email;
+            $consultant->phone_number = $request->phone_number;
+            $consultant->gender       = $request->gender;
+            if ($request->has('profile_photo')) {
+                $uploadedFileUrl   = Cloudinary::upload($request->file('profile_photo')->getRealPath())->getSecurePath();
+                $consultant->photo = $uploadedFileUrl;
+            }
+            $consultant->save();
+
+            toast("Tax Consultant Updated Successfully.", 'success');
+            return back();
+        } catch (\Exception $e) {
+            report($e);
+            toast("Something Went Wrong. Please try again", 'error');
+            return back();
+        }
+    }
+
+    /**
+     * collectionAgents
+     *
+     * @return void
+     */
+    public function collectionAgents()
+    {
+        $search = request()->search;
         $status = request()->status;
-        $search = request()->search;
+
         if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = PowerOfAttorney::query()->whereLike(["reference_number"], $search)->count();
+            $lastRecord = CollectionAgents::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
-
-            $transactions = PowerOfAttorney::query()->orderBy("id", "desc")->whereLike(["reference_number"], $search)->paginate(50);
+            $agents     = CollectionAgents::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->paginate(50);
         } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord = PowerOfAttorney::query()->where("status", $status)->count();
+            $lastRecord = CollectionAgents::query()->where("status", $status)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
-
-            $transactions = PowerOfAttorney::query()->orderBy("id", "desc")->where("status", $status)->paginate(50);
+            $agents     = CollectionAgents::query()->where("status", $status)->paginate(50);
         } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord = PowerOfAttorney::query()->whereLike(["reference_number"], $search)->where("status", $status)->count();
+            $lastRecord = CollectionAgents::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
-
-            $transactions = PowerOfAttorney::query()->orderBy("id", "desc")->whereLike(["reference_number"], $search)->where("status", $status)->paginate(50);
+            $agents     = CollectionAgents::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->paginate(50);
         } else {
-            $lastRecord   = PowerOfAttorney::count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = PowerOfAttorney::orderBy("id", "desc")->paginate(50);
+            $lastRecord = CollectionAgents::count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $agents     = CollectionAgents::paginate(50);
         }
 
-        $mdas = Mda::all();
-        return view("admin.poa", compact("transactions", "search", "status", "lastRecord", "marker", "mdas"));
+        $posTerminals = PosTerminals::where("assigned", 0)->get();
+        return view("admin.collection_agents", compact("agents", "search", "status", "lastRecord", "marker", "posTerminals"));
     }
 
     /**
-     * powerOfAttorneyDetails
-     *
-     * @param mixed reference
-     *
-     * @return void
-     */
-    public function powerOfAttorneyDetails($reference)
-    {
-        $trx = PowerOfAttorney::where("reference_number", $reference)->first();
-        return view("admin.poa_details", compact("trx"));
-    }
-
-    /**
-     * approvePoaApplication
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function approvePoaApplication($id)
-    {
-        $poa         = PowerOfAttorney::find($id);
-        $poa->status = "approved";
-        if ($poa->save()) {
-            try {
-                $user = User::find($poa->company->user_id);
-                Mail::to($user)->send(new PoaApproval($user, $poa));
-            } catch (\Exception $e) {
-                report($e);
-            }
-            toast('Power Of Attorney  Application Successfully Approved', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
-        }
-    }
-
-    /**
-     * rejectPoaApplication
+     * storeCollectionAgent
      *
      * @param Request request
      *
      * @return void
      */
-    public function rejectPoaApplication(Request $request)
+    public function storeCollectionAgent(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'application_id'   => 'required',
-            'rejection_reason' => 'required',
+            'surname'           => 'required',
+            'first_name'        => 'required',
+            'other_names'       => 'nullable',
+            'email'             => 'required|unique:collection_agents',
+            'phone_number'      => 'required|unique:collection_agents',
+            'gender'            => 'required',
+            'profile_photo'     => 'required',
+            'assigned_location' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -1701,109 +1255,129 @@ class AdminController extends Controller
             return back();
         }
 
-        $poa                   = PowerOfAttorney::find($request->application_id);
-        $poa->status           = "rejected";
-        $poa->rejection_reason = $request->rejection_reason;
-        if ($poa->save()) {
-            try {
-                $user = User::find($poa->company->user_id);
-                Mail::to($user)->send(new PoaRejection($user, $poa));
-            } catch (\Exception $e) {
-                report($e);
+        try {
+            $consultant                    = new CollectionAgents;
+            $consultant->surname           = $request->surname;
+            $consultant->first_name        = $request->first_name;
+            $consultant->other_names       = $request->other_names;
+            $consultant->email             = $request->email;
+            $consultant->phone_number      = $request->phone_number;
+            $consultant->gender            = $request->gender;
+            $consultant->assigned_location = $request->assigned_location;
+            if ($request->has('profile_photo')) {
+                $uploadedFileUrl   = Cloudinary::upload($request->file('profile_photo')->getRealPath())->getSecurePath();
+                $consultant->photo = $uploadedFileUrl;
             }
-            toast('Power Of Attorney Application Rejected', 'success');
+            $consultant->save();
+
+            toast("Collection Agent Created Successfully.", 'success');
             return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
+        } catch (\Exception $e) {
+            report($e);
+            toast("Something Went Wrong. Please try again", 'error');
             return back();
         }
     }
 
     /**
-     * processingFees
+     * updateCollectionAgent
+     *
+     * @param Request request
      *
      * @return void
      */
-    public function processingFees()
+    public function updateCollectionAgent(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'agent_id'          => 'required',
+            'surname'           => 'required',
+            'first_name'        => 'required',
+            'other_names'       => 'nullable',
+            'email'             => 'required',
+            'phone_number'      => 'required',
+            'gender'            => 'required',
+            'assigned_location' => 'required',
+            'profile_photo'     => 'nullable',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        try {
+            $agent                    = CollectionAgents::find($request->agent_id);
+            $agent->surname           = $request->surname;
+            $agent->first_name        = $request->first_name;
+            $agent->other_names       = $request->other_names;
+            $agent->email             = $request->email;
+            $agent->phone_number      = $request->phone_number;
+            $agent->gender            = $request->gender;
+            $agent->assigned_location = $request->assigned_location;
+            if ($request->has('profile_photo')) {
+                $uploadedFileUrl = Cloudinary::upload($request->file('profile_photo')->getRealPath())->getSecurePath();
+                $agent->photo    = $uploadedFileUrl;
+            }
+            $agent->save();
+
+            toast("Collection Agent Details Updated Successfully.", 'success');
+            return back();
+        } catch (\Exception $e) {
+            report($e);
+            toast("Something Went Wrong. Please try again", 'error');
+            return back();
+        }
+    }
+
+    /**
+     * posTerminals
+     *
+     * @return void
+     */
+    public function posTerminals()
+    {
+        $search = request()->search;
         $status = request()->status;
-        $search = request()->search;
+
         if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = ProcessingFee::query()->whereIn("status", ["awaiting approval", "approved", "rejected"])->whereLike(["reference_number"], $search)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-
-            $transactions = ProcessingFee::query()->orderBy("id", "desc")->whereIn("status", ["awaiting approval", "approved", "rejected"])->whereLike(["reference_number"], $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord = ProcessingFee::query()->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-
-            $transactions = ProcessingFee::query()->orderBy("id", "desc")->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord = ProcessingFee::query()->whereLike(["reference_number"], $search)->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-
-            $transactions = ProcessingFee::query()->orderBy("id", "desc")->whereLike(["reference_number"], $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord   = ProcessingFee::whereIn("status", ["awaiting approval", "approved", "rejected"])->count();
+            $lastRecord   = PosTerminals::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->count();
             $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = ProcessingFee::orderBy("id", "desc")->whereIn("status", ["awaiting approval", "approved", "rejected"])->paginate(50);
-        }
-
-        $mdas = Mda::all();
-        return view("admin.processing_fees", compact("transactions", "search", "status", "lastRecord", "marker", "mdas"));
-    }
-
-    /**
-     * processingFeesDetails
-     *
-     * @param mixed reference
-     *
-     * @return void
-     */
-    public function processingFeesDetails($reference)
-    {
-        $trx = ProcessingFee::where("reference_number", $reference)->first();
-        return view("admin.processing_fee_details", compact("trx"));
-    }
-
-    /**
-     * approvePrfApplication
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function approvePrfApplication($id)
-    {
-        $procFee         = ProcessingFee::find($id);
-        $procFee->status = "approved";
-        if ($procFee->save()) {
-            try {
-                $user = User::find($procFee->company->user_id);
-                Mail::to($user)->send(new ProcessingApproval($user, $procFee));
-            } catch (\Exception $e) {
-                report($e);
-            }
-            toast('Processing Fee Remmittance Successfully Approved', 'success');
-            return back();
+            $posTerminals = PosTerminals::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord   = PosTerminals::query()->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $posTerminals = PosTerminals::query()->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord   = PosTerminals::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $posTerminals = PosTerminals::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->paginate(50);
         } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
+            $lastRecord   = PosTerminals::count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $posTerminals = PosTerminals::paginate(50);
         }
+        return view("admin.pos_terminals", compact("posTerminals", "search", "status", "lastRecord", "marker"));
     }
 
     /**
-     * rejectPrfApplication
+     * storePosTerminal
      *
      * @param Request request
      *
      * @return void
      */
-    public function rejectPrfApplication(Request $request)
+    public function storePosTerminal(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'application_id'   => 'required',
-            'rejection_reason' => 'required',
+            'pos_model'       => 'required',
+            'terminal_id'     => 'required|unique:pos_terminals',
+            'serial_number'   => 'required|unique:pos_terminals',
+            'ip_address'      => 'nullable|unique:pos_terminals',
+            'notification_ip' => 'nullable|unique:pos_terminals',
+            'sim_number'      => 'nullable|unique:pos_terminals',
+            'port'            => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -1813,109 +1387,44 @@ class AdminController extends Controller
             return back();
         }
 
-        $procFee                   = ProcessingFee::find($request->application_id);
-        $procFee->status           = "rejected";
-        $procFee->rejection_reason = $request->rejection_reason;
-        if ($procFee->save()) {
-            try {
-                $user = User::find($procFee->company->user_id);
-                Mail::to($user)->send(new ProcessingRejection($user, $procFee));
-            } catch (\Exception $e) {
-                report($e);
-            }
-            toast('Processing Fee Remmittance Rejected', 'success');
+        try {
+            $posTerminal                  = new PosTerminals;
+            $posTerminal->model           = $request->pos_model;
+            $posTerminal->terminal_id     = $request->terminal_id;
+            $posTerminal->serial_number   = $request->serial_number;
+            $posTerminal->ip_address      = $request->ip_address;
+            $posTerminal->notification_ip = $request->notification_ip;
+            $posTerminal->sim             = $request->sim_number;
+            $posTerminal->port            = $request->port;
+            $posTerminal->save();
+
+            toast("POS Terminal Created Successfully.", 'success');
             return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
-        }
-    }
-
-    /**
-     * awardLetters
-     *
-     * @return void
-     */
-    public function awardLetters()
-    {
-        $status = request()->status;
-        $search = request()->search;
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = AwardLetter::query()->whereIn("status", ["awaiting approval", "approved", "rejected"])->whereLike(["reference_number"], $search)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-
-            $transactions = AwardLetter::query()->whereIn("status", ["awaiting approval", "approved", "rejected"])->orderBy("id", "desc")->whereLike(["reference_number"], $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord = AwardLetter::query()->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-
-            $transactions = AwardLetter::query()->orderBy("id", "desc")->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord = AwardLetter::query()->whereLike(["reference_number"], $search)->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-
-            $transactions = AwardLetter::query()->orderBy("id", "desc")->whereLike(["reference_number"], $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord   = AwardLetter::whereIn("status", ["awaiting approval", "approved", "rejected"])->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = AwardLetter::orderBy("id", "desc")->whereIn("status", ["awaiting approval", "approved", "rejected"])->paginate(50);
-        }
-
-        $mdas = Mda::all();
-        return view("admin.award_letters", compact("transactions", "search", "status", "lastRecord", "marker", "mdas"));
-    }
-
-    /**
-     * awardLettersDetails
-     *
-     * @param mixed reference
-     *
-     * @return void
-     */
-    public function awardLettersDetails($reference)
-    {
-        $trx = AwardLetter::where("reference_number", $reference)->first();
-        return view("admin.award_letter_details", compact("trx"));
-    }
-
-    /**
-     * approveAwardApplication
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function approveAwardApplication($id)
-    {
-        $award         = AwardLetter::find($id);
-        $award->status = "approved";
-        if ($award->save()) {
-            try {
-                $user = User::find($award->company->user_id);
-                Mail::to($user)->send(new AwardApproval($user, $award));
-            } catch (\Exception $e) {
-                report($e);
-            }
-            toast('Award Letter Application Successfully Approved', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
+        } catch (\Exception $e) {
+            report($e);
+            toast("Something Went Wrong. Please try again", 'error');
             return back();
         }
     }
 
     /**
-     * rejectAwardApplication
+     * updatePosTerminal
      *
      * @param Request request
      *
      * @return void
      */
-    public function rejectAwardApplication(Request $request)
+    public function updatePosTerminal(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'application_id'   => 'required',
-            'rejection_reason' => 'required',
+            'pos_id'          => 'required',
+            'pos_model'       => 'required',
+            'terminal_id'     => 'required',
+            'serial_number'   => 'required',
+            'ip_address'      => 'nullable',
+            'notification_ip' => 'nullable',
+            'sim_number'      => 'nullable',
+            'port'            => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -1925,19 +1434,114 @@ class AdminController extends Controller
             return back();
         }
 
-        $award                   = AwardLetter::find($request->application_id);
-        $award->status           = "rejected";
-        $award->rejection_reason = $request->rejection_reason;
-        if ($award->save()) {
-            try {
-                $user = User::find($award->company->user_id);
-                Mail::to($user)->send(new AwardRejection($user, $award));
-            } catch (\Exception $e) {
-                report($e);
-            }
-            toast('Award Letter Application Rejected', 'success');
+        try {
+            $posTerminal                  = PosTerminals::find($request->pos_id);
+            $posTerminal->model           = $request->pos_model;
+            $posTerminal->terminal_id     = $request->terminal_id;
+            $posTerminal->serial_number   = $request->serial_number;
+            $posTerminal->ip_address      = $request->ip_address;
+            $posTerminal->notification_ip = $request->notification_ip;
+            $posTerminal->sim             = $request->sim_number;
+            $posTerminal->port            = $request->port;
+            $posTerminal->save();
+
+            toast("POS Terminal Updated Successfully.", 'success');
             return back();
-        } else {
+        } catch (\Exception $e) {
+            report($e);
+            toast("Something Went Wrong. Please try again", 'error');
+            return back();
+        }
+    }
+
+    /**
+     * releaseTerminal
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function releaseTerminal($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $agent              = CollectionAgents::find($id);
+            $terminal           = PosTerminals::find($agent->terminal_id);
+            $terminal->assigned = 0;
+            $terminal->save();
+
+            $agent->terminal_id = null;
+            $agent->save();
+
+            DB::commit();
+
+            toast('Assigned POS Terminal Released Successfully', 'success');
+            return back();
+        } catch (\Exception $e) {
+            DB::rollback();
+            report($e);
+
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * assignTerminal
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function assignTerminal(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'agent_id'          => 'required',
+            'pos_terminal'      => 'required',
+            'assigned_location' => 'required',
+            'longitude'         => 'required',
+            'latitude'          => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        try {
+
+            $terminal = PosTerminals::find($request->pos_terminal);
+
+            if (isset($terminal)) {
+
+                DB::beginTransaction();
+                $terminal->assigned          = 1;
+                $terminal->assigned_location = $request->assigned_location;
+                $terminal->longitude         = $request->longitude;
+                $terminal->latitude          = $request->latitude;
+                $terminal->status            = "active";
+                $terminal->save();
+
+                $agent              = CollectionAgents::find($request->agent_id);
+                $agent->terminal_id = $terminal->id;
+                $agent->save();
+                DB::commit();
+
+                toast('POS Terminal Assigned Successfully', 'success');
+                return back();
+
+            } else {
+                toast('We Could Not Locate The Configuration For The Selected POS Terminal', 'success');
+                return back();
+            }
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            report($e);
+
             toast('Something went wrong. Please try again', 'error');
             return back();
         }

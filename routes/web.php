@@ -240,65 +240,28 @@ Route::group([
 
     Route::post('/updateRevenueItem', [AdminController::class, 'updateRevenueItem'])->name("admin.updateRevenueItem");
 
-    ////////////////////////////////////////
+    Route::get('/tax-consultants', [AdminController::class, 'taxConsultants'])->name("admin.taxConsultants");
 
-    Route::get('company-registrations', [AdminController::class, 'companyRegistrations'])->name('admin.companyRegistrations');
+    Route::post('/storeConsultant', [AdminController::class, 'storeConsultant'])->name("admin.storeConsultant");
 
-    Route::get('company-registration/details/{id}', [AdminController::class, 'companyRegDetails'])->name('admin.companyRegDetails');
+    Route::post('/updateConsultant', [AdminController::class, 'updateConsultant'])->name("admin.updateConsultant");
 
-    Route::get('approve-registration/{id}', [AdminController::class, 'approveCompanyReg'])->name('admin.approveCompanyReg');
+    Route::get('/collection-agents', [AdminController::class, 'collectionAgents'])->name("admin.collectionAgents");
 
-    Route::post('reject-registration', [AdminController::class, 'rejectCompanyReg'])->name('admin.rejectCompanyReg');
+    Route::post('/storeCollectionAgent', [AdminController::class, 'storeCollectionAgent'])->name("admin.storeCollectionAgent");
 
-    Route::get('/company-renewals', [AdminController::class, 'companyRenewals'])->name("admin.companyRenewals");
+    Route::post('/updateCollectionAgent', [AdminController::class, 'updateCollectionAgent'])->name("admin.updateCollectionAgent");
 
-    Route::get('/company-renewals/details/{reference}', [AdminController::class, 'companyRenewalDetails'])->name("admin.companyRenewalDetails");
+    Route::post('/assignTerminal', [AdminController::class, 'assignTerminal'])->name("admin.assignTerminal");
 
-    Route::get('approve-renewal/{id}', [AdminController::class, 'approveCompanyRenewal'])->name('admin.approveCompanyRenewal');
+    Route::get('/releaseTerminal/{id}', [AdminController::class, 'releaseTerminal'])->name("admin.releaseTerminal");
 
-    Route::post('reject-renewal', [AdminController::class, 'rejectCompanyRenewal'])->name('admin.rejectCompanyRenewal');
+    Route::get('/pos-terminals', [AdminController::class, 'posTerminals'])->name("admin.posTerminals");
 
-    Route::get('/award-letters', [AdminController::class, 'awardLetters'])->name("admin.awardLetters");
+    Route::post('/storePosTerminal', [AdminController::class, 'storePosTerminal'])->name("admin.storePosTerminal");
 
-    Route::get('/award-letters/details/{reference}', [AdminController::class, 'awardLettersDetails'])->name("admin.awardLettersDetails");
+    Route::post('/updatePosTerminal', [AdminController::class, 'updatePosTerminal'])->name("admin.updatePosTerminal");
 
-    Route::get('approve-award-application/{id}', [AdminController::class, 'approveAwardApplication'])->name('admin.approveAwardApplication');
-
-    Route::post('rejectAwardApplication', [AdminController::class, 'rejectAwardApplication'])->name('admin.rejectAwardApplication');
-
-    Route::get('/processing-fees', [AdminController::class, 'processingFees'])->name("admin.processingFees");
-
-    Route::get('/processing-fees/details/{reference}', [AdminController::class, 'processingFeesDetails'])->name("admin.processingFeesDetails");
-
-    Route::get('approve-prf-application/{id}', [AdminController::class, 'approvePrfApplication'])->name('admin.approvePrfApplication');
-
-    Route::post('rejectPrfApplication', [AdminController::class, 'rejectPrfApplication'])->name('admin.rejectPrfApplication');
-
-    Route::get('/power-of-attorney', [AdminController::class, 'powerOfAttorney'])->name("admin.powerOfAttorney");
-
-    Route::get('/power-of-attorney/details/{reference}', [AdminController::class, 'powerOfAttorneyDetails'])->name("admin.powerOfAttorneyDetails");
-
-    Route::get('approve-poa-application/{id}', [AdminController::class, 'approvePoaApplication'])->name('admin.approvePoaApplication');
-
-    Route::post('rejectPoaApplication', [AdminController::class, 'rejectPoaApplication'])->name('admin.rejectPoaApplication');
-
-    Route::get('/document-management', [AdminController::class, 'documentManagement'])->name('admin.documentManagement');
-
-    Route::post('/storeBusinessCategory', [AdminController::class, 'storeBusinessCategory'])->name('admin.storeBusinessCategory');
-
-    Route::post('/updateBusinessCategory', [AdminController::class, 'updateBusinessCategory'])->name('admin.updateBusinessCategory');
-
-    Route::get('/deactivateCategory/{id}', [AdminController::class, 'deactivateCategory'])->name('admin.deactivateCategory');
-
-    Route::get('/activateCategory/{id}', [AdminController::class, 'activateCategory'])->name('admin.activateCategory');
-
-    Route::post('/storeUpDoc', [AdminController::class, 'storeUpDoc'])->name('admin.storeUpDoc');
-
-    Route::post('/updateUpDoc', [AdminController::class, 'updateUpDoc'])->name('admin.updateUpDoc');
-
-    Route::get('/activateDocument/{id}', [AdminController::class, 'activateDocument'])->name('admin.activateDocument');
-
-    Route::get('/deactivateDocument/{id}', [AdminController::class, 'deactivateDocument'])->name('admin.deactivateDocument');
 });
 
 Route::group([

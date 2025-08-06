@@ -44,7 +44,7 @@
 
                             @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 3) == true)
                                 <li class="nav-item">
-                                    <a class="nav-link " id="features" href="">
+                                    <a class="nav-link " id="returns" href="">
                                         Filed Returns
                                     </a>
                                 </li>
@@ -52,7 +52,7 @@
 
                             @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 4) == true)
                                 <li class="nav-item">
-                                    <a class="nav-link " id="categories" href="">
+                                    <a class="nav-link " id="pit" href="">
                                         Pers. Income Taxes
                                     </a>
                                 </li>
@@ -60,8 +60,24 @@
 
                             @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 5) == true)
                                 <li class="nav-item">
-                                    <a class="nav-link " id="documents" href="">
+                                    <a class="nav-link " id="devlevies" href="">
                                         Development Levies
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 13) == true)
+                                <li class="nav-item">
+                                    <a class="nav-link " id="othertaxes" href="">
+                                        Other Taxes/Revenue
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 14) == true)
+                                <li class="nav-item">
+                                    <a class="nav-link " id="mdataxes" href="">
+                                        MDA Taxes/Revenue
                                     </a>
                                 </li>
                             @endif
@@ -117,7 +133,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="awards" href="">
+                    <a class="nav-link " id="agents" href="{{ route("admin.collectionAgents") }}">
                         <i class="nav-icon bi bi-people me-2"></i>
                         Collection Agents
                     </a>
@@ -130,7 +146,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="awards" href="">
+                    <a class="nav-link " id="pos" href="{{ route("admin.posTerminals") }}">
                         <i class="nav-icon bi bi-calculator me-2"></i>
                         POS Terminals
                     </a>
@@ -143,7 +159,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="awards" href="">
+                    <a class="nav-link " id="consultants" href="{{ route('admin.taxConsultants') }}">
                         <i class="nav-icon bi bi-person-bounding-box me-2"></i>
                         Tax Consultants
                     </a>
@@ -156,7 +172,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="awards" href="">
+                    <a class="nav-link " id="reports" href="">
                         <i class="nav-icon bi-clipboard2-data-fill me-2"></i>
                         Administrative Reports
                     </a>
@@ -177,7 +193,7 @@
                         <ul class="nav flex-column">
 
                             <li class="nav-item">
-                                <a class="nav-link " id="paymentItems" href="{{ route("admin.revenueItems") }}">
+                                <a class="nav-link " id="paymentItems" href="{{ route('admin.revenueItems') }}">
                                     Revenue Items
                                 </a>
                             </li>
@@ -189,7 +205,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link " id="mdas" href="{{ route("admin.manageMDAs") }}">
+                                <a class="nav-link " id="mdas" href="{{ route('admin.manageMDAs') }}">
                                     MDAs
                                 </a>
                             </li>

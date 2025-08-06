@@ -41,6 +41,10 @@
             $('#status').select2();
         });
 
+        $('#gender').select2({
+            dropdownParent: $('#offcanvasRight')
+        });
+
         $('#lga').select2({
             dropdownParent: $('#offcanvasRight')
         });
@@ -53,6 +57,10 @@
             dropdownParent: $('#offcanvasRight')
         });
 
+        $('#terminal').select2({
+            dropdownParent: $('#offcanvasRight')
+        });
+
         $('#operation').select2({
             dropdownParent: $('#offcanvasRight')
         });
@@ -61,8 +69,12 @@
             dropdownParent: $("#addRevenueItem"),
         });
 
+        $("#posTerminal").select2({
+            dropdownParent: $("#assignTerminal"),
+        });
 
-         $("#configType").change(function() {
+
+        $("#configType").change(function() {
             var configType = $(this).val();
             if (configType == "fixed") {
                 $("#camo").css("display", "block");
@@ -157,6 +169,18 @@
             offcanvas.find('.offcanvas-body #userole').val(role)
         })
 
+        $('#assignTerminal').on('show.bs.offcanvas', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var myid = button.data('myid') // Extract info from data-* attributes
+
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+            var offcanvas = $(this)
+            // modal.find('.modal-body #myid').val(myid)
+            offcanvas.find('.offcanvas-body #myid').val(myid)
+        })
+
         $('#editTaxOffice').on('show.bs.offcanvas', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var myid = button.data('myid') // Extract info from data-* attributes
@@ -193,11 +217,15 @@
             offcanvas.find('.offcanvas-body #mdacode').val(mdacode)
         })
 
-        $('#editDocument').on('show.bs.offcanvas', function(event) {
+        $('#editConsultant').on('show.bs.offcanvas', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var myid = button.data('myid') // Extract info from data-* attributes
-            var document = button.data('document') // Extract info from data-* attributes
-            var operation = button.data('operation') // Extract info from data-* attributes
+            var surname = button.data('surname') // Extract info from data-* attributes
+            var firstname = button.data('firstname') // Extract info from data-* attributes
+            var othernames = button.data('othernames') // Extract info from data-* attributes
+            var email = button.data('email') // Extract info from data-* attributes
+            var phone = button.data('phone') // Extract info from data-* attributes
+            var gender = button.data('gender') // Extract info from data-* attributes
 
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -205,10 +233,148 @@
             var offcanvas = $(this)
             // modal.find('.modal-body #myid').val(myid)
             offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #document').val(document)
-            $('#uoperation').select2({
-                dropdownParent: $('#editDocument'),
-            }).val(operation).trigger('change');
+            offcanvas.find('.offcanvas-body #surname').val(surname)
+            offcanvas.find('.offcanvas-body #firstname').val(firstname)
+            offcanvas.find('.offcanvas-body #othernames').val(othernames)
+            offcanvas.find('.offcanvas-body #email').val(email)
+            offcanvas.find('.offcanvas-body #phone').val(phone)
+            $('#editGender').select2({
+                dropdownParent: $('#editConsultant'),
+            }).val(gender).trigger('change');
+        })
+
+        $('#editAgent').on('show.bs.offcanvas', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var myid = button.data('myid') // Extract info from data-* attributes
+            var surname = button.data('surname') // Extract info from data-* attributes
+            var firstname = button.data('firstname') // Extract info from data-* attributes
+            var othernames = button.data('othernames') // Extract info from data-* attributes
+            var email = button.data('email') // Extract info from data-* attributes
+            var phone = button.data('phone') // Extract info from data-* attributes
+            var gender = button.data('gender') // Extract info from data-* attributes
+            var location = button.data('location') // Extract info from data-* attributes
+
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+            var offcanvas = $(this)
+            // modal.find('.modal-body #myid').val(myid)
+            offcanvas.find('.offcanvas-body #myid').val(myid)
+            offcanvas.find('.offcanvas-body #surname').val(surname)
+            offcanvas.find('.offcanvas-body #firstname').val(firstname)
+            offcanvas.find('.offcanvas-body #othernames').val(othernames)
+            offcanvas.find('.offcanvas-body #email').val(email)
+            offcanvas.find('.offcanvas-body #phone').val(phone)
+            offcanvas.find('.offcanvas-body #location').val(location)
+            $('#editGender').select2({
+                dropdownParent: $('#editConsultant'),
+            }).val(gender).trigger('change');
+        })
+
+        $('#editPosTerminal').on('show.bs.offcanvas', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var myid = button.data('myid') // Extract info from data-* attributes
+            var model = button.data('model') // Extract info from data-* attributes
+            var terminalid = button.data('terminalid') // Extract info from data-* attributes
+            var serialno = button.data('serialno') // Extract info from data-* attributes
+            var ip = button.data('ip') // Extract info from data-* attributes
+            var port = button.data('port') // Extract info from data-* attributes
+            var sim = button.data('sim') // Extract info from data-* attributes
+            var notificationip = button.data('notificationip') // Extract info from data-* attributes
+
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+            var offcanvas = $(this)
+            // modal.find('.modal-body #myid').val(myid)
+            offcanvas.find('.offcanvas-body #myid').val(myid)
+            offcanvas.find('.offcanvas-body #model').val(model)
+            offcanvas.find('.offcanvas-body #terminalid').val(terminalid)
+            offcanvas.find('.offcanvas-body #serialno').val(serialno)
+            offcanvas.find('.offcanvas-body #ip').val(ip)
+            offcanvas.find('.offcanvas-body #port').val(port)
+            offcanvas.find('.offcanvas-body #sim').val(sim)
+            offcanvas.find('.offcanvas-body #notificationip').val(notificationip)
+            $('#model').select2({
+                dropdownParent: $('#editPosTerminal'),
+            }).val(model).trigger('change');
+        })
+
+
+        $('#viewPosDetails').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var model = button.data('model') // Extract info from data-* attributes
+            var terminalid = button.data('terminalid') // Extract info from data-* attributes
+            var serialno = button.data('serialno') // Extract info from data-* attributes
+            var ip = button.data('ip') // Extract info from data-* attributes
+            var port = button.data('port') // Extract info from data-* attributes
+            var sim = button.data('sim') // Extract info from data-* attributes
+            var notificationip = button.data('notificationip') // Extract info from data-* attributes
+            var assigned = button.data('assigned') // Extract info from data-* attributes
+            var status = button.data('status') // Extract info from data-* attributes
+            var date = button.data('date') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+            var modal = $(this)
+            document.getElementById("vmodel").innerHTML = model;
+            document.getElementById("vterminalid").innerHTML = terminalid;
+            document.getElementById("vserialno").innerHTML = serialno;
+            document.getElementById("vip").innerHTML = ip;
+            document.getElementById("vport").innerHTML = port;
+            document.getElementById("vsim").innerHTML = sim;
+            document.getElementById("vnotificationip").innerHTML = notificationip;
+            document.getElementById("vassigned").innerHTML = assigned;
+            document.getElementById("vstatus").innerHTML = status;
+            document.getElementById("vdate").innerHTML = date;
+        })
+
+        $('#viewConsultantDetails').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var surname = button.data('surname') // Extract info from data-* attributes
+            var firstname = button.data('firstname') // Extract info from data-* attributes
+            var othernames = button.data('othernames') // Extract info from data-* attributes
+            var email = button.data('email') // Extract info from data-* attributes
+            var phone = button.data('phone') // Extract info from data-* attributes
+            var gender = button.data('gender') // Extract info from data-* attributes
+            var photo = button.data('photo') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+            var modal = $(this)
+            document.getElementById("vsurname").innerHTML = surname;
+            document.getElementById("vfirstname").innerHTML = firstname;
+            document.getElementById("vothernames").innerHTML = othernames;
+            document.getElementById("vemail").innerHTML = email;
+            document.getElementById("vphone").innerHTML = phone;
+            document.getElementById("vgender").innerHTML = gender;
+            document.getElementById("vphoto").src = photo;
+        })
+
+        $('#viewAgentDetails').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var surname = button.data('surname') // Extract info from data-* attributes
+            var firstname = button.data('firstname') // Extract info from data-* attributes
+            var othernames = button.data('othernames') // Extract info from data-* attributes
+            var email = button.data('email') // Extract info from data-* attributes
+            var phone = button.data('phone') // Extract info from data-* attributes
+            var gender = button.data('gender') // Extract info from data-* attributes
+            var location = button.data('location') // Extract info from data-* attributes
+            var pos = button.data('pos') // Extract info from data-* attributes
+            var photo = button.data('photo') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+            var modal = $(this)
+            document.getElementById("vsurname").innerHTML = surname;
+            document.getElementById("vfirstname").innerHTML = firstname;
+            document.getElementById("vothernames").innerHTML = othernames;
+            document.getElementById("vemail").innerHTML = email;
+            document.getElementById("vphone").innerHTML = phone;
+            document.getElementById("vgender").innerHTML = gender;
+            document.getElementById("vlocation").innerHTML = location;
+            document.getElementById("vpos").innerHTML = pos;
+            document.getElementById("vphoto").src = photo;
         })
 
 
