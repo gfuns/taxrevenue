@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("revenue_code");
             $table->double("amount", 12, 2)->nullable();
             $table->double("percentage", 12, 2)->nullable();
-            $table->enum("fee_config", ["fixed", "percentage", "variable"]);
+            $table->enum("fee_config", ["fixed", "percentage", "assessment based"]);
             $table->enum("status", ["active", "deactivated"])->default("active");
             $table->timestamps();
             $table->foreign('mda_id')->references('id')->on('mdas')->onDelete('cascade');

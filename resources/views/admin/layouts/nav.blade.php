@@ -2,8 +2,8 @@
     <div class="vh-100" data-simplebar>
         <!-- Brand logo -->
         <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
-            <h3 class="fw-bold"><img src="{{ asset('images/logo_white.png') }}" style="min-width: 185px; height: 60px"
-                    alt="BPP Logo">
+            <h3 class="fw-bold"><img src="{{ asset('images/logo_green.png') }}"
+                    style="min-width: 185px; height: 60px; filter: brightness(0) invert(1);" alt="BPP Logo">
             </h3>
         </a>
         <!-- Navbar nav -->
@@ -22,9 +22,9 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="companies" href="{{ route('admin.companyRegistrations') }}">
-                        <i class="nav-icon bi bi-pencil-square me-2"></i>
-                        Contractor Registrations
+                    <a class="nav-link " id="companies" href="">
+                        <i class="nav-icon bi bi-people-fill me-2"></i>
+                        Registered Tax Payers
                     </a>
                 </li>
             @endif
@@ -35,39 +35,39 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="renewals" href="{{ route('admin.companyRenewals') }}">
-                        <i class="nav-icon bi bi-arrow-clockwise me-2"></i>
-                        Registration Renewals
+                    <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse"
+                        data-bs-target="#taxPayments" aria-expanded="false" aria-controls="taxPayments">
+                        <i class="nav-icon bi bi-credit-card me-2"></i> Tax/Revenue Payments
                     </a>
-                </li>
-            @endif
+                    <div id="taxPayments" class="collapse " data-bs-parent="#sideNavbar">
+                        <ul class="nav flex-column">
 
-            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 4) == true)
-                <li class="nav-item">
-                    <div class="nav-divider"></div>
-                </li>
+                            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 3) == true)
+                                <li class="nav-item">
+                                    <a class="nav-link " id="features" href="">
+                                        Filed Returns
+                                    </a>
+                                </li>
+                            @endif
 
+                            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 4) == true)
+                                <li class="nav-item">
+                                    <a class="nav-link " id="categories" href="">
+                                        Pers. Income Taxes
+                                    </a>
+                                </li>
+                            @endif
 
-                <li class="nav-item">
-                    <a class="nav-link " id="poa" href="{{ route('admin.powerOfAttorney') }}">
-                        <i class="nav-icon fa fa-gavel me-2"></i>
-                        Power of Attorneys
-                    </a>
-                </li>
-            @endif
+                            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 5) == true)
+                                <li class="nav-item">
+                                    <a class="nav-link " id="documents" href="">
+                                        Development Levies
+                                    </a>
+                                </li>
+                            @endif
 
-
-            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 5) == true)
-                <!-- Nav item -->
-                <li class="nav-item">
-                    <div class="nav-divider"></div>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link " id="processingfee" href="{{ route('admin.processingFees') }}">
-                        <i class="nav-icon bi bi-cash-coin me-2"></i>
-                        Processing Fees
-                    </a>
+                        </ul>
+                    </div>
                 </li>
             @endif
 
@@ -78,9 +78,87 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="awards" href="{{ route('admin.awardLetters') }}">
+                    <a class="nav-link " id="awards" href="">
+                        <i class="nav-icon bi bi-journal-check me-2"></i>
+                        Assessments
+                    </a>
+                </li>
+            @endif
+
+            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 7) == true)
+                <li class="nav-item">
+                    <div class="nav-divider"></div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " id="awards" href="">
+                        <i class="nav-icon bi bi-journal-x me-2"></i>
+                        Objections
+                    </a>
+                </li>
+            @endif
+
+            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 8) == true)
+                <li class="nav-item">
+                    <div class="nav-divider"></div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " id="awards" href="">
                         <i class="nav-icon bi bi-award-fill me-2"></i>
-                        Award Letter Requests
+                        TCC Requests
+                    </a>
+                </li>
+            @endif
+
+            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 9) == true)
+                <li class="nav-item">
+                    <div class="nav-divider"></div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " id="awards" href="">
+                        <i class="nav-icon bi bi-people me-2"></i>
+                        Collection Agents
+                    </a>
+                </li>
+            @endif
+
+            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 10) == true)
+                <li class="nav-item">
+                    <div class="nav-divider"></div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " id="awards" href="">
+                        <i class="nav-icon bi bi-calculator me-2"></i>
+                        POS Terminals
+                    </a>
+                </li>
+            @endif
+
+            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 11) == true)
+                <li class="nav-item">
+                    <div class="nav-divider"></div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " id="awards" href="">
+                        <i class="nav-icon bi bi-person-bounding-box me-2"></i>
+                        Tax Consultants
+                    </a>
+                </li>
+            @endif
+
+            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 12) == true)
+                <li class="nav-item">
+                    <div class="nav-divider"></div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " id="awards" href="">
+                        <i class="nav-icon bi-clipboard2-data-fill me-2"></i>
+                        Administrative Reports
                     </a>
                 </li>
             @endif
@@ -99,26 +177,26 @@
                         <ul class="nav flex-column">
 
                             <li class="nav-item">
+                                <a class="nav-link " id="paymentItems" href="{{ route("admin.revenueItems") }}">
+                                    Revenue Items
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link " id="taxOffice" href="{{ route('admin.areaTaxOffices') }}">
+                                    Area Tax Offices
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link " id="mdas" href="{{ route("admin.manageMDAs") }}">
+                                    MDAs
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a class="nav-link " id="features" href="{{ route('admin.platformFeatures') }}">
                                     Platform Features
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link " id="categories" href="{{ route('admin.businessCategories') }}">
-                                    Business Categories
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link " id="documents" href="{{ route('admin.documentManagement') }}">
-                                    Document Mgt.
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link " id="payItems" href="{{ route('admin.paymentItems') }}">
-                                    Payment Items
                                 </a>
                             </li>
 
@@ -144,8 +222,8 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse" data-bs-target="#navSettings"
-                    aria-expanded="false" aria-controls="navSettings">
+                <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse"
+                    data-bs-target="#navSettings" aria-expanded="false" aria-controls="navSettings">
                     <i class="nav-icon bi bi-gear-wide-connected me-2"></i> Account Settings
                 </a>
                 <div id="navSettings" class="collapse " data-bs-parent="#sideNavbar">
@@ -159,7 +237,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link " id="security" href="{{ route('admin.security') }}">
-                                Security
+                                Account Security
                             </a>
                         </li>
 

@@ -56,7 +56,7 @@
 <body>
     <div class="container">
         <div class="logo">
-            <img src="{{ $message->embed(public_path('images/logo_mail.png')) }}" alt="BPP Logo">
+            <img src="{{ $message->embed(public_path('images/logo_green.png')) }}" alt="BPP Logo">
         </div>
         <h1>Account Creation</h1>
         <p>Dear {{ $user->last_name . ', ' . $user->other_names }}</p>

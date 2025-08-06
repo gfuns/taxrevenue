@@ -48,7 +48,7 @@
 <body>
   <div class="container">
     <div class="logo">
-      <img src="{{ $message->embed(public_path("images/logo.png"))}}" alt="PaySlack Logo">
+      <img src="{{ $message->embed(public_path("images/logo_green.png"))}}" alt="PaySlack Logo">
     </div>
     <h1>Password Reset</h1>
     <p>Dear {{ $user->last_name . ', ' . $user->other_names }}</p>

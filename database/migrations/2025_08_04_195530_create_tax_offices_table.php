@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tax_offices', function (Blueprint $table) {
             $table->increments("id");
+            $table->integer('lga_id')->unsigned();
             $table->text("tax_office");
             $table->text("address");
             $table->enum("status", ["active", "deactivated"])->default("active");

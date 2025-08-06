@@ -19,11 +19,13 @@ use App\Models\Company;
 use App\Models\CompanyDocuments;
 use App\Models\CompanyProjects;
 use App\Models\CompanyRenewals;
+use App\Models\Lgas;
 use App\Models\Mda;
 use App\Models\PaymentItem;
 use App\Models\PlatformFeature;
 use App\Models\PowerOfAttorney;
 use App\Models\ProcessingFee;
+use App\Models\TaxOffice;
 use App\Models\UploadableDocs;
 use App\Models\User;
 use App\Models\UserPermission;
@@ -48,11 +50,11 @@ class AdminController extends Controller
     public function dashboard()
     {
         $params = [
-            "regs"     => Company::whereIn("status", ["awaiting approval", "approved", "rejected"])->sum("amount_paid"),
-            "renewals" => CompanyRenewals::whereIn("status", ["awaiting approval", "approved", "rejected"])->sum("amount_paid"),
-            "poas"     => PowerOfAttorney::whereIn("status", ["awaiting approval", "approved", "rejected"])->sum("amount_paid"),
-            "awards"   => AwardLetter::whereIn("status", ["awaiting approval", "approved", "rejected"])->sum("amount_paid"),
-            "prFees"   => ProcessingFee::whereIn("status", ["awaiting approval", "approved", "rejected"])->sum("amount_paid"),
+            "regs"     => 0,
+            "renewals" => 0,
+            "poas"     => 0,
+            "awards"   => 0,
+            "prFees"   => 0,
         ];
 
         $year   = Carbon::now()->year;
@@ -67,20 +69,15 @@ class AdminController extends Controller
         ];
 
         foreach ($months as $m) {
-            $datasets['registrations'][] = Company::whereYear('created_at', $year)
-                ->whereMonth('created_at', $m)->sum("amount_paid");
+            $datasets['registrations'][] = 0;
 
-            $datasets['renewals'][] = CompanyRenewals::whereYear('created_at', $year)
-                ->whereMonth('created_at', $m)->sum("amount_paid");
+            $datasets['renewals'][] = 0;
 
-            $datasets['poa'][] = PowerOfAttorney::whereYear('created_at', $year)
-                ->whereMonth('created_at', $m)->sum("amount_paid");
+            $datasets['poa'][] = 0;
 
-            $datasets['award_letters'][] = AwardLetter::whereYear('created_at', $year)
-                ->whereMonth('created_at', $m)->sum("amount_paid");
+            $datasets['award_letters'][] = 0;
 
-            $datasets['processing'][] = ProcessingFee::whereYear('created_at', $year)
-                ->whereMonth('created_at', $m)->sum("amount_paid");
+            $datasets['processing'][] = 0;
         }
 
         $dataSets = json_encode($datasets);
@@ -344,298 +341,13 @@ class AdminController extends Controller
     }
 
     /**
-     * paymentItems
-     *
-     * @return void
-     */
-    public function paymentItems()
-    {
-        $paymentItems = PaymentItem::orderBy("ordering", "asc")->get();
-        return view("admin.payment_items", compact("paymentItems"));
-    }
-
-    /**
-     * businessCategories
-     *
-     * @return void
-     */
-    public function businessCategories()
-    {
-        $categories = BusinessCategories::all();
-        return view("admin.business_categories", compact("categories"));
-    }
-
-    /**
-     * storeBusinessCategory
-     *
-     * @param Requesr request
-     *
-     * @return void
-     */
-    public function storeBusinessCategory(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'category' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
-        $category           = new BusinessCategories;
-        $category->category = $request->category;
-        if ($category->save()) {
-            toast("Business Category Created Successfully.", 'success');
-            return back();
-        } else {
-            toast("We could not create the provided business category", 'error');
-            return back();
-
-        }
-    }
-
-    /**
-     * updateBusinessCategory
-     *
-     * @param Request request
-     *
-     * @return void
-     */
-    public function updateBusinessCategory(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'category_id' => 'required',
-            'category'    => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
-        $category           = BusinessCategories::find($request->category_id);
-        $category->category = $request->category;
-        if ($category->save()) {
-            toast("Business Category Updated Successfully.", 'success');
-            return back();
-        } else {
-            toast("We could not updated the selected business category", 'error');
-            return back();
-
-        }
-    }
-
-    /**
-     * activateCategory
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function activateCategory($id)
-    {
-        $user         = BusinessCategories::find($id);
-        $user->status = "active";
-        if ($user->save()) {
-            toast('Category Activated Successfully.', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
-        }
-    }
-
-    /**
-     * deactivateCategory
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function deactivateCategory($id)
-    {
-        $user         = BusinessCategories::find($id);
-        $user->status = "deactivated";
-        if ($user->save()) {
-            toast('Category Deactivated Successfully.', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
-        }
-    }
-
-    /**
-     * documentManagement
-     *
-     * @return void
-     */
-    public function documentManagement()
-    {
-        $documents = UploadableDocs::all();
-        return view("admin.document_management", compact("documents"));
-    }
-
-    /**
-     * storeUpDoc
-     *
-     * @param Request request
-     *
-     * @return void
-     */
-    public function storeUpDoc(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'document_title' => 'required',
-            'operation'      => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
-        $doc                 = new UploadableDocs;
-        $doc->document_title = $request->document_title;
-        $doc->category       = $request->operation;
-        if ($doc->save()) {
-            toast("Document Information Captured Successfully.", 'success');
-            return back();
-        } else {
-            toast("We could not capture the provided document information", 'error');
-            return back();
-
-        }
-    }
-
-    /**
-     * updateUpDoc
-     *
-     * @param Request request
-     *
-     * @return void
-     */
-    public function updateUpDoc(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'document_id'    => 'required',
-            'document_title' => 'required',
-            'operation'      => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
-        $doc                 = UploadableDocs::find($request->document_id);
-        $doc->document_title = $request->document_title;
-        $doc->category       = $request->operation;
-        if ($doc->save()) {
-            toast("Document Information Updated Successfully.", 'success');
-            return back();
-        } else {
-            toast("We could not updated the provided document information", 'error');
-            return back();
-
-        }
-    }
-
-    /**
-     * activateDocument
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function activateDocument($id)
-    {
-        $doc         = UploadableDocs::find($id);
-        $doc->status = "active";
-        if ($doc->save()) {
-            toast('Document Activated Successfully.', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
-        }
-    }
-
-    /**
-     * deactivateDocument
-     *
-     * @param mixed id
-     *
-     * @return void
-     */
-    public function deactivateDocument($id)
-    {
-        $doc         = UploadableDocs::find($id);
-        $doc->status = "deactivated";
-        if ($doc->save()) {
-            toast('Document Deactivated Successfully.', 'success');
-            return back();
-        } else {
-            toast('Something went wrong. Please try again', 'error');
-            return back();
-        }
-    }
-
-    /**
-     * updatePaymentItem
-     *
-     * @param Request request
-     *
-     * @return void
-     */
-    public function updatePaymentItem(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'item_id'           => 'required',
-            'payment_item'      => 'required',
-            'application_fee'   => 'required',
-            'fee_configuration' => 'required',
-            'fee'               => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errors = implode("<br>", $errors);
-            toast($errors, 'error');
-            return back();
-        }
-
-        $item             = PaymentItem::find($request->item_id);
-        $item->item       = $request->payment_item;
-        $item->amount     = $request->application_fee;
-        $item->fee_config = $request->fee_configuration;
-        $item->fee        = $request->fee;
-        if ($item->save()) {
-            toast("Payment item updated successfully.", 'success');
-            return back();
-        } else {
-            toast("We could not update the selected payment item", 'error');
-            return back();
-        }
-    }
-
-    /**
      * userRoles
      *
      * @return void
      */
     public function userRoles()
     {
-        $userRoles = UserRole::where("id", ">", 2)->get();
+        $userRoles = UserRole::where("id", ">", 3)->get();
         return view("admin.role_management", compact("userRoles"));
     }
 
@@ -1056,6 +768,592 @@ class AdminController extends Controller
             return back();
         } else {
             toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * areaTaxOffices
+     *
+     * @return void
+     */
+    public function areaTaxOffices()
+    {
+        $search = request()->search;
+        $status = request()->status;
+        $lgas   = Lgas::all();
+
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord = TaxOffice::query()->whereLike(["tax_office"], $search)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $taxOffices = TaxOffice::query()->whereLike(["tax_office"], $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord = TaxOffice::query()->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $taxOffices = TaxOffice::query()->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord = TaxOffice::query()->whereLike(["tax_office"], $search)->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $taxOffices = TaxOffice::query()->whereLike(["tax_office"], $search)->where("status", $status)->paginate(50);
+        } else {
+            $lastRecord = TaxOffice::count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $taxOffices = TaxOffice::paginate(50);
+        }
+        return view("admin.area_tax_offices", compact("taxOffices", "search", "status", "lgas", "lastRecord", "marker"));
+    }
+
+    /**
+     * storeTaxOffice
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function storeTaxOffice(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'tax_office'     => 'required',
+            'office_address' => 'required',
+            'lga'            => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $office             = new TaxOffice;
+        $office->lga_id     = $request->lga;
+        $office->tax_office = $request->tax_office;
+        $office->address    = $request->office_address;
+        if ($office->save()) {
+            toast("Area Tax Office Created Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not create the specified area office", 'error');
+            return back();
+        }
+    }
+
+    /**
+     * updateTaxOffice
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function updateTaxOffice(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'office_id'      => 'required',
+            'tax_office'     => 'required',
+            'office_address' => 'required',
+            'lga'            => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $office             = TaxOffice::find($request->office_id);
+        $office->lga_id     = $request->lga;
+        $office->tax_office = $request->tax_office;
+        $office->address    = $request->office_address;
+        if ($office->save()) {
+            toast("Area Tax Office Updated Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not update the specified area office", 'error');
+            return back();
+        }
+    }
+
+    /**
+     * manageMDAs
+     *
+     * @return void
+     */
+    public function manageMDAs()
+    {
+        $search = request()->search;
+        $status = request()->status;
+
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord = Mda::query()->whereLike(["mda", "mda_code"], $search)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $mdas       = Mda::query()->whereLike(["mda", "mda_code"], $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord = Mda::query()->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $mdas       = Mda::query()->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord = Mda::query()->whereLike(["mda", "mda_code"], $search)->where("status", $status)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $mdas       = Mda::query()->whereLike(["mda", "mda_code"], $search)->where("status", $status)->paginate(50);
+        } else {
+            $lastRecord = Mda::count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $mdas       = Mda::paginate(50);
+        }
+        return view("admin.manage_mdas", compact("mdas", "search", "status", "lastRecord", "marker"));
+    }
+
+    /**
+     * storeMDA
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function storeMDA(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'mda'      => 'required',
+            'mda_code' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $mda           = new Mda;
+        $mda->mda      = ucwords(strtolower($request->mda));
+        $mda->mda_code = $request->mda_code;
+        if ($mda->save()) {
+            toast("MDA Created Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not create the specified MDA", 'error');
+            return back();
+        }
+    }
+
+    /**
+     * updateMDA
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function updateMDA(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'mda_id'   => 'required',
+            'mda'      => 'required',
+            'mda_code' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $mda           = Mda::find($request->mda_id);
+        $mda->mda      = ucwords(strtolower($request->mda));
+        $mda->mda_code = $request->mda_code;
+        if ($mda->save()) {
+            toast("MDA Updated Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not update the specified MDA", 'error');
+            return back();
+        }
+    }
+
+    /**
+     * revenueItems
+     *
+     * @return void
+     */
+    public function revenueItems()
+    {
+        $search = request()->search;
+        $status = request()->status;
+
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord   = PaymentItem::query()->where("mda_id", 1)->whereLike(["revenue_item", "revenue_code"], $search)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $paymentItems = PaymentItem::query()->where("mda_id", 1)->whereLike(["revenue_item", "revenue_code"], $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord   = PaymentItem::query()->where("mda_id", 1)->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $paymentItems = PaymentItem::query()->where("mda_id", 1)->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord   = PaymentItem::query()->where("mda_id", 1)->whereLike(["revenue_item", "revenue_code"], $search)->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $paymentItems = PaymentItem::query()->where("mda_id", 1)->whereLike(["revenue_item", "revenue_code"], $search)->where("status", $status)->paginate(50);
+        } else {
+            $lastRecord   = PaymentItem::where("mda_id", 1)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $paymentItems = PaymentItem::where("mda_id", 1)->paginate(50);
+        }
+        return view("admin.revenue_items", compact("paymentItems", "search", "status", "lastRecord", "marker"));
+    }
+
+    /**
+     * storeRevenueItem
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function storeRevenueItem(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'revenue_item' => 'required',
+            'revenue_code' => 'required',
+            'config_type'  => 'required',
+            'amount'       => 'required_if:config_type,fixed',
+            'percentage'   => 'required_if:config_type,percentage',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $item               = new PaymentItem;
+        $item->mda_id       = 1;
+        $item->revenue_item = ucwords(strtolower($request->revenue_item));
+        $item->revenue_code = $request->revenue_code;
+        $item->fee_config   = $request->config_type;
+        $item->amount       = $request->amount;
+        $item->percentage   = $request->percentage;
+        if ($item->save()) {
+            toast("Revenue Item Created Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not create the specified revenue item", 'error');
+            return back();
+        }
+    }
+
+    /**
+     * updateRevenueItem
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function updateRevenueItem(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'item_id'      => 'required',
+            'revenue_item' => 'required',
+            'revenue_code' => 'required',
+            'config_type'  => 'required',
+            'amount'       => 'required_if:config_type,fixed',
+            'percentage'   => 'required_if:config_type,percentage',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $item               = PaymentItem::find($request->item_id);
+        $item->mda_id       = 1;
+        $item->revenue_item = ucwords(strtolower($request->revenue_item));
+        $item->revenue_code = $request->revenue_code;
+        $item->fee_config   = $request->config_type;
+        $item->amount       = $request->amount;
+        $item->percentage   = $request->percentage;
+        if ($item->save()) {
+            toast("Revenue Item Updated Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not update the specified revenue item", 'error');
+            return back();
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * businessCategories
+     *
+     * @return void
+     */
+    public function businessCategories()
+    {
+        $categories = BusinessCategories::all();
+        return view("admin.business_categories", compact("categories"));
+    }
+
+    /**
+     * storeBusinessCategory
+     *
+     * @param Requesr request
+     *
+     * @return void
+     */
+    public function storeBusinessCategory(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'category' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $category           = new BusinessCategories;
+        $category->category = $request->category;
+        if ($category->save()) {
+            toast("Business Category Created Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not create the provided business category", 'error');
+            return back();
+
+        }
+    }
+
+    /**
+     * updateBusinessCategory
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function updateBusinessCategory(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'category_id' => 'required',
+            'category'    => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $category           = BusinessCategories::find($request->category_id);
+        $category->category = $request->category;
+        if ($category->save()) {
+            toast("Business Category Updated Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not updated the selected business category", 'error');
+            return back();
+
+        }
+    }
+
+    /**
+     * activateCategory
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function activateCategory($id)
+    {
+        $user         = BusinessCategories::find($id);
+        $user->status = "active";
+        if ($user->save()) {
+            toast('Category Activated Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * deactivateCategory
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function deactivateCategory($id)
+    {
+        $user         = BusinessCategories::find($id);
+        $user->status = "deactivated";
+        if ($user->save()) {
+            toast('Category Deactivated Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * documentManagement
+     *
+     * @return void
+     */
+    public function documentManagement()
+    {
+        $documents = UploadableDocs::all();
+        return view("admin.document_management", compact("documents"));
+    }
+
+    /**
+     * storeUpDoc
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function storeUpDoc(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'document_title' => 'required',
+            'operation'      => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $doc                 = new UploadableDocs;
+        $doc->document_title = $request->document_title;
+        $doc->category       = $request->operation;
+        if ($doc->save()) {
+            toast("Document Information Captured Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not capture the provided document information", 'error');
+            return back();
+
+        }
+    }
+
+    /**
+     * updateUpDoc
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function updateUpDoc(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'document_id'    => 'required',
+            'document_title' => 'required',
+            'operation'      => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $doc                 = UploadableDocs::find($request->document_id);
+        $doc->document_title = $request->document_title;
+        $doc->category       = $request->operation;
+        if ($doc->save()) {
+            toast("Document Information Updated Successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not updated the provided document information", 'error');
+            return back();
+
+        }
+    }
+
+    /**
+     * activateDocument
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function activateDocument($id)
+    {
+        $doc         = UploadableDocs::find($id);
+        $doc->status = "active";
+        if ($doc->save()) {
+            toast('Document Activated Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * deactivateDocument
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function deactivateDocument($id)
+    {
+        $doc         = UploadableDocs::find($id);
+        $doc->status = "deactivated";
+        if ($doc->save()) {
+            toast('Document Deactivated Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * updatePaymentItem
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function updatePaymentItem(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'item_id'           => 'required',
+            'payment_item'      => 'required',
+            'application_fee'   => 'required',
+            'fee_configuration' => 'required',
+            'fee'               => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $item             = PaymentItem::find($request->item_id);
+        $item->item       = $request->payment_item;
+        $item->amount     = $request->application_fee;
+        $item->fee_config = $request->fee_configuration;
+        $item->fee        = $request->fee;
+        if ($item->save()) {
+            toast("Payment item updated successfully.", 'success');
+            return back();
+        } else {
+            toast("We could not update the selected payment item", 'error');
             return back();
         }
     }

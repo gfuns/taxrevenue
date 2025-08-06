@@ -56,7 +56,7 @@
 <body>
     <div class="container">
         <div class="logo">
-            <img src="{{ $message->embed(public_path('images/logo_mail.png')) }}" alt="BPP Logo">
+            <img src="{{ $message->embed(public_path('images/logo_green.png')) }}" alt="BPP Logo">
         </div>
         <!-- Title -->
         <h1>Contractor Award Letter Application</h1>

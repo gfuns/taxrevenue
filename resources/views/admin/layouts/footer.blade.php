@@ -41,6 +41,10 @@
             $('#status').select2();
         });
 
+        $('#lga').select2({
+            dropdownParent: $('#offcanvasRight')
+        });
+
         $('#mda').select2({
             dropdownParent: $('#offcanvasRight')
         });
@@ -53,14 +57,60 @@
             dropdownParent: $('#offcanvasRight')
         });
 
+        $("#configType").select2({
+            dropdownParent: $("#addRevenueItem"),
+        });
 
-        $('#editPaymentItem').on('show.bs.offcanvas', function(event) {
+
+         $("#configType").change(function() {
+            var configType = $(this).val();
+            if (configType == "fixed") {
+                $("#camo").css("display", "block");
+                $("#camount").attr("required", true);
+                $("#cper").css("display", "none");
+                $("#cpercentage").removeAttr("required");
+            } else if (configType == "percentage") {
+                $("#cper").css("display", "block");
+                $("#cpercentage").attr("required", true);
+                $("#camo").css("display", "none");
+                $("#camount").removeAttr("required");
+            } else {
+                $("#camo").css("display", "none");
+                $("#cper").css("display", "none");
+                $("#camount").removeAttr("required");
+                $("#cpercentage").removeAttr("required");
+            }
+        });
+
+        $("#uconfigType").change(function() {
+            var configType = $(this).val();
+            if (configType == "fixed") {
+                $("#uamo").css("display", "block");
+                $("#uamount").attr("required", true);
+                $("#uper").css("display", "none");
+                $("#upercentage").removeAttr("required");
+            } else if (configType == "percentage") {
+                $("#uper").css("display", "block");
+                $("#upercentage").attr("required", true);
+                $("#uamo").css("display", "none");
+                $("#uamount").removeAttr("required");
+            } else {
+                $("#uamo").css("display", "none");
+                $("#uper").css("display", "none");
+                $("#uamount").removeAttr("required");
+                $("#upercentage").removeAttr("required");
+            }
+        });
+
+
+        $('#editRevenueItem').on('show.bs.offcanvas', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var myid = button.data('myid') // Extract info from data-* attributes
-            var item = button.data('item') // Extract info from data-* attributes
+            var revenue = button.data('revenue') // Extract info from data-* attributes
+            var revcode = button.data('revcode') // Extract info from data-* attributes
             var amount = button.data('amount') // Extract info from data-* attributes
-            var fee = button.data('fee') // Extract info from data-* attributes
-            var feeconfig = button.data('feeconfig') // Extract info from data-* attributes
+            var config = button.data('config') // Extract info from data-* attributes
+            var percentage = button.data('percentage') // Extract info from data-* attributes
 
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -68,12 +118,14 @@
             var offcanvas = $(this)
             // modal.find('.modal-body #myid').val(myid)
             offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #item').val(item)
-            offcanvas.find('.offcanvas-body #amount').val(amount)
-            offcanvas.find('.offcanvas-body #fee').val(fee)
-            $('#feeconfig').select2({
-                dropdownParent: $('#editPaymentItem'),
-            }).val(feeconfig).trigger('change');
+            offcanvas.find('.offcanvas-body #revenue').val(revenue)
+            offcanvas.find('.offcanvas-body #revcode').val(revcode)
+            offcanvas.find('.offcanvas-body #uamount').val(amount)
+            offcanvas.find('.offcanvas-body #upercentage').val(percentage)
+            $("#uconfigType").select2({
+                    dropdownParent: $("#editRevenueItem"),
+                }).val(config)
+                .trigger("change");
         })
 
 
@@ -105,10 +157,12 @@
             offcanvas.find('.offcanvas-body #userole').val(role)
         })
 
-        $('#editCategory').on('show.bs.offcanvas', function(event) {
+        $('#editTaxOffice').on('show.bs.offcanvas', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var myid = button.data('myid') // Extract info from data-* attributes
-            var category = button.data('category') // Extract info from data-* attributes
+            var office = button.data('office') // Extract info from data-* attributes
+            var address = button.data('address') // Extract info from data-* attributes
+            var lga = button.data('lga') // Extract info from data-* attributes
 
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -116,7 +170,27 @@
             var offcanvas = $(this)
             // modal.find('.modal-body #myid').val(myid)
             offcanvas.find('.offcanvas-body #myid').val(myid)
-            offcanvas.find('.offcanvas-body #category').val(category)
+            offcanvas.find('.offcanvas-body #office').val(office)
+            offcanvas.find('.offcanvas-body #address').val(address)
+            $('#editLga').select2({
+                dropdownParent: $('#editTaxOffice'),
+            }).val(lga).trigger('change');
+        })
+
+        $('#editMDA').on('show.bs.offcanvas', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var myid = button.data('myid') // Extract info from data-* attributes
+            var mda = button.data('mda') // Extract info from data-* attributes
+            var mdacode = button.data('mdacode') // Extract info from data-* attributes
+
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+            var offcanvas = $(this)
+            // modal.find('.modal-body #myid').val(myid)
+            offcanvas.find('.offcanvas-body #myid').val(myid)
+            offcanvas.find('.offcanvas-body #editMda').val(mda)
+            offcanvas.find('.offcanvas-body #mdacode').val(mdacode)
         })
 
         $('#editDocument').on('show.bs.offcanvas', function(event) {
