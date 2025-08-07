@@ -2,8 +2,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ConsultantRequests;
-use App\Models\TaxConsultants;
-use App\Models\TaxOffice;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -169,48 +167,6 @@ class TaxPayerController extends Controller
     }
 
     /**
-     * taxStations
-     *
-     * @return void
-     */
-    public function taxStations()
-    {
-
-        $search = request()->search;
-        if (isset(request()->search)) {
-            $lastRecord = TaxOffice::query()->whereLike(["tax_office"], $search)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $taxOffices = TaxOffice::query()->whereLike(["tax_office"], $search)->paginate(50);
-        } else {
-            $lastRecord = TaxOffice::count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $taxOffices = TaxOffice::paginate(50);
-        }
-        return view("individual.tax_stations", compact("taxOffices", "search", "lastRecord", "marker"));
-    }
-
-    /**
-     * taxConsultants
-     *
-     * @return void
-     */
-    public function taxConsultants()
-    {
-        $search = request()->search;
-        if (isset(request()->search)) {
-            $lastRecord     = TaxConsultants::query()->whereLike(["organization", "surname", "other_names", "email"], $search)->where("status", "active")->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $taxConsultants = TaxConsultants::query()->whereLike(["organization", "surname", "other_names", "email"], $search)->where("status", "active")->paginate(50);
-        } else {
-            $lastRecord     = TaxConsultants::where("status", "active")->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $taxConsultants = TaxConsultants::where("status", "active")->paginate(50);
-        }
-        $assignedConsultants = ConsultantRequests::where("user_id", Auth::user()->id)->get();
-        return view("individual.tax_consultants", compact("taxConsultants", "assignedConsultants", "search", "lastRecord", "marker"));
-    }
-
-    /**
      * requestConsultant
      *
      * @param Request request
@@ -230,12 +186,39 @@ class TaxPayerController extends Controller
             return back();
         }
 
-        $consReq                = new ConsultantRequests;
-        $consReq->user_id       = Auth::user()->id;
-        $consReq->tax_payer_id  = Auth::user()->taxpayer->id;
-        $consReq->consultant_id = $request->consultant_id;
-        if ($consReq->save()) {
+        $consReq = ConsultantRequests::updateOrCreate(
+            [
+                "user_id"       => Auth::user()->id,
+                "tax_payer_id"  => Auth::user()->taxpayer->id,
+                "consultant_id" => $request->consultant_id,
+            ],
+            [
+                "status" => "active",
+            ]
+        );
+        if ($consReq) {
             toast('Consultant Request Submitted Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+
+        }
+    }
+
+    /**
+     * cancelConsultant
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function cancelConsultant($id)
+    {
+        $consReq         = ConsultantRequests::find($id);
+        $consReq->status = "cancelled";
+        if ($consReq->save()) {
+            toast('Consultant Services Cancelled Successfully.', 'success');
             return back();
         } else {
             toast('Something went wrong. Please try again', 'error');

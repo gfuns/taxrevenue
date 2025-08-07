@@ -80,13 +80,13 @@
                     <ul class="nav flex-column">
 
                         <li class="nav-item">
-                            <a class="nav-link " id="returns" href="">
+                            <a class="nav-link " id="genBill" href="{{ route("individual.generateBill") }}">
                                 Generate/Pay Bill
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link " id="pit" href="">
+                            <a class="nav-link " id="billPaymnt" href="{{ route("individual.billPayments") }}">
                                 Payment History
                             </a>
                         </li>
@@ -101,7 +101,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="stations" href="{{ route("taxpayer.taxStations") }}">
+                <a class="nav-link " id="stations" href="{{ route("individual.taxStations") }}">
                     <i class="nav-icon bi bi-house-fill me-2"></i>
                     Tax Offices
                 </a>
@@ -112,7 +112,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="consultants" href="{{ route("taxpayer.taxConsultants") }}">
+                <a class="nav-link " id="consultants" href="{{ route("individual.taxConsultants") }}">
                     <i class="nav-icon bi bi-person-bounding-box me-2"></i>
                     Tax Consultants
                 </a>

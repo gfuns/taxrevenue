@@ -2,9 +2,13 @@
 namespace App\Http\Controllers\Individual;
 
 use App\Http\Controllers\Controller;
+use App\Models\ConsultantRequests;
 use App\Models\IndividualTaxpayer;
+use App\Models\Mda;
+use App\Models\TaxConsultants;
 use App\Models\TaxOffice;
 use App\Models\TaxPayer;
+use App\Models\taxStations;
 use App\Models\User;
 use Auth;
 use Cloudinary;
@@ -202,5 +206,90 @@ class IHomeController extends Controller
             $google2faSecret
         );
         return view("individual.security", compact("google2faSecret", "QRImage"));
+    }
+
+    /**
+     * taxConsultants
+     *
+     * @return void
+     */
+    public function taxConsultants()
+    {
+        $search = request()->search;
+        if (isset(request()->search)) {
+            $lastRecord     = TaxConsultants::query()->whereLike(["organization", "surname", "other_names", "email"], $search)->where("status", "active")->count();
+            $marker         = $this->getMarkers($lastRecord, request()->page);
+            $taxConsultants = TaxConsultants::query()->whereLike(["organization", "surname", "other_names", "email"], $search)->where("status", "active")->paginate(50);
+        } else {
+            $lastRecord     = TaxConsultants::where("status", "active")->count();
+            $marker         = $this->getMarkers($lastRecord, request()->page);
+            $taxConsultants = TaxConsultants::where("status", "active")->paginate(50);
+        }
+        $assignedConsultants = ConsultantRequests::orderBy("id", "desc")->where("user_id", Auth::user()->id)->get();
+        return view("individual.tax_consultants", compact("taxConsultants", "assignedConsultants", "search", "lastRecord", "marker"));
+    }
+
+    /**
+     * taxStations
+     *
+     * @return void
+     */
+    public function taxStations()
+    {
+
+        $search = request()->search;
+        if (isset(request()->search)) {
+            $lastRecord = TaxOffice::query()->whereLike(["tax_office"], $search)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $taxOffices = TaxOffice::query()->whereLike(["tax_office"], $search)->paginate(50);
+        } else {
+            $lastRecord = TaxOffice::count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $taxOffices = TaxOffice::paginate(50);
+        }
+        return view("individual.tax_stations", compact("taxOffices", "search", "lastRecord", "marker"));
+    }
+
+    /**
+     * generateBill
+     *
+     * @return void
+     */
+    public function generateBill()
+    {
+        $mdas = Mda::all();
+        return view("individual.generate_bill", compact("mdas"));
+    }
+
+    /**
+     * getMarkers Helper Function
+     *
+     * @param mixed lastRecord
+     * @param mixed pageNum
+     *
+     * @return void
+     */
+    public function getMarkers($lastRecord, $pageNum)
+    {
+        if ($pageNum == null) {
+            $pageNum = 1;
+        }
+        $end    = (50 * ((int) $pageNum));
+        $marker = [];
+        if ((int) $pageNum == 1) {
+            $marker["begin"] = (int) $pageNum;
+            $marker["index"] = (int) $pageNum;
+        } else {
+            $marker["begin"] = number_format(((50 * ((int) $pageNum)) - 49), 0);
+            $marker["index"] = number_format(((50 * ((int) $pageNum)) - 49), 0);
+        }
+
+        if ($end > $lastRecord) {
+            $marker["end"] = number_format($lastRecord, 0);
+        } else {
+            $marker["end"] = number_format($end, 0);
+        }
+
+        return $marker;
     }
 }

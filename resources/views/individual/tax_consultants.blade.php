@@ -79,7 +79,7 @@
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-danger bg-light-danger text-danger btn-sm"
-                                                        href="#" role="button">Cancel</a>
+                                                        href="{{ route("taxpayer.cancelConsultant", [$ac->id]) }}" role="button" onclick="return confirm('Are you sure you want to cancel this consultant\'s services');">Cancel</a>
                                                 </td>
                                             </tr>
                                         @endforeach

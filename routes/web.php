@@ -70,14 +70,12 @@ Route::group([
 
     Route::post('/enableGA', [TaxPayerController::class, 'enableGA'])->name("taxpayer.enableGA");
 
-    Route::get('/tax-stations', [TaxPayerController::class, 'taxStations'])->name("taxpayer.taxStations");
-
-    Route::get('/tax-consultants', [TaxPayerController::class, 'taxConsultants'])->name("taxpayer.taxConsultants");
-
     Route::post('/requestConsultant', [TaxPayerController::class, 'requestConsultant'])->name("taxpayer.requestConsultant");
 
+    Route::get('/cancel-consultant/{id}', [TaxPayerController::class, 'cancelConsultant'])->name("taxpayer.cancelConsultant");
+
     Route::group([
-        'prefix' => 'individual',
+        'prefix' => 'i',
     ], function ($router) {
 
         Route::get('/dashboard', [IHomeController::class, 'dashboard'])->name("individual.dashboard");
@@ -88,9 +86,15 @@ Route::group([
 
         Route::post('/upload-photo', [IHomeController::class, 'uploadPhoto'])->name("individual.uploadPhoto");
 
-        Route::get('/change-password', [TaxPayerController::class, 'changePassword'])->name("individual.changePassword");
-
         Route::get('/security', [IHomeController::class, 'security'])->name("individual.security");
+
+        Route::get('/tax-stations', [IHomeController::class, 'taxStations'])->name("individual.taxStations");
+
+        Route::get('/tax-consultants', [IHomeController::class, 'taxConsultants'])->name("individual.taxConsultants");
+
+        Route::get('/generate-bill', [IHomeController::class, 'generateBill'])->name("individual.generateBill");
+
+        Route::get('/bill-payments', [IHomeController::class, 'billPayments'])->name("individual.billPayments");
 
     });
 });
