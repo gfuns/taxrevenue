@@ -16,14 +16,9 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('other_names');
             $table->string('email')->unique();
-            $table->string('phone_number')->unique();
+            $table->string('phone_number')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('gender')->nullable();
-            $table->string('marital_status')->nullable();
-            $table->date('dob')->nullable();
-            $table->text('contact_address')->nullable();
             $table->text('profile_photo')->nullable();
-            $table->string('nationality')->nullable();
             $table->string('role');
             $table->integer('role_id')->nullable();
             $table->integer('mda_id')->nullable();
