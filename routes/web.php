@@ -79,6 +79,8 @@ Route::group([
 
         Route::post('/update-profile', [IHomeController::class, 'updateProfile'])->name("individual.updateProfile");
 
+        Route::post('/upload-photo', [IHomeController::class, 'uploadPhoto'])->name("individual.uploadPhoto");
+
         Route::get('/change-password', [TaxPayerController::class, 'changePassword'])->name("individual.changePassword");
 
         Route::get('/security', [IHomeController::class, 'security'])->name("individual.security");

@@ -59,4 +59,19 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\UserRole', 'role_id');
     }
 
+    public function individual()
+    {
+        return $this->hasOne('App\Models\IndividualTaxpayer', 'user_id');
+    }
+
+    public function corporate()
+    {
+        return $this->hasOne('App\Models\CorporateTaxpayer', 'user_id');
+    }
+
+    public function taxpayer()
+    {
+        return $this->hasOne('App\Models\TaxPayer', 'user_id');
+    }
+
 }

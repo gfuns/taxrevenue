@@ -7,6 +7,7 @@ use App\Models\TaxOffice;
 use App\Models\TaxPayer;
 use App\Models\User;
 use Auth;
+use Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -149,5 +150,40 @@ class IHomeController extends Controller
             return back();
         }
 
+    }
+
+    /**
+     * uploadPhoto
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function uploadPhoto(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'profile_photo' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $user = Auth::user();
+        if ($request->has('profile_photo')) {
+            $uploadedFileUrl     = Cloudinary::upload($request->file('profile_photo')->getRealPath())->getSecurePath();
+            $user->profile_photo = $uploadedFileUrl;
+        }
+
+        if ($user->save()) {
+            toast('Profile Photo Successfully Uploaded.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
     }
 }
