@@ -87,6 +87,8 @@
                                             <th>#</th>
                                             <th>Tax Office</th>
                                             <th>LGA</th>
+                                            <th>Email</th>
+                                            <th>Phone Number</th>
                                             <th>Office Address</th>
                                             <th>Status</th>
                                             <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
@@ -99,6 +101,8 @@
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $tof->tax_office }}</td>
                                                 <td>{{ $tof->lga->lga }}</td>
+                                                <td>{{ $tof->email }}</td>
+                                                <td>{{ $tof->phone_number }}</td>
                                                 <td>{{ $tof->address }}</td>
                                                 <td>
                                                     @if ($tof->status == 'active')
@@ -124,6 +128,8 @@
                                                                     data-myid="{{ $tof->id }}"
                                                                     data-office="{{ $tof->tax_office }}"
                                                                     data-address="{{ $tof->address }}"
+                                                                    data-email="{{ $tof->email }}"
+                                                                    data-phone="{{ $tof->phone_number }}"
                                                                     data-lga="{{ $tof->lga_id }}"><i
                                                                         class="fe fe-edit dropdown-item-icon"></i>Update
                                                                     Details</a>
@@ -196,6 +202,20 @@
                         </div>
 
                         <div class="mb-3 col-12">
+                            <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" name="email" class="form-control"
+                                placeholder="Enter Email Address" required>
+                            <div class="invalid-feedback">Please provide email address.</div>
+                        </div>
+
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                            <input type="text" name="phone_number" class="form-control"
+                                placeholder="Enter Phone Number" required>
+                            <div class="invalid-feedback">Please provide phone number.</div>
+                        </div>
+
+                        <div class="mb-3 col-12">
                             <label class="form-label">Office Address <span class="text-danger">*</span></label>
                             <textarea name="office_address" class="form-control" placeholder="Enter Office Address" required rows="5"
                                 style="resize: none"></textarea>
@@ -251,6 +271,20 @@
                             <input id="office" type="text" name="tax_office" class="form-control"
                                 placeholder="Enter Tax Office" required>
                             <div class="invalid-feedback">Please provide tax office.</div>
+                        </div>
+
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                            <input id="email" type="email" name="email" class="form-control"
+                                placeholder="Enter Email Address" required>
+                            <div class="invalid-feedback">Please provide email address.</div>
+                        </div>
+
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                            <input id="phone" type="text" name="phone_number" class="form-control"
+                                placeholder="Enter Phone Number" required>
+                            <div class="invalid-feedback">Please provide phone number.</div>
                         </div>
 
                         <div class="mb-3 col-12">

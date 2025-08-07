@@ -70,9 +70,14 @@ Route::group([
 
     Route::post('/enableGA', [TaxPayerController::class, 'enableGA'])->name("taxpayer.enableGA");
 
+    Route::get('/tax-stations', [TaxPayerController::class, 'taxStations'])->name("taxpayer.taxStations");
+
+    Route::get('/tax-consultants', [TaxPayerController::class, 'taxConsultants'])->name("taxpayer.taxConsultants");
+
     Route::group([
         'prefix' => 'individual',
     ], function ($router) {
+
         Route::get('/dashboard', [IHomeController::class, 'dashboard'])->name("individual.dashboard");
 
         Route::get('/view-profile', [IHomeController::class, 'viewProfile'])->name("individual.viewProfile");

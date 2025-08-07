@@ -187,6 +187,8 @@
             var office = button.data('office') // Extract info from data-* attributes
             var address = button.data('address') // Extract info from data-* attributes
             var lga = button.data('lga') // Extract info from data-* attributes
+            var email = button.data('email') // Extract info from data-* attributes
+            var phone = button.data('phone') // Extract info from data-* attributes
 
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -196,6 +198,8 @@
             offcanvas.find('.offcanvas-body #myid').val(myid)
             offcanvas.find('.offcanvas-body #office').val(office)
             offcanvas.find('.offcanvas-body #address').val(address)
+            offcanvas.find('.offcanvas-body #email').val(email)
+            offcanvas.find('.offcanvas-body #phone').val(phone)
             $('#editLga').select2({
                 dropdownParent: $('#editTaxOffice'),
             }).val(lga).trigger('change');

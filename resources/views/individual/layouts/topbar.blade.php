@@ -39,13 +39,13 @@
                 <ul class="list-unstyled">
 
                     <li>
-                        <a class="dropdown-item" href="{{ route("admin.viewProfile") }}">
-                            <i class="fe fe-user me-2"></i> Profile
+                        <a class="dropdown-item" href="{{ route("individual.viewProfile") }}">
+                            <i class="fe fe-user me-2"></i> Profile Information
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ route("admin.security") }}">
-                            <i class="fe fe-lock me-2"></i> Security
+                        <a class="dropdown-item" href="{{ route("individual.security") }}">
+                            <i class="fe fe-lock me-2"></i> Account Security
                         </a>
                     </li>
                 </ul>

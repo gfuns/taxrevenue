@@ -57,7 +57,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <img class="logo" src="{{ $message->embed(public_path('images/logo_mail.png')) }}"
+            <img class="logo" src="{{ $message->embed(public_path('images/logo_green.png')) }}"
                 alt="{{ env('APP_NAME') }} Logo">
         </div>
 

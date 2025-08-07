@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <h4 class="fw-bold mb-0">
-                            <span class="fs-5">&#8358;{{ number_format($params['regs'], 2) }}</span>
+                            <span class="fs-5">&#8358;{{ number_format(0, 2) }}</span>
                         </h4>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                                 <span class="bi bi-arrow-clockwise fs-3 text-success"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params['renewals'], 2) }}</h4>
+                        <h4 class="fw-bold mb-0">&#8358;{{ number_format(0, 2) }}</h4>
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                                 <span class="fa fa-gavel fs-3 text-success"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params['poas'], 2) }}</h4>
+                        <h4 class="fw-bold mb-0">&#8358;{{ number_format(0, 2) }}</h4>
                     </div>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                                 <span class="bi bi-award-fill fs-3 text-success"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params['awards'], 2) }}</h4>
+                        <h4 class="fw-bold mb-0">&#8358;{{ number_format(0, 2) }}</h4>
                     </div>
                 </div>
             </div>
@@ -114,7 +114,7 @@
                                 <span class="bi bi-cash-coin fs-3 text-success"></span>
                             </div>
                         </div>
-                        <h4 class="fw-bold mb-0">&#8358;{{ number_format($params['prFees'], 2) }}</h4>
+                        <h4 class="fw-bold mb-0">&#8358;{{ number_format(0, 2) }}</h4>
                     </div>
                 </div>
             </div>
@@ -145,6 +145,6 @@
     document.getElementById("dashboard").classList.add('active');
 </script>
 
-@include('individual.layouts.chart')
+{{-- @include('individual.layouts.chart') --}}
 
 @endsection

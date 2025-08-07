@@ -186,4 +186,21 @@ class IHomeController extends Controller
             return back();
         }
     }
+
+    /**
+     * security
+     *
+     * @return void
+     */
+    public function security()
+    {
+        $google2fa       = app('pragmarx.google2fa');
+        $google2faSecret = $google2fa->generateSecretKey();
+        $QRImage         = $google2fa->getQRCodeInline(
+            env('APP_NAME'),
+            Auth::user()->email,
+            $google2faSecret
+        );
+        return view("individual.security", compact("google2faSecret", "QRImage"));
+    }
 }

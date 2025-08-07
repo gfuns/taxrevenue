@@ -101,7 +101,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="office" href="">
+                <a class="nav-link " id="stations" href="{{ route("taxpayer.taxStations") }}">
                     <i class="nav-icon bi bi-house-fill me-2"></i>
                     Tax Offices
                 </a>
@@ -112,7 +112,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="consultants" href="">
+                <a class="nav-link " id="consultants" href="{{ route("taxpayer.taxConsultants") }}">
                     <i class="nav-icon bi bi-person-bounding-box me-2"></i>
                     Tax Consultants
                 </a>

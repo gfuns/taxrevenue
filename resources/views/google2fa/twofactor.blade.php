@@ -20,7 +20,7 @@
             <center>
                 <div class="page-ath-header"><a href="/" class="page-ath-logo"
                         style="font-weight:bold; font-size: 30px"><img class="page-ath-logo-img"
-                            src="{{ asset('images/logo.png') }}" alt="BPP Logo"  style="max-width: 345px">
+                            src="{{ asset('images/logo_green.png') }}" alt="BPP Logo"  style="max-width: 200px">
                     </a></div>
             </center>
 

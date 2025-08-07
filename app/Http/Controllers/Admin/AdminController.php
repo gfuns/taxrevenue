@@ -786,6 +786,8 @@ class AdminController extends Controller
             'tax_office'     => 'required',
             'office_address' => 'required',
             'lga'            => 'required',
+            'email'          => 'required',
+            'phone_number'   => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -795,10 +797,12 @@ class AdminController extends Controller
             return back();
         }
 
-        $office             = new TaxOffice;
-        $office->lga_id     = $request->lga;
-        $office->tax_office = $request->tax_office;
-        $office->address    = $request->office_address;
+        $office               = new TaxOffice;
+        $office->lga_id       = $request->lga;
+        $office->tax_office   = $request->tax_office;
+        $office->email        = $request->email;
+        $office->phone_number = $request->phone_number;
+        $office->address      = $request->office_address;
         if ($office->save()) {
             toast("Area Tax Office Created Successfully.", 'success');
             return back();
@@ -831,10 +835,12 @@ class AdminController extends Controller
             return back();
         }
 
-        $office             = TaxOffice::find($request->office_id);
-        $office->lga_id     = $request->lga;
-        $office->tax_office = $request->tax_office;
-        $office->address    = $request->office_address;
+        $office               = TaxOffice::find($request->office_id);
+        $office->lga_id       = $request->lga;
+        $office->tax_office   = $request->tax_office;
+        $office->email        = $request->email;
+        $office->phone_number = $request->phone_number;
+        $office->address      = $request->office_address;
         if ($office->save()) {
             toast("Area Tax Office Updated Successfully.", 'success');
             return back();

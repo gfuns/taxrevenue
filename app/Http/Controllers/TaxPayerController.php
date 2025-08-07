@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\TaxConsultants;
+use App\Models\TaxOffice;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -18,16 +20,6 @@ class TaxPayerController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    }
-
-    /**
-     * changePassword
-     *
-     * @return void
-     */
-    public function changePassword()
-    {
-        return view("business.change_password");
     }
 
     /**
@@ -75,23 +67,6 @@ class TaxPayerController extends Controller
             return back();
         }
 
-    }
-
-    /**
-     * security
-     *
-     * @return void
-     */
-    public function security()
-    {
-        $google2fa       = app('pragmarx.google2fa');
-        $google2faSecret = $google2fa->generateSecretKey();
-        $QRImage         = $google2fa->getQRCodeInline(
-            env('APP_NAME'),
-            Auth::user()->email,
-            $google2faSecret
-        );
-        return view("business.security", compact("google2faSecret", "QRImage"));
     }
 
     /**
@@ -190,5 +165,69 @@ class TaxPayerController extends Controller
             ]);
         }
 
+    }
+
+    /**
+     * taxStations
+     *
+     * @return void
+     */
+    public function taxStations()
+    {
+
+        $search = request()->search;
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord = TaxOffice::query()->whereLike(["tax_office"], $search)->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $taxOffices = TaxOffice::query()->whereLike(["tax_office"], $search)->paginate(50);
+        } else {
+            $lastRecord = TaxOffice::count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+            $taxOffices = TaxOffice::paginate(50);
+        }
+        return view("individual.tax_stations", compact("taxOffices", "search", "lastRecord", "marker"));
+    }
+
+    /**
+     * taxConsultants
+     *
+     * @return void
+     */
+    public function taxConsultants()
+    {
+        $taxConsultants = TaxConsultants::all();
+        return view("individual.tax_consultants", compact("taxConsultants"));
+    }
+
+    /**
+     * getMarkers Helper Function
+     *
+     * @param mixed lastRecord
+     * @param mixed pageNum
+     *
+     * @return void
+     */
+    public function getMarkers($lastRecord, $pageNum)
+    {
+        if ($pageNum == null) {
+            $pageNum = 1;
+        }
+        $end    = (50 * ((int) $pageNum));
+        $marker = [];
+        if ((int) $pageNum == 1) {
+            $marker["begin"] = (int) $pageNum;
+            $marker["index"] = (int) $pageNum;
+        } else {
+            $marker["begin"] = number_format(((50 * ((int) $pageNum)) - 49), 0);
+            $marker["index"] = number_format(((50 * ((int) $pageNum)) - 49), 0);
+        }
+
+        if ($end > $lastRecord) {
+            $marker["end"] = number_format($lastRecord, 0);
+        } else {
+            $marker["end"] = number_format($end, 0);
+        }
+
+        return $marker;
     }
 }
