@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\ConsultantRequests;
 use App\Models\TaxConsultants;
 use App\Models\TaxOffice;
 use App\Models\User;
@@ -176,7 +177,7 @@ class TaxPayerController extends Controller
     {
 
         $search = request()->search;
-        if (isset(request()->search) && ! isset(request()->status)) {
+        if (isset(request()->search)) {
             $lastRecord = TaxOffice::query()->whereLike(["tax_office"], $search)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
             $taxOffices = TaxOffice::query()->whereLike(["tax_office"], $search)->paginate(50);
@@ -195,8 +196,52 @@ class TaxPayerController extends Controller
      */
     public function taxConsultants()
     {
-        $taxConsultants = TaxConsultants::all();
-        return view("individual.tax_consultants", compact("taxConsultants"));
+        $search = request()->search;
+        if (isset(request()->search)) {
+            $lastRecord     = TaxConsultants::query()->whereLike(["organization", "surname", "other_names", "email"], $search)->where("status", "active")->count();
+            $marker         = $this->getMarkers($lastRecord, request()->page);
+            $taxConsultants = TaxConsultants::query()->whereLike(["organization", "surname", "other_names", "email"], $search)->where("status", "active")->paginate(50);
+        } else {
+            $lastRecord     = TaxConsultants::where("status", "active")->count();
+            $marker         = $this->getMarkers($lastRecord, request()->page);
+            $taxConsultants = TaxConsultants::where("status", "active")->paginate(50);
+        }
+        $assignedConsultants = ConsultantRequests::where("user_id", Auth::user()->id)->get();
+        return view("individual.tax_consultants", compact("taxConsultants", "assignedConsultants", "search", "lastRecord", "marker"));
+    }
+
+    /**
+     * requestConsultant
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function requestConsultant(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'consultant_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $consReq                = new ConsultantRequests;
+        $consReq->user_id       = Auth::user()->id;
+        $consReq->tax_payer_id  = Auth::user()->taxpayer->id;
+        $consReq->consultant_id = $request->consultant_id;
+        if ($consReq->save()) {
+            toast('Consultant Request Submitted Successfully.', 'success');
+            return back();
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+
+        }
     }
 
     /**

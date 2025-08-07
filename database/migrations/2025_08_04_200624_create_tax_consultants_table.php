@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('tax_consultants', function (Blueprint $table) {
             $table->increments("id");
+            $table->string("organization");
             $table->string("surname");
-            $table->string("first_name");
-            $table->string("other_names")->nullable();
+            $table->string("other_names");
             $table->string("email")->unique();
             $table->string("phone_number")->unique();
             $table->enum("gender", ["male", "female"]);

@@ -1069,17 +1069,17 @@ class AdminController extends Controller
         $status = request()->status;
 
         if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord  = TaxConsultants::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->count();
+            $lastRecord  = TaxConsultants::query()->whereLike(["surname", "organization", "other_names", "email", "phone_number"], $search)->count();
             $marker      = $this->getMarkers($lastRecord, request()->page);
-            $consultants = TaxConsultants::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->paginate(50);
+            $consultants = TaxConsultants::query()->whereLike(["surname", "organization", "other_names", "email", "phone_number"], $search)->paginate(50);
         } else if (! isset(request()->search) && isset(request()->status)) {
             $lastRecord  = PaymentItem::query()->where("status", $status)->count();
             $marker      = $this->getMarkers($lastRecord, request()->page);
             $consultants = TaxConsultants::query()->where("status", $status)->paginate(50);
         } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord  = TaxConsultants::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->count();
+            $lastRecord  = TaxConsultants::query()->whereLike(["surname", "organization", "other_names", "email", "phone_number"], $search)->where("status", $status)->count();
             $marker      = $this->getMarkers($lastRecord, request()->page);
-            $consultants = TaxConsultants::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->paginate(50);
+            $consultants = TaxConsultants::query()->whereLike(["surname", "organization", "other_names", "email", "phone_number"], $search)->where("status", $status)->paginate(50);
         } else {
             $lastRecord  = TaxConsultants::count();
             $marker      = $this->getMarkers($lastRecord, request()->page);
@@ -1099,8 +1099,8 @@ class AdminController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'surname'       => 'required',
-            'first_name'    => 'required',
-            'other_names'   => 'nullable',
+            'organization'  => 'required',
+            'other_names'   => 'required',
             'email'         => 'required|unique:tax_consultants',
             'phone_number'  => 'required|unique:tax_consultants',
             'gender'        => 'required',
@@ -1116,8 +1116,8 @@ class AdminController extends Controller
 
         try {
             $consultant               = new TaxConsultants;
+            $consultant->organization = ucwords(strtolower($request->organization));
             $consultant->surname      = $request->surname;
-            $consultant->first_name   = $request->first_name;
             $consultant->other_names  = $request->other_names;
             $consultant->email        = $request->email;
             $consultant->phone_number = $request->phone_number;
@@ -1149,8 +1149,8 @@ class AdminController extends Controller
         $validator = Validator::make($request->all(), [
             'consultant_id' => 'required',
             'surname'       => 'required',
-            'first_name'    => 'required',
-            'other_names'   => 'nullable',
+            'organization'  => 'required',
+            'other_names'   => 'required',
             'email'         => 'required',
             'phone_number'  => 'required',
             'gender'        => 'required',
@@ -1166,8 +1166,8 @@ class AdminController extends Controller
 
         try {
             $consultant               = TaxConsultants::find($request->consultant_id);
+            $consultant->organization = ucwords(strtolower($request->organization));
             $consultant->surname      = $request->surname;
-            $consultant->first_name   = $request->first_name;
             $consultant->other_names  = $request->other_names;
             $consultant->email        = $request->email;
             $consultant->phone_number = $request->phone_number;
@@ -1247,19 +1247,19 @@ class AdminController extends Controller
         }
 
         try {
-            $consultant                    = new CollectionAgents;
-            $consultant->surname           = $request->surname;
-            $consultant->first_name        = $request->first_name;
-            $consultant->other_names       = $request->other_names;
-            $consultant->email             = $request->email;
-            $consultant->phone_number      = $request->phone_number;
-            $consultant->gender            = $request->gender;
-            $consultant->assigned_location = $request->assigned_location;
+            $agent                    = new CollectionAgents;
+            $agent->surname           = $request->surname;
+            $agent->first_name        = $request->first_name;
+            $agent->other_names       = $request->other_names;
+            $agent->email             = $request->email;
+            $agent->phone_number      = $request->phone_number;
+            $agent->gender            = $request->gender;
+            $agent->assigned_location = $request->assigned_location;
             if ($request->has('profile_photo')) {
-                $uploadedFileUrl   = Cloudinary::upload($request->file('profile_photo')->getRealPath())->getSecurePath();
-                $consultant->photo = $uploadedFileUrl;
+                $uploadedFileUrl = Cloudinary::upload($request->file('profile_photo')->getRealPath())->getSecurePath();
+                $agent->photo    = $uploadedFileUrl;
             }
-            $consultant->save();
+            $agent->save();
 
             toast("Collection Agent Created Successfully.", 'success');
             return back();

@@ -74,6 +74,8 @@ Route::group([
 
     Route::get('/tax-consultants', [TaxPayerController::class, 'taxConsultants'])->name("taxpayer.taxConsultants");
 
+    Route::post('/requestConsultant', [TaxPayerController::class, 'requestConsultant'])->name("taxpayer.requestConsultant");
+
     Route::group([
         'prefix' => 'individual',
     ], function ($router) {

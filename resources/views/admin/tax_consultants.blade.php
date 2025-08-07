@@ -84,11 +84,10 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>#</th>
-                                            <th>Consultant's Surname</th>
-                                            <th>Other Names</th>
+                                            <th>Organization</th>
+                                            <th>Consultant's Name</th>
                                             <th>Email</th>
                                             <th>Phone Number</th>
-                                            <th>Gender</th>
                                             <th>Status</th>
                                             <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
                                         </tr>
@@ -98,20 +97,10 @@
                                         @foreach ($consultants as $consular)
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
-                                                <td>
-                                                    <a href="#" class="text-inherit">
-                                                        <img src="{{ $consular->photo }}" alt="" class="circle"
-                                                            style="height: 50px; width:50px; border-radius: 50%; object-fit: cover; border: 2px solid #ccc;">
-
-                                                        <span class="ms-2 text-gray-500">{{ $consular->surname }}</span>
-                                                    </a>
-                                                </td>
-
-                                                <td>{{ $consular->first_name . ' ' . $consular->other_names }}
-                                                </td>
+                                                <td>{{ $consular->organization }}</td>
+                                                <td>{{ $consular->surname.', ' . $consular->other_names }}</td>
                                                 <td>{{ $consular->email }}</td>
                                                 <td>{{ $consular->phone_number }}</td>
-                                                <td>{{ ucwords($consular->gender) }}</td>
                                                 <td>
                                                     @if ($consular->status == 'active')
                                                         <span
@@ -135,11 +124,11 @@
                                                                     data-bs-target="#viewConsultantDetails"
                                                                     data-myid="{{ $consular->id }}"
                                                                     data-surname="{{ $consular->surname }}"
-                                                                    data-firstname="{{ $consular->first_name }}"
                                                                     data-othernames="{{ $consular->other_names }}"
                                                                     data-email="{{ $consular->email }}"
                                                                     data-phone="{{ $consular->phone_number }}"
                                                                     data-photo="{{ $consular->photo }}"
+                                                                    data-organization="{{ $consular->organization }}"
                                                                     data-gender="{{ ucwords($consular->gender) }}"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
@@ -149,9 +138,9 @@
                                                                     data-bs-target="#editConsultant"
                                                                     data-myid="{{ $consular->id }}"
                                                                     data-surname="{{ $consular->surname }}"
-                                                                    data-firstname="{{ $consular->first_name }}"
                                                                     data-othernames="{{ $consular->other_names }}"
                                                                     data-email="{{ $consular->email }}"
+                                                                    data-organization="{{ $consular->organization }}"
                                                                     data-phone="{{ $consular->phone_number }}"
                                                                     data-gender="{{ $consular->gender }}"><i
                                                                         class="fe fe-edit dropdown-item-icon"></i>Update
@@ -219,21 +208,21 @@
                     <div class="row">
                         <!-- form group -->
                         <div class="mb-3 col-12">
-                            <label class="form-label">Surname <span class="text-danger">*</span></label>
+                            <label class="form-label">Organization <span class="text-danger">*</span></label>
+                            <input type="text" name="organization" class="form-control" placeholder="Enter Organization"
+                                required>
+                            <div class="invalid-feedback">Please provide organization.</div>
+                        </div>
+
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Consultant's Surname <span class="text-danger">*</span></label>
                             <input type="text" name="surname" class="form-control" placeholder="Enter Surname"
                                 required>
                             <div class="invalid-feedback">Please provide surname.</div>
                         </div>
 
                         <div class="mb-3 col-12">
-                            <label class="form-label">First Name <span class="text-danger">*</span></label>
-                            <input type="text" name="first_name" class="form-control"
-                                placeholder="Enter First Name" required>
-                            <div class="invalid-feedback">Please provide first name.</div>
-                        </div>
-
-                        <div class="mb-3 col-12">
-                            <label class="form-label">Other Names <span class="text-danger">*</span></label>
+                            <label class="form-label">Consultant's Other Names <span class="text-danger">*</span></label>
                             <input type="text" name="other_names" class="form-control"
                                 placeholder="Enter Other Names" required>
                             <div class="invalid-feedback">Please provide other names.</div>
@@ -301,18 +290,19 @@
                     @csrf
                     <div class="row">
                         <!-- form group -->
+
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Organization <span class="text-danger">*</span></label>
+                            <input id="organization" type="text" name="organization" class="form-control" placeholder="Enter Organization"
+                                required>
+                            <div class="invalid-feedback">Please provide organization.</div>
+                        </div>
+
                         <div class="mb-3 col-12">
                             <label class="form-label">Surname <span class="text-danger">*</span></label>
                             <input id="surname" type="text" name="surname" class="form-control"
                                 placeholder="Enter Surname" required>
                             <div class="invalid-feedback">Please provide surname.</div>
-                        </div>
-
-                        <div class="mb-3 col-12">
-                            <label class="form-label">First Name <span class="text-danger">*</span></label>
-                            <input id="firstname" type="text" name="first_name" class="form-control"
-                                placeholder="Enter First Name" required>
-                            <div class="invalid-feedback">Please provide first name.</div>
                         </div>
 
                         <div class="mb-3 col-12">
@@ -387,16 +377,16 @@
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
-                            <td class="">Surname</td>
-                            <td class=""><span id="vsurname"></span></td>
-                            <td class="" rowspan="8" align="right" style="text-align: center"><img
+                            <td class="">Organization</td>
+                            <td class=""><span id="vorganization"></span></td>
+                            <td class="" rowspan="9" align="right" style="text-align: center"><img
                                     src="" id="vphoto" class="img-responsive" style="max-width: 150px" />
                             </td>
                         </tr>
 
                         <tr>
-                            <td class="">First Name</td>
-                            <td class=""><span id="vfirstname"></span></td>
+                            <td class="">Surname</td>
+                            <td class=""><span id="vsurname"></span></td>
                         </tr>
 
                         <tr>
