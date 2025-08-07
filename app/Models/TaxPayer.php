@@ -12,4 +12,16 @@ class TaxPayer extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'user_id',
+        'tax_payer',
+        'btin',
+        'category',
+    ];
 }

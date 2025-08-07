@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('individual.layouts.app')
 
 @section('content')
 @section('title', env('APP_NAME') . ' | Profile Information')
@@ -15,7 +15,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('business.dashboard') }}">Dashboard</a>
+                                <a href="{{ route('individual.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="#">Account Settings</a>

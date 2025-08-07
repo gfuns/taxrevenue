@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text("tax_payer");
             $table->string("btin");
             $table->enum("category", ["individual", "corporate"]);
+            $table->integer("profile_updated")->default(0);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

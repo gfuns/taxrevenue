@@ -1,13 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Business\BusinessController;
-use App\Http\Controllers\Business\TwofactorController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ETranzactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Individual\IHomeController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\TaxPayerController;
+use App\Http\Controllers\TwofactorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,108 +59,29 @@ Route::get('certificate/{bsppcno}', [CertificateController::class, 'downloadCert
 Route::get('renewal/{reference}', [CertificateController::class, 'downloadRenewalCert'])->name("download.downloadRenewalCert");
 
 Route::group([
-    'prefix'     => 'portal',
+    'prefix'     => 'taxpayer',
     'middleware' => ['emailverified', 'webauthenticated', 'g2fa'],
 
 ], function ($router) {
-    Route::get('dashboard', [BusinessController::class, 'dashboard'])->name('business.dashboard');
 
-    Route::get('/view-profile', [BusinessController::class, 'viewProfile'])->name("business.viewProfile");
+    Route::post('/update-password', [TaxPayerController::class, 'updatePassword'])->name("taxpayer.updatePassword");
 
-    Route::get('/change-password', [BusinessController::class, 'changePassword'])->name("business.changePassword");
+    Route::post('/select2FA', [TaxPayerController::class, 'select2FA'])->name("taxpayer.select2FA");
 
-    Route::post('/update-profile', [BusinessController::class, 'updateProfile'])->name("business.updateProfile");
-
-    Route::post('/update-password', [BusinessController::class, 'updatePassword'])->name("business.updatePassword");
-
-    Route::get('/security', [BusinessController::class, 'security'])->name("business.security");
-
-    Route::post('/select2FA', [BusinessController::class, 'select2FA'])->name("business.select2FA");
-
-    Route::post('/enableGA', [BusinessController::class, 'enableGA'])->name("business.enableGA");
-
-    Route::get('/company-registration', [BusinessController::class, 'companyRegistration'])->name("business.companyRegistration")->middleware(["profileupdated"]);
-
-    Route::post('/purchaseRegForm', [BusinessController::class, 'purchaseRegForm'])->name("business.purchaseRegForm");
-
-    Route::get('/account-revalidation', [BusinessController::class, 'accountRevalidation'])->name("business.accountRevalidation");
-
-    Route::get('/preview-application/{id}', [BusinessController::class, 'previewApplication'])->name("business.previewApplication");
-
-    Route::get('/resume-application/{id}', [BusinessController::class, 'resumeApplication'])->name("business.resumeApplication");
-
-    Route::post('/submitApplication', [BusinessController::class, 'submitApplication'])->name("business.submitApplication");
-
-    Route::post('/finalizeApplication', [BusinessController::class, 'finalizeApplication'])->name("business.finalizeApplication");
-
-    Route::post('/processPayment', [BusinessController::class, 'processPayment'])->name("business.processPayment");
-
-    Route::get('/executed-projects/{id}', [BusinessController::class, 'pastProjects'])->name("business.pastProjects");
-
-    Route::post('/addProject', [BusinessController::class, 'addProject'])->name("business.addProject");
-
-    Route::get('/remove-project/{id}', [BusinessController::class, 'removeProject'])->name("business.removeProject");
-
-    Route::get('/company-documents/{id}', [BusinessController::class, 'companyDocuments'])->name("business.companyDocuments");
-
-    Route::post('/uploadDocument', [BusinessController::class, 'uploadDocument'])->name("business.uploadDocument");
-
-    Route::get('/remove-document/{id}', [BusinessController::class, 'removeDocument'])->name("business.removeDocument");
-
-    Route::post('/updateRegDetails', [BusinessController::class, 'updateRegDetails'])->name("business.updateRegDetails");
+    Route::post('/enableGA', [TaxPayerController::class, 'enableGA'])->name("taxpayer.enableGA");
 
     Route::group([
-        'middleware' => ['profileupdated', 'companyreg'],
+        'prefix' => 'individual',
     ], function ($router) {
-        Route::get('/company-renewals', [BusinessController::class, 'companyRenewals'])->name("business.companyRenewals");
+        Route::get('/dashboard', [IHomeController::class, 'dashboard'])->name("individual.dashboard");
 
-        Route::get('/company-renewals/preview/{reference}', [BusinessController::class, 'companyRenewalPreview'])->name("business.companyRenewalPreview");
+        Route::get('/view-profile', [IHomeController::class, 'viewProfile'])->name("individual.viewProfile");
 
-        Route::post('/initiateCompanyRenewal', [BusinessController::class, 'initiateCompanyRenewal'])->name("business.initiateCompanyRenewal");
+        Route::post('/update-profile', [IHomeController::class, 'updateProfile'])->name("individual.updateProfile");
 
-        Route::get('/company-renewals/details/{reference}', [BusinessController::class, 'companyRenewalDetails'])->name("business.companyRenewalDetails");
+        Route::get('/change-password', [TaxPayerController::class, 'changePassword'])->name("individual.changePassword");
 
-        Route::get('/company-renewals/update/{reference}', [BusinessController::class, 'editRenewalApplication'])->name("business.editRenewalApplication");
-
-        Route::post('/updateRenewalApplication', [BusinessController::class, 'updateRenewalApplication'])->name("business.updateRenewalApplication");
-
-        Route::get('/power-of-attorney', [BusinessController::class, 'powerOfAttorney'])->name("business.powerOfAttorney");
-
-        Route::get('/power-of-attorney/preview/{reference}', [BusinessController::class, 'powerOfAttorneyPreview'])->name("business.powerOfAttorneyPreview");
-
-        Route::post('/initiatePOAApplication', [BusinessController::class, 'initiatePOAApplication'])->name("business.initiatePOAApplication");
-
-        Route::get('/power-of-attorney/details/{reference}', [BusinessController::class, 'powerOfAttorneyDetails'])->name("business.powerOfAttorneyDetails");
-
-        Route::get('/power-of-attorney/update/{reference}', [BusinessController::class, 'editPoaApplication'])->name("business.editPoaApplication");
-
-        Route::post('/updatePoaApplication', [BusinessController::class, 'updatePoaApplication'])->name("business.updatePoaApplication");
-
-        Route::get('/award-letters', [BusinessController::class, 'awardLetters'])->name("business.awardLetters");
-
-        Route::get('/award-letters/preview/{reference}', [BusinessController::class, 'awardLettersPreview'])->name("business.awardLettersPreview");
-
-        Route::post('/initiateAwardLetterRequest', [BusinessController::class, 'initiateAwardLetterRequest'])->name("business.initiateAwardLetterRequest");
-
-        Route::get('/award-letters/details/{reference}', [BusinessController::class, 'awardLettersDetails'])->name("business.awardLettersDetails");
-
-        Route::get('/award-letters/update/{reference}', [BusinessController::class, 'editAwardApplication'])->name("business.editAwardApplication");
-
-        Route::post('/updateAwardApplication', [BusinessController::class, 'updateAwardApplication'])->name("business.updateAwardApplication");
-
-        Route::get('/processing-fees', [BusinessController::class, 'processingFees'])->name("business.processingFees");
-
-        Route::get('/processing-fees/preview/{reference}', [BusinessController::class, 'processingFeesPreview'])->name("business.processingFeesPreview");
-
-        Route::post('/initiatePRFRemittance', [BusinessController::class, 'initiatePRFRemittance'])->name("business.initiatePRFRemittance");
-
-        Route::get('/processing-fees/details/{reference}', [BusinessController::class, 'processingFeesDetails'])->name("business.processingFeesDetails");
-
-        Route::get('/processing-fees/update/{reference}', [BusinessController::class, 'editPRFApplication'])->name("business.editPRFApplication");
-
-        Route::post('/updatePRFApplication', [BusinessController::class, 'updatePRFApplication'])->name("business.updatePRFApplication");
-
-        Route::get('/viewCertificate/{bsppcno}', [CertificateController::class, 'viewCertificate'])->name("business.viewCertificate");
+        Route::get('/security', [IHomeController::class, 'security'])->name("individual.security");
 
     });
 });

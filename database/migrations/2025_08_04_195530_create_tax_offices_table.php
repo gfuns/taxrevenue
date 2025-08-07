@@ -16,6 +16,8 @@ return new class extends Migration
             $table->integer('lga_id')->unsigned();
             $table->text("tax_office");
             $table->text("address");
+            $table->string("email")->nullable();
+            $table->string("phone_number")->nullable();
             $table->enum("status", ["active", "deactivated"])->default("active");
             $table->timestamps();
         });

@@ -54,14 +54,20 @@ class HomeController extends Controller
         } catch (\Exception $e) {
             report($e);
         } finally {
-            if (Auth::user()->role == "Business") {
+            if (Auth::user()->role == "Individual Tax Payer") {
 
                 if (Auth::user()->profile_updated == 1) {
-                    return redirect()->route("business.dashboard");
+                    return redirect()->route("individual.dashboard");
                 } else {
-                    return redirect()->route("business.viewProfile");
+                    return redirect()->route("individual.viewProfile");
                 }
 
+            } else if (Auth::user()->role == "Corporate Tax Payer") {
+                if (Auth::user()->profile_updated == 1) {
+                    return redirect()->route("corporate.dashboard");
+                } else {
+                    return redirect()->route("corporate.viewProfile");
+                }
             } else {
                 if (Auth::user()->profile_updated == 1) {
                     return redirect()->route("admin.dashboard");

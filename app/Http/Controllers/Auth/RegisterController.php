@@ -76,11 +76,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'last_name'    => ['required', 'string', 'max:255'],
-            'other_names'  => ['required', 'string', 'max:255'],
-            'email'        => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone_number' => ['required', 'string', 'max:255', 'unique:users'],
-            'password'     => ['required', 'string', 'min:8', 'confirmed'],
+            'last_name'     => ['required', 'string', 'max:255'],
+            'other_names'   => ['required', 'string', 'max:255'],
+            'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'      => ['required', 'string', 'min:8', 'confirmed'],
+            'taxpayer_type' => ['required', 'string'],
         ]);
     }
 
@@ -92,16 +92,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
         return User::create([
-            'last_name'    => $data['last_name'],
-            'other_names'  => $data['other_names'],
-            'email'        => $data['email'],
-            'role'         => "Business",
-            'role_id'      => 2,
-            'phone_number' => $data['phone_number'],
-            'password'     => Hash::make($data['password']),
+            'last_name'   => $data['last_name'],
+            'other_names' => $data['other_names'],
+            'email'       => $data['email'],
+            'role'        => ($data['taxpayer_type'] == 1 ? "Individual Tax Payer" : "Corporate Tax Payer"),
+            'role_id'     => $data['taxpayer_type'],
+            'password'    => Hash::make($data['password']),
         ]);
-
     }
 }

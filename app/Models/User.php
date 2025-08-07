@@ -31,6 +31,7 @@ class User extends Authenticatable
         'role_id',
         'password',
         'email_verified_at',
+        'taxpayer_type',
     ];
 
     /**

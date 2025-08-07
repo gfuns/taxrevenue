@@ -114,8 +114,8 @@
                         <div class="input-item">
                              <select id="accountType" name="taxpayer_type" class=" input-bordered" data-width="100%" required>
                                 <option value="">Select Tax Payer Type</option>
-                                <option value="individual">Individual Tax Payer</option>
-                                <option value="corporate">Corporate Tax Payer</option>
+                                <option value="1">Individual Tax Payer</option>
+                                <option value="2">Corporate Tax Payer</option>
                             </select>
                         </div>
                         <div class="input-item">
