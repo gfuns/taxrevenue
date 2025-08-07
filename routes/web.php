@@ -206,6 +206,8 @@ Route::group([
     Route::get('/processing-fees/{reference}', [ReceiptController::class, 'processingFeesReceipt'])->name("receipt.processingFees");
 });
 
+Route::get('/ajax/tax-stations/{lga}', [App\Http\Controllers\AjaxController::class, 'getLevels'])->name('ajax.getLevels');
+
 Route::get('/etranzact/renewal/callback', [ETranzactController::class, 'handleRenewalCallback'])->name("etranzact.renewal.callBack");
 Route::get('/etranzact/poa/callback', [ETranzactController::class, 'handlePOACallback'])->name("etranzact.poa.callBack");
 Route::get('/etranzact/award/callback', [ETranzactController::class, 'handleAwardCallback'])->name("etranzact.award.callBack");

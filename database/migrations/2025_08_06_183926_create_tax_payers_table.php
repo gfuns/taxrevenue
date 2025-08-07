@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tax_payers', function (Blueprint $table) {
             $table->increments("id");
             $table->integer('user_id')->unsigned();
-            $table->text("tax_payer");
+            $table->string("tax_payer")->unique();
             $table->string("btin");
             $table->enum("category", ["individual", "corporate"]);
             $table->integer("profile_updated")->default(0);
