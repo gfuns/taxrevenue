@@ -43,21 +43,21 @@
                     <div class="card-body p-lg-6">
                         <!-- form -->
                         <form method="post" class="needs-validation" novalidate
-                            action="{{ route('individual.updateProfile') }}">
+                            action="{{ route('individual.initiateBillPayment') }}">
                             @csrf
                             <div class="row">
                                 <!-- form group -->
                                 <div class="row" style="padding: 0px !important; margin-left: 1px">
                                     <label class="form-label">Payment Period <span class="text-danger">*</span></label>
                                     <div class="mb-3 col-md-6 col-12">
-                                        <input type="text" name="last_name" value="" class="form-control"
-                                            placeholder="Enter Payment Period" required>
+                                        <input id="startPeriod" type="text" name="start_period" value=""
+                                            class="form-control" placeholder="Enter Start Period" required>
 
                                         <div class="invalid-feedback">Please select payment period.</div>
                                     </div>
                                     <div class="mb-3 col-md-6 col-12">
-                                        <input type="text" name="last_name" value="" class="form-control"
-                                            placeholder="Enter Payment Period" required>
+                                        <input id="endPeriod" type="text" name="end_period" value=""
+                                            class="form-control" placeholder="Enter End Period" required>
 
                                         <div class="invalid-feedback">Please select payment period.</div>
                                     </div>
@@ -80,7 +80,7 @@
                                     <label class="form-label">Revenue Item<span class="text-danger">*</span></label>
                                     <select id="revenueItem" name="revenue_item" class="form-control" data-width="100%"
                                         required>
-                                        <option value="">Select Revenue Item</option>
+                                        <option value="" data-amount="999">Select Tax/Revenue Item</option>
 
                                     </select>
 
@@ -89,7 +89,7 @@
 
                                 <div class="mb-3 col-12">
                                     <label class="form-label">Amount <span class="text-danger">*</span></label>
-                                    <input type="text" name="amount" value="" class="form-control"
+                                    <input id="taxAmount" type="text" name="amount" value="" class="form-control"
                                         placeholder="Amount" required readonly>
                                 </div>
 
@@ -130,6 +130,41 @@
 
 
 
+    $('#mda').change(function() {
+        var mda = $(this).val();
+        $('#revenueItem').html(
+            '<option value="">Fetching data, please wait...</option>'); // Show "Fetching data" message
+        $.ajax({
+            url: "/ajax/tax-items/" + mda,
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+                var options = "<option value=''>Select Tax/Revenue Item</option>";
+                $.each(data, function(key, value, amount) {
+                    options += "<option value='" + key + "' data-amount='"+amount+"'>" + value + "</option>";
+                });
+                $('#revenueItem').html(options);
+            }
+        });
+    });
+
+    $('#revenueItem').change(function() {
+        var taxId = $(this).val();
+        $('#taxAmount').html(
+            '<option value="">Fetching data, please wait...</option>'); // Show "Fetching data" message
+        $.ajax({
+            url: "/ajax/tax-amount/" + taxId,
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+
+                 $('#taxAmount').val(data.amount);
+
+            }
+        });
+    });
+
+
     function validateInput(event) {
         const input = event.target;
         let value = input.value;
@@ -154,6 +189,22 @@
         // Assign the cleaned value back to the input field
         input.value = value;
     }
+
+    $('#startPeriod').datepicker({
+        format: "MM yyyy", // Display format
+        startView: "months", // Start in months view
+        minViewMode: "months", // Only allow month/year selection
+        autoclose: true,
+        orientation: "bottom auto" // Force dropdown to bottom
+    });
+
+    $('#endPeriod').datepicker({
+        format: "MM yyyy", // Display format
+        startView: "months", // Start in months view
+        minViewMode: "months", // Only allow month/year selection
+        autoclose: true,
+        orientation: "bottom auto" // Force dropdown to bottom
+    });
 </script>
 
 @endsection

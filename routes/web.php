@@ -94,9 +94,24 @@ Route::group([
 
         Route::get('/generate-bill', [IHomeController::class, 'generateBill'])->name("individual.generateBill");
 
+        Route::post('/initiateBillPayment', [IHomeController::class, 'initiateBillPayment'])->name("individual.initiateBillPayment");
+
+        Route::get('/bill/payment-preview/{reference}', [IHomeController::class, 'paymentPreview'])->name("individual.paymentPreview");
+
+        Route::get('/bill/payment-details/{reference}', [IHomeController::class, 'paymentDetails'])->name("individual.paymentDetails");
+
+        Route::post('/bill/processPayment', [IHomeController::class, 'processBillPayment'])->name("individual.processBillPayment");
+
         Route::get('/bill-payments', [IHomeController::class, 'billPayments'])->name("individual.billPayments");
 
     });
+});
+
+Route::group([
+    'prefix' => 'receipts',
+], function ($router) {
+    Route::get('/payment-receipt/{reference}', [ReceiptController::class, 'paymentReceipt'])->name("receipt.paymentReceipt");
+
 });
 
 Route::group([
@@ -207,23 +222,8 @@ Route::group([
 
 });
 
-Route::group([
-    'prefix' => 'receipts',
-], function ($router) {
-    Route::get('/company-renewals/{reference}', [ReceiptController::class, 'companyRenewalReceipt'])->name("receipt.companyRenewal");
+Route::get('/ajax/tax-items/{mda}', [App\Http\Controllers\AjaxController::class, 'getTaxItems'])->name('ajax.getTaxItems');
 
-    Route::get('/power-of-attorney/{reference}', [ReceiptController::class, 'powerOfAttorneyReceipt'])->name("receipt.powerOfAttorney");
+Route::get('/ajax/tax-amount/{taxId}', [App\Http\Controllers\AjaxController::class, 'getTaxAmount'])->name('ajax.getTaxAmount');
 
-    Route::get('/award-letters/{reference}', [ReceiptController::class, 'awardLettersReceipt'])->name("receipt.awardLetters");
-
-    Route::get('/processing-fees/{reference}', [ReceiptController::class, 'processingFeesReceipt'])->name("receipt.processingFees");
-});
-
-Route::get('/ajax/tax-stations/{lga}', [App\Http\Controllers\AjaxController::class, 'getLevels'])->name('ajax.getLevels');
-
-Route::get('/etranzact/renewal/callback', [ETranzactController::class, 'handleRenewalCallback'])->name("etranzact.renewal.callBack");
-Route::get('/etranzact/poa/callback', [ETranzactController::class, 'handlePOACallback'])->name("etranzact.poa.callBack");
-Route::get('/etranzact/award/callback', [ETranzactController::class, 'handleAwardCallback'])->name("etranzact.award.callBack");
-Route::get('/etranzact/prf/callback', [ETranzactController::class, 'handlePRFCallback'])->name("etranzact.prf.callBack");
-Route::get('/etranzact/regform/callback', [ETranzactController::class, 'handleRegFormCallback'])->name("etranzact.regform.callBack");
-Route::get('/etranzact/regfee/callback', [ETranzactController::class, 'handleRegFeeCallback'])->name("etranzact.regfee.callBack");
+Route::get('/etranzact/bill/callback', [ETranzactController::class, 'handleBillPaymentCallback'])->name("etranzact.billPayment.callBack");

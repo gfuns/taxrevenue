@@ -28,6 +28,9 @@
     <script src="{{ asset('assets/js/vendors/inputmask.js') }}"></script>
     <script src="{{ asset('assets/js/vendors/validation.js') }}"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+
 
     @include('sweetalert::alert')
 

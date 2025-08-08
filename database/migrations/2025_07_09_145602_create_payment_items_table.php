@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('payment_items', function (Blueprint $table) {
             $table->increments("id");
             $table->integer('mda_id')->unsigned();
+            $table->integer("payment_type_id")->unsigned()->nullable();
             $table->string("revenue_item");
             $table->string("revenue_code");
             $table->double("amount", 12, 2)->nullable();

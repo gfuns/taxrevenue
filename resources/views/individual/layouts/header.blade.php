@@ -9,6 +9,8 @@
     <!-- Favicon icon-->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
 
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
     <!-- Libs CSS -->
     <link href="{{ asset('assets/fonts/feather/feather.css') }}" rel="stylesheet">
@@ -79,6 +81,13 @@
 
         [data-theme="dark"] ::placeholder {
             color: white;
+        }
+
+        .datepicker-dropdown {
+            padding: 15px;
+            /* space inside the dropdown */
+            /* border-radius: 8px; */
+            /* optional: rounded corners */
         }
     </style>
 </head>

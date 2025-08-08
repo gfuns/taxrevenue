@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ConsultantRequests;
 use App\Models\IndividualTaxpayer;
 use App\Models\Mda;
+use App\Models\PaymentHistory;
+use App\Models\PaymentItem;
 use App\Models\TaxConsultants;
 use App\Models\TaxOffice;
 use App\Models\TaxPayer;
@@ -14,6 +16,7 @@ use Auth;
 use Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class IHomeController extends Controller
@@ -262,6 +265,164 @@ class IHomeController extends Controller
     }
 
     /**
+     * initiateBillPayment
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function initiateBillPayment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'start_period' => 'required',
+            'end_period'   => 'required',
+            'mda'          => 'required',
+            'revenue_item' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $revenueItem = PaymentItem::find($request->revenue_item);
+
+        $feeCharged = self::getFee($revenueItem->id);
+
+        $bill                  = new PaymentHistory;
+        $bill->user_id         = Auth::user()->id;
+        $bill->tax_payer_id    = Auth::user()->taxpayer->id;
+        $bill->tax_office_id   = Auth::user()->individual->tax_office_id;
+        $bill->period          = $request->start_period . " - " . $request->end_period;
+        $bill->mda_id          = $request->mda;
+        $bill->narration       = $revenueItem->revenue_item . " Payment";
+        $bill->payment_item_id = $revenueItem->id;
+        $bill->payment_type_id = $revenueItem->payment_type_id;
+        $bill->amount          = $revenueItem->amount;
+        $bill->fee_charged     = $feeCharged;
+        $bill->total           = ($revenueItem->amount + $feeCharged);
+        if ($bill->save()) {
+            toast('Bill Generated Successfully.', 'success');
+            return redirect()->route("individual.paymentPreview", [$bill->reference]);
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * paymentPreview
+     *
+     * @param mixed id
+     *
+     * @return void
+     */
+    public function paymentPreview($reference)
+    {
+        $bill = PaymentHistory::where("reference", $reference)->first();
+        return view("individual.payment_preview", compact("bill"));
+    }
+
+    /**
+     * paymentDetails
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function paymentDetails($reference)
+    {
+        $bill = PaymentHistory::where("reference", $reference)->first();
+        return view("individual.payment_details", compact("bill"));
+    }
+
+    /**
+     * processBillPayment
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function processBillPayment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'reference' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $paymentLog = PaymentHistory::where("reference", $request->reference)->first();
+
+        try {
+            $response = Http::accept('application/json')->withHeaders([
+                'authorization' => env('CREDO_PUBLIC_KEY'),
+                'content_type'  => "Content-Type: application/json",
+            ])->post(env("CREDO_URL") . "/transaction/initialize", [
+                "customerFirstName"   => Auth::user()->other_names,
+                "customerLastName"    => Auth::user()->last_name,
+                "customerPhoneNumber" => Auth::user()->phone_number,
+                "email"               => Auth::user()->email,
+                "amount"              => ($paymentLog->total * 100),
+                "reference"           => $paymentLog->reference,
+                "narration"           => $paymentLog->narration,
+                "callbackUrl"         => route("etranzact.billPayment.callBack"),
+                "bearer"              => 0,
+            ]);
+
+            $responseData = $response->collect("data");
+
+            if (isset($responseData['authorizationUrl'])) {
+                return redirect($responseData['authorizationUrl']);
+            }
+
+            toast("Credo E-Tranzact gateway service took too long to respond.", 'error');
+            return back();
+        } catch (\Exception $e) {
+            report($e);
+            toast('Error initializing payment gateway. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * billPayments
+     *
+     * @return void
+     */
+    public function billPayments()
+    {
+        $search = request()->search;
+        $status = request()->status;
+
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord   = PaymentHistory::query()->where("user_id", Auth::user()->id)->where("reference", $search)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = PaymentHistory::query()->where("user_id", Auth::user()->id)->where("reference", $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord   = PaymentHistory::query()->where("user_id", Auth::user()->id)->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = PaymentHistory::query()->where("user_id", Auth::user()->id)->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord   = PaymentHistory::query()->where("user_id", Auth::user()->id)->where("reference", $search)->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = PaymentHistory::query()->where("user_id", Auth::user()->id)->where("reference", $search)->where("status", $status)->paginate(50);
+        } else {
+            $lastRecord   = PaymentHistory::where("user_id", Auth::user()->id)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = PaymentHistory::where("user_id", Auth::user()->id)->paginate(50);
+        }
+
+        return view("individual.bill_payment_history", compact("transactions", "search", "status", "lastRecord", "marker"));
+    }
+
+    /**
      * getMarkers Helper Function
      *
      * @param mixed lastRecord
@@ -291,5 +452,21 @@ class IHomeController extends Controller
         }
 
         return $marker;
+    }
+
+    /**
+     * getFee
+     *
+     * @param mixed id
+     * @param mixed amount
+     *
+     * @return void
+     */
+    public static function getFee($id)
+    {
+        $item = PaymentItem::find($id);
+        $fee  = ((env("BDIC_FEE_PERCENT") / 100) * $item->amount);
+        return $fee;
+
     }
 }
