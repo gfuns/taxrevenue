@@ -88,7 +88,7 @@
                         @if ($bill->status == 'successful')
                             <div class="col-12">
                                 <a href="{{ route('receipt.paymentReceipt', [$bill->reference]) }}"
-                                    target="_blank"><button class="btn btn-success w-100" type="button">Print
+                                    target="_blank"><button class="btn btn-outline-success w-100" type="button">Print
                                         Payment
                                         Receipt</button></a>
 

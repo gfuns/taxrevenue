@@ -34,6 +34,16 @@ class PaymentHistory extends Model
         return $this->belongsTo('App\Models\PaymentItem', 'payment_item_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
+
+    public function taxpayer()
+    {
+        return $this->belongsTo('App\Models\TaxPayer', 'tax_payer_id');
+    }
+
     public static function booted()
     {
         static::creating(function ($payment) {
@@ -54,7 +64,7 @@ class PaymentHistory extends Model
         // Remove any non-numeric characters (like dots)
         $reference = preg_replace('/[^0-9]/', '', $mergedData);
 
-        return substr(str_shuffle($reference), 0, 15);
+        return substr(str_shuffle($reference), 0, 12);
 
     }
 }

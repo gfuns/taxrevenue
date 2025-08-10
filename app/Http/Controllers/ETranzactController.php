@@ -1,12 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Mail\AdminRenewalNotification as AdminRenewalNotification;
 use App\Models\PaymentHistory;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Mail;
 
 class ETranzactController extends Controller
 {
@@ -24,7 +21,7 @@ class ETranzactController extends Controller
         $status  = $payment["status"];
         $message = $payment["statusMessage"] == "Successfully processed" ? "successful" : "failed";
 
-        $paymentData = PaymentHistory::where("reference_number", $request->reference)->first();
+        $paymentData = PaymentHistory::where("reference", $request->reference)->first();
 
         if (isset($paymentData)) {
 
@@ -33,12 +30,15 @@ class ETranzactController extends Controller
                 $paymentData->status = $message;
                 $paymentData->save();
 
-                try {
-                    $user = User::where("email", "tsegbatersootimothy@gmail.com")->first();
-                    Mail::to($user)->send(new AdminRenewalNotification($user, $trx));
-                } catch (\Exception $e) {
-                    report($e);
-                }
+                // try {
+                //     $user = Auth::user();
+                //     Mail::to($user)->send(new PaymentNotification($user, $paymentData));
+                // } catch (\Exception $e) {
+                //     report($e);
+                // }
+
+                toast("Payment Successful.", 'success');
+                return redirect()->route("individual.billPayments");
 
             } catch (\Exception $e) {
 
