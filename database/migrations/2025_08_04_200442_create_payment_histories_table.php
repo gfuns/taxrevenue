@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('payment_histories', function (Blueprint $table) {
             $table->increments("id");
-            $table->integer("user_id")->unsigned();
-            $table->integer("tax_payer_id")->unsigned();
+            $table->integer("user_id")->unsigned()->nullable();
+            $table->integer("tax_payer_id")->unsigned()->nullable();
             $table->integer("mda_id")->unsigned();
             $table->integer("payment_type_id")->unsigned()->nullable();
             $table->integer("payment_item_id")->unsigned();
-            $table->integer("tax_office_id")->unsigned();
+            $table->integer("tax_office_id")->unsigned()->nullable();
+            $table->text("tax_payer");
             $table->string("period");
             $table->string("reference");
             $table->text("narration")->nullable();

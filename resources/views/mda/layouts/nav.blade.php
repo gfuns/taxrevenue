@@ -21,18 +21,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="revenueItems" href="{{ route('mda.revenueItems') }}">
-                        <i class="nav-icon bi bi-person-bounding-box me-2"></i>
-                        Revenue Items
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <div class="nav-divider"></div>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link " id="generateBill" href="">
+                    <a class="nav-link " id="generateBill" href="{{ route("mda.generateBill") }}">
                         <i class="nav-icon bi bi-person-bounding-box me-2"></i>
                         Generate Tax Payer Bill
                     </a>
@@ -45,9 +34,22 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="payments" href="">
+                    <a class="nav-link " id="payments" href="{{ route("mda.paymentHistory") }}">
                         <i class="nav-icon bi-clipboard2-data-fill me-2"></i>
                         Payment History
+                    </a>
+                </li>
+            @endif
+
+            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 1) == true)
+                <li class="nav-item">
+                    <div class="nav-divider"></div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " id="revenueItems" href="{{ route('mda.revenueItems') }}">
+                        <i class="nav-icon bi bi-person-bounding-box me-2"></i>
+                        Revenue Items
                     </a>
                 </li>
             @endif
@@ -58,7 +60,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="reports" href="{{ route("mda.reports") }}">
+                    <a class="nav-link " id="reports" href="{{ route('mda.reports') }}">
                         <i class="nav-icon bi-clipboard2-data-fill me-2"></i>
                         Administrative Reports
                     </a>
@@ -70,8 +72,8 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse"
-                    data-bs-target="#navSettings" aria-expanded="false" aria-controls="navSettings">
+                <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse" data-bs-target="#navSettings"
+                    aria-expanded="false" aria-controls="navSettings">
                     <i class="nav-icon bi bi-gear-wide-connected me-2"></i> Account Settings
                 </a>
                 <div id="navSettings" class="collapse " data-bs-parent="#sideNavbar">

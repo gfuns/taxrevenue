@@ -40,12 +40,12 @@
 
                     <li>
                         <a class="dropdown-item" href="{{ route("mda.viewProfile") }}">
-                            <i class="fe fe-user me-2"></i> Profile
+                            <i class="fe fe-user me-2"></i> Profile Information
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" href="{{ route("mda.security") }}">
-                            <i class="fe fe-lock me-2"></i> Security
+                            <i class="fe fe-lock me-2"></i> Account Security
                         </a>
                     </li>
                 </ul>

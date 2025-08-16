@@ -238,6 +238,8 @@
                         </div>
 
 
+                        <input type="hidden" name="mda_id" value="{{ $mda }}" class="form-control" required>
+
                         <div class="col-md-12 border-bottom"></div>
                         <!-- button -->
                         <div class="col-12 mt-4">
@@ -257,7 +259,7 @@
     <div class="offcanvas offcanvas-end" tabindex="-1" id="editRevenueItem" style="width: 600px;">
         <div class="offcanvas-body" data-simplebar>
             <div class="offcanvas-header px-2 pt-0">
-                <h3 class="offcanvas-title" id="offcanvasExampleLabel"> Edit Allowance Details</h3>
+                <h3 class="offcanvas-title" id="offcanvasExampleLabel"> Edit Revenue Item</h3>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                     aria-label="Close"></button>
             </div>
@@ -309,6 +311,8 @@
                         </div>
 
                         <input id="myid" type="hidden" name="item_id" class="form-control" required>
+
+                        <input type="hidden" name="mda_id" value="{{ $mda }}" class="form-control" required>
 
                         <div class="col-md-12 border-bottom"></div>
                         <!-- button -->

@@ -29,6 +29,8 @@
     <script src="{{ asset('assets/js/vendors/validation.js') }}"></script>
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
     @include('sweetalert::alert')
 
     {{-- @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"]) --}}
@@ -115,6 +117,21 @@
                 $("#uper").css("display", "none");
                 $("#uamount").removeAttr("required");
                 $("#upercentage").removeAttr("required");
+            }
+        });
+
+        $("#isTaxPayer").change(function() {
+
+            if ($("#isTaxPayer").is(":checked")) {
+                $("#tpBtin").css("display", "block");
+                $("#btin").attr("required", true);
+                $("#tpName").css("display", "none");
+                $("#taxpayer").removeAttr("required");
+            } else {
+                $("#tpName").css("display", "block");
+                $("#taxpayer").attr("required", true);
+                $("#tpBtin").css("display", "none");
+                $("#btin").removeAttr("required");
             }
         });
 

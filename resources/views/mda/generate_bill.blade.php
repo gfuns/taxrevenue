@@ -1,7 +1,7 @@
-@extends('individual.layouts.app')
+@extends('mda.layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Generate / Pay Bill')
+@section('title', env('APP_NAME') . ' | Generate Tax Payer Bill')
 
 <!-- Container fluid -->
 <section class="container-fluid p-4">
@@ -10,7 +10,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-4 d-lg-flex align-items-center justify-content-between">
                 <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-0 h2 fw-bold">Generate / Pay Bill </h1>
+                    <h1 class="mb-0 h2 fw-bold">Generate Tax Payer Bill </h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -21,7 +21,7 @@
                                 <a href="#">Payments</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Generate / Pay Bill
+                                Generate Tax Payer Bill
                             </li>
                         </ol>
                     </nav>
@@ -43,37 +43,56 @@
                     <div class="card-body p-lg-6">
                         <!-- form -->
                         <form method="post" class="needs-validation" novalidate
-                            action="{{ route('individual.initiateBillPayment') }}">
+                            action="{{ route('mda.initiateBillGeneration') }}">
                             @csrf
                             <div class="row">
                                 <!-- form group -->
+                                <div class="mb-3 col-12">
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="isTaxPayer"
+                                                name="registered" value="yes" checked>
+                                            <label class="form-check-label" for="btin"><span
+                                                    style="color:black">Registered Tax Payer?</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="tpBtin" class="mb-3 col-12">
+                                    <label class="form-label">B-TIN <span class="text-danger">*</span></label>
+                                    <input id="btin" type="text" name="btin" value=""
+                                        class="form-control" placeholder="Enter Tax Payer's B-TIN" autocomplete="off"
+                                        required>
+
+                                    <div class="invalid-feedback">Please enter tax payer's B-TIN.</div>
+                                </div>
+
+                                <div id="tpName" class="mb-3 col-12" style="display: none">
+                                    <label class="form-label">Tax Payer Name <span class="text-danger">*</span></label>
+                                    <input id="taxpayer" type="text" name="tax_payer" value=""
+                                        class="form-control" placeholder="Enter Tax Payer's Name" autocomplete="off"
+                                        required>
+
+                                    <div class="invalid-feedback">Please enter tax payer's Name.</div>
+                                </div>
+
+
                                 <div class="row" style="padding: 0px !important; margin-left: 1px">
                                     <label class="form-label">Payment Period <span class="text-danger">*</span></label>
                                     <div class="mb-3 col-md-6 col-12">
                                         <input id="startPeriod" type="text" name="start_period" value=""
-                                            class="form-control" placeholder="Enter Start Period" autocomplete="off" required>
+                                            class="form-control" placeholder="Enter Start Period" autocomplete="off"
+                                            required>
 
                                         <div class="invalid-feedback">Please select payment period.</div>
                                     </div>
                                     <div class="mb-3 col-md-6 col-12">
                                         <input id="endPeriod" type="text" name="end_period" value=""
-                                            class="form-control" placeholder="Enter End Period" autocomplete="off" required>
+                                            class="form-control" placeholder="Enter End Period" autocomplete="off"
+                                            required>
 
                                         <div class="invalid-feedback">Please select payment period.</div>
                                     </div>
-                                </div>
-
-                                <div class="mb-3 col-12">
-                                    <label class="form-label">MDA<span class="text-danger">*</span></label>
-                                    <select id="mda" name="mda" class="form-control" data-width="100%"
-                                        required>
-                                        <option value="">Select MDA</option>
-                                        @foreach ($mdas as $mda)
-                                            <option value="{{ $mda->id }}">{{ $mda->mda }}</option>
-                                        @endforeach
-                                    </select>
-
-                                    <div class="invalid-feedback">Please select MDA.</div>
                                 </div>
 
                                 <div class="mb-3 col-12">
@@ -81,7 +100,10 @@
                                     <select id="revenueItem" name="revenue_item" class="form-control" data-width="100%"
                                         required>
                                         <option value="" data-amount="999">Select Tax/Revenue Item</option>
-
+                                        @foreach ($paymentItems as $pi)
+                                            <option value="{{ $pi->id }}">{{ $pi->revenue_item }} |
+                                                {{ $pi->revenue_code }}</option>
+                                        @endforeach
                                     </select>
 
                                     <div class="invalid-feedback">Please select tax station.</div>
@@ -89,8 +111,9 @@
 
                                 <div class="mb-3 col-12">
                                     <label class="form-label">Amount <span class="text-danger">*</span></label>
-                                    <input id="taxAmount" type="text" name="amount" value="" class="form-control"
-                                        placeholder="Amount" required readonly>
+                                    <input id="taxAmount" type="text" name="amount" value=""
+                                        class="form-control" placeholder="Amount" required oninput="validateInput(event)">
+                                        <div class="invalid-feedback">Please enter amount.</div>
                                 </div>
 
                                 <div class="col-md-8"></div>
@@ -112,8 +135,7 @@
 </section>
 
 <script type="text/javascript">
-    document.getElementById("taxPayments").classList.add('show');
-    document.getElementById("genBill").classList.add('active');
+    document.getElementById("generateBill").classList.add('active');
 </script>
 
 @endsection
@@ -129,25 +151,6 @@
     });
 
 
-
-    $('#mda').change(function() {
-        var mda = $(this).val();
-        $('#revenueItem').html(
-            '<option value="">Fetching data, please wait...</option>'); // Show "Fetching data" message
-        $.ajax({
-            url: "/ajax/tax-items/" + mda,
-            type: "GET",
-            dataType: "json",
-            success: function(data) {
-                var options = "<option value=''>Select Tax/Revenue Item</option>";
-                $.each(data, function(key, value, amount) {
-                    options += "<option value='" + key + "' data-amount='"+amount+"'>" + value + "</option>";
-                });
-                $('#revenueItem').html(options);
-            }
-        });
-    });
-
     $('#revenueItem').change(function() {
         var taxId = $(this).val();
         $('#taxAmount').html(
@@ -157,8 +160,11 @@
             type: "GET",
             dataType: "json",
             success: function(data) {
-
-                 $('#taxAmount').val(data.amount);
+                if (data.amount && data.amount !== "") {
+                    $('#taxAmount').val(data.amount).prop("readonly", true);
+                } else {
+                    $('#taxAmount').val("").prop("readonly", false);
+                }
 
             }
         });

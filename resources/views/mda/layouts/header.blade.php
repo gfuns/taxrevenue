@@ -33,6 +33,9 @@
     <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets/js/countries.js') }}"></script>
 
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
     <title>@yield('title')</title>
     @yield('style')
 
@@ -79,6 +82,18 @@
 
         [data-theme="dark"] ::placeholder {
             color: white;
+        }
+
+        .datepicker-dropdown {
+            padding: 15px;
+            /* space inside the dropdown */
+            /* border-radius: 8px; */
+            /* optional: rounded corners */
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
         }
     </style>
 </head>

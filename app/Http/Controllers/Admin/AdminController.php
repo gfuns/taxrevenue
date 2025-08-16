@@ -971,25 +971,26 @@ class AdminController extends Controller
     {
         $search = request()->search;
         $status = request()->status;
+        $mda    = Auth::user()->mda_id;
 
         if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord   = PaymentItem::query()->where("mda_id", 1)->whereLike(["revenue_item", "revenue_code"], $search)->count();
+            $lastRecord   = PaymentItem::query()->where("mda_id", $mda)->whereLike(["revenue_item", "revenue_code"], $search)->count();
             $marker       = $this->getMarkers($lastRecord, request()->page);
-            $paymentItems = PaymentItem::query()->where("mda_id", 1)->whereLike(["revenue_item", "revenue_code"], $search)->paginate(50);
+            $paymentItems = PaymentItem::query()->where("mda_id", $mda)->whereLike(["revenue_item", "revenue_code"], $search)->paginate(50);
         } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = PaymentItem::query()->where("mda_id", 1)->where("status", $status)->count();
+            $lastRecord   = PaymentItem::query()->where("mda_id", $mda)->where("status", $status)->count();
             $marker       = $this->getMarkers($lastRecord, request()->page);
-            $paymentItems = PaymentItem::query()->where("mda_id", 1)->where("status", $status)->paginate(50);
+            $paymentItems = PaymentItem::query()->where("mda_id", $mda)->where("status", $status)->paginate(50);
         } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = PaymentItem::query()->where("mda_id", 1)->whereLike(["revenue_item", "revenue_code"], $search)->where("status", $status)->count();
+            $lastRecord   = PaymentItem::query()->where("mda_id", $mda)->whereLike(["revenue_item", "revenue_code"], $search)->where("status", $status)->count();
             $marker       = $this->getMarkers($lastRecord, request()->page);
-            $paymentItems = PaymentItem::query()->where("mda_id", 1)->whereLike(["revenue_item", "revenue_code"], $search)->where("status", $status)->paginate(50);
+            $paymentItems = PaymentItem::query()->where("mda_id", $mda)->whereLike(["revenue_item", "revenue_code"], $search)->where("status", $status)->paginate(50);
         } else {
-            $lastRecord   = PaymentItem::where("mda_id", 1)->count();
+            $lastRecord   = PaymentItem::where("mda_id", $mda)->count();
             $marker       = $this->getMarkers($lastRecord, request()->page);
-            $paymentItems = PaymentItem::where("mda_id", 1)->paginate(50);
+            $paymentItems = PaymentItem::where("mda_id", $mda)->paginate(50);
         }
-        return view("admin.revenue_items", compact("paymentItems", "search", "status", "lastRecord", "marker"));
+        return view("admin.revenue_items", compact("paymentItems", "search", "status", "lastRecord", "marker", "mda"));
     }
 
     /**
@@ -1005,6 +1006,7 @@ class AdminController extends Controller
             'revenue_item' => 'required',
             'revenue_code' => 'required',
             'config_type'  => 'required',
+            'mda_id'       => 'required',
             'amount'       => 'required_if:config_type,fixed',
             'percentage'   => 'required_if:config_type,percentage',
         ]);
@@ -1017,7 +1019,7 @@ class AdminController extends Controller
         }
 
         $item               = new PaymentItem;
-        $item->mda_id       = 1;
+        $item->mda_id       = $request->mda_id;
         $item->revenue_item = ucwords(strtolower($request->revenue_item));
         $item->revenue_code = $request->revenue_code;
         $item->fee_config   = $request->config_type;
@@ -1058,7 +1060,6 @@ class AdminController extends Controller
         }
 
         $item               = PaymentItem::find($request->item_id);
-        $item->mda_id       = 1;
         $item->revenue_item = ucwords(strtolower($request->revenue_item));
         $item->revenue_code = $request->revenue_code;
         $item->fee_config   = $request->config_type;

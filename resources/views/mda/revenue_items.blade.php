@@ -126,7 +126,8 @@
                                                                     class="dropdown-header">Action</span>
 
                                                                 <a style="cursor:pointer" class="dropdown-item"
-                                                                    data-bs-toggle="offcanvas" data-bs-target="#editRevenueItem"
+                                                                    data-bs-toggle="offcanvas"
+                                                                    data-bs-target="#editRevenueItem"
                                                                     data-myid="{{ $revit->id }}"
                                                                     data-revenue="{{ $revit->revenue_item }}"
                                                                     data-revcode="{{ $revit->revenue_code }}"
@@ -226,7 +227,7 @@
                         <div id="camo" class="mb-3 col-12" style="display: none">
                             <label class="form-label">Revenue Amount<span class="text-danger">*</span></label>
                             <input id="camount" type="text" name="amount" class="form-control"
-                                placeholder="Revenue Amount">
+                                placeholder="Revenue Amount" oninput="validateInput(event)">
                             <div class="invalid-feedback">Please provide revenue amount.</div>
                         </div>
 
@@ -237,6 +238,8 @@
                             <div class="invalid-feedback">Please enter percentage charge.</div>
                         </div>
 
+                        <input type="hidden" name="mda_id" value="{{ $mda }}" class="form-control"
+                            required>
 
                         <div class="col-md-12 border-bottom"></div>
                         <!-- button -->
@@ -264,7 +267,8 @@
             <!-- card body -->
             <div class="container">
                 <!-- form -->
-                <form class="needs-validation" novalidate method="post" action="{{ route('admin.updateRevenueItem') }}">
+                <form class="needs-validation" novalidate method="post"
+                    action="{{ route('admin.updateRevenueItem') }}">
                     @csrf
                     <div class="row">
                         <!-- form group -->
@@ -297,7 +301,7 @@
                         <div id="uamo" class="mb-3 col-12" style="display: none">
                             <label class="form-label">Revenue Amount<span class="text-danger">*</span></label>
                             <input id="uamount" type="text" name="amount" class="form-control"
-                                placeholder="Revenue Amount" required>
+                                placeholder="Revenue Amount" oninput="validateInput(event)" required>
                             <div class="invalid-feedback">Please provide revenue amount.</div>
                         </div>
 
@@ -309,6 +313,8 @@
                         </div>
 
                         <input id="myid" type="hidden" name="item_id" class="form-control" required>
+                        <input type="hidden" name="mda_id" value="{{ $mda }}" class="form-control"
+                            required>
 
                         <div class="col-md-12 border-bottom"></div>
                         <!-- button -->
@@ -326,7 +332,36 @@
 
 
 <script type="text/javascript">
-   document.getElementById("revenueItems").classList.add('active');
+    document.getElementById("revenueItems").classList.add('active');
 </script>
 
+@endsection
+
+@section('customjs')
+<script type="text/javascript">
+    function validateInput(event) {
+        const input = event.target;
+        let value = input.value;
+
+        // Remove commas from the input value
+        value = value.replace(/,/g, '');
+
+        // Regular expression to match non-numeric and non-decimal characters
+        const nonNumericDecimalRegex = /[^0-9.]/g;
+
+        if (nonNumericDecimalRegex.test(value)) {
+            // If non-numeric or non-decimal characters are found, remove them from the input value
+            value = value.replace(nonNumericDecimalRegex, '');
+        }
+
+        // Ensure there is only one decimal point in the value
+        const decimalCount = value.split('.').length - 1;
+        if (decimalCount > 1) {
+            value = value.replace(/\./g, '');
+        }
+
+        // Assign the cleaned value back to the input field
+        input.value = value;
+    }
+</script>
 @endsection
