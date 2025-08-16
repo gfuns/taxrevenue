@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('mda.layouts.app')
 
 @section('content')
 @section('title', env('APP_NAME') . ' | Account Security')
@@ -57,7 +57,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+                                <a href="{{ route('mda.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="#">Account Settings</a>

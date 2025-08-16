@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\MDAController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ETranzactController;
 use App\Http\Controllers\HomeController;
@@ -115,7 +116,7 @@ Route::group([
 });
 
 Route::group([
-    'prefix'     => 'admin',
+    'prefix'     => 'birs-hq/admin',
     'middleware' => ['webauthenticated', 'g2fa'],
 
 ], function ($router) {
@@ -220,6 +221,24 @@ Route::group([
 
     Route::get('/activate-taxpayer/{id}', [AdminController::class, 'activateTaxPayer'])->name("admin.activateTaxPayer");
 
+    Route::get('/administrative-reports', [AdminController::class, 'administrativeReports'])->name("admin.reports");
+
+});
+
+Route::group([
+    'prefix'     => 'mda/admin',
+    'middleware' => ['webauthenticated', 'g2fa'],
+
+], function ($router) {
+    Route::get('dashboard', [MDAController::class, 'dashboard'])->name('mda.dashboard');
+
+    Route::get('/view-profile', [MDAController::class, 'viewProfile'])->name("mda.viewProfile");
+
+    Route::get('/revenue-items', [MDAController::class, 'revenueItems'])->name("mda.revenueItems");
+
+    Route::get('/security', [MDAController::class, 'security'])->name("mda.security");
+
+    Route::get('/administrative-reports', [AdminController::class, 'administrativeReports'])->name("mda.reports");
 });
 
 Route::get('/ajax/tax-items/{mda}', [App\Http\Controllers\AjaxController::class, 'getTaxItems'])->name('ajax.getTaxItems');

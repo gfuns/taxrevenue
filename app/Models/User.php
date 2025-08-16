@@ -74,4 +74,9 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\TaxPayer', 'user_id');
     }
 
+    public function mda()
+    {
+        return $this->belongsTo('App\Models\Mda', 'mda_id');
+    }
+
 }

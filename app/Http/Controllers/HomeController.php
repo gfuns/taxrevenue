@@ -69,10 +69,25 @@ class HomeController extends Controller
                     return redirect()->route("corporate.viewProfile");
                 }
             } else {
-                if (Auth::user()->profile_updated == 1) {
-                    return redirect()->route("admin.dashboard");
-                } else {
-                    return redirect()->route("admin.viewProfile");
+                if (Auth::user()->category == "bdic" || Auth::user()->category == "birs hq") {
+                    if (Auth::user()->profile_updated == 1) {
+                        return redirect()->route("admin.dashboard");
+                    } else {
+                        return redirect()->route("admin.viewProfile");
+                    }
+                } else if (Auth::user()->category == "birs area office") {
+                    if (Auth::user()->profile_updated == 1) {
+                        return redirect()->route("areaOffice.dashboard");
+                    } else {
+                        return redirect()->route("areaOffice.viewProfile");
+                    }
+                } else if (Auth::user()->category == "mda admin") {
+                    if (Auth::user()->profile_updated == 1) {
+                        return redirect()->route("mda.dashboard");
+                    } else {
+                        return redirect()->route("mda.viewProfile");
+                    }
+
                 }
             }
         }

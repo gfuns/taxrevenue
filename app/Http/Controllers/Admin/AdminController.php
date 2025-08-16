@@ -91,9 +91,10 @@ class AdminController extends Controller
     public function updateProfile(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'last_name'    => 'required',
-            'other_names'  => 'required',
-            'phone_number' => 'required',
+            'last_name'     => 'required',
+            'other_names'   => 'required',
+            'phone_number'  => 'required',
+            'profile_photo' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -331,7 +332,8 @@ class AdminController extends Controller
     public function storeUserRole(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'role' => 'required|unique:user_roles',
+            'role'     => 'required|unique:user_roles',
+            'category' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -341,8 +343,9 @@ class AdminController extends Controller
             return back();
         }
 
-        $userRole       = new UserRole;
-        $userRole->role = $request->role;
+        $userRole           = new UserRole;
+        $userRole->role     = $request->role;
+        $userRole->category = $request->category;
         if ($userRole->save()) {
             toast('User Role Created Successfully.', 'success');
             return back();
@@ -374,8 +377,9 @@ class AdminController extends Controller
             return back();
         }
 
-        $userRole       = UserRole::find($request->role_id);
-        $userRole->role = $request->role;
+        $userRole           = UserRole::find($request->role_id);
+        $userRole->role     = $request->role;
+        $userRole->category = $request->category;
         if ($userRole->save()) {
             $users = User::where("role_id", $userRole->id)->update(["role" => $userRole->role]);
             toast('User Role Updated Successfully.', 'success');
@@ -393,29 +397,31 @@ class AdminController extends Controller
      */
     public function userManagement()
     {
-        $status    = request()->status;
-        $search    = request()->search;
-        $userRoles = UserRole::where("id", ">", 2)->get();
+        $status     = request()->status;
+        $search     = request()->search;
+        $userRoles  = UserRole::where("id", ">", 3)->get();
+        $mdas       = Mda::all();
+        $taxOffices = TaxOffice::all();
 
         if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = User::query()->where("role_id", ">", 2)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->count();
+            $lastRecord = User::query()->where("role_id", ">", 3)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
-            $users      = User::query()->where("role_id", ">", 2)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->paginate(50);
+            $users      = User::query()->where("role_id", ">", 3)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->paginate(50);
         } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord = User::query()->where("role_id", ">", 2)->where("status", $status)->count();
+            $lastRecord = User::query()->where("role_id", ">", 3)->where("status", $status)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
-            $users      = User::query()->where("role_id", ">", 2)->where("status", $status)->paginate(50);
+            $users      = User::query()->where("role_id", ">", 3)->where("status", $status)->paginate(50);
         } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord = User::query()->where("role_id", ">", 2)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->count();
+            $lastRecord = User::query()->where("role_id", ">", 3)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
-            $users      = User::query()->where("role_id", ">", 2)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->paginate(50);
+            $users      = User::query()->where("role_id", ">", 3)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->paginate(50);
         } else {
-            $lastRecord = User::where("role_id", ">", 2)->count();
+            $lastRecord = User::where("role_id", ">", 3)->count();
             $marker     = $this->getMarkers($lastRecord, request()->page);
-            $users      = User::where("role_id", ">", 2)->paginate(50);
+            $users      = User::where("role_id", ">", 3)->paginate(50);
         }
 
-        return view("admin.user_management", compact('users', 'userRoles', 'status', 'search'));
+        return view("admin.user_management", compact('users', 'userRoles', 'status', 'search', "mdas", "taxOffices"));
     }
 
     /**
@@ -433,6 +439,9 @@ class AdminController extends Controller
             'email'        => 'required|unique:users',
             'phone_number' => 'required|unique:users',
             'role'         => 'required',
+            'category'     => 'required',
+            'mda'          => 'required_if:category,mda admin',
+            'tax_office'   => 'required_if:category,birs area office',
         ]);
 
         if ($validator->fails()) {
@@ -442,16 +451,19 @@ class AdminController extends Controller
             return back();
         }
 
-        $role               = UserRole::find($request->role);
-        $user               = new User;
-        $user->other_names  = $request->other_names;
-        $user->last_name    = $request->last_name;
-        $user->email        = $request->email;
-        $user->phone_number = $request->phone_number;
-        $user->password     = Hash::make($request->phone_number);
-        $user->role         = $role->role;
-        $user->role_id      = $role->id;
-        $user->token        = Str::random(60);
+        $role                = UserRole::find($request->role);
+        $user                = new User;
+        $user->other_names   = $request->other_names;
+        $user->last_name     = $request->last_name;
+        $user->email         = $request->email;
+        $user->phone_number  = $request->phone_number;
+        $user->password      = Hash::make($request->phone_number);
+        $user->role          = $role->role;
+        $user->role_id       = $role->id;
+        $user->category      = $request->category;
+        $user->mda_id        = $request->mda;
+        $user->tax_office_id = $request->tax_office;
+        $user->token         = Str::random(60);
         if ($user->save()) {
             try {
                 Mail::to($user)->send(new AccountCreationMail($user, $user->phone_number));
@@ -503,14 +515,17 @@ class AdminController extends Controller
             return back();
         }
 
-        $role               = UserRole::find($request->role);
-        $user               = User::find($request->user_id);
-        $user->other_names  = $request->other_names;
-        $user->last_name    = $request->last_name;
-        $user->email        = $request->email;
-        $user->phone_number = $request->phone_number;
-        $user->role         = $role->role;
-        $user->role_id      = $role->id;
+        $role                = UserRole::find($request->role);
+        $user                = User::find($request->user_id);
+        $user->other_names   = $request->other_names;
+        $user->last_name     = $request->last_name;
+        $user->email         = $request->email;
+        $user->phone_number  = $request->phone_number;
+        $user->role          = $role->role;
+        $user->role_id       = $role->id;
+        $user->category      = $request->category;
+        $user->mda_id        = $request->mda;
+        $user->tax_office_id = $request->tax_office;
         if ($user->save()) {
             toast('User Information Updated Successfully.', 'success');
             return back();
@@ -1661,6 +1676,17 @@ class AdminController extends Controller
             toast('Something went wrong. Please try again', 'error');
             return back();
         }
+    }
+
+    /**
+     * administrativeReports
+     *
+     * @return void
+     */
+    public function administrativeReports()
+    {
+        alert()->info('Coming Soon');
+        return back();
     }
 
     /**

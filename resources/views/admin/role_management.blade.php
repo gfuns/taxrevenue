@@ -55,6 +55,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>User Role</th>
+                                            <th>Category</th>
                                             <th>Permissions</th>
                                             @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
                                                 <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
@@ -67,6 +68,7 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $role->role }}</td>
+                                                <td>{{ strtoupper($role->category) }}</td>
                                                 <td> {{ $role->totalPermissions() }} Permissions Found</td>
                                                 @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
                                                     <td class="align-middle">
@@ -83,6 +85,7 @@
                                                                         data-bs-toggle="offcanvas"
                                                                         data-bs-target="#editUserRole"
                                                                         data-myid="{{ $role->id }}"
+                                                                        data-category="{{ $role->category }}"
                                                                         data-userole="{{ $role->role }}"><i
                                                                             class="fe fe-edit dropdown-item-icon"></i>Update
                                                                         Details</a>
@@ -148,6 +151,17 @@
                             <div class="invalid-feedback">Please provide user role.</div>
                         </div>
 
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Category <span class="text-danger">*</span></label>
+                            <select id="category" name="category" class="form-select" data-width="100%" required>
+                                <option value="">Select Category</option>
+                                <option value="birs hq">BIRS Headquarter Administrator</option>
+                                <option value="birs area office">BIRS Area Office Administrator</option>
+                                <option value="mda admin">MDA Administrator</option>
+                            </select>
+                            <div class="invalid-feedback">Please select role category.</div>
+                        </div>
+
                         <div class="col-md-12 border-bottom"></div>
                         <!-- button -->
                         <div class="col-12 mt-4">
@@ -173,8 +187,8 @@
             <!-- card body -->
             <div class="container">
                 <!-- form -->
-                <form class="needs-validation" novalidate method="post" action="{{ route('admin.updateUserRole') }}"
-                    enctype="multipart/form-data">
+                <form class="needs-validation" novalidate method="post"
+                    action="{{ route('admin.updateUserRole') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <!-- form group -->
@@ -183,6 +197,17 @@
                             <input id="userole" type="text" name="role" class="form-control"
                                 placeholder="Enter User Role" required>
                             <div class="invalid-feedback">Please provide user role.</div>
+                        </div>
+
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Category <span class="text-danger">*</span></label>
+                            <select id="uroleCategory" name="category" class="form-select" data-width="100%" required>
+                                <option value="">Select Category</option>
+                                <option value="birs hq">BIRS Headquarter Administrator</option>
+                                <option value="birs area office">BIRS Area Office Administrator</option>
+                                <option value="mda admin">MDA Administrator</option>
+                            </select>
+                            <div class="invalid-feedback">Please select role category.</div>
                         </div>
 
                         <input id="myid" type="hidden" name="role_id" class="form-control" required>

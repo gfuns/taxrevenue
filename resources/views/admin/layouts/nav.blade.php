@@ -66,18 +66,18 @@
                                 </li>
                             @endif
 
-                            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 13) == true)
-                                <li class="nav-item">
-                                    <a class="nav-link " id="othertaxes" href="">
-                                        Other Taxes/Revenue
-                                    </a>
-                                </li>
-                            @endif
-
                             @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 14) == true)
                                 <li class="nav-item">
                                     <a class="nav-link " id="mdataxes" href="">
                                         MDA Taxes/Revenue
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 13) == true)
+                                <li class="nav-item">
+                                    <a class="nav-link " id="othertaxes" href="">
+                                        Other Taxes/Revenue
                                     </a>
                                 </li>
                             @endif
@@ -172,7 +172,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="reports" href="">
+                    <a class="nav-link " id="reports" href="{{ route("admin.reports") }}">
                         <i class="nav-icon bi-clipboard2-data-fill me-2"></i>
                         Administrative Reports
                     </a>

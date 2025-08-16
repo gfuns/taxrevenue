@@ -53,10 +53,6 @@
             dropdownParent: $('#offcanvasRight')
         });
 
-        $('#areaOffice').select2({
-            dropdownParent: $('#offcanvasRight')
-        });
-
         $('#userrole').select2({
             dropdownParent: $('#offcanvasRight')
         });
@@ -66,10 +62,6 @@
         });
 
         $('#operation').select2({
-            dropdownParent: $('#offcanvasRight')
-        });
-
-        $('#category').select2({
             dropdownParent: $('#offcanvasRight')
         });
 
@@ -123,49 +115,6 @@
                 $("#uper").css("display", "none");
                 $("#uamount").removeAttr("required");
                 $("#upercentage").removeAttr("required");
-            }
-        });
-
-
-        $("#userrole").change(function() {
-            var category = $(this).find(":selected").data("category"); // get data-category
-            $("#rolecat").val(category); // update hidden input
-            if (category == "mda admin") {
-                $("#cmda").css("display", "block");
-                $("#mda").attr("required", true);
-                $("#careaOffice").css("display", "none");
-                $("#areaOffice").removeAttr("required");
-            } else if (category == "birs area office") {
-                $("#careaOffice").css("display", "block");
-                $("#areaOffice").attr("required", true);
-                $("#cmda").css("display", "none");
-                $("#mda").removeAttr("required");
-            } else {
-                $("#cmda").css("display", "none");
-                $("#careaOffice").css("display", "none");
-                $("#mda").removeAttr("required");
-                $("#areaOffice").removeAttr("required");
-            }
-        });
-
-        $("#uuserrole").change(function() {
-             var category = $(this).find(":selected").data("category"); // get data-category
-            $("#urolecat").val(category); // update hidden input
-            if (category == "mda admin") {
-                $("#umda").css("display", "block");
-                $("#mdau").attr("required", true);
-                $("#uareaOffice").css("display", "none");
-                $("#areaOfficeu").removeAttr("required");
-            } else if (category == "birs area office") {
-                $("#uareaOffice").css("display", "block");
-                $("#areaOfficeu").attr("required", true);
-                $("#umda").css("display", "none");
-                $("#mdau").removeAttr("required");
-            } else {
-                $("#umda").css("display", "none");
-                $("#uareaOffice").css("display", "none");
-                $("#mdau").removeAttr("required");
-                $("#areaOfficeu").removeAttr("required");
             }
         });
 
@@ -452,9 +401,6 @@
             var email = button.data('email') // Extract info from data-* attributes
             var phone = button.data('phone') // Extract info from data-* attributes
             var role = button.data('role') // Extract info from data-* attributes
-            var rolecategory = button.data('category') // Extract info from data-* attributes
-            var mda = button.data('mda') // Extract info from data-* attributes
-            var taxoffice = button.data('taxoffice') // Extract info from data-* attributes
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 
@@ -465,18 +411,9 @@
             offcanvas.find('.offcanvas-body #lastname').val(lastname)
             offcanvas.find('.offcanvas-body #email').val(email)
             offcanvas.find('.offcanvas-body #phone').val(phone)
-            offcanvas.find('.offcanvas-body #ucategory').val(rolecategory)
-            $('#uuserrole').select2({
+            $('#role').select2({
                 dropdownParent: $('#editAdmin'),
             }).val(role).trigger('change');
-            $("#mdau").select2({
-                    dropdownParent: $("#editAdmin"),
-                }).val(mda)
-                .trigger("change");
-            $("#areaOfficeu").select2({
-                    dropdownParent: $("#editAdmin"),
-                }).val(taxoffice)
-                .trigger("change");
         })
 
 
