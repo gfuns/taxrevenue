@@ -22,6 +22,7 @@ return new class extends Migration
             $table->double("income", 20, 2);
             $table->double("tax_paid", 20, 2);
             $table->enum("status", ["draft", "awaiting assessment", "awaiting payment", "paid"])->default("draft");
+            $table->integer("self_filed")->default(1);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('tax_payer_id')->references('id')->on('tax_payers')->onDelete('cascade');

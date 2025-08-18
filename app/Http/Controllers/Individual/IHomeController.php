@@ -7,6 +7,7 @@ use App\Models\IndividualTaxpayer;
 use App\Models\Mda;
 use App\Models\PaymentHistory;
 use App\Models\PaymentItem;
+use App\Models\Returns;
 use App\Models\TaxConsultants;
 use App\Models\TaxOffice;
 use App\Models\TaxPayer;
@@ -529,6 +530,78 @@ class IHomeController extends Controller
         }
 
         return view("individual.bill_payment_history", compact("transactions", "search", "status", "lastRecord", "marker"));
+    }
+
+    /**
+     * filedReturns
+     *
+     * @return void
+     */
+    public function filedReturns()
+    {
+        $search = request()->search;
+        $status = request()->status;
+
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord   = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 1)->where("reference", $search)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 1)->where("reference", $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord   = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 1)->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 1)->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord   = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 1)->where("reference", $search)->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 1)->where("reference", $search)->where("status", $status)->paginate(50);
+        } else {
+            $lastRecord   = Returns::where("user_id", Auth::user()->id)->where("self_filed", 1)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = Returns::where("user_id", Auth::user()->id)->where("self_filed", 1)->paginate(50);
+        }
+
+        return view("individual.filed_returns", compact("transactions", "search", "status", "lastRecord", "marker"));
+    }
+
+    /**
+     * employerFiledReturns
+     *
+     * @return void
+     */
+    public function employerFiledReturns()
+    {
+        $search = request()->search;
+        $status = request()->status;
+
+        if (isset(request()->search) && ! isset(request()->status)) {
+            $lastRecord   = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 2)->where("reference", $search)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 2)->where("reference", $search)->paginate(50);
+        } else if (! isset(request()->search) && isset(request()->status)) {
+            $lastRecord   = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 2)->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 2)->where("status", $status)->paginate(50);
+        } else if (isset(request()->search) && isset(request()->status)) {
+            $lastRecord   = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 2)->where("reference", $search)->where("status", $status)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 2)->where("reference", $search)->where("status", $status)->paginate(50);
+        } else {
+            $lastRecord   = Returns::where("user_id", Auth::user()->id)->where("self_filed", 2)->count();
+            $marker       = $this->getMarkers($lastRecord, request()->page);
+            $transactions = Returns::where("user_id", Auth::user()->id)->where("self_filed", 2)->paginate(50);
+        }
+
+        return view("individual.employer_filed_returns", compact("transactions", "search", "status", "lastRecord", "marker"));
+    }
+
+    /**
+     * fileReturns
+     *
+     * @return void
+     */
+    public function fileReturns()
+    {
+        return view("individual.file_returns");
     }
 
     /**

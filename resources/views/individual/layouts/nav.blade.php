@@ -52,13 +52,13 @@
                     <ul class="nav flex-column">
 
                         <li class="nav-item">
-                            <a class="nav-link " id="returns" href="">
+                            <a class="nav-link " id="filed" href="{{ route("individual.filedReturns") }}">
                                 My Filed Returns
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link " id="pit" href="">
+                            <a class="nav-link " id="empFiled" href="{{ route("individual.empFiledReturns") }}">
                                 Emp. Filed Returns
                             </a>
                         </li>

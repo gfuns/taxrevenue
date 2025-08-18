@@ -109,6 +109,14 @@ Route::group([
 
         Route::post('/addChild', [IHomeController::class, 'addChild'])->name("individual.addChild");
 
+        Route::get('/filed-returns', [IHomeController::class, 'filedReturns'])->name("individual.filedReturns");
+
+        Route::get('/file-returns', [IHomeController::class, 'fileReturns'])->name("individual.fileReturns");
+
+        Route::post('/initiateReturnsFiling', [IHomeController::class, 'initiateReturnsFiling'])->name("individual.initiateReturnsFiling");
+
+        Route::get('/employer-filed-returns', [IHomeController::class, 'employerFiledReturns'])->name("individual.empFiledReturns");
+
     });
 });
 
