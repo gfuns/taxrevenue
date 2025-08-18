@@ -190,7 +190,8 @@
 
 
 <script type="text/javascript">
-    document.getElementById("awards").classList.add('active');
+    document.getElementById("taxPayments").classList.add('show');
+    document.getElementById("billPaymnt").classList.add('active');
 </script>
 
 @endsection
