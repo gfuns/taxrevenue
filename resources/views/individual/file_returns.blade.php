@@ -73,7 +73,7 @@
                                         <input id="startPeriod" type="text" name="salary" value=""
                                             class="form-control" placeholder="Enter Salary" autocomplete="off" required>
 
-                                        <div class="invalid-feedback">Please enter Please enter an amount.</div>
+                                        <div class="invalid-feedback">Please enter an amount.</div>
                                     </div>
                                     <div class="mb-3 col-md-4 col-12">
                                         <label class="form-label" style="font-size: 11px">Allowances <span
@@ -82,7 +82,7 @@
                                             class="form-control" placeholder="Enter Allowances" autocomplete="off"
                                             required>
 
-                                        <div class="invalid-feedback">Please Please enter an amount.</div>
+                                        <div class="invalid-feedback">Please enter an amount.</div>
                                     </div>
                                     <div class="mb-3 col-md-4 col-12">
                                         <label class="form-label" style="font-size: 11px">Commissions, Bonuses,
@@ -100,7 +100,7 @@
                                         Vocation, etc <span class="text-danger">*</span></label>
                                     <input id="taxAmount" type="text" name="trades" value=""
                                         class="form-control" placeholder="Income Generated From Trade, Business, Profession, Vocation, etc" required>
-                                    <div class="invalid-feedback">Please enter Please enter an amount.</div>
+                                    <div class="invalid-feedback">Please enter an amount.</div>
                                 </div>
 
                                 <div class="mb-3 col-12">
@@ -108,7 +108,7 @@
                                             class="text-danger">*</span></label>
                                     <input id="taxAmount" type="text" name="consolidated_income" value=""
                                         class="form-control" placeholder="Enter Consolidated Gross Income" required>
-                                    <div class="invalid-feedback">Please enter Please enter an amount.</div>
+                                    <div class="invalid-feedback">Please enter an amount.</div>
                                 </div>
 
                                 <div class="col-md-8"></div>
