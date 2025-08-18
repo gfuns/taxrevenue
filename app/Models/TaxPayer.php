@@ -19,6 +19,11 @@ class TaxPayer extends Model
         return $this->hasOne('App\Models\IndividualTaxpayer', 'tax_payer_id');
     }
 
+    public function familyMembers()
+    {
+        return $this->hasMany('App\Models\TaxpayerFamily', 'tax_payer_id')->get();
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -54,4 +59,5 @@ class TaxPayer extends Model
         return "B-" . substr(str_shuffle($reference), 0, 8);
 
     }
+
 }

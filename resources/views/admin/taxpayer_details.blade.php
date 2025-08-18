@@ -14,7 +14,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('business.dashboard') }}">Dashboard</a>
+                                <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="#">Tax Payer Details</a>
@@ -33,278 +33,145 @@
                 <!-- Card header -->
                 <div class="card-header d-lg-flex align-items-center justify-content-between">
                     <div>
-                        <h4 class="mb-0">Tax Payer Registration Details
+                        <h4 class="mb-0">Tax Payer Information
                         </h4>
                     </div>
                 </div>
 
-                <div class="p-4 col-md-12">
-                    <table class="table table-hover table-centered table-bordered">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="betty" colspan="3"> TAX PAYER'S DETAILS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th width="50%">Legal Name</th>
-                                <td>{{ $company->user->last_name . ' ' . $company->user->other_names }}</td>
-                                <td rowspan="8" style="vertical-align: top !important"><img
-                                        src="{{ $company->user->profile_photo }}" style="height: 150px" /></td>
-                            </tr>
-                            <tr>
-                                <th>Email Address</th>
-                                <td>{{ $company->user->email }}</td>
-                            </tr>
-                            <tr>
-                                <th>Phone Number</th>
-                                <td>{{ $company->user->phone_number }}</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-
-
-                <div class="p-4 col-md-12">
-                    <table class="table table-hover table-centered table-bordered">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="betty" colspan="2"> TAX PAYER DETAILS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th width="50%">Application Type</th>
-                                <td>{{ $company->application_type == 'registration' ? 'New Registration' : 'Company Revalidation' }}
-                                </td>
-                            </tr>
-                            @if ($company->application_type == 'revalidation')
-                                <tr>
-                                    <th>Old BSPPC Number</th>
-                                    <td>{{ $company->old_bsppc_number }}</td>
-                                </tr>
-                            @endif
-                            <tr>
-                                <th>BSPPC Number</th>
-                                <td>{{ $company->bsppc_number }}</td>
-                            </tr>
-                            <tr>
-                                <th>CAC Registration Number</th>
-                                <td>{{ $company->cac_number }}</td>
-                            </tr>
-                            <tr>
-                                <th>Company Name</th>
-                                <td>{{ $company->company_name }}</td>
-                            </tr>
-                            <tr>
-                                <th>Company Address</th>
-                                <td>{{ $company->company_address }}</td>
-                            </tr>
-                            <tr>
-                                <th>What Business Do You Seek Registration
-                                    For?</th>
-                                <td>{{ $company->getCategories() }}</td>
-                            </tr>
-                            <tr>
-                                <th>Are You Registered With Any Works Registration
-                                    Board?</th>
-                                <td>{{ ucwords($company->prev_reg) }}</td>
-                            </tr>
-                            @if ($company->prev_reg == 'yes')
-                                <tr>
-                                    <th>Which Class?</th>
-                                    <td>{{ ucwords($company->prev_reg_class) }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Where?</th>
-                                    <td>{{ $company->prev_reg_where }}</td>
-                                </tr>
-                                <tr>
-                                    <th>For What Works?</th>
-                                    <td>{{ $company->prev_reg_works }}</td>
-                                </tr>
-                                <tr>
-                                    <th>When?</th>
-                                    <td>{{ date_format(new DateTime($company->prev_reg_when), "jS F, Y") }}</td>
-                                </tr>
-                                <tr>
-                                    <th>What Is The Registration Number Of The
-                                        Certificate?</th>
-                                    <td>{{ $company->prev_reg_no }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Is The Certiticate Of
-                                        Registration Still Valid?</th>
-                                    <td>{{ ucwords($company->prev_reg_valid) }}</td>
-                                </tr>
-                                @if ($company->prev_reg == 'no')
-                                    <tr>
-                                        <th>If Not Why?</th>
-                                        <td>{{ ucwords($company->prev_reg_invalid_reason) }}</td>
-                                    </tr>
-                                @endif
-                                <tr>
-                                    <th>Do You Have Experience Or Qualification In the
-                                        Field You Wish To Be Registered?</th>
-                                    <td>{{ ucwords($company->business_experience) }}</td>
-                                </tr>
-                                @if ($company->business_experience == 'yes')
-                                    <tr>
-                                        <th>Give Details Of Your Experience In The
-                                            Business</th>
-                                        <td>{{ $company->experience_details }}</td>
-                                    </tr>
-                                @endif
-                                <tr>
-                                    <th>How Much Capital Do You Have Available For This
-                                        Business?</th>
-                                    <td>&#8358;{{ number_format($company->business_capital, 2) }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Do You Operate A Bank Account For Your
-                                        Business?</th>
-                                    <td>{{ ucwords($company->operate_bank) }}</td>
-                                </tr>
-                                @if ($company->operate_bank == 'yes')
-                                    <tr>
-                                        <th>Bank Name</th>
-                                        <td>{{ $company->bank_name }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Bank Branch</th>
-                                        <td>{{ $company->bank_branch }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Account Number</th>
-                                        <td>{{ $company->account_number }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Postal Code</th>
-                                        <td>{{ $company->bank_postal_address }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Are You Applying For The Upgrading Of Your
-                                            Former Registration Certificate?</th>
-                                        <td>{{ ucwords($company->upgrade_application) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Application Date:</th>
-                                        <td>{{ date_format($company->created_at, 'jS F, Y g:i:sa') }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <th>Application Status</th>
-                                        <td>
-                                            @if ($company->status == 'pending' || $company->status == 'awaiting approval')
-                                                <span
-                                                    class="badge text-warning bg-light-warning">{{ ucwords($company->status) }}</span>
-                                            @elseif($company->status == 'approved')
-                                                <span
-                                                    class="badge text-success bg-light-success">{{ ucwords($company->status) }}</span>
-                                            @else
-                                                <span
-                                                    class="badge text-danger bg-light-danger">{{ ucwords($company->status) }}</span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @if ($company->status == 'rejected')
-                                        <tr>
-                                            <th>Reason For Rejection</th>
-                                            <td>{{ $company->rejection_reason }}</td>
-                                        </tr>
-                                    @endif
-                                @endif
-                            @endif
-                        </tbody>
-                    </table>
-
-                </div>
-
-                @if (count($executedProjects) > 0)
-                    <div class="p-4 table-responsive">
-                        <table class="table mb-0 text-nowrap table-hover table-centered table-with-checkbox"
-                            style="font-size: 14px">
-                            <!-- Table Head -->
-                            <thead class="table-light">
-                                <tr>
-                                    <th class="betty" colspan="4"> PAST CONTRACTS EXECUTED</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Awarding Body</th>
-                                    <th>Project Description</th>
-                                    <th>Contract Sum</th>
-                                </tr>
-                                @foreach ($executedProjects as $ep)
-                                    <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $ep->awarding_body }}</td>
-                                        <td>{{ $ep->contract_description }}</td>
-                                        <td>&#8358;{{ number_format($ep->amount, 2) }}</td>
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
-
-                    </div>
+                @if ($taxPayer->category == 'individual')
+                    @include('admin.includes.individual')
+                @else
+                    @include('admin.includes.corporate')
                 @endif
 
-                <!-- Card body -->
-                <div class="p-4 table-responsive">
-                    <table class="table mb-0 text-nowrap table-hover table-centered table-with-checkbox"
-                        style="font-size: 14px">
-                        <!-- Table Head -->
-                        <thead class="table-light">
-                            <tr>
-                                <th class="betty" colspan="3"> UPLOADED COMPANY DOCUMENTS</th>
-                            </tr>
-
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>#</th>
-                                <th>Document Title</th>
-                                <th>Uploaded Document</th>
-                            </tr>
-                            @foreach ($documents as $doc)
-                                <tr>
-                                    <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $doc->docs->document_title }}</td>
-                                    <td><a href="{{ $doc->document }}" target="_blank"><button
-                                                class="btn btn-success btn-xs">View Document</button></a></td>
-                                </tr>
-                            @endforeach
-
-                        </tbody>
-                    </table>
-                </div>
-
-                @if (
-                    \App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 2) == true &&
-                        $company->status == 'awaiting approval')
+                <div class="ps-4 pe-4 table-responsive">
                     <hr />
-                    <div class="col-md-8"></div>
-                    <!-- button -->
-                    <div class="p-4 row col-12 d-flex align-items-center justify-content-between">
-                        <div class="col-6">
-                            <a href="{{ route('admin.approveCompanyReg', [$company->id]) }}"
-                                onclick="return disableLink(this);" target=_blank>
-                                <button class="btn btn-success w-100" type="button">Approve
-                                    Application</button></a>
-                        </div>
-                        <div class="col-6">
-                            <button class="btn btn-danger w-100" type="button" data-bs-toggle="modal"
-                                data-bs-target="#rejectApplication" data-backdrop="static"
-                                data-myid="{{ $company->id }}">Reject
-                                Application</button>
+                    <div class="pt-3"><h4>Tax Payer's Payment History</h4></div>
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <!-- Card -->
+                        <div class="card rounded-3">
+                            <!-- Card Header -->
+                            <form id="form" name="form" method="GET">
+                                <div class="p-4 row gx-3">
+                                    <!-- Form -->
+                                    <div class="col-12 col-lg-9 mb-3 mb-lg-0">
+                                        <!-- search -->
+
+                                        <div class="d-flex align-items-center">
+                                            <span class="position-absolute ps-3 search-icon">
+                                                <i class="fe fe-search"></i>
+                                            </span>
+                                            <!-- input -->
+                                            <input name="search" type="search" class="form-control ps-6"
+                                                placeholder="Search Payment History Using Payment Reference......"
+                                                value="{{ $search }}">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-6 col-lg-3">
+                                        <!-- form select -->
+                                        <select id="status" name="status" class="form-select"
+                                            onChange="this.form.submit()">
+                                            <option value="">All Statuses</option>
+                                            <option value="pending" @if ($status == 'pending') selected @endif>
+                                                Pending
+                                            </option>
+                                            <option value="successful"
+                                                @if ($status == 'successful') selected @endif>
+                                                Successful
+                                            </option>
+                                            <option value="failed" @if ($status == 'failed') selected @endif>
+                                                Failed
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                            <div>
+                                <div class="tab-content" id="tabContent">
+                                    <!-- Tab -->
+                                    <div class="tab-pane fade show active" id="all-orders" role="tabpanel"
+                                        aria-labelledby="all-orders-tab">
+                                        <div class="table-responsive">
+                                            <!-- Table -->
+                                            <table
+                                                class="table mb-0 text-nowrap table-hover table-centered table-with-checkbox"
+                                                style="font-size: 14px">
+                                                <!-- Table Head -->
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Reference</th>
+                                                        <th>MDA</th>
+                                                        <th>Revenue Item</th>
+                                                        <th>Amount</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Table body -->
+                                                    @foreach ($paymentHistory as $ph)
+                                                        <tr>
+                                                            <td>{{ $loop->index + 1 }}</td>
+                                                            <td>{{ $ph->reference }}</td>
+                                                            <td>{{ $ph->mda->mda }}</td>
+                                                            <td>{{ $ph->tax->revenue_item }}</td>
+                                                            <td>&#8358;{{ number_format($ph->amount, 2) }}</td>
+
+                                                            <td>
+                                                                @if ($ph->status == 'pending')
+                                                                    <span
+                                                                        class="badge text-warning bg-light-warning">{{ ucwords($ph->status) }}</span>
+                                                                @elseif ($ph->status == 'successful')
+                                                                    <span
+                                                                        class="badge text-success bg-light-success">{{ ucwords($ph->status) }}</span>
+                                                                @else
+                                                                    <span
+                                                                        class="badge text-danger bg-light-danger">{{ ucwords($ph->status) }}</span>
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+
+                                                    @if (count($paymentHistory) < 1)
+                                                        <tr>
+                                                            <td colspan="7">
+                                                                <center>No Record Found</center>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        @if (count($paymentHistory) > 0 && $marker != null)
+                                            <div class="card-footer">
+                                                <div class="row g-2 pt-3 ms-4 me-4">
+                                                    <div class="col-md-9">Showing {{ $marker['begin'] }} to
+                                                        {{ $marker['end'] }}
+                                                        of
+                                                        {{ number_format($lastRecord) }} Records</div>
+
+                                                    <div class="col-md-3">
+                                                        {{ $paymentHistory->appends(request()->input())->links() }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- Card Footer -->
 
                         </div>
                     </div>
-                @endif
+
+                </div>
+
             </div>
 
         </div>
@@ -313,40 +180,7 @@
 
 </section>
 
-<!-- Modal -->
-<div class="modal fade" id="rejectApplication" tabindex="-1" role="dialog" aria-labelledby="newCatgoryLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title mb-0" id="newCatgoryLabel">
-                    Reject Application
-                </h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
-                </button>
-            </div>
-            <form action="{{ route('admin.rejectCompanyReg') }}" method="POST" class="needs-validation" novalidate>
-                @csrf
-                <div class="modal-body">
-                    <div class="mb-3 col-12">
-                        <label class="form-label">Reason For Rejection</label>
-                        <textarea name="rejection_reason" class="form-control text-dark" placeholder="Reason For Rejection" rows="5"
-                            required style="resize: none"></textarea>
-                        <div class="invalid-feedback">Please provide reason for rejecting application.</div>
-                    </div>
-
-                    <input type="hidden" name="application_id" value="{{ $company->id }}" required>
-
-                </div>
-                <div class="modal-footer">
-                    <button id="submitBtn" class="btn btn-success" type="submit">Reject Application</button>
-                    <button type="button" class="btn btn-outline-success ms-2" data-bs-dismiss="modal">Close</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 <script type="text/javascript">
     document.getElementById("taxpayers").classList.add('active');

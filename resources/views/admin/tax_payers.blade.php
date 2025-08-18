@@ -118,7 +118,7 @@
                                                             <span class="dropdown-menu"><span
                                                                     class="dropdown-header">Action</span>
                                                                 <a class="dropdown-item"
-                                                                    href="{{ route('admin.taxPayerDetails', [$tp->id]) }}"><i
+                                                                    href="{{ route('admin.taxPayerDetails', [$tp->btin]) }}"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
                                                                 @if ($tp->user->status == 'active')

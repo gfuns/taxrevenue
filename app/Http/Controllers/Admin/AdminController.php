@@ -1630,14 +1630,39 @@ class AdminController extends Controller
     /**
      * taxPayerDetails
      *
-     * @param mixed id
+     * @param mixed btin
      *
      * @return void
      */
-    public function taxPayerDetails($id)
+    public function taxPayerDetails($btin)
     {
-        $taxpayer = TaxPayer::find($id);
-        return view("admin.taxpayer_details", compact("taxpayer"));
+        $taxPayer = TaxPayer::where("btin", $btin)->first();
+        if (isset($taxPayer)) {
+            $search = request()->search;
+            $status = request()->status;
+
+            if (isset(request()->search) && ! isset(request()->status)) {
+                $lastRecord     = PaymentHistory::query()->where("tax_payer_id", $taxPayer->id)->where("reference", $search)->count();
+                $marker         = $this->getMarkers($lastRecord, request()->page);
+                $paymentHistory = PaymentHistory::query()->where("tax_payer_id", $taxPayer->id)->where("reference", $search)->paginate(50);
+            } else if (! isset(request()->search) && isset(request()->status)) {
+                $lastRecord     = PaymentHistory::query()->where("tax_payer_id", $taxPayer->id)->where("status", $status)->count();
+                $marker         = $this->getMarkers($lastRecord, request()->page);
+                $paymentHistory = PaymentHistory::query()->where("tax_payer_id", $taxPayer->id)->where("status", $status)->paginate(50);
+            } else if (isset(request()->search) && isset(request()->status)) {
+                $lastRecord     = PaymentHistory::query()->where("tax_payer_id", $taxPayer->id)->where("reference", $search)->where("status", $status)->count();
+                $marker         = $this->getMarkers($lastRecord, request()->page);
+                $paymentHistory = PaymentHistory::query()->where("tax_payer_id", $taxPayer->id)->where("reference", $search)->where("status", $status)->paginate(50);
+            } else {
+                $lastRecord     = PaymentHistory::where("tax_payer_id", $taxPayer->id)->count();
+                $marker         = $this->getMarkers($lastRecord, request()->page);
+                $paymentHistory = PaymentHistory::where("tax_payer_id", $taxPayer->id)->paginate(50);
+            }
+            return view("admin.taxpayer_details", compact("taxPayer", "paymentHistory", "search", "status", "lastRecord", "marker", ));
+        } else {
+            toast('B-TIN does not exist on our records', 'error');
+            return redirect()->route("admin.taxPayers");
+        }
     }
 
     /**
