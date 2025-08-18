@@ -10,6 +10,7 @@ use App\Models\PaymentItem;
 use App\Models\TaxConsultants;
 use App\Models\TaxOffice;
 use App\Models\TaxPayer;
+use App\Models\TaxpayerFamily;
 use App\Models\taxStations;
 use App\Models\User;
 use Auth;
@@ -157,6 +158,114 @@ class IHomeController extends Controller
             return back();
         }
 
+    }
+
+    /**
+     * addSpouse
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function addSpouse(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'btin'             => 'nullable',
+            'full_name'        => 'required',
+            'dob'              => 'required_without:btin',
+            'occupation'       => 'required_without:btin',
+            'business_name'    => 'required_without:btin',
+            'business_address' => 'required_without:btin',
+
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        if (isset($request->btin)) {
+            $taxpayer        = TaxPayer::where("btin", $request->btin)->first();
+            $occupation      = $taxpayer->individual->occupation;
+            $businessName    = $taxpayer->individual->business_name;
+            $businessAddress = $taxpayer->individual->business_address;
+            $btin            = $taxpayer->btin;
+        }
+
+        if ($family = TaxpayerFamily::updateOrCreate(
+            [
+                'tax_payer_id' => Auth::user()->taxpayer->id,
+                'full_name'    => $taxpayer->tax_payer ?? $request->full_name,
+                'btin'         => $btin ?? null,
+                'relationship' => "spouse",
+            ], [
+                'dob'              => $taxpayer->individual->dob ?? $request->dob,
+                'occupation'       => $occupation ?? $request->occupation,
+                'business_name'    => $businessName ?? $request->business_name,
+                'business_address' => $businessAddress ?? $request->business_address,
+            ])) {
+            toast('Information Added Successfully.', 'success');
+            return back();
+        }
+
+        toast('Something went wrong.', 'error');
+        return back();
+    }
+
+    /**
+     * addChild
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function addChild(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'btin'             => 'nullable',
+            'full_name'        => 'required',
+            'dob'              => 'required_without:btin',
+            'occupation'       => 'required_without:btin',
+            'business_name'    => 'required_without:btin',
+            'business_address' => 'required_without:btin',
+
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        if (isset($request->btin)) {
+            $taxpayer        = TaxPayer::where("btin", $request->btin)->first();
+            $occupation      = $taxpayer->individual->occupation;
+            $businessName    = $taxpayer->individual->business_name;
+            $businessAddress = $taxpayer->individual->business_address;
+            $btin            = $taxpayer->btin;
+        }
+
+        if ($family = TaxpayerFamily::updateOrCreate(
+            [
+                'tax_payer_id' => Auth::user()->taxpayer->id,
+                'full_name'    => $taxpayer->tax_payer ?? $request->full_name,
+                'btin'         => $btin ?? null,
+                'relationship' => "child",
+            ], [
+                'dob'              => $taxpayer->individual->dob ?? $request->dob,
+                'occupation'       => $occupation ?? $request->occupation,
+                'business_name'    => $businessName ?? $request->business_name,
+                'business_address' => $businessAddress ?? $request->business_address,
+            ])) {
+            toast('Information Added Successfully.', 'success');
+            return back();
+        }
+
+        toast('Something went wrong.', 'error');
+        return back();
     }
 
     /**

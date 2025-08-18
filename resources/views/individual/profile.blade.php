@@ -324,110 +324,157 @@
                     </div>
                 </div>
             @else
-                <div class="offset-xl-1 col-xl-10 col-md-12 col-12">
+                <div class=" col-xl-12 col-md-12 col-12">
                     <div class="card">
                         <!-- card body -->
                         <div class="card-body p-lg-6">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="betty" colspan="4"> PERSONAL INFORMATION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th class="" width="20%">Taxayer ID</th>
+                                            <td class="" colspan="2" width="30%">
+                                                {{ Auth::user()->taxpayer->btin }}</td>
+                                            <td class="" rowspan="5" align="right"
+                                                style="text-align: center" width="50%">
+                                                <img src="{{ Auth::user()->profile_photo == null ? asset('assets/images/avatar/avatar.webp') : Auth::user()->profile_photo }}"
+                                                    id="vphoto" class="img-responsive" style="max-width: 150px" />
 
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <td class="">Taxayer ID</td>
-                                        <td class="">{{ Auth::user()->taxpayer->btin }}</td>
-                                        <td class="" rowspan="15" align="right" style="text-align: center">
-                                            <img src="{{ Auth::user()->profile_photo == null ? asset('assets/images/avatar/avatar.webp') : Auth::user()->profile_photo }}"
-                                                id="vphoto" class="img-responsive" style="max-width: 150px" />
+                                                @if (!isset(Auth::user()->profile_photo))
+                                                    <button class="btn btn-success btn-sm mt-5" data-bs-toggle="modal"
+                                                        data-bs-target="#uploadPhoto"
+                                                        data-myid="{{ Auth::user()->id }}">Upload Profile
+                                                        Picture</button>
+                                                @endif
+                                            </td>
+                                        </tr>
 
-                                            @if (!isset(Auth::user()->profile_photo))
-                                                <button class="btn btn-success btn-sm mt-5" data-bs-toggle="modal"
-                                                    data-bs-target="#uploadPhoto"
-                                                    data-myid="{{ Auth::user()->id }}">Upload Profile Picture</button>
-                                            @endif
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <th class="">Last Name</th>
+                                            <td class="" colspan="2">{{ Auth::user()->last_name }}</td>
+                                        </tr>
 
-                                    <tr>
-                                        <td class="">Last Name</td>
-                                        <td class="">{{ Auth::user()->last_name }}</td>
-                                    </tr>
+                                        <tr>
+                                            <th class="">Other Names</th>
+                                            <td class="" colspan="2">{{ Auth::user()->other_names }}</td>
+                                        </tr>
 
-                                    <tr>
-                                        <td class="">Other Names</td>
-                                        <td class="">{{ Auth::user()->other_names }}</td>
-                                    </tr>
+                                        <tr>
+                                            <th class="">Email Address</th>
+                                            <td class="" colspan="2">{{ Auth::user()->email }}</td>
+                                        </tr>
 
-                                    <tr>
-                                        <td class="">Email Address</td>
-                                        <td class="">{{ Auth::user()->email }}</td>
-                                    </tr>
+                                        <tr>
+                                            <th class="">Phone Number</th>
+                                            <td class="" colspan="2">{{ Auth::user()->phone_number }}</td>
+                                        </tr>
 
-                                    <tr>
-                                        <td class="">Phone Number</td>
-                                        <td class="">{{ Auth::user()->phone_number }}</td>
-                                    </tr>
+                                        <tr>
+                                            <th class="" width="20%">Date Of Birth</th>
+                                            <td class="" width="30%">
+                                                {{ date_format(new DateTime(Auth::user()->individual->dob), 'jS F, Y') }}
+                                            </td>
+                                            <th class="" width="20%">Gender</th>
+                                            <td class="" width="30%">
+                                                {{ ucwords(Auth::user()->individual->gender) }}</td>
+                                        </tr>
 
-                                    <tr>
-                                        <td class="">Date Of Birth</td>
-                                        <td class="">
-                                            {{ date_format(new DateTime(Auth::user()->individual->dob), 'jS F, Y') }}
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <th class="">Marital Status</th>
+                                            <td class="">{{ Auth::user()->individual->marital_status }}</td>
+                                            <th class="">Nationality</th>
+                                            <td class="">{{ Auth::user()->individual->nationality }}</td>
+                                        </tr>
 
-                                    <tr>
-                                        <td class="">Gender</td>
-                                        <td class="">{{ ucwords(Auth::user()->individual->gender) }}</td>
-                                    </tr>
+                                        <tr>
+                                            <th class="">Identification Type</th>
+                                            <td class="">
+                                                {{ strtoupper(Auth::user()->individual->identification_type) }}</td>
+                                            <th class="">Identification Number</th>
+                                            <td class="">{{ Auth::user()->individual->identification_number }}
+                                            </td>
+                                        </tr>
 
-                                    <tr>
-                                        <td class="">Marital Status</td>
-                                        <td class="">{{ Auth::user()->individual->marital_status }}</td>
-                                    </tr>
+                                        <tr>
+                                            <th class="">State / LGA / City of Residence</th>
+                                            <td class="">{{ Auth::user()->individual->state_residence }} /
+                                                {{ Auth::user()->individual->lga_residence }} /
+                                                {{ Auth::user()->individual->city_residence }}</td>
+                                            <th class="">Contact Address</th>
+                                            <td class="">{{ Auth::user()->individual->house_number }}
+                                                {{ Auth::user()->individual->street_name }}</td>
+                                        </tr>
 
-                                    <tr>
-                                        <td class="">Nationality</td>
-                                        <td class="">{{ Auth::user()->individual->nationality }}</td>
-                                    </tr>
+                                        <tr>
+                                            <th class="">Tax Station</th>
+                                            <td class="">{{ Auth::user()->individual->office->tax_office }}</td>
+                                            <th class="">Occupation</th>
+                                            <td class="">{{ Auth::user()->individual->occupation }}</td>
+                                        </tr>
 
-                                    <tr>
-                                        <td class="">Identification Type</td>
-                                        <td class="">
-                                            {{ strtoupper(Auth::user()->individual->identification_type) }}</td>
-                                    </tr>
+                                        <tr>
 
-                                    <tr>
-                                        <td class="">Identification Number</td>
-                                        <td class="">{{ Auth::user()->individual->identification_number }}</td>
-                                    </tr>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                                    <tr>
-                                        <td class="">State / LGA / City of Residence</td>
-                                        <td class="">{{ Auth::user()->individual->state_residence }} /
-                                            {{ Auth::user()->individual->lga_residence }} /
-                                            {{ Auth::user()->individual->city_residence }}</td>
-                                    </tr>
 
-                                    <tr>
-                                        <td class="">Contact Address</td>
-                                        <td class="">{{ Auth::user()->individual->house_number }}
-                                            {{ Auth::user()->individual->street_name }}</td>
-                                    </tr>
+                            <div class="pt-4 table-responsive">
+                                <div class="pb-2 text-end">
+                                    <button class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#addChild" data-myid="{{ Auth::user()->id }}">Add Child</button>
+                                    <button class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#addSpouse" data-myid="{{ Auth::user()->id }}">Add
+                                        Spouse</button>
+                                </div>
+                                <table class="table mb-0 text-nowrap table-hover table-centered table-with-checkbox"
+                                    style="font-size: 14px">
+                                    <!-- Table Head -->
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="betty" colspan="8"> FAMILY RELATIONS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Full Name</th>
+                                            <th>Relationship</th>
+                                            <th>B-TIN</th>
+                                            <th>Date Of Birth</th>
+                                            <th>Occupation</th>
+                                            <th>Business Name</th>
+                                            <th>Business Address</th>
+                                        </tr>
+                                        @foreach (Auth::user()->taxpayer->familyMembers() as $family)
+                                            <tr>
+                                                <td>{{ $loop->index + 1 }}</td>
+                                                <td>{{ $family->full_name }}</td>
+                                                <td>{{ ucwords($family->relationship) }}</td>
+                                                <td>{{ $family->btin ?? 'Nil' }}</td>
+                                                <td>{{ date_format(new DateTime($family->dob), 'jS M, Y') }}</td>
+                                                <td>{{ $family->occupation }}</td>
+                                                <td>{{ $family->business_name ?? 'Nil' }}</td>
+                                                <td>{{ $family->business_address ?? 'Nil' }}</td>
+                                            </tr>
+                                        @endforeach
 
-                                    <tr>
-                                        <td class="">Tax Station</td>
-                                        <td class="">{{ Auth::user()->individual->office->tax_office }}</td>
-                                    </tr>
+                                    </tbody>
+                                </table>
 
-                                    <tr>
-                                        <td class="">Occupation</td>
-                                        <td class="">{{ Auth::user()->individual->occupation }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            </div>
 
                         </div>
 
                     </div>
                 </div>
+
             @endif
 
         </div>
@@ -463,8 +510,8 @@
                             <!-- button -->
                             <div class="col-12 mt-4">
                                 <button class="btn btn-success" type="submit">Upload Picture</button>
-                                <button type="button" class="btn btn-outline-success ms-2"
-                                    data-bs-dismiss="offcanvas" aria-label="Close">Close</button>
+                                <button type="button" class="btn btn-outline-success ms-2" data-bs-dismiss="modal"
+                                    aria-label="Close">Close</button>
                             </div>
                         </div>
                     </form>
@@ -475,14 +522,195 @@
     </div>
 @endif
 
+
+<div class="modal fade" id="addSpouse" tabindex="-1" role="dialog" aria-labelledby="newCatgoryLabel">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title mb-0" id="newCatgoryLabel">
+                    Add Spouse
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form class="needs-validation" novalidate method="post"
+                    action="{{ route('individual.addSpouse') }}">
+                    @csrf
+                    <div class="row">
+                        <!-- form group -->
+                        <div class="mb-3 col-12">
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="isTaxPayer"
+                                        name="registered" value="yes" checked>
+                                    <label class="form-check-label" for="isTaxPayer"><span style="color:black">Spouse
+                                            is a registered Tax Payer?</span></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="tpBtin" class="mb-3 col-12">
+                            <label class="form-label">Spouse's B-TIN </label>
+                            <input id="btin" type="text" name="btin" class="form-control"
+                                placeholder="Spouse's B-TIN" maxlength="10" required autocomplete="off">
+                            <div class="invalid-feedback">Please provide spouse's B-TIN.</div>
+                            <div id="validationprogress" class="valid-feedback" style="font-weight:bold;">
+                                Validating B-TIN...</div>
+                            <div id="validationerror" class="validationerror">B-TIN Validation Failed</div>
+                        </div>
+
+                        <div id="tpName" class="mb-3 col-12" style="display: none">
+                            <label class="form-label">Spouse's Full Name </label>
+                            <input id="taxpayer" type="text" name="full_name" class="form-control"
+                                placeholder="Full Name" required>
+                            <div class="invalid-feedback">Please provide spouse's full name.</div>
+                        </div>
+
+                        <div id="pdob" class="mb-3 col-12" style="display: none">
+                            <label class="form-label">Date Of Birth </label>
+                            <input id="dob" type="date" name="dob" class="form-control"
+                                placeholder="Date Of Birth" required>
+                            <div class="invalid-feedback">Please provide spouse's date of birth.</div>
+                        </div>
+
+                        <div id="poccupation" class="mb-3 col-12" style="display: none">
+                            <label class="form-label">Occupation </label>
+                            <input id="occupation" type="text" name="occupation" class="form-control"
+                                placeholder="Occupation" required>
+                            <div class="invalid-feedback">Please provide spouse's occupation.</div>
+                        </div>
+
+                        <div id="pbiz" class="mb-3 col-12" style="display: none">
+                            <label class="form-label">Employer/Business Name </label>
+                            <input id="biz" type="text" name="business_name" class="form-control"
+                                placeholder="Employer/Business Name" required>
+                            <div class="invalid-feedback">Please provide spouse's employer/business name.</div>
+                        </div>
+
+                        <div id="pbizad" class="mb-3 col-12" style="display: none">
+                            <label class="form-label">Employer/Business Address </label>
+                            <input id="bizad" type="text" name="business_address" class="form-control"
+                                placeholder="Employer/Business Address" required>
+                            <div class="invalid-feedback">Please provide spouse's employer/business address.</div>
+                        </div>
+
+                        <div class="col-md-12 border-bottom"></div>
+                        <!-- button -->
+                        <div class="col-12 mt-4">
+                            <button id="submitbutton" class="btn btn-success" type="submit" disabled>Add
+                                Spouse</button>
+                            <button type="button" class="btn btn-outline-success ms-2" data-bs-dismiss="modal"
+                                aria-label="Close">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addChild" tabindex="-1" role="dialog" aria-labelledby="newCatgoryLabel">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title mb-0" id="newCatgoryLabel">
+                    Add Child
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form class="needs-validation" novalidate method="post"
+                    action="{{ route('individual.addChild') }}">
+                    @csrf
+                    <div class="row">
+                        <!-- form group -->
+                        <div class="mb-3 col-12">
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="isTaxPayer2"
+                                        name="registered" value="yes" checked>
+                                    <label class="form-check-label" for="isTaxPayer2"><span style="color:black">Child
+                                            is a registered Tax Payer?</span></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="tpBtin2" class="mb-3 col-12">
+                            <label class="form-label">Child's B-TIN </label>
+                            <input id="btin2" type="text" name="btin" class="form-control"
+                                placeholder="Child's B-TIN" maxlength="10" required autocomplete="off">
+                            <div class="invalid-feedback">Please provide child's B-TIN.</div>
+                            <div id="validationprogress2" class="valid-feedback" style="font-weight:bold;">
+                                Validating B-TIN...</div>
+                            <div id="validationerror2" class="validationerror">B-TIN Validation Failed</div>
+                        </div>
+
+                        <div id="tpName2" class="mb-3 col-12" style="display: none">
+                            <label class="form-label">Child's Full Name </label>
+                            <input id="taxpayer2" type="text" name="full_name" class="form-control"
+                                placeholder="Full Name" required>
+                            <div class="invalid-feedback">Please provide child's full name.</div>
+                        </div>
+
+                        <div id="pdob2" class="mb-3 col-12" style="display: none">
+                            <label class="form-label">Date Of Birth </label>
+                            <input id="dob2" type="date" name="dob" class="form-control"
+                                placeholder="Date Of Birth" required>
+                            <div class="invalid-feedback">Please provide child's date of birth.</div>
+                        </div>
+
+                        <div id="poccupation2" class="mb-3 col-12" style="display: none">
+                            <label class="form-label">Occupation </label>
+                            <input id="occupation2" type="text" name="occupation" class="form-control"
+                                placeholder="Occupation" required>
+                            <div class="invalid-feedback">Please provide child's occupation.</div>
+                        </div>
+
+                        <div id="pbiz2" class="mb-3 col-12" style="display: none">
+                            <label class="form-label">Employer/Business Name </label>
+                            <input id="biz2" type="text" name="business_name" class="form-control"
+                                placeholder="Employer/Business Name" required>
+                            <div class="invalid-feedback">Please provide child's employer/business name.</div>
+                        </div>
+
+                        <div id="pbizad2" class="mb-3 col-12" style="display: none">
+                            <label class="form-label">Employer/Business Address </label>
+                            <input id="bizad2" type="text" name="business_address" class="form-control"
+                                placeholder="Employer/Business Address" required>
+                            <div class="invalid-feedback">Please provide child's employer/business address.</div>
+                        </div>
+
+                        <div class="col-md-12 border-bottom"></div>
+                        <!-- button -->
+                        <div class="col-12 mt-4">
+                            <button id="submitbutton2" class="btn btn-success" type="submit" disabled>Add
+                                Child</button>
+                            <button type="button" class="btn btn-outline-success ms-2" data-bs-dismiss="modal"
+                                aria-label="Close">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     document.getElementById("navSettings").classList.add('show');
     document.getElementById("profile").classList.add('active');
 </script>
 
+
 @endsection
 
 @section('customjs')
+
+@include('individual.layouts.ajax')
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('#country').select2();
@@ -543,5 +771,7 @@
         input.value = value;
     }
 </script>
+
+
 
 @endsection

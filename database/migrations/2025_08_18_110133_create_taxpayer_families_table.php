@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('taxpayer_families', function (Blueprint $table) {
             $table->increments("id");
-            $table->integer("tax_payer_id")->unsigned()->nullable();
-            $table->enum("reationship", ["spouse", "child"]);
+            $table->integer("tax_payer_id")->unsigned();
+            $table->string("full_name");
+            $table->enum("relationship", ["spouse", "child"]);
             $table->date("dob");
             $table->string("btin")->nullable();
             $table->string("occupation");

@@ -14,7 +14,6 @@
 
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
         }
 
         .receipt-container {
@@ -156,7 +155,7 @@
             border: 1px solid #fff;
             border-collapse: collapse;
             margin-bottom: 30px;
-            font-size: 12px;
+            font-size: 10px;
         }
 
         .info-table td {
@@ -193,6 +192,7 @@
             padding: 8px 12px;
             border: none;
             background-color: #EFF7EE;
+            font-size: 8px;
         }
 
         .payment-table .total-row {

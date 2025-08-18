@@ -105,6 +105,10 @@ Route::group([
 
         Route::get('/bill-payments', [IHomeController::class, 'billPayments'])->name("individual.billPayments");
 
+        Route::post('/addSpouse', [IHomeController::class, 'addSpouse'])->name("individual.addSpouse");
+
+        Route::post('/addChild', [IHomeController::class, 'addChild'])->name("individual.addChild");
+
     });
 });
 

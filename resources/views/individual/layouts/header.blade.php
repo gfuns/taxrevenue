@@ -89,5 +89,13 @@
             /* border-radius: 8px; */
             /* optional: rounded corners */
         }
+
+        .validationerror{
+            font-weight:bold;
+            color: #b02a37;
+            display:none;
+            font-size:12px;
+            margin-top:5px
+        }
     </style>
 </head>

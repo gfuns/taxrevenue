@@ -28,7 +28,7 @@
     <script src="{{ asset('assets/js/vendors/inputmask.js') }}"></script>
     <script src="{{ asset('assets/js/vendors/validation.js') }}"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
 
 
@@ -415,4 +415,79 @@
             }
             return true;
         }
+
+
+        $("#isTaxPayer").change(function() {
+
+            if ($("#isTaxPayer").is(":checked")) {
+
+                $("#tpBtin").css("display", "block");
+                $("#btin").attr("required", true);
+                $('#btin').val(''); // reset field
+                $("#tpName").css("display", "none");
+                $('#taxpayer').prop('readonly', true).val('');
+                $("#pdob").css("display", "none");
+                $("#poccupation").css("display", "none");
+                $("#pbiz").css("display", "none");
+                $("#pbizad").css("display", "none");
+                $("#dob").removeAttr("required");
+                $("#occupation").removeAttr("required");
+                $("#biz").removeAttr("required");
+                $("#bizad").removeAttr("required");
+                $('#submitbutton').prop('disabled', true);
+
+            } else {
+                $("#tpBtin").css("display", "none");
+                $("#btin").removeAttr("required");
+                $("#tpName").css("display", "block");
+                $("#taxpayer").attr("required", true);
+                $('#taxpayer').prop('readonly', false).val(''); // reset field
+                $("#pdob").css("display", "block");
+                $("#poccupation").css("display", "block");
+                $("#pbiz").css("display", "block");
+                $("#pbizad").css("display", "block");
+                $("#dob").attr("required", true);
+                $("#occupation").attr("required", true);
+                $("#biz").attr("required", true);
+                $("#bizad").attr("required", true);
+                $('#submitbutton').prop('disabled', false);
+            }
+        });
+
+         $("#isTaxPayer2").change(function() {
+
+            if ($("#isTaxPayer2").is(":checked")) {
+
+                $("#tpBtin2").css("display", "block");
+                $("#btin2").attr("required", true);
+                $('#btin2').val(''); // reset field
+                $("#tpName2").css("display", "none");
+                $('#taxpayer2').prop('readonly', true).val('');
+                $("#pdob2").css("display", "none");
+                $("#poccupation2").css("display", "none");
+                $("#pbiz2").css("display", "none");
+                $("#pbizad2").css("display", "none");
+                $("#dob2").removeAttr("required");
+                $("#occupation2").removeAttr("required");
+                $("#biz2").removeAttr("required");
+                $("#bizad2").removeAttr("required");
+                $('#submitbutton2').prop('disabled', true);
+
+            } else {
+                $("#tpBtin2").css("display", "none");
+                $("#btin2").removeAttr("required");
+                $("#tpName2").css("display", "block");
+                $("#taxpayer2").attr("required", true);
+                $('#taxpayer2').prop('readonly', false).val(''); // reset field
+                $("#pdob2").css("display", "block");
+                $("#poccupation2").css("display", "block");
+                $("#pbiz2").css("display", "block");
+                $("#pbizad2").css("display", "block");
+                $("#dob2").attr("required", true);
+                $("#occupation2").attr("required", true);
+                $("#biz2").attr("required", true);
+                $("#bizad2").attr("required", true);
+                $('#submitbutton2').prop('disabled', false);
+            }
+        });
     </script>
