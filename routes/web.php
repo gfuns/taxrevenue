@@ -223,6 +223,18 @@ Route::group([
 
     Route::get('/administrative-reports', [AdminController::class, 'administrativeReports'])->name("admin.reports");
 
+    Route::get('/filed-returns', [AdminController::class, 'filedReturns'])->name("admin.filedReturns");
+
+    Route::get('/personal-income-taxes', [AdminController::class, 'personalIncomeTaxes'])->name("admin.incomeTaxes");
+
+    Route::get('/development-levies', [AdminController::class, 'developmentLevies'])->name("admin.developmentLevies");
+
+    Route::get('/mda-generated-revenue', [AdminController::class, 'mdaGeneratedRevenue'])->name("admin.mdaGeneratedRevenue");
+
+    Route::get('/other-taxes', [AdminController::class, 'otherTaxes'])->name("admin.otherTaxes");
+
+    Route::get('/payment-details/{reference}', [AdminController::class, 'paymentDetails'])->name("admin.paymentDetails");
+
 });
 
 Route::group([

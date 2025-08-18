@@ -1,4 +1,4 @@
-@extends('mda.layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
 @section('title', env('APP_NAME') . ' | Payment Details')
@@ -15,7 +15,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('mda.dashboard') }}">Dashboard</a>
+                                <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="#">Payment Details</a>
@@ -44,6 +44,10 @@
                                 <tr>
                                     <td><b>Reference Number:</b></td>
                                     <td>{{ $trx->reference }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>MDA:</b></td>
+                                    <td>{{ $trx->mda->mda }}</td>
                                 </tr>
                                 <tr>
                                     <td><b>Revenue Item:</b></td>
@@ -76,7 +80,7 @@
                                     <td><b>Amount:</b></td>
                                     <td>&#8358;{{ number_format($trx->amount, 2) }}</td>
                                 </tr>
-                                 <tr>
+                                <tr>
                                     <td><b>Date Generated:</b></td>
                                     <td>{{ date_format($trx->created_at, 'jS F, Y g:i a') }}</td>
                                 </tr>
@@ -110,7 +114,7 @@
 </section>
 
 <script type="text/javascript">
-    document.getElementById("payments").classList.add('active');
+    document.getElementById("taxPayments").classList.add('show');
 </script>
 
 @endsection
