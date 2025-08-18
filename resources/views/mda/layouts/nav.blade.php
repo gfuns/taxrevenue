@@ -22,7 +22,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link " id="generateBill" href="{{ route("mda.generateBill") }}">
-                        <i class="nav-icon bi bi-person-bounding-box me-2"></i>
+                        <i class="nav-icon bi bi-pencil-square me-2"></i>
                         Generate Tax Payer Bill
                     </a>
                 </li>
@@ -35,7 +35,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link " id="payments" href="{{ route("mda.paymentHistory") }}">
-                        <i class="nav-icon bi-clipboard2-data-fill me-2"></i>
+                        <i class="nav-icon bi bi-credit-card me-2"></i>
                         Payment History
                     </a>
                 </li>
@@ -48,7 +48,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link " id="revenueItems" href="{{ route('mda.revenueItems') }}">
-                        <i class="nav-icon bi bi-person-bounding-box me-2"></i>
+                        <i class="nav-icon bi bi-list-ul me-2"></i>
                         Revenue Items
                     </a>
                 </li>
