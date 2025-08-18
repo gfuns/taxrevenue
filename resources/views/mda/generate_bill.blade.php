@@ -61,10 +61,13 @@
                                 <div id="tpBtin" class="mb-3 col-12">
                                     <label class="form-label">B-TIN <span class="text-danger">*</span></label>
                                     <input id="btin" type="text" name="btin" value=""
-                                        class="form-control" placeholder="Enter Tax Payer's B-TIN" autocomplete="off"
+                                        class="form-control" placeholder="Enter Tax Payer's B-TIN" autocomplete="off" maxlength="10"
                                         required>
 
                                     <div class="invalid-feedback">Please enter tax payer's B-TIN.</div>
+                                    <div id="validationprogress" class="valid-feedback" style="font-weight:bold;">
+                                        Validating B-TIN...</div>
+                                    <div id="validationerror" class="validationerror">B-TIN Validation Failed</div>
                                 </div>
 
                                 <div id="tpName" class="mb-3 col-12" style="display: none">
@@ -112,14 +115,16 @@
                                 <div class="mb-3 col-12">
                                     <label class="form-label">Amount <span class="text-danger">*</span></label>
                                     <input id="taxAmount" type="text" name="amount" value=""
-                                        class="form-control" placeholder="Amount" required oninput="validateInput(event)">
-                                        <div class="invalid-feedback">Please enter amount.</div>
+                                        class="form-control" placeholder="Amount" required
+                                        oninput="validateInput(event)">
+                                    <div class="invalid-feedback">Please enter amount.</div>
                                 </div>
 
                                 <div class="col-md-8"></div>
                                 <!-- button -->
                                 <div class="col-12">
-                                    <button class="btn btn-success w-100" type="submit">Generate Bill</button>
+                                    <button id="submitbutton" class="btn btn-success w-100" type="submit" disabled>Generate
+                                        Bill</button>
 
                                 </div>
                             </div>
@@ -170,6 +175,51 @@
         });
     });
 
+    $(document).ready(function() {
+        // Hide the account name text field by default
+        $('#tpName').hide();
+
+
+        // AJAX request on account number change
+        $('#btin').on('input', function() {
+            var btin = $(this).val();
+
+            // Check if the length of the input is between 1 and 10 digits
+            if (btin.length == 10) {
+                $('#validationprogress').show();
+                $('#validationerror').hide();
+                // Make AJAX call to validate account number
+                $.ajax({
+                    url: '{{ route('mda.validateBtin') }}',
+                    type: 'POST',
+                    data: {
+                        btin: btin,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        // Update account name field with the returned value
+                        $('#taxpayer').val(response.taxpayer).prop('readonly', true);
+                        // Show the account name text field
+                        $('#tpName').show();
+                        // Enable the submit button
+                        $('#submitbutton').prop('disabled', false);
+                        $('#validationprogress').hide();
+
+                    },
+                    error: function(xhr, status, error) {
+                        $('#validationprogress').hide();
+                        $('#validationerror').show();
+                        // Handle errors if needed
+                    }
+                });
+            }
+            $('#validationprogress').hide();
+            $('#validationerror').hide();
+            $('#taxpayer').prop('readonly', false).val(''); // reset field
+            $('#tpName').hide();
+
+        });
+    });
 
     function validateInput(event) {
         const input = event.target;

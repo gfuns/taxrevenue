@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentHistory;
 use App\Models\PaymentItem;
+use App\Models\TaxPayer;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use PDF;
 
 class MDAController extends Controller
 {
@@ -242,6 +244,25 @@ class MDAController extends Controller
     }
 
     /**
+     * validateBtin
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function validateBtin(Request $request)
+    {
+        $taxpayer = TaxPayer::where("btin", $request->btin)->first();
+
+        if (isset($taxpayer)) {
+            return response()->json(['taxpayer' => $taxpayer->tax_payer], 200);
+        } else {
+            return response()->json(['message' => "B-TIN Validation Failed"], 400);
+        }
+
+    }
+
+    /**
      * billPreview
      *
      * @param mixed reference
@@ -264,7 +285,14 @@ class MDAController extends Controller
     public function downloadPayAdvise($reference)
     {
         $trx = PaymentHistory::where("reference", $reference)->first();
-        return view("mda.bill_preview", compact("trx"));
+
+        view()->share(['trx' => $trx]);
+
+        $pdf      = PDF::loadView('mda.payment_advise');
+        $fileName = "Payment Advice - " . $reference . ".pdf";
+        return $pdf->download($fileName);
+
+        return view("mda.payment_advise", compact("trx"));
     }
 
     /**

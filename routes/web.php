@@ -246,6 +246,8 @@ Route::group([
 
     Route::post('/initiateBillGeneration', [MDAController::class, 'initiateBillGeneration'])->name("mda.initiateBillGeneration");
 
+    Route::post('/validateBtin', [MDAController::class, 'validateBtin'])->name("mda.validateBtin");
+
     Route::get('/bill-preview/{reference}', [MDAController::class, 'billPreview'])->name("mda.billPreview");
 
     Route::get('/download-advise/{reference}', [MDAController::class, 'downloadPayAdvise'])->name("mda.downloadPayAdvise");

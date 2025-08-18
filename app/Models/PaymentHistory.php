@@ -15,8 +15,11 @@ class PaymentHistory extends Model
 
         $numberToWords     = new NumberToWords();
         $numberTransformer = $numberToWords->getNumberTransformer('en');
-        $inWords           = $numberTransformer->toWords($this->amount);
-        return ucwords($inWords);
+        $inWords           = ucwords($numberTransformer->toWords($this->total));
+        if (stripos($inWords, "Thousand") !== false) {
+            $inWords = preg_replace("/Hundred\s+/i", "Hundred and ", $inWords, 1);
+        }
+        return $inWords;
     }
 
     public function mda()

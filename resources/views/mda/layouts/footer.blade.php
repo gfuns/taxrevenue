@@ -125,13 +125,17 @@
             if ($("#isTaxPayer").is(":checked")) {
                 $("#tpBtin").css("display", "block");
                 $("#btin").attr("required", true);
+                $('#btin').val(''); // reset field
                 $("#tpName").css("display", "none");
                 $("#taxpayer").removeAttr("required");
+                $('#submitbutton').prop('disabled', true);
             } else {
                 $("#tpName").css("display", "block");
                 $("#taxpayer").attr("required", true);
+                $('#taxpayer').prop('readonly', false).val(''); // reset field
                 $("#tpBtin").css("display", "none");
                 $("#btin").removeAttr("required");
+                 $('#submitbutton').prop('disabled', false);
             }
         });
 
