@@ -130,11 +130,17 @@
                                                                 data-bs-offset="-20,20" aria-expanded="false">Action</a>
                                                             <span class="dropdown-menu"><span
                                                                     class="dropdown-header">Action</span>
-
-                                                                <a href="{{ route('individual.returnDetails', [$trx->reference]) }}"
-                                                                    style="cursor:pointer" class="dropdown-item"><i
-                                                                        class="fe fe-eye dropdown-item-icon"></i>View
-                                                                    Details</a>
+                                                                @if ($trx->status == 'draft')
+                                                                    <a href="{{ route('individual.previewApplication', [$trx->reference]) }}"
+                                                                        style="cursor:pointer" class="dropdown-item"><i
+                                                                            class="fe fe-eye dropdown-item-icon"></i>View
+                                                                        Details</a>
+                                                                @else
+                                                                    <a href="{{ route('individual.returnDetails', [$trx->reference]) }}"
+                                                                        style="cursor:pointer" class="dropdown-item"><i
+                                                                            class="fe fe-eye dropdown-item-icon"></i>View
+                                                                        Details</a>
+                                                                @endif
 
                                                             </span>
                                                         </span>

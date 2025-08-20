@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments("id");
             $table->integer("user_id")->unsigned();
             $table->integer("tax_payer_id")->unsigned();
+            $table->integer("tax_office_id")->unsigned();
             $table->enum("category", ["individual", "corporate"]);
             $table->string("period");
             $table->string("reference");
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('tax_payer_id')->references('id')->on('tax_payers')->onDelete('cascade');
+            $table->foreign('tax_office_id')->references('id')->on('tax_offices')->onDelete('cascade');
         });
     }
 

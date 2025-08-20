@@ -21,7 +21,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " id="assessments" href="">
+                <a class="nav-link " id="assessments" href="{{ route("individual.assessments") }}">
                     <i class="nav-icon bi bi-journal-check me-2"></i>
                     Assessments
                 </a>

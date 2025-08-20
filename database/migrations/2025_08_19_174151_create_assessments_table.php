@@ -15,7 +15,9 @@ return new class extends Migration
             $table->increments("id");
             $table->integer("user_id")->unsigned();
             $table->integer("tax_payer_id")->unsigned();
+            $table->integer("tax_office_id")->unsigned();
             $table->integer("returns_id")->unsigned();
+            $table->string("reference");
             $table->double("computed_tax", 20, 2)->nullable();
             $table->integer("assessing_officer")->unsigned()->nullable();
             $table->timestamp("assessment_date")->nullable();
@@ -27,6 +29,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('tax_payer_id')->references('id')->on('tax_payers')->onDelete('cascade');
+            $table->foreign('tax_office_id')->references('id')->on('tax_offices')->onDelete('cascade');
             $table->foreign('returns_id')->references('id')->on('returns')->onDelete('cascade');
             $table->foreign('assessing_officer')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('reviewing_officer')->references('id')->on('users')->onDelete('cascade');

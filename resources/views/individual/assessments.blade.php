@@ -1,7 +1,7 @@
 @extends('individual.layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Employer Filed Returns')
+@section('title', env('APP_NAME') . ' | Tax Payer Assessments')
 
 
 <!-- Container fluid -->
@@ -11,7 +11,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-3 mb-3 d-lg-flex align-items-center justify-content-between">
                 <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-0 h3 fw-bold">Employer Filed Returns</h1>
+                    <h1 class="mb-0 h3 fw-bold">Tax Payer Assessments</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -19,7 +19,7 @@
                                 <a href="{{ route('individual.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Employer Filed Returns</a>
+                                <a href="#">Tax Payer Assessments</a>
                             </li>
                         </ol>
                     </nav>
@@ -44,8 +44,7 @@
                                 </span>
                                 <!-- input -->
                                 <input name="search" type="search" class="form-control ps-6"
-                                    placeholder="Search Records Using Reference......"
-                                    value="{{ $search }}">
+                                    placeholder="Search Records Using Reference......" value="{{ $search }}">
                             </div>
 
                         </div>
@@ -54,11 +53,17 @@
                             <!-- form select -->
                             <select id="status" name="status" class="form-select" onChange="this.form.submit()">
                                 <option value="">All Statuses</option>
-                                <option value="awaiting payment" @if ($status == 'awaiting payment') selected @endif>
-                                    Awaiting Payment
+                                <option value="assessed" @if ($status == 'assessed') selected @endif>
+                                    Completed Assessment
+                                </option>
+                                <option value="objected" @if ($status == 'objected') selected @endif>
+                                    Assessment Objected
+                                </option>
+                                <option value="accepted" @if ($status == 'accepted') selected @endif>
+                                    Assessment Accepted
                                 </option>
                                 <option value="paid" @if ($status == 'paid') selected @endif>
-                                    Paid
+                                    Returns Paid
                                 </option>
                             </select>
                         </div>
@@ -80,31 +85,33 @@
                                             <th>Reference</th>
                                             <th>Period</th>
                                             <th>Description</th>
-                                            <th>Amount Payable</th>
+                                            <th>Computed Tax</th>
                                             <th>Status</th>
                                             <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <!-- Table body -->
-                                        @foreach ($transactions as $trx)
+                                        @foreach ($assessments as $trx)
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $trx->reference }}</td>
-                                                <td>{{ $trx->period }}</td>
-                                                <td>{{ $trx->description }}</td>
-                                                <td>&#8358;{{ number_format($trx->tax_paid, 2) }}</td>
-
+                                                <td>Year {{ $trx->return->period }}</td>
+                                                <td>{{ $trx->return->narration }}</td>
+                                                <td>&#8358;{{ number_format($trx->computed_tax, 2) }}</td>
                                                 <td>
-                                                    @if ($trx->status == 'draft')
-                                                        <span
-                                                            class="badge text-primary bg-light-primary">{{ ucwords($trx->status) }}</span>
-                                                    @elseif ($trx->status == 'awaiting assessment' || $trx->status == 'awaiting payment')
+                                                    @if ($trx->status == 'awaiting assessment')
                                                         <span
                                                             class="badge text-warning bg-light-warning">{{ ucwords($trx->status) }}</span>
-                                                    @else
+                                                    @elseif ($trx->status == 'assessed')
+                                                        <span
+                                                            class="badge text-primary bg-light-primary">{{ ucwords($trx->status) }}</span>
+                                                    @elseif ($trx->status == 'paid' || $trx->status == 'accepted')
                                                         <span
                                                             class="badge text-success bg-light-success">{{ ucwords($trx->status) }}</span>
+                                                    @else
+                                                        <span
+                                                            class="badge text-danger bg-light-danger">{{ ucwords($trx->status) }}</span>
                                                     @endif
                                                 </td>
                                                 <td class="align-middle">
@@ -116,7 +123,8 @@
                                                             <span class="dropdown-menu"><span
                                                                     class="dropdown-header">Action</span>
 
-                                                                <a href="{{ route('individual.returnDetails', [$trx->reference]) }}" style="cursor:pointer" class="dropdown-item"><i
+                                                                <a href="{{ route('individual.returnDetails', [$trx->id]) }}"
+                                                                    style="cursor:pointer" class="dropdown-item"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
 
@@ -128,7 +136,7 @@
                                             </tr>
                                         @endforeach
 
-                                        @if (count($transactions) < 1)
+                                        @if (count($assessments) < 1)
                                             <tr>
                                                 <td colspan="7">
                                                     <center>No Record Found</center>
@@ -139,7 +147,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            @if (count($transactions) > 0 && $marker != null)
+                            @if (count($assessments) > 0 && $marker != null)
                                 <div class="card-footer">
                                     <div class="row g-2 pt-3 ms-4 me-4">
                                         <div class="col-md-9">Showing {{ $marker['begin'] }} to {{ $marker['end'] }}
@@ -147,7 +155,7 @@
                                             {{ number_format($lastRecord) }} Records</div>
 
                                         <div class="col-md-3">
-                                            {{ $transactions->appends(request()->input())->links() }}
+                                            {{ $assessments->appends(request()->input())->links() }}
                                         </div>
                                     </div>
                                 </div>
@@ -167,8 +175,7 @@
 
 
 <script type="text/javascript">
-    document.getElementById("returns").classList.add('show');
-    document.getElementById("empFiled").classList.add('active');
+    document.getElementById("assessments").classList.add('active');
 </script>
 
 @endsection

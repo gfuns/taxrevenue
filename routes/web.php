@@ -127,6 +127,8 @@ Route::group([
 
         Route::get('/employer-filed-returns', [IHomeController::class, 'employerFiledReturns'])->name("individual.empFiledReturns");
 
+        Route::get('/assessments', [IHomeController::class, 'assessments'])->name("individual.assessments");
+
     });
 });
 

@@ -643,13 +643,14 @@ class IHomeController extends Controller
         try {
             DB::beginTransaction();
 
-            $return               = new Returns;
-            $return->user_id      = Auth::user()->id;
-            $return->tax_payer_id = Auth::user()->taxpayer->id;
-            $return->category     = "individual";
-            $return->period       = $request->payment_period;
-            $return->narration    = "Personal Income Tax For Year " . $request->payment_period;
-            $return->income       = $totalIncome;
+            $return                = new Returns;
+            $return->user_id       = Auth::user()->id;
+            $return->tax_payer_id  = Auth::user()->taxpayer->id;
+            $return->tax_office_id = Auth::user()->taxpayer->individual->tax_office_id;
+            $return->category      = "individual";
+            $return->period        = $request->payment_period;
+            $return->narration     = "Personal Income Tax For Year " . $request->payment_period;
+            $return->income        = $totalIncome;
             $return->save();
 
             $incomeSource                      = new IncomeSource;
@@ -808,10 +809,12 @@ class IHomeController extends Controller
             $return->status = "awaiting assessment";
             $return->save();
 
-            $assessment               = new Assessments;
-            $assessment->returns_id   = $return->id;
-            $assessment->user_id      = $return->user_id;
-            $assessment->tax_payer_id = $return->tax_payer_id;
+            $assessment                = new Assessments;
+            $assessment->returns_id    = $return->id;
+            $assessment->user_id       = $return->user_id;
+            $assessment->tax_payer_id  = $return->tax_payer_id;
+            $assessment->tax_office_id = $return->tax_office_id;
+            $assessment->reference     = $return->reference;
             $assessment->save();
 
             DB::commit();
@@ -836,9 +839,36 @@ class IHomeController extends Controller
      */
     public function returnDetails($reference)
     {
-        $return     = Returns::find($reference);
-        $assessment = Assessments::where("returns_id", $request->return_id)->first();
-        return view("individual.returns_details", compact("return", "assessment"));
+        $return     = Returns::where("reference", $reference)->first();
+        $income     = IncomeSource::where("returns_id", $return->id)->first();
+        $assessment = Assessments::where("returns_id", $return->id)->first();
+        return view("individual.returns_details", compact("return", "income", "assessment"));
+    }
+
+    /**
+     * assessments
+     *
+     * @return void
+     */
+    public function assessments()
+    {
+        $search = request()->search;
+        $status = request()->status;
+        $query  = Assessments::query();
+        $query->where("user_id", Auth::user()->id)->where("status", "!=", "awaiting assessment");
+
+        if (isset(request()->search)) {
+            $query->where("reference", $search);
+        }
+
+        if (isset(request()->status)) {
+            $query->where("status", $search);
+        }
+
+        $lastRecord  = $query->count();
+        $marker      = $this->getMarkers($lastRecord, request()->page);
+        $assessments = $query->paginate(50);
+        return view("individual.assessments", compact("assessments", "search", "status", "marker", "lastRecord"));
     }
 
     /**
