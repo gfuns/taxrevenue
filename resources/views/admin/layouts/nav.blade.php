@@ -29,6 +29,33 @@
                 </li>
             @endif
 
+            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 1) == true && Auth::user()->category == "birs area office")
+                <li class="nav-item">
+                    <div class="nav-divider"></div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " id="revenueItems" href="{{ route('admin.revenueItems') }}">
+                        <i class="nav-icon bi bi-list-ul me-2"></i>
+                        Revenue Items
+                    </a>
+                </li>
+            @endif
+
+
+             @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 2) == true)
+                <li class="nav-item">
+                    <div class="nav-divider"></div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " id="generateBill" href="{{ route('admin.generateBill') }}">
+                        <i class="nav-icon bi bi-pencil-square me-2"></i>
+                        Generate Tax Payer Bill
+                    </a>
+                </li>
+            @endif
+
             @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 3) == true)
                 <li class="nav-item">
                     <div class="nav-divider"></div>
@@ -45,7 +72,7 @@
                             @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 3) == true)
                                 <li class="nav-item">
                                     <a class="nav-link " id="returns" href="{{ route("admin.filedReturns") }}">
-                                        Filed Returns
+                                        Corp. Filed Returns
                                     </a>
                                 </li>
                             @endif
@@ -179,7 +206,7 @@
                 </li>
             @endif
 
-            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 1) == true)
+            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 1) == true && Auth::user()->category == "birs hq")
                 <li class="nav-item">
                     <div class="nav-divider"></div>
                 </li>

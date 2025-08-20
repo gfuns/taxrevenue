@@ -24,7 +24,7 @@
                         </ol>
                     </nav>
                 </div>
-                @if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 1) == true)
+                @if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 11) == true)
                     <!-- button -->
                     <div>
                         <a href="#" class="btn btn-success btn-sm me-2" data-bs-toggle="offcanvas"
@@ -98,7 +98,7 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $consular->organization }}</td>
-                                                <td>{{ $consular->surname.', ' . $consular->other_names }}</td>
+                                                <td>{{ $consular->surname . ', ' . $consular->other_names }}</td>
                                                 <td>{{ $consular->email }}</td>
                                                 <td>{{ $consular->phone_number }}</td>
                                                 <td>
@@ -133,18 +133,20 @@
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
 
-                                                                <a style="cursor:pointer" class="dropdown-item"
-                                                                    data-bs-toggle="offcanvas"
-                                                                    data-bs-target="#editConsultant"
-                                                                    data-myid="{{ $consular->id }}"
-                                                                    data-surname="{{ $consular->surname }}"
-                                                                    data-othernames="{{ $consular->other_names }}"
-                                                                    data-email="{{ $consular->email }}"
-                                                                    data-organization="{{ $consular->organization }}"
-                                                                    data-phone="{{ $consular->phone_number }}"
-                                                                    data-gender="{{ $consular->gender }}"><i
-                                                                        class="fe fe-edit dropdown-item-icon"></i>Update
-                                                                    Details</a>
+                                                                @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 11) == true)
+                                                                    <a style="cursor:pointer" class="dropdown-item"
+                                                                        data-bs-toggle="offcanvas"
+                                                                        data-bs-target="#editConsultant"
+                                                                        data-myid="{{ $consular->id }}"
+                                                                        data-surname="{{ $consular->surname }}"
+                                                                        data-othernames="{{ $consular->other_names }}"
+                                                                        data-email="{{ $consular->email }}"
+                                                                        data-organization="{{ $consular->organization }}"
+                                                                        data-phone="{{ $consular->phone_number }}"
+                                                                        data-gender="{{ $consular->gender }}"><i
+                                                                            class="fe fe-edit dropdown-item-icon"></i>Update
+                                                                        Details</a>
+                                                                @endif
 
                                                             </span>
                                                         </span>
@@ -190,7 +192,7 @@
     </div>
 </section>
 
-@if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 1) == true)
+@if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 11) == true)
     <!-- offcanvas -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 600px;">
         <div class="offcanvas-body" data-simplebar>
@@ -209,8 +211,8 @@
                         <!-- form group -->
                         <div class="mb-3 col-12">
                             <label class="form-label">Organization <span class="text-danger">*</span></label>
-                            <input type="text" name="organization" class="form-control" placeholder="Enter Organization"
-                                required>
+                            <input type="text" name="organization" class="form-control"
+                                placeholder="Enter Organization" required>
                             <div class="invalid-feedback">Please provide organization.</div>
                         </div>
 
@@ -222,7 +224,8 @@
                         </div>
 
                         <div class="mb-3 col-12">
-                            <label class="form-label">Consultant's Other Names <span class="text-danger">*</span></label>
+                            <label class="form-label">Consultant's Other Names <span
+                                    class="text-danger">*</span></label>
                             <input type="text" name="other_names" class="form-control"
                                 placeholder="Enter Other Names" required>
                             <div class="invalid-feedback">Please provide other names.</div>
@@ -274,7 +277,7 @@
 @endif
 
 
-@if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+@if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 11) == true)
     <div class="offcanvas offcanvas-end" tabindex="-1" id="editConsultant" style="width: 600px;">
         <div class="offcanvas-body" data-simplebar>
             <div class="offcanvas-header px-2 pt-0">
@@ -293,8 +296,8 @@
 
                         <div class="mb-3 col-12">
                             <label class="form-label">Organization <span class="text-danger">*</span></label>
-                            <input id="organization" type="text" name="organization" class="form-control" placeholder="Enter Organization"
-                                required>
+                            <input id="organization" type="text" name="organization" class="form-control"
+                                placeholder="Enter Organization" required>
                             <div class="invalid-feedback">Please provide organization.</div>
                         </div>
 

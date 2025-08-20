@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
-@section('title', env('APP_NAME') . ' | Filed Returns')
+@section('title', env('APP_NAME') . ' | Filed Returns By Corporations')
 
 
 <!-- Container fluid -->
@@ -11,7 +11,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-3 mb-3 d-lg-flex align-items-center justify-content-between">
                 <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-0 h3 fw-bold">Filed Returns</h1>
+                    <h1 class="mb-0 h3 fw-bold">Filed Returns By Corporations</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -19,7 +19,7 @@
                                 <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Filed Returns</a>
+                                <a href="#">Filed Returns By Corporations</a>
                             </li>
                         </ol>
                     </nav>

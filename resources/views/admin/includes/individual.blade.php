@@ -58,10 +58,16 @@
                 <td>{{ $taxPayer->user->individual->identification_number }}</td>
             </tr>
             <tr>
+                <th>Area Tax Office </th>
+                <td>{{ $taxPayer->office->tax_office }}</td>
                 <th>Public Servant </th>
                 <td>{{ ucwords($taxPayer->user->individual->public_servant) }}</td>
+            </tr>
+            <tr>
                 <th>TIN</th>
-                <td>{{ $taxPayer->user->individual->tin }}</td>
+                <td colspan="3">{{ $taxPayer->user->individual->tin ?? 'NIL' }}</td>
+                {{-- <th></th>
+                <td></td> --}}
             </tr>
 
         </tbody>
@@ -91,8 +97,8 @@
                 @foreach ($taxPayer->familyMembers() as $family)
                     <tr>
                         <td>{{ $loop->index + 1 }}</td>
-                        <td>{{ $family->name }}</td>
-                        <td>{{ $family->relationship }}</td>
+                        <td>{{ $family->full_name }}</td>
+                        <td>{{ ucwords($family->relationship) }}</td>
                         <td>{{ $family->btin ?? 'Nil' }}</td>
                         <td>{{ $family->dob }}</td>
                         <td>{{ $family->occupation }}</td>

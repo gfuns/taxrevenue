@@ -44,7 +44,7 @@
                     @include('admin.includes.corporate')
                 @endif
 
-                <div class="ps-4 pe-4 table-responsive">
+                <div class="ps-4 pe-4 pb-5 table-responsive">
                     <hr />
                     <div class="pt-3"><h4>Tax Payer's Payment History</h4></div>
                     <div class="col-lg-12 col-md-12 col-12">

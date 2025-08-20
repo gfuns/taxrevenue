@@ -14,6 +14,11 @@ class TaxPayer extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function office()
+    {
+        return $this->belongsTo('App\Models\TaxOffice', 'tax_office_id');
+    }
+
     public function individual()
     {
         return $this->hasOne('App\Models\IndividualTaxpayer', 'tax_payer_id');

@@ -1,14 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\MDAController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ETranzactController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Individual\IHomeController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ReceiptController;
-use App\Http\Controllers\TaxPayerController;
 use App\Http\Controllers\TwofactorController;
 use Illuminate\Support\Facades\Route;
 
@@ -58,79 +55,6 @@ Route::post('/login/2fa', [TwofactorController::class, 'verify2FA'])->name('logi
 Route::get('certificate/{bsppcno}', [CertificateController::class, 'downloadCertificate'])->name("download.certificate");
 
 Route::get('renewal/{reference}', [CertificateController::class, 'downloadRenewalCert'])->name("download.downloadRenewalCert");
-
-Route::group([
-    'prefix'     => 'taxpayer',
-    'middleware' => ['emailverified', 'webauthenticated', 'g2fa'],
-
-], function ($router) {
-
-    Route::post('/update-password', [TaxPayerController::class, 'updatePassword'])->name("taxpayer.updatePassword");
-
-    Route::post('/select2FA', [TaxPayerController::class, 'select2FA'])->name("taxpayer.select2FA");
-
-    Route::post('/enableGA', [TaxPayerController::class, 'enableGA'])->name("taxpayer.enableGA");
-
-    Route::post('/requestConsultant', [TaxPayerController::class, 'requestConsultant'])->name("taxpayer.requestConsultant");
-
-    Route::get('/cancel-consultant/{id}', [TaxPayerController::class, 'cancelConsultant'])->name("taxpayer.cancelConsultant");
-
-    Route::group([
-        'prefix' => 'i',
-    ], function ($router) {
-
-        Route::get('/dashboard', [IHomeController::class, 'dashboard'])->name("individual.dashboard");
-
-        Route::get('/view-profile', [IHomeController::class, 'viewProfile'])->name("individual.viewProfile");
-
-        Route::post('/update-profile', [IHomeController::class, 'updateProfile'])->name("individual.updateProfile");
-
-        Route::post('/upload-photo', [IHomeController::class, 'uploadPhoto'])->name("individual.uploadPhoto");
-
-        Route::get('/security', [IHomeController::class, 'security'])->name("individual.security");
-
-        Route::get('/tax-stations', [IHomeController::class, 'taxStations'])->name("individual.taxStations");
-
-        Route::get('/tax-consultants', [IHomeController::class, 'taxConsultants'])->name("individual.taxConsultants");
-
-        Route::get('/generate-bill', [IHomeController::class, 'generateBill'])->name("individual.generateBill");
-
-        Route::post('/initiateBillPayment', [IHomeController::class, 'initiateBillPayment'])->name("individual.initiateBillPayment");
-
-        Route::get('/bill/payment-preview/{reference}', [IHomeController::class, 'paymentPreview'])->name("individual.paymentPreview");
-
-        Route::get('/bill/payment-details/{reference}', [IHomeController::class, 'paymentDetails'])->name("individual.paymentDetails");
-
-        Route::post('/bill/processPayment', [IHomeController::class, 'processBillPayment'])->name("individual.processBillPayment");
-
-        Route::get('/bill-payments', [IHomeController::class, 'billPayments'])->name("individual.billPayments");
-
-        Route::post('/addSpouse', [IHomeController::class, 'addSpouse'])->name("individual.addSpouse");
-
-        Route::post('/addChild', [IHomeController::class, 'addChild'])->name("individual.addChild");
-
-        Route::get('/filed-returns', [IHomeController::class, 'filedReturns'])->name("individual.filedReturns");
-
-        Route::get('/return-details/{reference}', [IHomeController::class, 'returnDetails'])->name("individual.returnDetails");
-
-        Route::get('/file-returns', [IHomeController::class, 'fileReturns'])->name("individual.fileReturns");
-
-        Route::post('/initiateReturnsFiling', [IHomeController::class, 'initiateReturnsFiling'])->name("individual.initiateReturnsFiling");
-
-        Route::get('/previous-filed-returns/{reference}', [IHomeController::class, 'previousReturns'])->name("individual.previousReturns");
-
-        Route::post('/uploadPreviousReturns', [IHomeController::class, 'uploadPreviousReturns'])->name("individual.uploadPreviousReturns");
-
-        Route::post('/submitReturnApplication', [IHomeController::class, 'submitReturnApplication'])->name("individual.submitReturnApplication");
-
-        Route::get('/returns/preview-filing/{reference}', [IHomeController::class, 'previewApplication'])->name("individual.previewApplication");
-
-        Route::get('/employer-filed-returns', [IHomeController::class, 'employerFiledReturns'])->name("individual.empFiledReturns");
-
-        Route::get('/assessments', [IHomeController::class, 'assessments'])->name("individual.assessments");
-
-    });
-});
 
 Route::group([
     'prefix' => 'receipts',
@@ -259,36 +183,16 @@ Route::group([
 
     Route::get('/payment-details/{reference}', [AdminController::class, 'paymentDetails'])->name("admin.paymentDetails");
 
-});
+    Route::get('/generate-bill', [AdminController::class, 'generateBill'])->name("admin.generateBill");
 
-Route::group([
-    'prefix'     => 'mda/admin',
-    'middleware' => ['webauthenticated', 'g2fa'],
+    Route::post('/initiateBillGeneration', [AdminController::class, 'initiateBillGeneration'])->name("admin.initiateBillGeneration");
 
-], function ($router) {
-    Route::get('dashboard', [MDAController::class, 'dashboard'])->name('mda.dashboard');
+    Route::post('/validateBtin', [AdminController::class, 'validateBtin'])->name("admin.validateBtin");
 
-    Route::get('/view-profile', [MDAController::class, 'viewProfile'])->name("mda.viewProfile");
+    Route::get('/bill-preview/{reference}', [AdminController::class, 'billPreview'])->name("admin.billPreview");
 
-    Route::get('/revenue-items', [MDAController::class, 'revenueItems'])->name("mda.revenueItems");
+    Route::get('/download-advise/{reference}', [AdminController::class, 'downloadPayAdvise'])->name("admin.downloadPayAdvise");
 
-    Route::get('/security', [MDAController::class, 'security'])->name("mda.security");
-
-    Route::get('/payment-history', [MDAController::class, 'paymentHistory'])->name("mda.paymentHistory");
-
-    Route::get('/payment-details/{reference}', [MDAController::class, 'paymentDetails'])->name("mda.paymentDetails");
-
-    Route::get('/generate-bill', [MDAController::class, 'generateBill'])->name("mda.generateBill");
-
-    Route::post('/initiateBillGeneration', [MDAController::class, 'initiateBillGeneration'])->name("mda.initiateBillGeneration");
-
-    Route::post('/validateBtin', [MDAController::class, 'validateBtin'])->name("mda.validateBtin");
-
-    Route::get('/bill-preview/{reference}', [MDAController::class, 'billPreview'])->name("mda.billPreview");
-
-    Route::get('/download-advise/{reference}', [MDAController::class, 'downloadPayAdvise'])->name("mda.downloadPayAdvise");
-
-    Route::get('/administrative-reports', [AdminController::class, 'administrativeReports'])->name("mda.reports");
 });
 
 Route::get('/ajax/tax-items/{mda}', [App\Http\Controllers\AjaxController::class, 'getTaxItems'])->name('ajax.getTaxItems');
@@ -296,3 +200,7 @@ Route::get('/ajax/tax-items/{mda}', [App\Http\Controllers\AjaxController::class,
 Route::get('/ajax/tax-amount/{taxId}', [App\Http\Controllers\AjaxController::class, 'getTaxAmount'])->name('ajax.getTaxAmount');
 
 Route::get('/etranzact/bill/callback', [ETranzactController::class, 'handleBillPaymentCallback'])->name("etranzact.billPayment.callBack");
+
+require __DIR__ . '/mda.php';
+require __DIR__ . '/individuals.php';
+require __DIR__ . '/corporate.php';

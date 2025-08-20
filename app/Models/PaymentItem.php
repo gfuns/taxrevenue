@@ -9,6 +9,11 @@ class PaymentItem extends Model
 {
     use HasFactory;
 
+    public function mda()
+    {
+        return $this->belongsTo('App\Models\Mda', 'mda_id');
+    }
+
     public function amountInWords()
     {
 

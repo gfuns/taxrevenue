@@ -24,7 +24,7 @@
                         </ol>
                     </nav>
                 </div>
-                @if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 1) == true)
+                @if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 10) == true)
                     <!-- button -->
                     <div>
                         <a href="#" class="btn btn-success btn-sm me-2" data-bs-toggle="offcanvas"
@@ -63,6 +63,9 @@
                                 <option value="">All Statuses</option>
                                 <option value="active" @if ($status == 'active') selected @endif>
                                     Active
+                                </option>
+                                <option value="inactive" @if ($status == 'inactive') selected @endif>
+                                    Inactive
                                 </option>
                                 <option value="deactivated" @if ($status == 'deactivated') selected @endif>
                                     Deactivated
@@ -132,29 +135,31 @@
                                                                     data-model="{{ $pos->model }}"
                                                                     data-terminalid="{{ $pos->terminal_id }}"
                                                                     data-serialno="{{ $pos->serial_number }}"
-                                                                    data-ip="{{ $pos->ip_address ?? 'Not Assigned'}}"
-                                                                    data-port="{{ $pos->port ?? 'Not Assigned'}}"
-                                                                    data-sim="{{ $pos->sim ?? 'Not Assigned'}}"
+                                                                    data-ip="{{ $pos->ip_address ?? 'Not Assigned' }}"
+                                                                    data-port="{{ $pos->port ?? 'Not Assigned' }}"
+                                                                    data-sim="{{ $pos->sim ?? 'Not Assigned' }}"
                                                                     data-assigned="{{ $pos->assigned == 1 ? 'Assigned' : 'Not Assigned' }}"
                                                                     data-status="{{ ucwords($pos->status) }}"
-                                                                    data-date="{{  date_format($pos->created_at, 'jS F, Y g:i:a') }}"
-                                                                    data-notificationip="{{ $pos->notification_ip ?? 'Not Assigned'}}"><i
+                                                                    data-date="{{ date_format($pos->created_at, 'jS F, Y g:i:a') }}"
+                                                                    data-notificationip="{{ $pos->notification_ip ?? 'Not Assigned' }}"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
 
-                                                                <a style="cursor:pointer" class="dropdown-item"
-                                                                    data-bs-toggle="offcanvas"
-                                                                    data-bs-target="#editPosTerminal"
-                                                                    data-myid="{{ $pos->id }}"
-                                                                    data-model="{{ $pos->model }}"
-                                                                    data-terminalid="{{ $pos->terminal_id }}"
-                                                                    data-serialno="{{ $pos->serial_number }}"
-                                                                    data-ip="{{ $pos->ip_address }}"
-                                                                    data-port="{{ $pos->port }}"
-                                                                    data-sim="{{ $pos->sim }}"
-                                                                    data-notificationip="{{ $pos->notification_ip }}"><i
-                                                                        class="fe fe-edit dropdown-item-icon"></i>Update
-                                                                    Details</a>
+                                                                @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 10) == true)
+                                                                    <a style="cursor:pointer" class="dropdown-item"
+                                                                        data-bs-toggle="offcanvas"
+                                                                        data-bs-target="#editPosTerminal"
+                                                                        data-myid="{{ $pos->id }}"
+                                                                        data-model="{{ $pos->model }}"
+                                                                        data-terminalid="{{ $pos->terminal_id }}"
+                                                                        data-serialno="{{ $pos->serial_number }}"
+                                                                        data-ip="{{ $pos->ip_address }}"
+                                                                        data-port="{{ $pos->port }}"
+                                                                        data-sim="{{ $pos->sim }}"
+                                                                        data-notificationip="{{ $pos->notification_ip }}"><i
+                                                                            class="fe fe-edit dropdown-item-icon"></i>Update
+                                                                        Details</a>
+                                                                @endif
 
                                                             </span>
                                                         </span>
@@ -201,7 +206,7 @@
     </div>
 </section>
 
-@if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 1) == true)
+@if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 10) == true)
     <!-- offcanvas -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 600px;">
         <div class="offcanvas-body" data-simplebar>
@@ -289,7 +294,7 @@
 @endif
 
 
-@if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+@if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 10) == true)
     <div class="offcanvas offcanvas-end" tabindex="-1" id="editPosTerminal" style="width: 600px;">
         <div class="offcanvas-body" data-simplebar>
             <div class="offcanvas-header px-2 pt-0">

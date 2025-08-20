@@ -972,26 +972,31 @@ class AdminController extends Controller
     {
         $search = request()->search;
         $status = request()->status;
-        $mda    = Auth::user()->mda_id;
+        $mda    = request()->mda;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord   = PaymentItem::query()->where("mda_id", $mda)->whereLike(["revenue_item", "revenue_code"], $search)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $paymentItems = PaymentItem::query()->where("mda_id", $mda)->whereLike(["revenue_item", "revenue_code"], $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = PaymentItem::query()->where("mda_id", $mda)->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $paymentItems = PaymentItem::query()->where("mda_id", $mda)->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = PaymentItem::query()->where("mda_id", $mda)->whereLike(["revenue_item", "revenue_code"], $search)->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $paymentItems = PaymentItem::query()->where("mda_id", $mda)->whereLike(["revenue_item", "revenue_code"], $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord   = PaymentItem::where("mda_id", $mda)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $paymentItems = PaymentItem::where("mda_id", $mda)->paginate(50);
+        $query = PaymentItem::query();
+
+        if (isset(request()->mda)) {
+            $query->where("mda_id", $mda);
         }
-        return view("admin.revenue_items", compact("paymentItems", "search", "status", "lastRecord", "marker", "mda"));
+
+        if (isset(request()->search)) {
+            $query->whereLike(["revenue_item", "revenue_code"], $search);
+        }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+
+        $paymentItems = $query->paginate(50);
+
+        $agencies = Mda::all();
+
+        return view("admin.revenue_items", compact("paymentItems", "search", "status", "lastRecord", "marker", "mda", "agencies"));
+
     }
 
     /**
@@ -1085,23 +1090,21 @@ class AdminController extends Controller
         $search = request()->search;
         $status = request()->status;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord  = TaxConsultants::query()->whereLike(["surname", "organization", "other_names", "email", "phone_number"], $search)->count();
-            $marker      = $this->getMarkers($lastRecord, request()->page);
-            $consultants = TaxConsultants::query()->whereLike(["surname", "organization", "other_names", "email", "phone_number"], $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord  = PaymentItem::query()->where("status", $status)->count();
-            $marker      = $this->getMarkers($lastRecord, request()->page);
-            $consultants = TaxConsultants::query()->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord  = TaxConsultants::query()->whereLike(["surname", "organization", "other_names", "email", "phone_number"], $search)->where("status", $status)->count();
-            $marker      = $this->getMarkers($lastRecord, request()->page);
-            $consultants = TaxConsultants::query()->whereLike(["surname", "organization", "other_names", "email", "phone_number"], $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord  = TaxConsultants::count();
-            $marker      = $this->getMarkers($lastRecord, request()->page);
-            $consultants = TaxConsultants::paginate(50);
+        $query = TaxConsultants::query();
+
+        if (isset(request()->search)) {
+            $query->whereLike(["surname", "organization", "other_names", "email", "phone_number"], $search);
         }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+
+        $consultants = $query->paginate(50);
+
         return view("admin.tax_consultants", compact("consultants", "search", "status", "lastRecord", "marker"));
     }
 
@@ -1214,23 +1217,20 @@ class AdminController extends Controller
         $search = request()->search;
         $status = request()->status;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = CollectionAgents::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $agents     = CollectionAgents::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord = CollectionAgents::query()->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $agents     = CollectionAgents::query()->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord = CollectionAgents::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $agents     = CollectionAgents::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord = CollectionAgents::count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $agents     = CollectionAgents::paginate(50);
+        $query = CollectionAgents::query();
+
+        if (isset(request()->search)) {
+            $query->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search);
         }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+
+        $agents = $query->paginate(50);
 
         $posTerminals = PosTerminals::where("assigned", 0)->get();
         return view("admin.collection_agents", compact("agents", "search", "status", "lastRecord", "marker", "posTerminals"));
@@ -1349,24 +1349,23 @@ class AdminController extends Controller
         $search = request()->search;
         $status = request()->status;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord   = PosTerminals::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $posTerminals = PosTerminals::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = PosTerminals::query()->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $posTerminals = PosTerminals::query()->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = PosTerminals::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $posTerminals = PosTerminals::query()->whereLike(["surname", "first_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord   = PosTerminals::count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $posTerminals = PosTerminals::paginate(50);
+        $query = PosTerminals::query();
+
+        if (isset(request()->search)) {
+            $query->whereLike(["serial_number", "terminal_id"], $search);
         }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+
+        $posTerminals = $query->paginate(50);
+
         return view("admin.pos_terminals", compact("posTerminals", "search", "status", "lastRecord", "marker"));
+
     }
 
     /**
@@ -1565,66 +1564,33 @@ class AdminController extends Controller
         $search = request()->search;
         $status = request()->status;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = $taxPayers = $taxPayers = TaxPayer::query()
-                ->where(function ($query) use ($search) {
-                    $query->whereLike(["tax_payer", "btin"], $search);
-                })
-                ->orWhereHas('user', function ($query) use ($search) {
-                    $query->whereLike(["email", "phone_number"], $search);
-                })
-                ->count();
-            $marker    = $this->getMarkers($lastRecord, request()->page);
-            $taxPayers = $taxPayers = TaxPayer::query()
-                ->where(function ($query) use ($search) {
-                    $query->whereLike(["tax_payer", "btin"], $search);
-                })
-                ->orWhereHas('user', function ($query) use ($search) {
-                    $query->whereLike(["email", "phone_number"], $search);
-                })
-                ->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord = TaxPayer::with('user')
-                ->whereHas('user', function ($query) use ($status) {
-                    $query->where('status', $status);
-                })
-                ->count();
-            $marker    = $this->getMarkers($lastRecord, request()->page);
-            $taxPayers = TaxPayer::with('user')
-                ->whereHas('user', function ($query) use ($status) {
-                    $query->where('status', $status);
-                })
-                ->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord = TaxPayer::with('user')
-                ->whereHas('user', function ($query) use ($status) {
-                    $query->where('status', $status);
-                })
-                ->where(function ($query) use ($search) {
-                    $query->whereLike(['tax_payer', 'btin'], $search)
-                        ->orWhereHas('user', function ($q) use ($search) {
-                            $q->whereLike(['email', 'phone_number'], $search);
-                        });
-                })
-                ->count();
-            $marker    = $this->getMarkers($lastRecord, request()->page);
-            $taxPayers = TaxPayer::with('user')
-                ->whereHas('user', function ($query) use ($status) {
-                    $query->where('status', $status);
-                })
-                ->where(function ($query) use ($search) {
-                    $query->whereLike(['tax_payer', 'btin'], $search)
-                        ->orWhereHas('user', function ($q) use ($search) {
-                            $q->whereLike(['email', 'phone_number'], $search);
-                        });
-                })
-                ->paginate(50);
-        } else {
-            $lastRecord = TaxPayer::count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $taxPayers  = TaxPayer::with('user')->paginate(50);
+        $query = TaxPayer::query();
+
+        if (Auth::user()->category == "birs area office") {
+            $query->where("tax_office_id", Auth::user()->tax_office_id);
         }
+
+        if (isset(request()->search)) {
+            $query->where(function ($param) use ($search) {
+                $param->whereLike(["tax_payer", "btin"], $search);
+            })
+                ->orWhereHas('user', function ($param) use ($search) {
+                    $param->whereLike(["email", "phone_number"], $search);
+                });
+        }
+
+        if (isset(request()->status)) {
+            $query->whereHas('user', function ($param) use ($status) {
+                $param->where('status', $status);
+            });
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+        $taxPayers  = $query->paginate(50);
+
         return view("admin.tax_payers", compact("taxPayers", "search", "status", "lastRecord", "marker"));
+
     }
 
     /**
@@ -1641,24 +1607,25 @@ class AdminController extends Controller
             $search = request()->search;
             $status = request()->status;
 
-            if (isset(request()->search) && ! isset(request()->status)) {
-                $lastRecord     = PaymentHistory::query()->where("tax_payer_id", $taxPayer->id)->where("reference", $search)->count();
-                $marker         = $this->getMarkers($lastRecord, request()->page);
-                $paymentHistory = PaymentHistory::query()->where("tax_payer_id", $taxPayer->id)->where("reference", $search)->paginate(50);
-            } else if (! isset(request()->search) && isset(request()->status)) {
-                $lastRecord     = PaymentHistory::query()->where("tax_payer_id", $taxPayer->id)->where("status", $status)->count();
-                $marker         = $this->getMarkers($lastRecord, request()->page);
-                $paymentHistory = PaymentHistory::query()->where("tax_payer_id", $taxPayer->id)->where("status", $status)->paginate(50);
-            } else if (isset(request()->search) && isset(request()->status)) {
-                $lastRecord     = PaymentHistory::query()->where("tax_payer_id", $taxPayer->id)->where("reference", $search)->where("status", $status)->count();
-                $marker         = $this->getMarkers($lastRecord, request()->page);
-                $paymentHistory = PaymentHistory::query()->where("tax_payer_id", $taxPayer->id)->where("reference", $search)->where("status", $status)->paginate(50);
-            } else {
-                $lastRecord     = PaymentHistory::where("tax_payer_id", $taxPayer->id)->count();
-                $marker         = $this->getMarkers($lastRecord, request()->page);
-                $paymentHistory = PaymentHistory::where("tax_payer_id", $taxPayer->id)->paginate(50);
+            $query = PaymentHistory::query();
+
+            $query->where("tax_payer_id", $taxPayer->id);
+
+            if (isset(request()->search)) {
+                $query->where("reference", $search);
             }
+
+            if (isset(request()->status)) {
+                $query->where("status", $status);
+            }
+
+            $lastRecord = $query->count();
+            $marker     = $this->getMarkers($lastRecord, request()->page);
+
+            $paymentHistory = $query->paginate(50);
+
             return view("admin.taxpayer_details", compact("taxPayer", "paymentHistory", "search", "status", "lastRecord", "marker", ));
+
         } else {
             toast('B-TIN does not exist on our records', 'error');
             return redirect()->route("admin.taxPayers");
@@ -1716,24 +1683,35 @@ class AdminController extends Controller
         $status = request()->status;
         $mda    = request()->mda;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->whereNotNull("mda_id")->where("reference", $search)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->whereNotNull("mda_id")->where("reference", $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->whereNotNull("mda_id")->where("status", $status)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->whereNotNull("mda_id")->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->whereNotNull("mda_id")->where("reference", $search)->where("status", $status)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->whereNotNull("mda_id")->where("reference", $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord     = PaymentHistory::whereNotNull("mda_id")->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::whereNotNull("mda_id")->paginate(50);
+        $query = PaymentHistory::query();
+
+        $query->whereNotNull("mda_id");
+
+        if (Auth::user()->category == "birs area office") {
+            $query->where("tax_office_id", Auth::user()->tax_office_id);
         }
-        return view("admin.mda_revenue", compact("paymentHistory", "search", "status", "lastRecord", "marker", "mda"));
+
+        if (isset(request()->mda)) {
+            $query->where("mda_id", $mda);
+        }
+
+        if (isset(request()->search)) {
+            $query->where("reference", $search);
+        }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+
+        $paymentHistory = $query->paginate(50);
+
+        $agencies = Mda::all();
+
+        return view("admin.mda_revenue", compact("paymentHistory", "search", "status", "lastRecord", "marker", "mda", "agencies"));
+
     }
 
     /**
@@ -1746,24 +1724,29 @@ class AdminController extends Controller
         $search = request()->search;
         $status = request()->status;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("payment_type_id", 1)->where("reference", $search)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("payment_type_id", 1)->where("reference", $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("payment_type_id", 1)->where("status", $status)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("payment_type_id", 1)->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("payment_type_id", 1)->where("reference", $search)->where("status", $status)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("payment_type_id", 1)->where("reference", $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord     = PaymentHistory::where("payment_type_id", 1)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::where("payment_type_id", 1)->paginate(50);
+        $query = PaymentHistory::query();
+
+        $query->where("payment_type_id", 1);
+
+        if (Auth::user()->category == "birs area office") {
+            $query->where("tax_office_id", Auth::user()->tax_office_id);
         }
+
+        if (isset(request()->search)) {
+            $query->where("reference", $search);
+        }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+
+        $paymentHistory = $query->paginate(50);
+
         return view("admin.development_levies", compact("paymentHistory", "search", "status", "lastRecord", "marker"));
+
     }
 
     /**
@@ -1776,23 +1759,27 @@ class AdminController extends Controller
         $search = request()->search;
         $status = request()->status;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("payment_type_id", 2)->where("reference", $search)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("payment_type_id", 2)->where("reference", $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("payment_type_id", 2)->where("status", $status)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("payment_type_id", 2)->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("payment_type_id", 2)->where("reference", $search)->where("status", $status)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("payment_type_id", 2)->where("reference", $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord     = PaymentHistory::where("payment_type_id", 2)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::where("payment_type_id", 2)->paginate(50);
+        $query = PaymentHistory::query();
+
+        $query->where("payment_type_id", 2);
+
+        if (Auth::user()->category == "birs area office") {
+            $query->where("tax_office_id", Auth::user()->tax_office_id);
         }
+
+        if (isset(request()->search)) {
+            $query->where("reference", $search);
+        }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+
+        $paymentHistory = $query->paginate(50);
+
         return view("admin.personal_income_taxes", compact("paymentHistory", "search", "status", "lastRecord", "marker"));
     }
 
@@ -1806,23 +1793,27 @@ class AdminController extends Controller
         $search = request()->search;
         $status = request()->status;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("payment_type_id", 3)->where("reference", $search)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("payment_type_id", 3)->where("reference", $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("payment_type_id", 3)->where("status", $status)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("payment_type_id", 3)->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("payment_type_id", 3)->where("reference", $search)->where("status", $status)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("payment_type_id", 3)->where("reference", $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord     = PaymentHistory::where("payment_type_id", 3)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::where("payment_type_id", 3)->paginate(50);
+        $query = PaymentHistory::query();
+
+        $query->where("payment_type_id", 3);
+
+        if (Auth::user()->category == "birs area office") {
+            $query->where("tax_office_id", Auth::user()->tax_office_id);
         }
+
+        if (isset(request()->search)) {
+            $query->where("reference", $search);
+        }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+
+        $paymentHistory = $query->paginate(50);
+
         return view("admin.filed_returns", compact("paymentHistory", "search", "status", "lastRecord", "marker"));
     }
 
@@ -1836,23 +1827,27 @@ class AdminController extends Controller
         $search = request()->search;
         $status = request()->status;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("payment_type_id", 4)->where("reference", $search)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("payment_type_id", 4)->where("reference", $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("payment_type_id", 4)->where("status", $status)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("payment_type_id", 4)->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("payment_type_id", 4)->where("reference", $search)->where("status", $status)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("payment_type_id", 4)->where("reference", $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord     = PaymentHistory::where("payment_type_id", 4)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::where("payment_type_id", 4)->paginate(50);
+        $query = PaymentHistory::query();
+
+        $query->where("payment_type_id", 4);
+
+        if (Auth::user()->category == "birs area office") {
+            $query->where("tax_office_id", Auth::user()->tax_office_id);
         }
+
+        if (isset(request()->search)) {
+            $query->where("reference", $search);
+        }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+
+        $paymentHistory = $query->paginate(50);
+
         return view("admin.other_taxes", compact("paymentHistory", "search", "status", "lastRecord", "marker"));
     }
 

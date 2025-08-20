@@ -24,7 +24,7 @@
                         </ol>
                     </nav>
                 </div>
-                @if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 1) == true)
+                @if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 9) == true)
                     <!-- button -->
                     <div>
                         <a href="#" class="btn btn-success btn-sm me-2" data-bs-toggle="offcanvas"
@@ -146,32 +146,36 @@
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
 
-                                                                <a style="cursor:pointer" class="dropdown-item"
-                                                                    data-bs-toggle="offcanvas"
-                                                                    data-bs-target="#editAgent"
-                                                                    data-myid="{{ $agent->id }}"
-                                                                    data-surname="{{ $agent->surname }}"
-                                                                    data-firstname="{{ $agent->first_name }}"
-                                                                    data-othernames="{{ $agent->other_names }}"
-                                                                    data-email="{{ $agent->email }}"
-                                                                    data-phone="{{ $agent->phone_number }}"
-                                                                    data-location="{{ $agent->assigned_location }}"
-                                                                    data-gender="{{ $agent->gender }}"><i
-                                                                        class="fe fe-edit dropdown-item-icon"></i>Update
-                                                                    Details</a>
-
-                                                                @if (isset($agent->terminal_id))
-                                                                    <a class="dropdown-item"
-                                                                        href="{{ route('admin.releaseTerminal', [$agent->id]) }}"
-                                                                        onclick="return confirm('Are you sure you want to release the terminal assigned to this agent?')"><i
-                                                                            class="fe fe-refresh-ccw dropdown-item-icon"></i>Release Terminal</a>
-                                                                @else
+                                                                @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 9) == true)
                                                                     <a style="cursor:pointer" class="dropdown-item"
                                                                         data-bs-toggle="offcanvas"
-                                                                        data-bs-target="#assignTerminal"
-                                                                        data-myid="{{ $agent->id }}"><i
-                                                                            class="fe fe-edit dropdown-item-icon"></i>Assign
-                                                                        Terminal</a>
+                                                                        data-bs-target="#editAgent"
+                                                                        data-myid="{{ $agent->id }}"
+                                                                        data-surname="{{ $agent->surname }}"
+                                                                        data-firstname="{{ $agent->first_name }}"
+                                                                        data-othernames="{{ $agent->other_names }}"
+                                                                        data-email="{{ $agent->email }}"
+                                                                        data-phone="{{ $agent->phone_number }}"
+                                                                        data-location="{{ $agent->assigned_location }}"
+                                                                        data-gender="{{ $agent->gender }}"><i
+                                                                            class="fe fe-edit dropdown-item-icon"></i>Update
+                                                                        Details</a>
+
+                                                                    @if (isset($agent->terminal_id))
+                                                                        <a class="dropdown-item"
+                                                                            href="{{ route('admin.releaseTerminal', [$agent->id]) }}"
+                                                                            onclick="return confirm('Are you sure you want to release the terminal assigned to this agent?')"><i
+                                                                                class="fe fe-refresh-ccw dropdown-item-icon"></i>Release
+                                                                            Terminal</a>
+                                                                    @else
+                                                                        <a style="cursor:pointer"
+                                                                            class="dropdown-item"
+                                                                            data-bs-toggle="offcanvas"
+                                                                            data-bs-target="#assignTerminal"
+                                                                            data-myid="{{ $agent->id }}"><i
+                                                                                class="fe fe-edit dropdown-item-icon"></i>Assign
+                                                                            Terminal</a>
+                                                                    @endif
                                                                 @endif
 
                                                             </span>
@@ -218,7 +222,7 @@
     </div>
 </section>
 
-@if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 1) == true)
+@if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 9) == true)
     <!-- offcanvas -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 600px;">
         <div class="offcanvas-body" data-simplebar>
@@ -310,7 +314,7 @@
 @endif
 
 
-@if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+@if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 9) == true)
     <div class="offcanvas offcanvas-end" tabindex="-1" id="editAgent" style="width: 600px;">
         <div class="offcanvas-body" data-simplebar>
             <div class="offcanvas-header px-2 pt-0">
@@ -380,8 +384,8 @@
 
                         <div class="mb-3 col-12">
                             <label class="form-label">Assigned Location <span class="text-danger">*</span></label>
-                            <textarea id="location" name="assigned_location" class="form-control" placeholder="Assigned Location" required rows="5"
-                                style="resize: none"></textarea>
+                            <textarea id="location" name="assigned_location" class="form-control" placeholder="Assigned Location" required
+                                rows="5" style="resize: none"></textarea>
                             <div class="invalid-feedback">Please provide assigned location.</div>
                         </div>
 
@@ -437,14 +441,16 @@
                         </div>
 
                         <div class="mb-3 col-12">
-                            <label class="form-label">Longitude Of Assigned Location <span class="text-danger">*</span></label>
+                            <label class="form-label">Longitude Of Assigned Location <span
+                                    class="text-danger">*</span></label>
                             <input id="" type="text" name="longitude" class="form-control"
                                 placeholder="Enter Longitude Of Assigned Location" required>
                             <div class="invalid-feedback">Please provide longitude.</div>
                         </div>
 
                         <div class="mb-3 col-12">
-                            <label class="form-label">Latitude Of Assigned Location <span class="text-danger">*</span></label>
+                            <label class="form-label">Latitude Of Assigned Location <span
+                                    class="text-danger">*</span></label>
                             <input id="" type="text" name="latitude" class="form-control"
                                 placeholder="Enter Latitude Of Assigned Location" required>
                             <div class="invalid-feedback">Please provide latitude.</div>

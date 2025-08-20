@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('tax_payers', function (Blueprint $table) {
             $table->increments("id");
             $table->integer('user_id')->unsigned();
+            $table->integer('tax_office_id')->unsigned();
             $table->string("tax_payer")->unique();
             $table->string("btin");
             $table->enum("category", ["individual", "corporate"]);
             $table->integer("profile_updated")->default(0);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('tax_office_id')->references('id')->on('tax_offices')->onDelete('cascade');
         });
     }
 

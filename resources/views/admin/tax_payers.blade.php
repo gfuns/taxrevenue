@@ -114,13 +114,14 @@
                                                             href="#" role="button" data-bs-toggle="dropdown"
                                                             data-bs-offset="-20,20" aria-expanded="false">
                                                             Action</a>
-                                                        @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
-                                                            <span class="dropdown-menu"><span
-                                                                    class="dropdown-header">Action</span>
-                                                                <a class="dropdown-item"
-                                                                    href="{{ route('admin.taxPayerDetails', [$tp->btin]) }}"><i
-                                                                        class="fe fe-eye dropdown-item-icon"></i>View
-                                                                    Details</a>
+
+                                                        <span class="dropdown-menu"><span
+                                                                class="dropdown-header">Action</span>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('admin.taxPayerDetails', [$tp->btin]) }}"><i
+                                                                    class="fe fe-eye dropdown-item-icon"></i>View
+                                                                Details</a>
+                                                            @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
                                                                 @if ($tp->user->status == 'active')
                                                                     <a class="dropdown-item"
                                                                         href="{{ route('admin.suspendTaxPayer', [$tp->user_id]) }}"
@@ -134,8 +135,9 @@
                                                                             class="fe fe-check-circle dropdown-item-icon"></i>Activate
                                                                         Tax Payer</a>
                                                                 @endif
-                                                            </span>
-                                                        @endif
+                                                            @endif
+                                                        </span>
+
                                                     </span>
 
                                                 </div>

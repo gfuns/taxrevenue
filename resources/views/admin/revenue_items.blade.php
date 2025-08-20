@@ -43,7 +43,7 @@
                 <form id="form" name="form" method="GET">
                     <div class="p-4 row gx-3">
                         <!-- Form -->
-                        <div class="col-12 col-lg-9 mb-3 mb-lg-0">
+                        <div class="col-12 col-lg-5 mb-3 mb-lg-0">
                             <!-- search -->
 
                             <div class="d-flex align-items-center">
@@ -57,7 +57,20 @@
 
                         </div>
 
-                        <div class="col-6 col-lg-3">
+                        <div class="col-6 col-lg-5">
+                            <!-- form select -->
+                            <select id="mdas" name="mda" class="form-select" onChange="this.form.submit()">
+                                <option value="">All MDAs</option>
+                                @foreach ($agencies as $ag)
+                                    <option value="{{ $ag->id }}"
+                                        @if ($mda == $ag->id) selected @endif>
+                                        {{ $ag->mda }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-6 col-lg-2">
                             <!-- form select -->
                             <select id="status" name="status" class="form-select" onChange="this.form.submit()">
                                 <option value="">All Statuses</option>
@@ -84,12 +97,15 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>#</th>
+                                            <th>MDA</th>
                                             <th>Revenue Item</th>
                                             <th>Revenue Code</th>
                                             <th>Payment Config</th>
                                             <th>Amount/Percentage</th>
                                             <th>Status</th>
-                                            <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
+                                            @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -97,6 +113,7 @@
                                         @foreach ($paymentItems as $revit)
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
+                                                <td>{{ $revit->mda->mda }}</td>
                                                 <td>{{ $revit->revenue_item }}</td>
                                                 <td>{{ $revit->revenue_code }}</td>
                                                 <td>{{ ucwords($revit->fee_config) }}</td>
@@ -116,31 +133,35 @@
                                                             class="badge text-danger bg-light-danger">{{ ucwords($revit->status) }}</span>
                                                     @endif
                                                 </td>
-                                                <td class="align-middle">
-                                                    <div class="hstack gap-4">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn btn-success bg-light-success text-success btn-sm"
-                                                                href="#" role="button" data-bs-toggle="dropdown"
-                                                                data-bs-offset="-20,20" aria-expanded="false">Action</a>
-                                                            <span class="dropdown-menu"><span
-                                                                    class="dropdown-header">Action</span>
+                                                @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                    <td class="align-middle">
+                                                        <div class="hstack gap-4">
+                                                            <span class="dropdown dropstart">
+                                                                <a class="btn btn-success bg-light-success text-success btn-sm"
+                                                                    href="#" role="button"
+                                                                    data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                                    aria-expanded="false">Action</a>
+                                                                <span class="dropdown-menu"><span
+                                                                        class="dropdown-header">Action</span>
 
-                                                                <a style="cursor:pointer" class="dropdown-item"
-                                                                    data-bs-toggle="offcanvas" data-bs-target="#editRevenueItem"
-                                                                    data-myid="{{ $revit->id }}"
-                                                                    data-revenue="{{ $revit->revenue_item }}"
-                                                                    data-revcode="{{ $revit->revenue_code }}"
-                                                                    data-config="{{ $revit->fee_config }}"
-                                                                    data-amount="{{ $revit->amount }}"
-                                                                    data-percentage="{{ $revit->percentage }}"><i
-                                                                        class="fe fe-edit dropdown-item-icon"></i>Update
-                                                                    Details</a>
+                                                                    <a style="cursor:pointer" class="dropdown-item"
+                                                                        data-bs-toggle="offcanvas"
+                                                                        data-bs-target="#editRevenueItem"
+                                                                        data-myid="{{ $revit->id }}"
+                                                                        data-revenue="{{ $revit->revenue_item }}"
+                                                                        data-revcode="{{ $revit->revenue_code }}"
+                                                                        data-config="{{ $revit->fee_config }}"
+                                                                        data-amount="{{ $revit->amount }}"
+                                                                        data-percentage="{{ $revit->percentage }}"><i
+                                                                            class="fe fe-edit dropdown-item-icon"></i>Update
+                                                                        Details</a>
 
+                                                                </span>
                                                             </span>
-                                                        </span>
 
-                                                    </div>
-                                                </td>
+                                                        </div>
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
 
@@ -192,8 +213,8 @@
             <!-- card body -->
             <div class="container">
                 <!-- form -->
-                <form class="needs-validation" novalidate method="post" action="{{ route('admin.storeRevenueItem') }}"
-                    enctype="multipart/form-data">
+                <form class="needs-validation" novalidate method="post"
+                    action="{{ route('admin.storeRevenueItem') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <!-- form group -->
@@ -238,7 +259,8 @@
                         </div>
 
 
-                        <input type="hidden" name="mda_id" value="{{ $mda }}" class="form-control" required>
+                        <input type="hidden" name="mda_id" value="{{ $mda }}" class="form-control"
+                            required>
 
                         <div class="col-md-12 border-bottom"></div>
                         <!-- button -->
@@ -266,7 +288,8 @@
             <!-- card body -->
             <div class="container">
                 <!-- form -->
-                <form class="needs-validation" novalidate method="post" action="{{ route('admin.updateRevenueItem') }}">
+                <form class="needs-validation" novalidate method="post"
+                    action="{{ route('admin.updateRevenueItem') }}">
                     @csrf
                     <div class="row">
                         <!-- form group -->
@@ -312,7 +335,8 @@
 
                         <input id="myid" type="hidden" name="item_id" class="form-control" required>
 
-                        <input type="hidden" name="mda_id" value="{{ $mda }}" class="form-control" required>
+                        <input type="hidden" name="mda_id" value="{{ $mda }}" class="form-control"
+                            required>
 
                         <div class="col-md-12 border-bottom"></div>
                         <!-- button -->
@@ -328,10 +352,15 @@
     </div>
 @endif
 
-
-<script type="text/javascript">
-    document.getElementById("platSettings").classList.add('show');
-    document.getElementById("paymentItems").classList.add('active');
-</script>
+@if (Auth::user()->category == 'birs hq')
+    <script type="text/javascript">
+        document.getElementById("platSettings").classList.add('show');
+        document.getElementById("paymentItems").classList.add('active');
+    </script>
+@else
+    <script type="text/javascript">
+        document.getElementById("revenueItems").classList.add('active');
+    </script>
+@endif
 
 @endsection

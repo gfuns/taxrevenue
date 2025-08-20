@@ -35,7 +35,7 @@
                 <form id="form" name="form" method="GET">
                     <div class="p-4 row gx-3">
                         <!-- Form -->
-                        <div class="col-12 col-lg-9 mb-3 mb-lg-0">
+                        <div class="col-12 col-lg-5 mb-3 mb-lg-0">
                             <!-- search -->
 
                             <div class="d-flex align-items-center">
@@ -50,7 +50,20 @@
 
                         </div>
 
-                        <div class="col-6 col-lg-3">
+                        <div class="col-6 col-lg-5">
+                            <!-- form select -->
+                            <select id="mdas" name="mda" class="form-select" onChange="this.form.submit()">
+                                <option value="">All MDAs</option>
+                                @foreach ($agencies as $ag)
+                                    <option value="{{ $ag->id }}"
+                                        @if ($mda == $ag->id) selected @endif>
+                                        {{ $ag->mda }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-6 col-lg-2">
                             <!-- form select -->
                             <select id="status" name="status" class="form-select" onChange="this.form.submit()">
                                 <option value="">All Statuses</option>
@@ -119,7 +132,8 @@
                                                             <span class="dropdown-menu"><span
                                                                     class="dropdown-header">Action</span>
 
-                                                                <a href="{{ route("admin.paymentDetails", [$ph->reference]) }}" style="cursor:pointer" class="dropdown-item"><i
+                                                                <a href="{{ route('admin.paymentDetails', [$ph->reference]) }}"
+                                                                    style="cursor:pointer" class="dropdown-item"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>
 

@@ -41,6 +41,10 @@
             $('#status').select2();
         });
 
+        $(document).ready(function() {
+            $('#mdas').select2();
+        });
+
         $('#gender').select2({
             dropdownParent: $('#offcanvasRight')
         });
