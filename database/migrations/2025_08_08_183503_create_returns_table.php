@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string("reference");
             $table->text("narration")->nullable();
             $table->double("income", 20, 2);
-            $table->double("tax_paid", 20, 2);
+            $table->double("tax_paid", 20, 2)->nullable();
             $table->enum("status", ["draft", "awaiting assessment", "awaiting payment", "paid"])->default("draft");
             $table->integer("self_filed")->default(1);
             $table->timestamps();

@@ -2,7 +2,9 @@
 namespace App\Http\Controllers\Individual;
 
 use App\Http\Controllers\Controller;
+use App\Models\Assessments;
 use App\Models\ConsultantRequests;
+use App\Models\IncomeSource;
 use App\Models\IndividualTaxpayer;
 use App\Models\Mda;
 use App\Models\PaymentHistory;
@@ -13,6 +15,7 @@ use App\Models\TaxOffice;
 use App\Models\TaxPayer;
 use App\Models\TaxpayerFamily;
 use App\Models\taxStations;
+use App\Models\UploadedDocuments;
 use App\Models\User;
 use Auth;
 use Cloudinary;
@@ -605,6 +608,240 @@ class IHomeController extends Controller
     }
 
     /**
+     * initiateReturnsFiling
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function initiateReturnsFiling(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'payment_period'      => 'required',
+            'salary'              => 'required|numeric',
+            'allowances'          => 'required|numeric',
+            'commissions'         => 'required|numeric',
+            'trades'              => 'required|numeric',
+            'consolidated_income' => 'required|numeric',
+            'financial_statement' => 'required|file|mimes:pdf',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $alreadyFiled = Returns::where("tax_payer_id", Auth::user()->taxpayer->id)->where("period", $request->payment_period)->first();
+        if (isset($alreadyFiled)) {
+            toast("Returns Already Filed For The Specified Period", 'error');
+            return back();
+        }
+
+        $totalIncome = (double) ($request->salary + $request->allowances + $request->commissions + $request->trades + $request->consolidated_income);
+        try {
+            DB::beginTransaction();
+
+            $return               = new Returns;
+            $return->user_id      = Auth::user()->id;
+            $return->tax_payer_id = Auth::user()->taxpayer->id;
+            $return->category     = "individual";
+            $return->period       = $request->payment_period;
+            $return->narration    = "Personal Income Tax For Year " . $request->payment_period;
+            $return->income       = $totalIncome;
+            $return->save();
+
+            $incomeSource                      = new IncomeSource;
+            $incomeSource->returns_id          = $return->id;
+            $incomeSource->salary              = $request->salary;
+            $incomeSource->allowances          = $request->allowances;
+            $incomeSource->commissions         = $request->commissions;
+            $incomeSource->trade               = $request->trades;
+            $incomeSource->consolidated_income = $request->consolidated_income;
+            $incomeSource->total               = $totalIncome;
+            $incomeSource->save();
+
+            if ($request->has('financial_statement')) {
+
+                $document                 = new UploadedDocuments;
+                $document->returns_id     = $return->id;
+                $document->document_type  = "financial statement";
+                $document->document_title = "Financial Statement";
+                $financialStatement       = Cloudinary::upload($request->file('financial_statement')->getRealPath())->getSecurePath();
+                $document->document       = $financialStatement;
+                $document->save();
+            }
+
+            DB::commit();
+
+            return redirect()->route("individual.previousReturns", [$return->reference]);
+        } catch (\Throwable $e) {
+            DB::rollback();
+
+            report($e);
+            toast($e->getMessage(), 'error');
+            return back();
+        }
+    }
+
+    /**
+     * previousReturns
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function previousReturns($reference)
+    {
+        $return = Returns::where("reference", $reference)->first();
+
+        $previousYears = self::getPreviousYears($return->period);
+
+        $previousReturns = Returns::where("tax_payer_id", $return->tax_payer_id)->whereIn("period", $previousYears)->where("status", "paid")->get();
+
+        $missedReturns = self::getMissedReturns($return->tax_payer_id, $return->period);
+        $missedYears   = self::getMissedYears($return->tax_payer_id, $return->id, $return->period);
+
+        $uploadedDocuments = UploadedDocuments::orderBy("period", "asc")->where("returns_id", $return->id)->where("document_type", "previous filing")->get();
+
+        if (count($previousReturns) < 3) {
+            return view("individual.previous_filed_returns", compact("return", "previousReturns", "missedReturns", "missedYears", "uploadedDocuments"));
+        }
+
+        return redirect()->rouute("individual.previewApplication", [$reference]);
+
+    }
+
+    /**
+     * uploadPreviousReturns
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function uploadPreviousReturns(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'return_id'       => 'required',
+            'period'          => 'required',
+            'income_declared' => 'required|numeric',
+            'tax_paid'        => 'required|numeric',
+            'tax_clearance'   => 'required|file',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        if ($request->has('tax_clearance')) {
+
+            $document                 = new UploadedDocuments;
+            $document->returns_id     = $request->return_id;
+            $document->period         = $request->period;
+            $document->document_type  = "previous filing";
+            $document->document_title = "Indication of Filed Return For Year " . $request->period;
+            $document->income         = $request->income_declared;
+            $document->tax_paid       = $request->tax_paid;
+            $uploadedDocument         = Cloudinary::upload($request->file('tax_clearance')->getRealPath())->getSecurePath();
+            $document->document       = $uploadedDocument;
+            $document->save();
+
+            toast("Document Uploaded Successfully", 'success');
+            return back();
+        }
+        return back();
+
+    }
+
+    /**
+     * previewApplication
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function previewApplication($reference)
+    {
+        $return = Returns::where("reference", $reference)->first();
+
+        $income = IncomeSource::where("returns_id", $return->id)->first();
+
+        $previousYears = self::getPreviousYears($return->period);
+
+        $previousReturns = Returns::where("tax_payer_id", $return->tax_payer_id)->whereIn("period", $previousYears)->where("status", "paid")->get();
+
+        $uploadedDocuments = UploadedDocuments::orderBy("period", "asc")->where("returns_id", $return->id)->where("document_type", "previous filing")->get();
+
+        return view("individual.preview_return_application", compact("return", "income", "previousReturns", "uploadedDocuments"));
+
+    }
+
+    /**
+     * submitReturnApplication
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function submitReturnApplication(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'return_id'   => 'required',
+            'declaration' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $return         = Returns::find($request->return_id);
+            $return->status = "awaiting assessment";
+            $return->save();
+
+            $assessment               = new Assessments;
+            $assessment->returns_id   = $return->id;
+            $assessment->user_id      = $return->user_id;
+            $assessment->tax_payer_id = $return->tax_payer_id;
+            $assessment->save();
+
+            DB::commit();
+
+            toast("Returns Submitted And Awaiting Assessment", 'success');
+            return redirect()->route("individual.filedReturns");
+
+        } catch (\Throwable $e) {
+            DB::rollback();
+            report($e);
+            toast($e->getMessage(), 'error');
+            return back();
+        }
+    }
+
+    /**
+     * returnDetails
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function returnDetails($reference)
+    {
+        $return     = Returns::find($reference);
+        $assessment = Assessments::where("returns_id", $request->return_id)->first();
+        return view("individual.returns_details", compact("return", "assessment"));
+    }
+
+    /**
      * getMarkers Helper Function
      *
      * @param mixed lastRecord
@@ -649,6 +886,95 @@ class IHomeController extends Controller
         $item = PaymentItem::find($id);
         $fee  = ((env("BDIC_FEE_PERCENT") / 100) * $item->amount);
         return $fee;
+
+    }
+
+    /**
+     * getPreviousYears
+     *
+     * @param mixed year
+     * @param mixed count
+     *
+     * @return void
+     */
+    public function getPreviousYears($year, $count = 3)
+    {
+        $years = [];
+        for ($i = $count; $i >= 1; $i--) {
+            $years[] = $year - $i;
+        }
+        return $years;
+    }
+
+    /**
+     * getMissedYears
+     *
+     * @param mixed table
+     * @param mixed yearColumn
+     * @param mixed currentYear
+     * @param mixed count
+     *
+     * @return void
+     */
+    public function getMissedReturns($taxPayer, $year, $count = 3)
+    {
+        $missedYears   = [];
+        $previousYears = [];
+        for ($i = $count; $i >= 1; $i--) {
+            $previousYears[] = $year - $i;
+        }
+
+        foreach ($previousYears as $year) {
+            $exists = Returns::where("tax_payer_id", $taxPayer)->where("period", $year)->where("status", "paid")->exists();
+
+            if (! $exists) {
+                $missedYears[] = $year;
+            }
+        }
+
+        if (count($missedYears) > 1) {
+            $lastYear      = array_pop($missedYears);
+            $missedReturns = implode(", ", $missedYears) . " and " . $lastYear;
+        } else {
+            $missedReturns = $missedYears[0];
+        }
+
+        return $missedReturns;
+
+    }
+
+    /**
+     * getMissedYears
+     *
+     * @param mixed taxPayer
+     * @param mixed year
+     * @param mixed count
+     *
+     * @return void
+     */
+    public function getMissedYears($taxPayer, $return, $year, $count = 3)
+    {
+        $missedYears   = [];
+        $previousYears = [];
+        for ($i = $count; $i >= 1; $i--) {
+            $previousYears[] = $year - $i;
+        }
+
+        foreach ($previousYears as $year) {
+            $exists = Returns::where("tax_payer_id", $taxPayer)->where("period", $year)->exists();
+
+            if (! $exists) {
+                $missedYears[] = $year;
+            }
+        }
+
+        $uploadedDocuments = UploadedDocuments::where("returns_id", $return)->where("document_type", "previous filing")->pluck("period")->toArray();
+
+        $filteredYears = array_diff($missedYears, $uploadedDocuments);
+
+        $filteredYears = array_values($filteredYears);
+
+        return $filteredYears;
 
     }
 }

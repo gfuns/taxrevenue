@@ -25,8 +25,9 @@
                     </nav>
                 </div>
                 <div>
-                    <a href="{{ route("individual.fileReturns") }}" class="btn btn-success btn-sm me-2">
-                        <i class="nav-icon bi bi-plus-circle me-2" style="font-size:14px; font-weight:bold"></i> File Returns</a>
+                    <a href="{{ route('individual.fileReturns') }}" class="btn btn-success btn-sm me-2">
+                        <i class="nav-icon bi bi-plus-circle me-2" style="font-size:14px; font-weight:bold"></i> File
+                        Returns</a>
 
                 </div>
             </div>
@@ -101,9 +102,13 @@
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $trx->reference }}</td>
-                                                <td>{{ $trx->period }}</td>
-                                                <td>{{ $trx->description }}</td>
-                                                <td>&#8358;{{ number_format($trx->tax_paid, 2) }}</td>
+                                                <td>Year {{ $trx->period }}</td>
+                                                <td>{{ $trx->narration }}</td>
+                                                @if ($trx->tax_paid == 0)
+                                                    <td>NIL</td>
+                                                @else
+                                                    <td>&#8358;{{ number_format($trx->tax_paid, 2) }}</td>
+                                                @endif
 
                                                 <td>
                                                     @if ($trx->status == 'draft')
@@ -126,7 +131,7 @@
                                                             <span class="dropdown-menu"><span
                                                                     class="dropdown-header">Action</span>
 
-                                                                <a href="{{ route('admin.paymentDetails', [$ph->reference]) }}"
+                                                                <a href="{{ route('individual.returnDetails', [$trx->reference]) }}"
                                                                     style="cursor:pointer" class="dropdown-item"><i
                                                                         class="fe fe-eye dropdown-item-icon"></i>View
                                                                     Details</a>

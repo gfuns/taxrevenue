@@ -43,7 +43,7 @@
                     <div class="card-body p-lg-6">
                         <!-- form -->
                         <form method="post" class="needs-validation" novalidate
-                            action="{{ route('individual.initiateReturnsFiling') }}">
+                            action="{{ route('individual.initiateReturnsFiling') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <!-- form group -->
@@ -70,7 +70,7 @@
                                     <div class="mb-3 col-md-4 col-12">
                                         <label class="form-label" style="font-size: 11px">Salary <span
                                                 class="text-danger">*</span></label>
-                                        <input id="startPeriod" type="text" name="salary" value=""
+                                        <input id="salary" type="text" name="salary" value="" oninput="validateInput(event)"
                                             class="form-control" placeholder="Enter Salary" autocomplete="off" required>
 
                                         <div class="invalid-feedback">Please enter an amount.</div>
@@ -78,7 +78,7 @@
                                     <div class="mb-3 col-md-4 col-12">
                                         <label class="form-label" style="font-size: 11px">Allowances <span
                                                 class="text-danger">*</span></label>
-                                        <input id="endPeriod" type="text" name="allowances" value=""
+                                        <input id="allowances" type="text" name="allowances" value="" oninput="validateInput(event)"
                                             class="form-control" placeholder="Enter Allowances" autocomplete="off"
                                             required>
 
@@ -87,7 +87,7 @@
                                     <div class="mb-3 col-md-4 col-12">
                                         <label class="form-label" style="font-size: 11px">Commissions, Bonuses,
                                             Gratuities <span class="text-danger">*</span></label>
-                                        <input id="endPeriod" type="text" name="commissions" value=""
+                                        <input id="commissions" type="text" name="commissions" value="" oninput="validateInput(event)"
                                             class="form-control" placeholder="Enter Commissions, Bonuses, Gratuities"
                                             autocomplete="off" required>
 
@@ -98,17 +98,31 @@
                                 <div class="mb-3 col-12">
                                     <label class="form-label">Income Generated From Trade, Business, Profession,
                                         Vocation, etc <span class="text-danger">*</span></label>
-                                    <input id="taxAmount" type="text" name="trades" value=""
-                                        class="form-control" placeholder="Income Generated From Trade, Business, Profession, Vocation, etc" required>
+                                    <input id="trades" type="text" name="trades" value="" oninput="validateInput(event)"
+                                        class="form-control" autocomplete="off"
+                                        placeholder="Income Generated From Trade, Business, Profession, Vocation, etc"
+                                        required>
                                     <div class="invalid-feedback">Please enter an amount.</div>
                                 </div>
 
                                 <div class="mb-3 col-12">
                                     <label class="form-label">Consolidated Gross Income <span
                                             class="text-danger">*</span></label>
-                                    <input id="taxAmount" type="text" name="consolidated_income" value=""
-                                        class="form-control" placeholder="Enter Consolidated Gross Income" required>
+                                    <input id="consolidatedIncome" type="text" name="consolidated_income" value="" autocomplete="off"
+                                        class="form-control" placeholder="Enter Consolidated Gross Income" oninput="validateInput(event)" required>
                                     <div class="invalid-feedback">Please enter an amount.</div>
+                                </div>
+
+                                <div class="mb-3 col-12">
+                                    <label class="form-label">Financial Statement <span
+                                            class="text-danger">*</span></label>
+                                    <small style="color:green; display:block">Please Upload Your Financial Statements
+                                        for the period under review in one single Portable Document Format
+                                        (PDF).</small>
+                                    <input id="finStatement" type="file" name="financial_statement"
+                                        value="" class="form-control"
+                                        placeholder="Enter Consolidated Gross Income" required>
+                                    <div class="invalid-feedback">Please upload financial statement document.</div>
                                 </div>
 
                                 <div class="col-md-8"></div>
@@ -146,33 +160,6 @@
         $('#revenueItem').select2();
     });
 
-
-
-
-    function validateInput(event) {
-        const input = event.target;
-        let value = input.value;
-
-        // Remove commas from the input value
-        value = value.replace(/,/g, '');
-
-        // Regular expression to match non-numeric and non-decimal characters
-        const nonNumericDecimalRegex = /[^0-9.]/g;
-
-        if (nonNumericDecimalRegex.test(value)) {
-            // If non-numeric or non-decimal characters are found, remove them from the input value
-            value = value.replace(nonNumericDecimalRegex, '');
-        }
-
-        // Ensure there is only one decimal point in the value
-        const decimalCount = value.split('.').length - 1;
-        if (decimalCount > 1) {
-            value = value.replace(/\./g, '');
-        }
-
-        // Assign the cleaned value back to the input field
-        input.value = value;
-    }
 
     $('#startPeriod').datepicker({
         format: "MM yyyy", // Display format

@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('uploaded_documents', function (Blueprint $table) {
             $table->increments("id");
             $table->integer("returns_id")->unsigned();
+            $table->enum("document_type", ["financial statement", "previous filing"]);
             $table->text("document_title");
             $table->text("document");
+            $table->double("income", 20, 2);
+            $table->double("tax_paid", 20, 2);
             $table->timestamps();
             $table->foreign('returns_id')->references('id')->on('returns')->onDelete('cascade');
         });

@@ -15,10 +15,10 @@ return new class extends Migration
             $table->increments("id");
             $table->integer("returns_id")->unsigned();
             $table->text("source");
-            $table->double("salary", 12, 2)->nullable();
-            $table->double("allowances", 12, 2)->nullable();
-            $table->double("comissions", 12, 2)->nullable();
-            $table->double("total", 12, 2);
+            $table->double("salary", 20, 2)->nullable();
+            $table->double("allowances", 20, 2)->nullable();
+            $table->double("commissions", 20, 2)->nullable();
+            $table->double("total", 20, 2);
             $table->timestamps();
             $table->foreign('returns_id')->references('id')->on('returns')->onDelete('cascade');
         });

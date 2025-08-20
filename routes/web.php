@@ -111,9 +111,19 @@ Route::group([
 
         Route::get('/filed-returns', [IHomeController::class, 'filedReturns'])->name("individual.filedReturns");
 
+        Route::get('/return-details/{reference}', [IHomeController::class, 'returnDetails'])->name("individual.returnDetails");
+
         Route::get('/file-returns', [IHomeController::class, 'fileReturns'])->name("individual.fileReturns");
 
         Route::post('/initiateReturnsFiling', [IHomeController::class, 'initiateReturnsFiling'])->name("individual.initiateReturnsFiling");
+
+        Route::get('/previous-filed-returns/{reference}', [IHomeController::class, 'previousReturns'])->name("individual.previousReturns");
+
+        Route::post('/uploadPreviousReturns', [IHomeController::class, 'uploadPreviousReturns'])->name("individual.uploadPreviousReturns");
+
+        Route::post('/submitReturnApplication', [IHomeController::class, 'submitReturnApplication'])->name("individual.submitReturnApplication");
+
+        Route::get('/returns/preview-filing/{reference}', [IHomeController::class, 'previewApplication'])->name("individual.previewApplication");
 
         Route::get('/employer-filed-returns', [IHomeController::class, 'employerFiledReturns'])->name("individual.empFiledReturns");
 
