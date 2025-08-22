@@ -193,9 +193,15 @@ Route::group([
 
     Route::get('/download-advise/{reference}', [AdminController::class, 'downloadPayAdvise'])->name("admin.downloadPayAdvise");
 
+    Route::get('/assessments', [AdminController::class, 'assessments'])->name("admin.assessments");
+
+    Route::get('/assessment-details/{reference}', [AdminController::class, 'assessmentDetails'])->name("admin.assessmentDetails");
+
 });
 
 Route::get('/ajax/tax-items/{mda}', [App\Http\Controllers\AjaxController::class, 'getTaxItems'])->name('ajax.getTaxItems');
+
+Route::get('/ajax/all-tax-items/{mda}', [App\Http\Controllers\AjaxController::class, 'getAllTaxItems'])->name('ajax.getAllTaxItems');
 
 Route::get('/ajax/tax-amount/{taxId}', [App\Http\Controllers\AjaxController::class, 'getTaxAmount'])->name('ajax.getTaxAmount');
 

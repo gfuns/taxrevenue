@@ -29,6 +29,7 @@
     <script src="{{ asset('assets/js/vendors/validation.js') }}"></script>
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     @include('sweetalert::alert')
 
     {{-- @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"]) --}}
@@ -43,6 +44,10 @@
 
         $(document).ready(function() {
             $('#mdas').select2();
+        });
+
+        $(document).ready(function() {
+            $('#ato').select2();
         });
 
         $('#gender').select2({
@@ -482,6 +487,27 @@
                 }).val(taxoffice)
                 .trigger("change");
         })
+
+
+
+        $("#isTaxPayer").change(function() {
+
+            if ($("#isTaxPayer").is(":checked")) {
+                $("#tpBtin").css("display", "block");
+                $("#btin").attr("required", true);
+                $('#btin').val(''); // reset field
+                $("#tpName").css("display", "none");
+                $("#taxpayer").removeAttr("required");
+                $('#submitbutton').prop('disabled', true);
+            } else {
+                $("#tpName").css("display", "block");
+                $("#taxpayer").attr("required", true);
+                $('#taxpayer').prop('readonly', false).val(''); // reset field
+                $("#tpBtin").css("display", "none");
+                $("#btin").removeAttr("required");
+                 $('#submitbutton').prop('disabled', false);
+            }
+        });
 
 
         function disableLink(anchor) {

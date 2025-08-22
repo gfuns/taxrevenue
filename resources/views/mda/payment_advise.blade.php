@@ -222,7 +222,7 @@
             alt="UBA">
         <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/banks/access.jpeg'))) }}"
             alt="Access Bank">
-        <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/banks/etranzact.jpeg'))) }}"
+        <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/banks/premium.jpeg'))) }}"
             alt="Premium Trust Bank">
         <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/banks/zenith.jpeg'))) }}"
             alt="Zenith Bank">

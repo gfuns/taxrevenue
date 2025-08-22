@@ -121,7 +121,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="awards" href="">
+                    <a class="nav-link " id="assessments" href="{{ route("admin.assessments") }}">
                         <i class="nav-icon bi bi-journal-check me-2"></i>
                         Assessments
                     </a>
@@ -134,7 +134,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="awards" href="">
+                    <a class="nav-link " id="objections" href="">
                         <i class="nav-icon bi bi-journal-x me-2"></i>
                         Objections
                     </a>

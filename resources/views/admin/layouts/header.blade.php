@@ -16,6 +16,8 @@
     <link href="{{ asset('assets/libs/mdi/font/css/materialdesignicons.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/libs/simplebar/dist/simplebar.min.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}">
@@ -80,5 +82,21 @@
         [data-theme="dark"] ::placeholder {
             color: white;
         }
+
+         .datepicker-dropdown {
+            padding: 15px;
+            /* space inside the dropdown */
+            /* border-radius: 8px; */
+            /* optional: rounded corners */
+        }
+
+        .validationerror{
+            font-weight:bold;
+            color: #b02a37;
+            display:none;
+            font-size:12px;
+            margin-top:5px
+        }
+
     </style>
 </head>

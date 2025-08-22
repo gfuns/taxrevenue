@@ -12,4 +12,9 @@ class Assessments extends Model
     {
         return $this->belongsTo('App\Models\Returns', 'returns_id');
     }
+
+    public function taxpayer()
+    {
+        return $this->belongsTo('App\Models\TaxPayer', 'tax_payer_id');
+    }
 }

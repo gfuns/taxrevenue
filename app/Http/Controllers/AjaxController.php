@@ -13,6 +13,14 @@ class AjaxController extends Controller
         return response()->json($taxItems);
     }
 
+    public function getAllTaxItems($mda)
+    {
+
+        $taxItems = PaymentItem::where('mda_id', $mda)->pluck('revenue_item', 'id');
+
+        return response()->json($taxItems);
+    }
+
     public function getTaxAmount($taxId)
     {
 

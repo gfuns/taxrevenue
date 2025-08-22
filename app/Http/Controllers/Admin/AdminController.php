@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AccountCreationMail as AccountCreationMail;
+use App\Models\Assessments;
 use App\Models\CollectionAgents;
 use App\Models\Lgas;
 use App\Models\Mda;
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Mail;
+use PDF;
 use Session;
 
 class AdminController extends Controller
@@ -1873,6 +1875,196 @@ class AdminController extends Controller
     {
         alert()->info('Coming Soon');
         return back();
+    }
+
+    /**
+     * generateBill
+     *
+     * @return void
+     */
+    public function generateBill()
+    {
+        $mdas           = Mda::all();
+        $areaTaxOffices = TaxOffice::all();
+        return view("admin.generate_bill", compact("mdas", "areaTaxOffices"));
+    }
+
+    /**
+     * initiateBillGeneration
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function initiateBillGeneration(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'btin'         => 'nullable',
+            'tax_payer'    => 'required',
+            'revenue_item' => 'required',
+            'start_period' => 'required',
+            'end_period'   => 'required',
+            'amount'       => 'required|numeric',
+            'tax_office'   => 'required',
+            'mda'          => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            $errors = implode("<br>", $errors);
+            toast($errors, 'error');
+            return back();
+        }
+
+        $revenueItem = PaymentItem::find($request->revenue_item);
+
+        $amount = $revenueItem->amount ?? $request->amount;
+
+        $feeCharged = self::getFee($revenueItem->id, $amount);
+
+        $taxOffice = $request->tax_office;
+
+        if (isset($request->btin)) {
+            $taxpayer = TaxPayer::where("btin", $request->btin)->first();
+        }
+
+        $bill = new PaymentHistory;
+
+        if (isset($request->btin)) {
+            $bill->user_id      = isset($taxpayer) ? $taxpayer->user_id : null;
+            $bill->tax_payer_id = isset($taxpayer) ? $taxpayer->id : null;
+            $taxOffice          = isset($taxpayer) ? $taxpayer->tax_office_id : $request->tax_office;
+        }
+
+        $bill->tax_office_id   = $taxOffice;
+        $bill->tax_payer       = $request->tax_payer;
+        $bill->period          = $request->start_period . " - " . $request->end_period;
+        $bill->mda_id          = $request->mda;
+        $bill->narration       = $revenueItem->revenue_item . " Payment";
+        $bill->payment_item_id = $revenueItem->id;
+        $bill->payment_type_id = $revenueItem->payment_type_id;
+        $bill->amount          = $amount;
+        $bill->fee_charged     = $feeCharged;
+        $bill->total           = ($amount + $feeCharged);
+        if ($bill->save()) {
+            toast('Bill Generated Successfully.', 'success');
+            return redirect()->route("admin.billPreview", [$bill->reference]);
+        } else {
+            toast('Something went wrong. Please try again', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * validateBtin
+     *
+     * @param Request request
+     *
+     * @return void
+     */
+    public function validateBtin(Request $request)
+    {
+        $taxpayer = TaxPayer::where("btin", $request->btin)->first();
+
+        if (isset($taxpayer)) {
+            return response()->json(['taxpayer' => $taxpayer->tax_payer], 200);
+        } else {
+            return response()->json(['message' => "B-TIN Validation Failed"], 400);
+        }
+
+    }
+
+    /**
+     * billPreview
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function billPreview($reference)
+    {
+        $trx = PaymentHistory::where("reference", $reference)->first();
+        return view("admin.bill_preview", compact("trx"));
+    }
+
+    /**
+     * downloadPayAdvise
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function downloadPayAdvise($reference)
+    {
+        $trx = PaymentHistory::where("reference", $reference)->first();
+
+        view()->share(['trx' => $trx]);
+
+        $pdf      = PDF::loadView('mda.payment_advise');
+        $fileName = "Payment Advice - " . $reference . ".pdf";
+        return $pdf->download($fileName);
+
+        return view("admin.payment_advise", compact("trx"));
+    }
+
+    /**
+     * assessments
+     *
+     * @return void
+     */
+    public function assessments()
+    {
+        $search = request()->search;
+        $status = request()->status;
+
+        $query = Assessments::query();
+
+        if (Auth::user()->category == "birs area office") {
+            $query->where("tax_office_id", Auth::user()->tax_office_id);
+        }
+
+        if (isset(request()->search)) {
+            $query->where("reference", $search);
+        }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+
+        $assessments = $query->paginate(50);
+        return view("admin.assessments", compact("assessments", "search", "status", "lastRecord", "marker"));
+    }
+
+    /**
+     * assessmentDetails
+     *
+     * @param mixed reference
+     *
+     * @return void
+     */
+    public function assessmentDetails($reference)
+    {
+        $assessment = Assessments::where("reference", $reference)->first();
+        return view("admin.assessment_details", compact("assessment"));
+    }
+
+    /**
+     * getFee
+     *
+     * @param mixed id
+     * @param mixed amount
+     *
+     * @return void
+     */
+    public static function getFee($id, $amount)
+    {
+        $item = PaymentItem::find($id);
+        $fee  = ((env("BDIC_FEE_PERCENT") / 100) * ($item->amount ?? $amount));
+        return $fee;
+
     }
 
     /**
