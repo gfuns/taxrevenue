@@ -11,9 +11,11 @@ use App\Models\PaymentHistory;
 use App\Models\PaymentItem;
 use App\Models\PlatformFeature;
 use App\Models\PosTerminals;
+use App\Models\Returns;
 use App\Models\TaxConsultants;
 use App\Models\TaxOffice;
 use App\Models\TaxPayer;
+use App\Models\UploadedDocuments;
 use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\UserRole;
@@ -2048,7 +2050,13 @@ class AdminController extends Controller
     public function assessmentDetails($reference)
     {
         $assessment = Assessments::where("reference", $reference)->first();
-        return view("admin.assessment_details", compact("assessment"));
+
+        $previousYears = self::getPreviousYears($assessment->period);
+
+        $previousReturns = Returns::where("tax_payer_id", $assessment->tax_payer_id)->whereIn("period", $previousYears)->where("status", "paid")->get();
+
+        $uploadedDocuments = UploadedDocuments::orderBy("period", "asc")->where("returns_id", $assessment->returns_id)->where("document_type", "previous filing")->get();
+        return view("admin.assessment_details", compact("assessment", "previousReturns", "uploadedDocuments"));
     }
 
     /**
@@ -2097,6 +2105,23 @@ class AdminController extends Controller
         }
 
         return $marker;
+    }
+
+    /**
+     * getPreviousYears
+     *
+     * @param mixed year
+     * @param mixed count
+     *
+     * @return void
+     */
+    public function getPreviousYears($year, $count = 3)
+    {
+        $years = [];
+        for ($i = $count; $i >= 1; $i--) {
+            $years[] = $year - $i;
+        }
+        return $years;
     }
 
 }

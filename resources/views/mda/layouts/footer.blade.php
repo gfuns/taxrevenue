@@ -446,4 +446,30 @@
             }
             return true;
         }
+
+
+        function validateInput(event) {
+            const input = event.target;
+            let value = input.value;
+
+            // Remove commas from the input value
+            value = value.replace(/,/g, '');
+
+            // Regular expression to match non-numeric and non-decimal characters
+            const nonNumericDecimalRegex = /[^0-9.]/g;
+
+            if (nonNumericDecimalRegex.test(value)) {
+                // If non-numeric or non-decimal characters are found, remove them from the input value
+                value = value.replace(nonNumericDecimalRegex, '');
+            }
+
+            // Ensure there is only one decimal point in the value
+            const decimalCount = value.split('.').length - 1;
+            if (decimalCount > 1) {
+                value = value.replace(/\./g, '');
+            }
+
+            // Assign the cleaned value back to the input field
+            input.value = value;
+        }
     </script>

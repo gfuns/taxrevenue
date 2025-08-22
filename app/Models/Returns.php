@@ -9,6 +9,11 @@ class Returns extends Model
 {
     use HasFactory;
 
+    public function incomeSources()
+    {
+        return $this->hasOne('App\Models\IncomeSource', 'returns_id');
+    }
+
     public static function booted()
     {
         static::creating(function ($return) {

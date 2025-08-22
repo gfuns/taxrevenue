@@ -32,6 +32,8 @@ return new class extends Migration
             $table->string("house_number");
             $table->string("street_name");
             $table->text("business_type")->nullable();
+            $table->text("business_name")->nullable();
+            $table->text("business_address")->nullable();
             $table->string("tin")->nullable();
             $table->enum("public_servant", ["yes", "no"]);
             $table->enum("identification_type", ["nin", "bvn"]);

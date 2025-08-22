@@ -54,14 +54,20 @@
                             <!-- form select -->
                             <select id="status" name="status" class="form-select" onChange="this.form.submit()">
                                 <option value="">All Statuses</option>
-                                <option value="pending" @if ($status == 'pending') selected @endif>
-                                    Pending
+                                <option value="awaiting assessment" @if ($status == 'awaiting assessment') selected @endif>
+                                    Awaiting Assessment
                                 </option>
-                                <option value="successful" @if ($status == 'successful') selected @endif>
-                                    Successful
+                                <option value="assessed" @if ($status == 'assessed') selected @endif>
+                                    Assessment Completed
                                 </option>
-                                <option value="failed" @if ($status == 'failed') selected @endif>
-                                    Failed
+                                <option value="objected" @if ($status == 'objected') selected @endif>
+                                    Assessment Objected
+                                </option>
+                                <option value="accepted" @if ($status == 'accepted') selected @endif>
+                                    Assessment Accepted
+                                </option>
+                                <option value="paid" @if ($status == 'paid') selected @endif>
+                                    Returns Paid
                                 </option>
                             </select>
                         </div>
