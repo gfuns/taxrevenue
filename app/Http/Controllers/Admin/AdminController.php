@@ -910,8 +910,9 @@ class AdminController extends Controller
     public function storeMDA(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mda'      => 'required',
-            'mda_code' => 'required',
+            'mda'            => 'required',
+            'mda_code'       => 'required',
+            'mda_percentage' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -921,9 +922,10 @@ class AdminController extends Controller
             return back();
         }
 
-        $mda           = new Mda;
-        $mda->mda      = ucwords(strtolower($request->mda));
-        $mda->mda_code = $request->mda_code;
+        $mda                 = new Mda;
+        $mda->mda            = ucwords(strtolower($request->mda));
+        $mda->mda_code       = $request->mda_code;
+        $mda->mda_percentage = $request->mda_percentage;
         if ($mda->save()) {
             toast("MDA Created Successfully.", 'success');
             return back();
@@ -943,9 +945,10 @@ class AdminController extends Controller
     public function updateMDA(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mda_id'   => 'required',
-            'mda'      => 'required',
-            'mda_code' => 'required',
+            'mda_id'         => 'required',
+            'mda'            => 'required',
+            'mda_code'       => 'required',
+            'mda_percentage' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -955,9 +958,10 @@ class AdminController extends Controller
             return back();
         }
 
-        $mda           = Mda::find($request->mda_id);
-        $mda->mda      = ucwords(strtolower($request->mda));
-        $mda->mda_code = $request->mda_code;
+        $mda                 = Mda::find($request->mda_id);
+        $mda->mda            = ucwords(strtolower($request->mda));
+        $mda->mda_code       = $request->mda_code;
+        $mda->mda_percentage = $request->mda_percentage;
         if ($mda->save()) {
             toast("MDA Updated Successfully.", 'success');
             return back();
@@ -1016,7 +1020,7 @@ class AdminController extends Controller
             'revenue_item' => 'required',
             'revenue_code' => 'required',
             'config_type'  => 'required',
-            'mda_id'       => 'required',
+            'mda'          => 'required',
             'amount'       => 'required_if:config_type,fixed',
             'percentage'   => 'required_if:config_type,percentage',
         ]);
@@ -1029,7 +1033,7 @@ class AdminController extends Controller
         }
 
         $item               = new PaymentItem;
-        $item->mda_id       = $request->mda_id;
+        $item->mda_id       = $request->mda;
         $item->revenue_item = ucwords(strtolower($request->revenue_item));
         $item->revenue_code = $request->revenue_code;
         $item->fee_config   = $request->config_type;
@@ -1055,6 +1059,7 @@ class AdminController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'item_id'      => 'required',
+            'mda'          => 'required',
             'revenue_item' => 'required',
             'revenue_code' => 'required',
             'config_type'  => 'required',
@@ -1070,6 +1075,7 @@ class AdminController extends Controller
         }
 
         $item               = PaymentItem::find($request->item_id);
+        $item->mda_id       = $request->mda;
         $item->revenue_item = ucwords(strtolower($request->revenue_item));
         $item->revenue_code = $request->revenue_code;
         $item->fee_config   = $request->config_type;

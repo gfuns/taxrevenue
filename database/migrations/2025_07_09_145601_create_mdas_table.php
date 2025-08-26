@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments("id");
             $table->text("mda");
             $table->string("mda_code");
+            $table->double("mda_percentage", 12, 2)->default(0);
             $table->enum("status", ["active", "deactivated"])->default("active");
             $table->timestamps();
         });

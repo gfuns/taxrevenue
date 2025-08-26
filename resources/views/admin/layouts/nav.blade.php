@@ -22,28 +22,30 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="taxpayers" href="{{ route("admin.taxPayers") }}">
+                    <a class="nav-link " id="taxpayers" href="{{ route('admin.taxPayers') }}">
                         <i class="nav-icon bi bi-people-fill me-2"></i>
                         Registered Tax Payers
                     </a>
                 </li>
             @endif
 
-            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 1) == true && Auth::user()->category == "birs area office")
-                <li class="nav-item">
-                    <div class="nav-divider"></div>
-                </li>
+            @if (Auth::user()->category == 'birs area office')
+                @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 15) == true)
+                    <li class="nav-item">
+                        <div class="nav-divider"></div>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link " id="revenueItems" href="{{ route('admin.revenueItems') }}">
-                        <i class="nav-icon bi bi-list-ul me-2"></i>
-                        Revenue Items
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="revenueItems" href="{{ route('admin.revenueItems') }}">
+                            <i class="nav-icon bi bi-list-ul me-2"></i>
+                            Revenue Items
+                        </a>
+                    </li>
+                @endif
             @endif
 
 
-             @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 2) == true)
+            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 16) == true)
                 <li class="nav-item">
                     <div class="nav-divider"></div>
                 </li>
@@ -71,7 +73,7 @@
 
                             @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 3) == true)
                                 <li class="nav-item">
-                                    <a class="nav-link " id="returns" href="{{ route("admin.filedReturns") }}">
+                                    <a class="nav-link " id="returns" href="{{ route('admin.filedReturns') }}">
                                         Corp. Filed Returns
                                     </a>
                                 </li>
@@ -79,7 +81,7 @@
 
                             @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 4) == true)
                                 <li class="nav-item">
-                                    <a class="nav-link " id="pit" href="{{ route("admin.incomeTaxes") }}">
+                                    <a class="nav-link " id="pit" href="{{ route('admin.incomeTaxes') }}">
                                         Pers. Income Taxes
                                     </a>
                                 </li>
@@ -87,7 +89,7 @@
 
                             @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 5) == true)
                                 <li class="nav-item">
-                                    <a class="nav-link " id="devlevies" href="{{ route("admin.developmentLevies") }}">
+                                    <a class="nav-link " id="devlevies" href="{{ route('admin.developmentLevies') }}">
                                         Development Levies
                                     </a>
                                 </li>
@@ -95,7 +97,7 @@
 
                             @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 14) == true)
                                 <li class="nav-item">
-                                    <a class="nav-link " id="mdataxes" href="{{ route("admin.mdaGeneratedRevenue") }}">
+                                    <a class="nav-link " id="mdataxes" href="{{ route('admin.mdaGeneratedRevenue') }}">
                                         MDA Taxes/Revenue
                                     </a>
                                 </li>
@@ -103,7 +105,7 @@
 
                             @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 13) == true)
                                 <li class="nav-item">
-                                    <a class="nav-link " id="othertaxes" href="{{ route("admin.otherTaxes") }}">
+                                    <a class="nav-link " id="othertaxes" href="{{ route('admin.otherTaxes') }}">
                                         Other Taxes/Revenue
                                     </a>
                                 </li>
@@ -121,7 +123,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="assessments" href="{{ route("admin.assessments") }}">
+                    <a class="nav-link " id="assessments" href="{{ route('admin.assessments') }}">
                         <i class="nav-icon bi bi-journal-check me-2"></i>
                         Assessments
                     </a>
@@ -160,7 +162,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="agents" href="{{ route("admin.collectionAgents") }}">
+                    <a class="nav-link " id="agents" href="{{ route('admin.collectionAgents') }}">
                         <i class="nav-icon bi bi-people me-2"></i>
                         Collection Agents
                     </a>
@@ -173,7 +175,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="pos" href="{{ route("admin.posTerminals") }}">
+                    <a class="nav-link " id="pos" href="{{ route('admin.posTerminals') }}">
                         <i class="nav-icon bi bi-calculator me-2"></i>
                         POS Terminals
                     </a>
@@ -199,14 +201,14 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="reports" href="{{ route("admin.reports") }}">
+                    <a class="nav-link " id="reports" href="{{ route('admin.reports') }}">
                         <i class="nav-icon bi-clipboard2-data-fill me-2"></i>
                         Administrative Reports
                     </a>
                 </li>
             @endif
 
-            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 1) == true && Auth::user()->category == "birs hq")
+            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 1) == true)
                 <li class="nav-item">
                     <div class="nav-divider"></div>
                 </li>
@@ -232,7 +234,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link " id="mdas" href="{{ route('admin.manageMDAs') }}">
+                                <a class="nav-link " id="manageMdas" href="{{ route('admin.manageMDAs') }}">
                                     MDAs
                                 </a>
                             </li>

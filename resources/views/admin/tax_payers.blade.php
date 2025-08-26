@@ -121,7 +121,7 @@
                                                                 href="{{ route('admin.taxPayerDetails', [$tp->btin]) }}"><i
                                                                     class="fe fe-eye dropdown-item-icon"></i>View
                                                                 Details</a>
-                                                            @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                            @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 2) == true)
                                                                 @if ($tp->user->status == 'active')
                                                                     <a class="dropdown-item"
                                                                         href="{{ route('admin.suspendTaxPayer', [$tp->user_id]) }}"

@@ -50,6 +50,10 @@
             $('#ato').select2();
         });
 
+        $('#branch').select2({
+            dropdownParent: $('#addRevenueItem')
+        });
+
         $('#gender').select2({
             dropdownParent: $('#offcanvasRight')
         });
@@ -187,6 +191,7 @@
             var amount = button.data('amount') // Extract info from data-* attributes
             var config = button.data('config') // Extract info from data-* attributes
             var percentage = button.data('percentage') // Extract info from data-* attributes
+            var mda = button.data('mda') // Extract info from data-* attributes
 
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -198,6 +203,10 @@
             offcanvas.find('.offcanvas-body #revcode').val(revcode)
             offcanvas.find('.offcanvas-body #uamount').val(amount)
             offcanvas.find('.offcanvas-body #upercentage').val(percentage)
+            $("#ubranch").select2({
+                    dropdownParent: $("#editRevenueItem"),
+                }).val(mda)
+                .trigger("change");
             $("#uconfigType").select2({
                     dropdownParent: $("#editRevenueItem"),
                 }).val(config)
@@ -279,6 +288,7 @@
             var myid = button.data('myid') // Extract info from data-* attributes
             var mda = button.data('mda') // Extract info from data-* attributes
             var mdacode = button.data('mdacode') // Extract info from data-* attributes
+            var mdapercentage = button.data('mdapercentage') // Extract info from data-* attributes
 
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -288,6 +298,7 @@
             offcanvas.find('.offcanvas-body #myid').val(myid)
             offcanvas.find('.offcanvas-body #editMda').val(mda)
             offcanvas.find('.offcanvas-body #mdacode').val(mdacode)
+            offcanvas.find('.offcanvas-body #mdapercentage').val(mdapercentage)
         })
 
         $('#editConsultant').on('show.bs.offcanvas', function(event) {

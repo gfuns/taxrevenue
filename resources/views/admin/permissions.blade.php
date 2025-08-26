@@ -49,95 +49,99 @@
                             </h4>
                         </div>
                         <!-- table -->
-                        <div class="table-responsive overflow-y-hidden mb-5">
-                            <table class="table mb-0 text-nowrap table-hover table-centered table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Platform Features</th>
-                                        <th scope="col">Feature Permission</th>
-                                        <th scope="col">Can Create</th>
-                                        <th scope="col">Can Edit</th>
-                                        <th scope="col">Can Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($platformFeatures as $feature)
+                        @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                            <div class="table-responsive overflow-y-hidden mb-5">
+                                <table class="table mb-0 text-nowrap table-hover table-centered table-bordered">
+                                    <thead>
                                         <tr>
-                                            <td> <strong>{{ $feature->feature }} </strong></td>
-                                            <td>
-                                                @if ($role->featurePermission($feature->id) == 1)
-                                                    <a href="{{ route('admin.revokeFeaturePermission', [$role->id, $feature->id]) }}"
-                                                        onClick="this.disabled=true; this.innerHTML='Revoking Permission...';"><button
-                                                            class="btn btn-success btn-sm">Revoke
-                                                            Permission</button></a>
-                                                @else
-                                                    <a href="{{ route('admin.grantFeaturePermission', [$role->id, $feature->id]) }}"
-                                                        onClick="this.disabled=true; this.innerHTML='Granting Permission...';"><button
-                                                            class="btn btn-primary btn-sm">Grant
-                                                            Permission</button></a>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($role->featurePermission($feature->id) == 1)
-                                                    @if ($role->createPermission($feature->id) == 1)
-                                                    <a href="{{ route('admin.revokeCreatePermission', [$role->id, $feature->id]) }}"
-                                                        onClick="this.disabled=true; this.innerHTML='Revoking Permission...';"><button
-                                                            class="btn btn-success btn-sm">Revoke
-                                                            Permission</button></a>
-                                                    @else
-                                                    <a href="{{ route('admin.grantCreatePermission', [$role->id, $feature->id]) }}"
-                                                        onClick="this.disabled=true; this.innerHTML='Granting Permission...';"><button
-                                                            class="btn btn-primary btn-sm">Grant
-                                                            Permission</button></a>
-                                                    @endif
-                                                @else
-                                                    <button class="btn btn-secondary btn-sm">Grant Permission</button>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($role->featurePermission($feature->id) == 1)
-                                                    @if ($role->editPermission($feature->id) == 1)
-                                                    <a href="{{ route('admin.revokeEditPermission', [$role->id, $feature->id]) }}"
-                                                        onClick="this.disabled=true; this.innerHTML='Revoking Permission...';"><button
-                                                            class="btn btn-success btn-sm">Revoke
-                                                            Permission</button></a>
-                                                    @else
-                                                    <a href="{{ route('admin.grantEditPermission', [$role->id, $feature->id]) }}"
-                                                        onClick="this.disabled=true; this.innerHTML='Granting Permission...';"><button
-                                                            class="btn btn-primary btn-sm">Grant
-                                                            Permission</button></a>
-                                                    @endif
-                                                @else
-                                                    <button class="btn btn-secondary btn-sm">Grant Permission</button>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($role->featurePermission($feature->id) == 1)
-                                                    @if ($role->deletePermission($feature->id) == 1)
-                                                    <a href="{{ route('admin.revokeDeletePermission', [$role->id, $feature->id]) }}"
-                                                        onClick="this.disabled=true; this.innerHTML='Revoking Permission...';"><button
-                                                            class="btn btn-success btn-sm">Revoke
-                                                            Permission</button></a>
-                                                    @else
-                                                    <a href="{{ route('admin.grantDeletePermission', [$role->id, $feature->id]) }}"
-                                                        onClick="this.disabled=true; this.innerHTML='Granting Permission...';"><button
-                                                            class="btn btn-primary btn-sm">Grant
-                                                            Permission</button></a>
-                                                    @endif
-                                                @else
-                                                    <button class="btn btn-secondary btn-sm">Grant Permission</button>
-                                                @endif
-                                            </td>
+                                            <th scope="col">Platform Features</th>
+                                            <th scope="col">Feature Permission</th>
+                                            <th scope="col">Can Create</th>
+                                            <th scope="col">Can Edit</th>
+                                            <th scope="col">Can Delete</th>
                                         </tr>
-                                    @endforeach
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($platformFeatures as $feature)
+                                            <tr>
+                                                <td> <strong>{{ $feature->feature }} </strong></td>
+                                                <td>
+                                                    @if ($role->featurePermission($feature->id) == 1)
+                                                        <a href="{{ route('admin.revokeFeaturePermission', [$role->id, $feature->id]) }}"
+                                                            onClick="this.disabled=true; this.innerHTML='Revoking Permission...';"><button
+                                                                class="btn btn-success btn-sm">Revoke
+                                                                Permission</button></a>
+                                                    @else
+                                                        <a href="{{ route('admin.grantFeaturePermission', [$role->id, $feature->id]) }}"
+                                                            onClick="this.disabled=true; this.innerHTML='Granting Permission...';"><button
+                                                                class="btn btn-primary btn-sm">Grant
+                                                                Permission</button></a>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($role->featurePermission($feature->id) == 1)
+                                                        @if ($role->createPermission($feature->id) == 1)
+                                                            <a href="{{ route('admin.revokeCreatePermission', [$role->id, $feature->id]) }}"
+                                                                onClick="this.disabled=true; this.innerHTML='Revoking Permission...';"><button
+                                                                    class="btn btn-success btn-sm">Revoke
+                                                                    Permission</button></a>
+                                                        @else
+                                                            <a href="{{ route('admin.grantCreatePermission', [$role->id, $feature->id]) }}"
+                                                                onClick="this.disabled=true; this.innerHTML='Granting Permission...';"><button
+                                                                    class="btn btn-primary btn-sm">Grant
+                                                                    Permission</button></a>
+                                                        @endif
+                                                    @else
+                                                        <button class="btn btn-secondary btn-sm">Grant
+                                                            Permission</button>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($role->featurePermission($feature->id) == 1)
+                                                        @if ($role->editPermission($feature->id) == 1)
+                                                            <a href="{{ route('admin.revokeEditPermission', [$role->id, $feature->id]) }}"
+                                                                onClick="this.disabled=true; this.innerHTML='Revoking Permission...';"><button
+                                                                    class="btn btn-success btn-sm">Revoke
+                                                                    Permission</button></a>
+                                                        @else
+                                                            <a href="{{ route('admin.grantEditPermission', [$role->id, $feature->id]) }}"
+                                                                onClick="this.disabled=true; this.innerHTML='Granting Permission...';"><button
+                                                                    class="btn btn-primary btn-sm">Grant
+                                                                    Permission</button></a>
+                                                        @endif
+                                                    @else
+                                                        <button class="btn btn-secondary btn-sm">Grant
+                                                            Permission</button>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($role->featurePermission($feature->id) == 1)
+                                                        @if ($role->deletePermission($feature->id) == 1)
+                                                            <a href="{{ route('admin.revokeDeletePermission', [$role->id, $feature->id]) }}"
+                                                                onClick="this.disabled=true; this.innerHTML='Revoking Permission...';"><button
+                                                                    class="btn btn-success btn-sm">Revoke
+                                                                    Permission</button></a>
+                                                        @else
+                                                            <a href="{{ route('admin.grantDeletePermission', [$role->id, $feature->id]) }}"
+                                                                onClick="this.disabled=true; this.innerHTML='Granting Permission...';"><button
+                                                                    class="btn btn-primary btn-sm">Grant
+                                                                    Permission</button></a>
+                                                        @endif
+                                                    @else
+                                                        <button class="btn btn-secondary btn-sm">Grant
+                                                            Permission</button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
 
-                                </tbody>
+                                    </tbody>
 
-                            </table>
+                                </table>
 
 
-                        </div>
-
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

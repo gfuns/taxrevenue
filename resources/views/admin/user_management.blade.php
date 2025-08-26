@@ -97,7 +97,9 @@
                                         <th scope="col">Phone Number</th>
                                         <th scope="col">Assigned Role</th>
                                         <th scope="col">Status</th>
-                                        <th scope="col">Action</th>
+                                        @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                            <th scope="col">Action</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -117,15 +119,16 @@
                                                     <span class="badge text-danger bg-light-danger">Suspended</span>
                                                 @endif
                                             </td>
-                                            <td class="align-middle">
-                                                <div class="hstack gap-4">
+                                            @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                <td class="align-middle">
+                                                    <div class="hstack gap-4">
 
-                                                    <span class="dropdown dropstart">
-                                                        <a class="btn btn-success bg-light-success text-success btn-sm"
-                                                            href="#" role="button" data-bs-toggle="dropdown"
-                                                            data-bs-offset="-20,20" aria-expanded="false">
-                                                            Action</a>
-                                                        @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                        <span class="dropdown dropstart">
+                                                            <a class="btn btn-success bg-light-success text-success btn-sm"
+                                                                href="#" role="button" data-bs-toggle="dropdown"
+                                                                data-bs-offset="-20,20" aria-expanded="false">
+                                                                Action</a>
+
                                                             <span class="dropdown-menu"><span
                                                                     class="dropdown-header">Action</span>
                                                                 <a style="cursor:pointer" class="dropdown-item"
@@ -156,11 +159,12 @@
                                                                         User</a>
                                                                 @endif
                                                             </span>
-                                                        @endif
-                                                    </span>
 
-                                                </div>
-                                            </td>
+                                                        </span>
+
+                                                    </div>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -238,7 +242,8 @@
                                 data-width="100%" required>
                                 <option value="">Select User Role</option>
                                 @foreach ($userRoles as $role)
-                                    <option value="{{ $role->id }}" data-category="{{ $role->category }}">{{ $role->role }}</option>
+                                    <option value="{{ $role->id }}" data-category="{{ $role->category }}">
+                                        {{ $role->role }}</option>
                                 @endforeach
                             </select>
                             <div class="invalid-feedback">Please select user role.</div>
@@ -335,7 +340,8 @@
                             <select id="uuserrole" name="role" class="form-select" data-width="100%" required>
                                 <option value="">Select User Role</option>
                                 @foreach ($userRoles as $role)
-                                    <option value="{{ $role->id }}" data-category="{{ $role->category }}">{{ $role->role }}</option>
+                                    <option value="{{ $role->id }}" data-category="{{ $role->category }}">
+                                        {{ $role->role }}</option>
                                 @endforeach
                             </select>
                             <div class="invalid-feedback">Please select admin role.</div>

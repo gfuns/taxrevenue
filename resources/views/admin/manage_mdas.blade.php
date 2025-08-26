@@ -87,8 +87,11 @@
                                             <th>#</th>
                                             <th>MDA</th>
                                             <th>MDA Code</th>
+                                            <th>% of Revenue Retained</th>
                                             <th>Status</th>
-                                            <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
+                                            @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -98,6 +101,7 @@
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $mda->mda }}</td>
                                                 <td>{{ $mda->mda_code }}</td>
+                                                <td>{{ number_format($mda->mda_percentage, 2) }}%</td>
                                                 <td>
                                                     @if ($mda->status == 'active')
                                                         <span
@@ -107,32 +111,36 @@
                                                             class="badge text-danger bg-light-danger">{{ ucwords($mda->status) }}</span>
                                                     @endif
                                                 </td>
-                                                <td class="align-middle">
-                                                    @if ($mda->id > 1)
-                                                        <div class="hstack gap-4">
-                                                            <span class="dropdown dropstart">
-                                                                <a class="btn btn-success bg-light-success text-success btn-sm"
-                                                                    href="#" role="button"
-                                                                    data-bs-toggle="dropdown" data-bs-offset="-20,20"
-                                                                    aria-expanded="false">Action</a>
-                                                                <span class="dropdown-menu"><span
-                                                                        class="dropdown-header">Action</span>
+                                                @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                    <td class="align-middle">
+                                                        @if ($mda->id > 1)
+                                                            <div class="hstack gap-4">
+                                                                <span class="dropdown dropstart">
+                                                                    <a class="btn btn-success bg-light-success text-success btn-sm"
+                                                                        href="#" role="button"
+                                                                        data-bs-toggle="dropdown"
+                                                                        data-bs-offset="-20,20"
+                                                                        aria-expanded="false">Action</a>
+                                                                    <span class="dropdown-menu"><span
+                                                                            class="dropdown-header">Action</span>
 
-                                                                    <a style="cursor:pointer" class="dropdown-item"
-                                                                        data-bs-toggle="offcanvas"
-                                                                        data-bs-target="#editMDA"
-                                                                        data-myid="{{ $mda->id }}"
-                                                                        data-mda="{{ $mda->mda }}"
-                                                                        data-mdacode="{{ $mda->mda_code }}"><i
-                                                                            class="fe fe-edit dropdown-item-icon"></i>Update
-                                                                        Details</a>
+                                                                        <a style="cursor:pointer" class="dropdown-item"
+                                                                            data-bs-toggle="offcanvas"
+                                                                            data-bs-target="#editMDA"
+                                                                            data-myid="{{ $mda->id }}"
+                                                                            data-mda="{{ $mda->mda }}"
+                                                                            data-mdacode="{{ $mda->mda_code }}"
+                                                                            data-mdapercentage="{{ $mda->mda_percentage }}"><i
+                                                                                class="fe fe-edit dropdown-item-icon"></i>Update
+                                                                            Details</a>
 
+                                                                    </span>
                                                                 </span>
-                                                            </span>
 
-                                                        </div>
-                                                    @endif
-                                                </td>
+                                                            </div>
+                                                        @endif
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
 
@@ -190,15 +198,26 @@
                         <!-- form group -->
                         <div class="mb-3 col-12">
                             <label class="form-label">MDA <span class="text-danger">*</span></label>
-                            <input type="text" name="mda" class="form-control" placeholder="Enter MDA" required>
-                            <div class="invalid-feedback">Please provide mda.</div>
+                            <input type="text" name="mda" class="form-control" placeholder="Enter MDA"
+                                required>
+                            <div class="invalid-feedback">Please provide MDA.</div>
                         </div>
 
                         <div class="mb-3 col-12">
                             <label class="form-label">MDA Code <span class="text-danger">*</span></label>
                             <input type="text" name="mda_code" class="form-control" placeholder="Enter MDA Code"
                                 required>
-                            <div class="invalid-feedback">Please provide mda code.</div>
+                            <div class="invalid-feedback">Please provide MDA Code.</div>
+                        </div>
+
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Percentage Revenue/Tax To Be Retained By MDA <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" name="mda_percentage" class="form-control"
+                                placeholder="Enter Percentage Revenue/Tax To Be Retained By MDA"
+                                oninput="validateInput(event)" required>
+                            <div class="invalid-feedback">Please provide percentage of revenue/tax to be retained by
+                                MDA.</div>
                         </div>
 
                         <div class="col-md-12 border-bottom"></div>
@@ -246,6 +265,15 @@
                             <div class="invalid-feedback">Please provide mda code.</div>
                         </div>
 
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Percentage Revenue/Tax To Be Retained By MDA <span
+                                    class="text-danger">*</span></label>
+                            <input id="mdapercentage" type="text" name="mda_percentage" class="form-control"
+                                placeholder="Enter Percentage Revenue/Tax To Be Retained By MDA"
+                                oninput="validateInput(event)" required>
+                            <div class="invalid-feedback">Please provide percentage of revenue/tax to be retained by
+                                MDA.</div>
+                        </div>
 
                         <input id="myid" type="hidden" name="mda_id" class="form-control" required>
 
@@ -266,7 +294,7 @@
 
 <script type="text/javascript">
     document.getElementById("platSettings").classList.add('show');
-    document.getElementById("mdas").classList.add('active');
+    document.getElementById("manageMdas").classList.add('active');
 </script>
 
 @endsection

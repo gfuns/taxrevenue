@@ -52,8 +52,7 @@
                                 </span>
                                 <!-- input -->
                                 <input name="search" type="search" class="form-control ps-6"
-                                    placeholder="Search Area Tax Offices......"
-                                    value="{{ $search }}">
+                                    placeholder="Search Area Tax Offices......" value="{{ $search }}">
                             </div>
 
                         </div>
@@ -91,7 +90,9 @@
                                             <th>Phone Number</th>
                                             <th>Office Address</th>
                                             <th>Status</th>
-                                            <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
+                                            @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -113,32 +114,35 @@
                                                             class="badge text-danger bg-light-danger">{{ ucwords($tof->status) }}</span>
                                                     @endif
                                                 </td>
-                                                <td class="align-middle">
-                                                    <div class="hstack gap-4">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn btn-success bg-light-success text-success btn-sm"
-                                                                href="#" role="button" data-bs-toggle="dropdown"
-                                                                data-bs-offset="-20,20" aria-expanded="false">Action</a>
-                                                            <span class="dropdown-menu"><span
-                                                                    class="dropdown-header">Action</span>
+                                                @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                    <td class="align-middle">
+                                                        <div class="hstack gap-4">
+                                                            <span class="dropdown dropstart">
+                                                                <a class="btn btn-success bg-light-success text-success btn-sm"
+                                                                    href="#" role="button"
+                                                                    data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                                    aria-expanded="false">Action</a>
+                                                                <span class="dropdown-menu"><span
+                                                                        class="dropdown-header">Action</span>
 
-                                                                <a style="cursor:pointer" class="dropdown-item"
-                                                                    data-bs-toggle="offcanvas"
-                                                                    data-bs-target="#editTaxOffice"
-                                                                    data-myid="{{ $tof->id }}"
-                                                                    data-office="{{ $tof->tax_office }}"
-                                                                    data-address="{{ $tof->address }}"
-                                                                    data-email="{{ $tof->email }}"
-                                                                    data-phone="{{ $tof->phone_number }}"
-                                                                    data-lga="{{ $tof->lga_id }}"><i
-                                                                        class="fe fe-edit dropdown-item-icon"></i>Update
-                                                                    Details</a>
+                                                                    <a style="cursor:pointer" class="dropdown-item"
+                                                                        data-bs-toggle="offcanvas"
+                                                                        data-bs-target="#editTaxOffice"
+                                                                        data-myid="{{ $tof->id }}"
+                                                                        data-office="{{ $tof->tax_office }}"
+                                                                        data-address="{{ $tof->address }}"
+                                                                        data-email="{{ $tof->email }}"
+                                                                        data-phone="{{ $tof->phone_number }}"
+                                                                        data-lga="{{ $tof->lga_id }}"><i
+                                                                            class="fe fe-edit dropdown-item-icon"></i>Update
+                                                                        Details</a>
 
+                                                                </span>
                                                             </span>
-                                                        </span>
 
-                                                    </div>
-                                                </td>
+                                                        </div>
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
 
@@ -225,8 +229,7 @@
                         <!-- form group -->
                         <div class="mb-3 col-12">
                             <label class="form-label">LGA <span class="text-danger">*</span></label>
-                            <select id="lga" name="lga" class=" form-control"
-                                data-width="100%" required>
+                            <select id="lga" name="lga" class=" form-control" data-width="100%" required>
                                 <option value="">Select LGA</option>
                                 @foreach ($lgas as $lga)
                                     <option value="{{ $lga->id }}">{{ $lga->lga }}</option>
@@ -261,8 +264,8 @@
             <!-- card body -->
             <div class="container">
                 <!-- form -->
-                <form class="needs-validation" novalidate method="post" action="{{ route('admin.updateTaxOffice') }}"
-                    enctype="multipart/form-data">
+                <form class="needs-validation" novalidate method="post"
+                    action="{{ route('admin.updateTaxOffice') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <!-- form group -->
@@ -297,8 +300,7 @@
                         <!-- form group -->
                         <div class="mb-3 col-12">
                             <label class="form-label">LGA <span class="text-danger">*</span></label>
-                            <select id="editLga" name="lga" class=" form-control"
-                                data-width="100%" required>
+                            <select id="editLga" name="lga" class=" form-control" data-width="100%" required>
                                 <option value="">Select LGA</option>
                                 @foreach ($lgas as $lga)
                                     <option value="{{ $lga->id }}">{{ $lga->lga }}</option>

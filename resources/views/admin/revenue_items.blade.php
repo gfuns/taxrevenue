@@ -24,7 +24,7 @@
                         </ol>
                     </nav>
                 </div>
-                @if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 1) == true)
+                @if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 15) == true)
                     <!-- button -->
                     <div>
                         <a href="#" class="btn btn-success btn-sm me-2" data-bs-toggle="offcanvas"
@@ -103,7 +103,7 @@
                                             <th>Payment Config</th>
                                             <th>Amount/Percentage</th>
                                             <th>Status</th>
-                                            @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                            @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 15) == true)
                                                 <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
                                             @endif
                                         </tr>
@@ -133,7 +133,7 @@
                                                             class="badge text-danger bg-light-danger">{{ ucwords($revit->status) }}</span>
                                                     @endif
                                                 </td>
-                                                @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+                                                @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 15) == true)
                                                     <td class="align-middle">
                                                         <div class="hstack gap-4">
                                                             <span class="dropdown dropstart">
@@ -152,6 +152,7 @@
                                                                         data-revcode="{{ $revit->revenue_code }}"
                                                                         data-config="{{ $revit->fee_config }}"
                                                                         data-amount="{{ $revit->amount }}"
+                                                                        data-mda="{{ $revit->mda_id }}"
                                                                         data-percentage="{{ $revit->percentage }}"><i
                                                                             class="fe fe-edit dropdown-item-icon"></i>Update
                                                                         Details</a>
@@ -201,7 +202,7 @@
     </div>
 </section>
 
-@if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 1) == true)
+@if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 15) == true)
     <!-- offcanvas -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="addRevenueItem" style="width: 600px;">
         <div class="offcanvas-body" data-simplebar>
@@ -219,6 +220,17 @@
                     <div class="row">
                         <!-- form group -->
                         <div class="mb-3 col-12">
+                            <label class="form-label">MDA<span class="text-danger"> *</span></label>
+                            <select id="branch" name="mda" class="form-select" data-width="100%" required>
+                                <option value="">Select MDA</option>
+                                @foreach ($agencies as $ag)
+                                    <option value="{{ $ag->id }}">{{ $ag->mda }}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">Please select MDA.</div>
+                        </div>
+
+                        <div class="mb-3 col-12">
                             <label class="form-label">Revenue Item <span class="text-danger">*</span></label>
                             <input type="text" name="revenue_item" class="form-control"
                                 placeholder="Enter Revenue Item" required>
@@ -233,7 +245,7 @@
                         </div>
 
                         <div class="mb-3 col-12">
-                            <label class="form-label">Configuration Type<span class="text-danger">*</span></label>
+                            <label class="form-label">Configuration Type <span class="text-danger">*</span></label>
                             <select id="configType" name="config_type" class="form-select" data-width="100%"
                                 required>
                                 <option value="">Select Configuration Type</option>
@@ -259,9 +271,6 @@
                         </div>
 
 
-                        <input type="hidden" name="mda_id" value="{{ $mda }}" class="form-control"
-                            required>
-
                         <div class="col-md-12 border-bottom"></div>
                         <!-- button -->
                         <div class="col-12 mt-4">
@@ -277,7 +286,7 @@
 @endif
 
 
-@if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+@if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 15) == true)
     <div class="offcanvas offcanvas-end" tabindex="-1" id="editRevenueItem" style="width: 600px;">
         <div class="offcanvas-body" data-simplebar>
             <div class="offcanvas-header px-2 pt-0">
@@ -293,6 +302,17 @@
                     @csrf
                     <div class="row">
                         <!-- form group -->
+                        <div class="mb-3 col-12">
+                            <label class="form-label">MDA<span class="text-danger"> *</span></label>
+                            <select id="ubranch" name="mda" class="form-select" data-width="100%" required>
+                                <option value="">Select MDA</option>
+                                @foreach ($agencies as $ag)
+                                    <option value="{{ $ag->id }}">{{ $ag->mda }}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">Please select MDA.</div>
+                        </div>
+
                         <div class="mb-3 col-12">
                             <label class="form-label">Revenue Item <span class="text-danger">*</span></label>
                             <input id="revenue" type="text" name="revenue_item" class="form-control"
@@ -352,14 +372,14 @@
     </div>
 @endif
 
-@if (Auth::user()->category == 'birs hq')
+@if (Auth::user()->category == 'birs area office')
     <script type="text/javascript">
-        document.getElementById("platSettings").classList.add('show');
-        document.getElementById("paymentItems").classList.add('active');
+        document.getElementById("revenueItems").classList.add('active');
     </script>
 @else
     <script type="text/javascript">
-        document.getElementById("revenueItems").classList.add('active');
+        document.getElementById("platSettings").classList.add('show');
+        document.getElementById("paymentItems").classList.add('active');
     </script>
 @endif
 
