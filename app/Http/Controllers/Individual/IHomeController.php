@@ -332,15 +332,19 @@ class IHomeController extends Controller
     public function taxConsultants()
     {
         $search = request()->search;
+
+        $query = TaxConsultants::query();
+
+        $query->where("status", "active");
+
         if (isset(request()->search)) {
-            $lastRecord     = TaxConsultants::query()->whereLike(["organization", "surname", "other_names", "email"], $search)->where("status", "active")->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $taxConsultants = TaxConsultants::query()->whereLike(["organization", "surname", "other_names", "email"], $search)->where("status", "active")->paginate(50);
-        } else {
-            $lastRecord     = TaxConsultants::where("status", "active")->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $taxConsultants = TaxConsultants::where("status", "active")->paginate(50);
+            $query->whereLike(["organization", "surname", "other_names", "email"], $search);
         }
+
+        $lastRecord     = $query->count();
+        $marker         = $this->getMarkers($lastRecord, request()->page);
+        $taxConsultants = $query->paginate(50);
+
         $assignedConsultants = ConsultantRequests::orderBy("id", "desc")->where("user_id", Auth::user()->id)->get();
         return view("individual.tax_consultants", compact("taxConsultants", "assignedConsultants", "search", "lastRecord", "marker"));
     }
@@ -354,15 +358,18 @@ class IHomeController extends Controller
     {
 
         $search = request()->search;
+        $query  = TaxOffice::query();
+
+        $query->where("status", "active");
+
         if (isset(request()->search)) {
-            $lastRecord = TaxOffice::query()->whereLike(["tax_office"], $search)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $taxOffices = TaxOffice::query()->whereLike(["tax_office"], $search)->paginate(50);
-        } else {
-            $lastRecord = TaxOffice::count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $taxOffices = TaxOffice::paginate(50);
+            $query->whereLike(["tax_office"], $search);
         }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+        $taxOffices = $query->paginate(50);
+
         return view("individual.tax_stations", compact("taxOffices", "search", "lastRecord", "marker"));
     }
 
@@ -514,23 +521,21 @@ class IHomeController extends Controller
         $search = request()->search;
         $status = request()->status;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord   = PaymentHistory::query()->where("user_id", Auth::user()->id)->where("reference", $search)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = PaymentHistory::query()->where("user_id", Auth::user()->id)->where("reference", $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = PaymentHistory::query()->where("user_id", Auth::user()->id)->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = PaymentHistory::query()->where("user_id", Auth::user()->id)->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = PaymentHistory::query()->where("user_id", Auth::user()->id)->where("reference", $search)->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = PaymentHistory::query()->where("user_id", Auth::user()->id)->where("reference", $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord   = PaymentHistory::where("user_id", Auth::user()->id)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = PaymentHistory::where("user_id", Auth::user()->id)->paginate(50);
+        $query = PaymentHistory::query();
+
+        $query->where("user_id", Auth::user()->id);
+
+        if (isset(request()->search)) {
+            $query->whereLike(["reference"], $search);
         }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord   = $query->count();
+        $marker       = $this->getMarkers($lastRecord, request()->page);
+        $transactions = $query->paginate(50);
 
         return view("individual.bill_payment_history", compact("transactions", "search", "status", "lastRecord", "marker"));
     }
@@ -545,23 +550,21 @@ class IHomeController extends Controller
         $search = request()->search;
         $status = request()->status;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord   = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 1)->where("reference", $search)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 1)->where("reference", $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 1)->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 1)->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 1)->where("reference", $search)->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 1)->where("reference", $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord   = Returns::where("user_id", Auth::user()->id)->where("self_filed", 1)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Returns::where("user_id", Auth::user()->id)->where("self_filed", 1)->paginate(50);
+        $query = Returns::query();
+
+        $query->where("user_id", Auth::user()->id)->where("self_filed", 1);
+
+        if (isset(request()->search)) {
+            $query->whereLike(["reference"], $search);
         }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord   = $query->count();
+        $marker       = $this->getMarkers($lastRecord, request()->page);
+        $transactions = $query->paginate(50);
 
         return view("individual.filed_returns", compact("transactions", "search", "status", "lastRecord", "marker"));
     }
@@ -576,23 +579,21 @@ class IHomeController extends Controller
         $search = request()->search;
         $status = request()->status;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord   = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 2)->where("reference", $search)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 2)->where("reference", $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 2)->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 2)->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 2)->where("reference", $search)->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Returns::query()->where("user_id", Auth::user()->id)->where("self_filed", 2)->where("reference", $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord   = Returns::where("user_id", Auth::user()->id)->where("self_filed", 2)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $transactions = Returns::where("user_id", Auth::user()->id)->where("self_filed", 2)->paginate(50);
+        $query = Returns::query();
+
+        $query->where("user_id", Auth::user()->id)->where("self_filed", 2);
+
+        if (isset(request()->search)) {
+            $query->whereLike(["reference"], $search);
         }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord   = $query->count();
+        $marker       = $this->getMarkers($lastRecord, request()->page);
+        $transactions = $query->paginate(50);
 
         return view("individual.employer_filed_returns", compact("transactions", "search", "status", "lastRecord", "marker"));
     }
@@ -854,7 +855,8 @@ class IHomeController extends Controller
     {
         $search = request()->search;
         $status = request()->status;
-        $query  = Assessments::query();
+
+        $query = Assessments::query();
         $query->where("user_id", Auth::user()->id)->where("status", "!=", "awaiting assessment");
 
         if (isset(request()->search)) {
