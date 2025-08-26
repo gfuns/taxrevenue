@@ -408,23 +408,21 @@ class AdminController extends Controller
         $mdas       = Mda::all();
         $taxOffices = TaxOffice::all();
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = User::query()->where("role_id", ">", 3)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $users      = User::query()->where("role_id", ">", 3)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord = User::query()->where("role_id", ">", 3)->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $users      = User::query()->where("role_id", ">", 3)->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord = User::query()->where("role_id", ">", 3)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $users      = User::query()->where("role_id", ">", 3)->whereLike(["last_name", "other_names", "email", "phone_number"], $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord = User::where("role_id", ">", 3)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $users      = User::where("role_id", ">", 3)->paginate(50);
+        $query = User::query();
+
+        $query->where("role_id", ">", 3);
+
+        if (isset(request()->search)) {
+            $query->whereLike(["last_name", "other_names", "email", "phone_number"], $search);
         }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+        $users      = $query->paginate(50);
 
         return view("admin.user_management", compact('users', 'userRoles', 'status', 'search', "mdas", "taxOffices"));
     }
@@ -773,23 +771,20 @@ class AdminController extends Controller
         $status = request()->status;
         $lgas   = Lgas::all();
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = TaxOffice::query()->whereLike(["tax_office"], $search)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $taxOffices = TaxOffice::query()->whereLike(["tax_office"], $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord = TaxOffice::query()->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $taxOffices = TaxOffice::query()->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord = TaxOffice::query()->whereLike(["tax_office"], $search)->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $taxOffices = TaxOffice::query()->whereLike(["tax_office"], $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord = TaxOffice::count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $taxOffices = TaxOffice::paginate(50);
+        $query = TaxOffice::query();
+
+        if (isset(request()->search)) {
+            $query->whereLike(["tax_office"], $search);
         }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+        $taxOffices = $query->paginate(50);
+
         return view("admin.area_tax_offices", compact("taxOffices", "search", "status", "lgas", "lastRecord", "marker"));
     }
 
@@ -880,23 +875,20 @@ class AdminController extends Controller
         $search = request()->search;
         $status = request()->status;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord = Mda::query()->whereLike(["mda", "mda_code"], $search)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $mdas       = Mda::query()->whereLike(["mda", "mda_code"], $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord = Mda::query()->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $mdas       = Mda::query()->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord = Mda::query()->whereLike(["mda", "mda_code"], $search)->where("status", $status)->count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $mdas       = Mda::query()->whereLike(["mda", "mda_code"], $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord = Mda::count();
-            $marker     = $this->getMarkers($lastRecord, request()->page);
-            $mdas       = Mda::paginate(50);
+        $query = Mda::query();
+
+        if (isset(request()->search)) {
+            $query->whereLike(["mda", "mda_code"], $search);
         }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord = $query->count();
+        $marker     = $this->getMarkers($lastRecord, request()->page);
+        $mdas       = $query->paginate(50);
+
         return view("admin.manage_mdas", compact("mdas", "search", "status", "lastRecord", "marker"));
     }
 
@@ -1375,7 +1367,6 @@ class AdminController extends Controller
         $posTerminals = $query->paginate(50);
 
         return view("admin.pos_terminals", compact("posTerminals", "search", "status", "lastRecord", "marker"));
-
     }
 
     /**

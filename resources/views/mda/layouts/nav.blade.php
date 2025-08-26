@@ -15,7 +15,7 @@
                 </a>
             </li>
 
-            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 1) == true)
+            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 16) == true)
                 <li class="nav-item">
                     <div class="nav-divider"></div>
                 </li>
@@ -41,7 +41,7 @@
                 </li>
             @endif
 
-            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 1) == true)
+            @if (\App\Http\Controllers\MenuController::allowAccess(Auth::user()->role_id, 15) == true)
                 <li class="nav-item">
                     <div class="nav-divider"></div>
                 </li>

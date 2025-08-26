@@ -24,7 +24,7 @@
                         </ol>
                     </nav>
                 </div>
-                @if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 1) == true)
+                @if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 15) == true)
                     <!-- button -->
                     <div>
                         <a href="#" class="btn btn-success btn-sm me-2" data-bs-toggle="offcanvas"
@@ -89,7 +89,9 @@
                                             <th>Payment Config</th>
                                             <th>Amount/Percentage</th>
                                             <th>Status</th>
-                                            <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
+                                            @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 15) == true)
+                                                <th><i class="nav-icon bi bi-three-dots me-2"></i></th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -116,32 +118,35 @@
                                                             class="badge text-danger bg-light-danger">{{ ucwords($revit->status) }}</span>
                                                     @endif
                                                 </td>
-                                                <td class="align-middle">
-                                                    <div class="hstack gap-4">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn btn-success bg-light-success text-success btn-sm"
-                                                                href="#" role="button" data-bs-toggle="dropdown"
-                                                                data-bs-offset="-20,20" aria-expanded="false">Action</a>
-                                                            <span class="dropdown-menu"><span
-                                                                    class="dropdown-header">Action</span>
+                                                @if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 15) == true)
+                                                    <td class="align-middle">
+                                                        <div class="hstack gap-4">
+                                                            <span class="dropdown dropstart">
+                                                                <a class="btn btn-success bg-light-success text-success btn-sm"
+                                                                    href="#" role="button"
+                                                                    data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                                    aria-expanded="false">Action</a>
+                                                                <span class="dropdown-menu"><span
+                                                                        class="dropdown-header">Action</span>
 
-                                                                <a style="cursor:pointer" class="dropdown-item"
-                                                                    data-bs-toggle="offcanvas"
-                                                                    data-bs-target="#editRevenueItem"
-                                                                    data-myid="{{ $revit->id }}"
-                                                                    data-revenue="{{ $revit->revenue_item }}"
-                                                                    data-revcode="{{ $revit->revenue_code }}"
-                                                                    data-config="{{ $revit->fee_config }}"
-                                                                    data-amount="{{ $revit->amount }}"
-                                                                    data-percentage="{{ $revit->percentage }}"><i
-                                                                        class="fe fe-edit dropdown-item-icon"></i>Update
-                                                                    Details</a>
+                                                                    <a style="cursor:pointer" class="dropdown-item"
+                                                                        data-bs-toggle="offcanvas"
+                                                                        data-bs-target="#editRevenueItem"
+                                                                        data-myid="{{ $revit->id }}"
+                                                                        data-revenue="{{ $revit->revenue_item }}"
+                                                                        data-revcode="{{ $revit->revenue_code }}"
+                                                                        data-config="{{ $revit->fee_config }}"
+                                                                        data-amount="{{ $revit->amount }}"
+                                                                        data-percentage="{{ $revit->percentage }}"><i
+                                                                            class="fe fe-edit dropdown-item-icon"></i>Update
+                                                                        Details</a>
 
+                                                                </span>
                                                             </span>
-                                                        </span>
 
-                                                    </div>
-                                                </td>
+                                                        </div>
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
 
@@ -181,7 +186,7 @@
     </div>
 </section>
 
-@if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 1) == true)
+@if (\App\Http\Controllers\MenuController::canCreate(Auth::user()->role_id, 15) == true)
     <!-- offcanvas -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="addRevenueItem" style="width: 600px;">
         <div class="offcanvas-body" data-simplebar>
@@ -256,7 +261,7 @@
 @endif
 
 
-@if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 1) == true)
+@if (\App\Http\Controllers\MenuController::canEdit(Auth::user()->role_id, 15) == true)
     <div class="offcanvas offcanvas-end" tabindex="-1" id="editRevenueItem" style="width: 600px;">
         <div class="offcanvas-body" data-simplebar>
             <div class="offcanvas-header px-2 pt-0">

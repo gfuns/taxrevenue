@@ -108,23 +108,22 @@ class MDAController extends Controller
         $status = request()->status;
         $mda    = Auth::user()->mda_id;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord   = PaymentItem::query()->where("mda_id", $mda)->whereLike(["revenue_item", "revenue_code"], $search)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $paymentItems = PaymentItem::query()->where("mda_id", $mda)->whereLike(["revenue_item", "revenue_code"], $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = PaymentItem::query()->where("mda_id", $mda)->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $paymentItems = PaymentItem::query()->where("mda_id", $mda)->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord   = PaymentItem::query()->where("mda_id", $mda)->whereLike(["revenue_item", "revenue_code"], $search)->where("status", $status)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $paymentItems = PaymentItem::query()->where("mda_id", $mda)->whereLike(["revenue_item", "revenue_code"], $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord   = PaymentItem::where("mda_id", $mda)->count();
-            $marker       = $this->getMarkers($lastRecord, request()->page);
-            $paymentItems = PaymentItem::where("mda_id", $mda)->paginate(50);
+        $query = PaymentItem::query();
+
+        $query->where("mda_id", $mda);
+
+        if (isset(request()->search)) {
+            $query->whereLike(["revenue_item", "revenue_code"], $search);
         }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord   = $query->count();
+        $marker       = $this->getMarkers($lastRecord, request()->page);
+        $paymentItems = $query->paginate(50);
+
         return view("mda.revenue_items", compact("paymentItems", "search", "status", "lastRecord", "marker", "mda"));
     }
 
@@ -139,23 +138,22 @@ class MDAController extends Controller
         $status = request()->status;
         $mda    = Auth::user()->mda_id;
 
-        if (isset(request()->search) && ! isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("mda_id", $mda)->where("reference", $search)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("mda_id", $mda)->where("reference", $search)->paginate(50);
-        } else if (! isset(request()->search) && isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("mda_id", $mda)->where("status", $status)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("mda_id", $mda)->where("status", $status)->paginate(50);
-        } else if (isset(request()->search) && isset(request()->status)) {
-            $lastRecord     = PaymentHistory::query()->where("mda_id", $mda)->where("reference", $search)->where("status", $status)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::query()->where("mda_id", $mda)->where("reference", $search)->where("status", $status)->paginate(50);
-        } else {
-            $lastRecord     = PaymentHistory::where("mda_id", $mda)->count();
-            $marker         = $this->getMarkers($lastRecord, request()->page);
-            $paymentHistory = PaymentHistory::where("mda_id", $mda)->paginate(50);
+        $query = PaymentHistory::query();
+
+        $query->where("mda_id", $mda);
+
+        if (isset(request()->search)) {
+            $query->whereLike(["reference"], $search);
         }
+
+        if (isset(request()->status)) {
+            $query->where("status", $status);
+        }
+
+        $lastRecord     = $query->count();
+        $marker         = $this->getMarkers($lastRecord, request()->page);
+        $paymentHistory = $query->paginate(50);
+
         return view("mda.payment_history", compact("paymentHistory", "search", "status", "lastRecord", "marker", "mda"));
     }
 
