@@ -43,6 +43,10 @@
             $('#status').select2();
         });
 
+        $(document).ready(function() {
+            $('#ato').select2();
+        });
+
         $('#gender').select2({
             dropdownParent: $('#offcanvasRight')
         });

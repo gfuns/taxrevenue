@@ -112,7 +112,20 @@
                                     <div class="invalid-feedback">Please select tax station.</div>
                                 </div>
 
-                                <div class="mb-3 col-12">
+                                 <div class="mb-3 col-md-6 col-12">
+                                    <label class="form-label">Area Tax Office<span class="text-danger">*</span></label>
+                                    <select id="ato" name="tax_office" class="form-control" data-width="100%"
+                                        required>
+                                        <option value="">Select Area Tax Office</option>
+                                        @foreach ($areaTaxOffices as $ato)
+                                            <option value="{{ $ato->id }}">{{ $ato->tax_office }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    <div class="invalid-feedback">Please select tax station.</div>
+                                </div>
+
+                                <div class="mb-3 col-md-6 col-12">
                                     <label class="form-label">Amount <span class="text-danger">*</span></label>
                                     <input id="taxAmount" type="text" name="amount" value=""
                                         class="form-control" placeholder="Amount" required

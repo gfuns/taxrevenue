@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentHistory;
 use App\Models\PaymentItem;
+use App\Models\TaxOffice;
 use App\Models\TaxPayer;
 use Auth;
 use Carbon\Carbon;
@@ -177,9 +178,10 @@ class MDAController extends Controller
      */
     public function generateBill()
     {
-        $mda          = Auth::user()->mda_id;
-        $paymentItems = PaymentItem::where("mda_id", $mda)->get();
-        return view("mda.generate_bill", compact("paymentItems"));
+        $mda            = Auth::user()->mda_id;
+        $paymentItems   = PaymentItem::where("mda_id", $mda)->get();
+        $areaTaxOffices = TaxOffice::all();
+        return view("mda.generate_bill", compact("paymentItems", "areaTaxOffices"));
     }
 
     /**
@@ -198,6 +200,7 @@ class MDAController extends Controller
             'start_period' => 'required',
             'end_period'   => 'required',
             'amount'       => 'required|numeric',
+            'tax_office'   => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -213,16 +216,20 @@ class MDAController extends Controller
 
         $feeCharged = self::getFee($revenueItem->id, $amount);
 
+        $taxOffice = $request->tax_office;
+
         if (isset($request->btin)) {
             $taxpayer = TaxPayer::where("btin", $request->btin)->first();
         }
 
         $bill = new PaymentHistory;
         if (isset($request->btin)) {
-            $bill->user_id       = isset($taxpayer) ? $taxpayer->user_id : null;
-            $bill->tax_payer_id  = isset($taxpayer) ? $taxpayer->id : null;
-            $bill->tax_office_id = isset($taxpayer) ? $taxpayer->individual->tax_office_id : null;
+            $bill->user_id      = isset($taxpayer) ? $taxpayer->user_id : null;
+            $bill->tax_payer_id = isset($taxpayer) ? $taxpayer->id : null;
+            $taxOffice          = isset($taxpayer) ? $taxpayer->tax_office_id : $request->tax_office;
         }
+
+        $bill->tax_office_id   = $taxOffice;
         $bill->tax_payer       = $request->tax_payer;
         $bill->period          = $request->start_period . " - " . $request->end_period;
         $bill->mda_id          = Auth::user()->mda_id;
