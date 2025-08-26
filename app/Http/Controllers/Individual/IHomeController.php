@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Individual;
 
+use App\Helpers\PaymentSplitter;
 use App\Http\Controllers\Controller;
 use App\Models\Assessments;
 use App\Models\ConsultantRequests;
@@ -411,10 +412,19 @@ class IHomeController extends Controller
 
         $feeCharged = self::getFee($revenueItem->id);
 
+        $birsShare = PaymentSplitter::birsShare($request->mda, $revenueItem->amount);
+        $mdaShare  = PaymentSplitter::mdaShare($request->mda, $revenueItem->amount);
+
+        if ($birsShare < 0 || $mdaShare < 0) {
+            toast("Error Computing Payment Splitting.", 'error');
+            return back();
+        }
+
         $bill                  = new PaymentHistory;
         $bill->user_id         = Auth::user()->id;
         $bill->tax_payer_id    = Auth::user()->taxpayer->id;
         $bill->tax_office_id   = Auth::user()->individual->tax_office_id;
+        $bill->tax_payer       = Auth::user()->taxpayer->tax_payer;
         $bill->period          = $request->start_period . " - " . $request->end_period;
         $bill->mda_id          = $request->mda;
         $bill->narration       = $revenueItem->revenue_item . " Payment";
@@ -423,6 +433,8 @@ class IHomeController extends Controller
         $bill->amount          = $revenueItem->amount;
         $bill->fee_charged     = $feeCharged;
         $bill->total           = ($revenueItem->amount + $feeCharged);
+        $bill->birs_share      = $birsShare;
+        $bill->mda_share       = $mdaShare;
         if ($bill->save()) {
             toast('Bill Generated Successfully.', 'success');
             return redirect()->route("individual.paymentPreview", [$bill->reference]);

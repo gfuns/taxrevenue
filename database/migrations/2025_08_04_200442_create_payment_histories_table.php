@@ -24,6 +24,12 @@ return new class extends Migration
             $table->string("reference");
             $table->text("narration")->nullable();
             $table->double("amount", 20, 2);
+            $table->double("fee_charged", 20, 2)->default(0.00);
+            $table->double("total", 20, 2);
+            $table->double("birs_share", 20, 2)->default(0.00);
+            $table->double("mda_share", 20, 2)->default(0.00);
+            $table->string("payment_channel")->nullable();
+            $table->string("authorization_ref")->nullable();
             $table->enum("status", ["pending", "successful", "failed"])->default("pending");
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('mdas')->onDelete('cascade');
