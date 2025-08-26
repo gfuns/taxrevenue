@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\PaymentSplitter;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentHistory;
 use App\Models\PaymentItem;
@@ -216,6 +217,14 @@ class MDAController extends Controller
 
         $feeCharged = self::getFee($revenueItem->id, $amount);
 
+        $birsShare = PaymentSplitter::birsShare(Auth::user()->mda_id, $amount);
+        $mdaShare  = PaymentSplitter::mdaShare(Auth::user()->mda_id, $amount);
+
+        if ($birsShare < 0 || $mdaShare < 0) {
+            toast("Error Computing Payment Splitting.", 'error');
+            return back();
+        }
+
         $taxOffice = $request->tax_office;
 
         if (isset($request->btin)) {
@@ -239,6 +248,8 @@ class MDAController extends Controller
         $bill->amount          = $amount;
         $bill->fee_charged     = $feeCharged;
         $bill->total           = ($amount + $feeCharged);
+        $bill->birs_share      = $birsShare;
+        $bill->mda_share       = $mdaShare;
         if ($bill->save()) {
             toast('Bill Generated Successfully.', 'success');
             return redirect()->route("mda.billPreview", [$bill->reference]);
